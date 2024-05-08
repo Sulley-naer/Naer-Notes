@@ -4,7 +4,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 ```
 
-## 通过Vue创建一个简单的计数器 「[官网](https://v3.cn.vuejs.org/guide/introduction.html)」
+## 事件绑定 「[官网](https://cn.vuejs.org/guide/components/events.html)」
 ```html
 <div id="app">
     <!-- V-on:可简写为@ -->
@@ -13,12 +13,63 @@
 </div>
 
 <script>
-  var app = new Vue({
+  var app3 = new Vue({
     el: '#app',
     data: {
-      count: 0
+      message: 'Hello Vue!'
     }
   })
+</script>
+```
+
+##` watch` 数据监听 「[官网](https://cn.vuejs.org/api/options-state.html#watchl)」
+> 用于监听数据变化，当数据变化时，自动执行函数
+```html
+<div id="app">
+  <input v-model="message">
+  <p>当前值: "{{ message }}"</p>
+</div>
+
+<script>
+  var app3 = Vue.createApp({
+    data() {
+      return {
+        message: 'Hello Vue!'
+      };
+    },
+    watch: {
+      message(newValue, oldValue) {
+        console.log('message 发生变化了，新值为:', newValue, '旧值为:', oldValue);
+        // 在这里可以执行你想要的操作，比如发送请求、更新其他数据等
+      }
+    }
+  }).mount('#app');
+</script>
+```
+
+## computed 计算属性 「[官网](https://cn.vuejs.org/api/reactivity-core.html#computed)」
+> 常用于数据处理，也能监听数据。
+```html
+<div id="app">
+  <input v-model="firstName">
+  <input v-model="lastName">
+  <p>全名: "{{ fullName }}"</p>
+</div>
+
+<script>
+  var app3 = Vue.createApp({
+    data() {
+      return {
+        firstName: 'John',
+        lastName: 'Doe'
+      };
+    },
+    computed: {
+      fullName() {
+        return this.firstName + ' ' + this.lastName;
+      }
+    }
+  }).mount('#app');
 </script>
 ```
 
@@ -92,6 +143,117 @@
     font-size: 50px;
   }
 </style>
+```
+
+## 指令 「[官网](https://cn.vuejs.org/api/built-in-directives.html)」
+
+### v-text <span v-text="msg"></span> 绑定文本内容
+
+### v-html <span v-html="msg"></span> 绑定HTML内容
+
+### v-show <div v-show="isShow"></div> 绑定值 true/false 显示隐藏
+
+### v-if/v-else/v-else if
+> 必须包含在一个元素内，并且挨在一起，否则会报错
+```html
+<div id="app">
+  <p v-if="status === 'success'">操作成功！</p>
+  <p v-else-if="status === 'warning'">警告：操作可能存在风险。</p>
+  <p v-else>操作失败。</p>
+</div>
+
+<script>
+const app = Vue.createApp({
+  data() {
+    return {
+      status: 'success' // 可以根据不同的状态来显示不同的内容
+    };
+  }
+}).mount('#app');
+</script>
+```
+
+### v-for
+```html
+<div id="app">
+  <table>
+    <thead>
+      <tr>
+        <th>学号</th>
+        <th>班级</th>
+        <th>姓名</th>
+        <th>性别</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="item in students" :key="item.sno">
+        <td>{{ item.sno }}</td>
+        <td>{{ item.class }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.gender }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+const app = Vue.createApp({
+  data() {
+    return {
+      students: [
+        { sno: '001', class: 'A', name: '张三', gender: '男' },
+        { sno: '002', class: 'B', name: '李四', gender: '女' },
+        { sno: '003', class: 'A', name: '王五', gender: '男' }
+      ]
+    };
+  }
+}).mount('#app');
+</script>
+
+```
+
+### v-on <button v-on:click="alert('点击')"> 绑定事件 v-on可以简写为 @
+```HTML
+<!-- 方法处理函数 -->
+<button v-on:click="doThis"></button>
+
+<!-- 动态事件 -->
+<button v-on:[event]="doThis"></button>
+
+<!-- 内联声明 -->
+<button v-on:click="doThat('hello', $event)"></button>
+
+<!-- 缩写 -->
+<button @click="doThis"></button>
+
+<!-- 使用缩写的动态事件 -->
+<button @[event]="doThis"></button>
+
+<!-- 停止传播 -->
+<button @click.stop="doThis"></button>
+
+<!-- 阻止默认事件 -->
+<button @click.prevent="doThis"></button>
+
+<!-- 不带表达式地阻止默认事件 -->
+<form @submit.prevent></form>
+
+<!-- 链式调用修饰符 -->
+<button @click.stop.prevent="doThis"></button>
+
+<!-- 按键用于 keyAlias 修饰符-->
+<input @keyup.enter="onEnter" />
+
+<!-- 点击事件将最多触发一次 -->
+<button v-on:click.once="doThis"></button>
+
+<!-- 对象语法 -->
+<button v-on="{ mousedown: doThis, mouseup: doThat }"></button>
+<!-- 自定义事件,通过其他事件触发 cli中常用 -->
+<div id="app1">
+  <button @fn="fn1">
+  <button @click="$emit(fn)">
+</div>
 ```
 
 ## 模板引用 「[官网](https://cn.vuejs.org/v2/guide/components.html)」
@@ -230,3 +392,39 @@
   });
 </script>
 ```
+
+## 组件自定义事件 「[官网](https://cn.vuejs.org/v2/guide/components-custom-events.html)」
+```html
+<div id="app-7">
+  <button-counter v-on:increment="incrementTotal"></button-counter>
+  <p>{{ total }}</p>
+</div>
+
+<script>
+  Vue.component("button-counter", {
+    data: function () {
+      return {
+        count: 0,
+      };
+    },
+    template: '<button v-on:click="increment">你点击了我 {{ count }} 次。</button>',
+    methods: {
+      increment: function () {
+        this.count++;
+        this.$emit("increment");
+      },
+    },
+  });
+
+  var app7 = new Vue({
+    el: "#app-7",
+    data: {
+      total: 0,
+    },
+    methods: {
+      incrementTotal: function () {
+        this.total++;
+      },
+    },
+  });
+</script>
