@@ -428,3 +428,23 @@ const app = Vue.createApp({
     },
   });
 </script>
+```
+
+## Vue Props 「[官网](https://cn.vuejs.org/v2/guide/components-props.html)」
+>实例化组件时，通过`props`属性传递数据,同级组件使用`vuex`
+```html
+<div id="app-8">
+  <blog-post title="My journey with Vue"></blog-post>
+</div>
+
+<script>
+  Vue.component("blog-post", {
+    props: ["title"],
+    template: "<h3>{{ title }}</h3>",
+  });
+
+  var app8 = new Vue({
+    el: "#app-8",
+  });
+</script>
+```
