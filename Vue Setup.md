@@ -48,7 +48,7 @@ defineExpose({msg})
   <div>
     <h1>{{msg}}</h1>
     <!-- 子组件 -->
-    <component :is="child" :parentMsg="传递成功" @receiveParent="send"/>
+    <component :is="child" parentMsg="传递成功" @receiveParent="send"/>
   </div>
 </template>
 
@@ -59,6 +59,7 @@ var msg = '我是父级'
 const send = (data) => {
   console.log(data)
 }
+</script>
 ```
 
 ```html
@@ -78,9 +79,9 @@ import { defineEmits } from 'vue';
 
 var msg = '我是子级'
 //props
-const props = {
-    parentMsg: String
-}
+const props=defineProps({
+  parentMsg:String
+})
 
 // 先声明 emit 函数
 const emit = defineEmits(['receiveParent']);
