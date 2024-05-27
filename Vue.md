@@ -434,17 +434,27 @@ const app = Vue.createApp({
 >实例化组件时，通过`props`属性传递数据,同级组件使用`vuex`
 ```html
 <div id="app-8">
-  <blog-post title="My journey with Vue"></blog-post>
+  <blog-post title="My journey with Vue" @sendParent="receiveEvent"></blog-post>
 </div>
 
 <script>
   Vue.component("blog-post", {
     props: ["title"],
-    template: "<h3>{{ title }}</h3>",
+    template: "<h3>{{ title }}</h3><button @click='change'>修改</button>",
+    methods: {
+      change() {
+        emit("sendParent", "我是子组件传递的数据");
+      },
+    },
   });
 
   var app8 = new Vue({
     el: "#app-8",
+    methods: {
+      receiveEvent(val) {
+        console.log(val);
+      },
+    },
   });
 </script>
 ```
