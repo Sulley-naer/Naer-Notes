@@ -153,4 +153,5 @@ const count = inject('count')
 //向下传递数据
 provide('count', count)
 
-</>
+</script>
+```
