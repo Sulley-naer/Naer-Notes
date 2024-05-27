@@ -39,6 +39,11 @@ const increment = () => {
 
 //暴露数据
 defineExpose({msg})
+
+//获取组件实例并打印
+import { getCurrentInstance } from 'vue';
+const instance = getCurrentInstance();
+console.log(instance)
 </script>
 ```
 2. 父子通讯
