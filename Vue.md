@@ -458,3 +458,23 @@ const app = Vue.createApp({
   });
 </script>
 ```
+
+## Vue 查看当前实例化对象 「[官网](https://cn.vuejs.org/v2/api/#vm-prototype)」
+```html
+<div id="app-9">
+  <p>{{ message }}</p>
+</div>
+
+<script>
+  var app9 = new Vue({
+    el: "#app-9",
+    data: {
+      message: "Hello Vue!",
+    },
+    mounted() {
+      console.log(this);
+    },
+  });
+  console.log(app9);
+</script>
+```
