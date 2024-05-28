@@ -1,7 +1,8 @@
 # Vue Script Setup「[官方文档](https://cn.vuejs.org/api/sfc-script-setup.html)」
 > 语法糖，用于简化 Vue 组件的编写, 从 Vue 3.0 开始支持，并且是推荐的写法，自动防止数据泄漏。
 ## 例子
-1. 数据绑定
+
+1. 数据绑定 注：`setup`获取变量为 `name.value` 不需要添加`this.`
 ```HTML
 <template>
   <div>
@@ -158,6 +159,32 @@ watch(count, (newVal, oldVal) => {
 const count = inject('count')
 //向下传递数据
 provide('count', count)
+
+</script>
+```
+
+3. 使用Vuex 进行组件间通信
+```html
+<script setup>
+import { useStore } from 'vuex';
+import $ from 'jquery';
+
+// 获取 Vuex store 实例
+const store = useStore();
+//使用store调用Vuex声明方法
+onMounted(() => {
+    const user = store.getters.getAllUsernames[0];
+    username.value = user.username;
+    password.value = user.password;
+});
+//commit调用mutation方法 引号内为方法名
+const userUp = () => {
+  store.commit('updateFirstUser', { username: username.value });
+};
+//dispatch调用action 引号内为方法名
+const userDown = () => {
+  store.dispatch('updateFirstUser', { password: password.value });
+};
 
 </script>
 ```
