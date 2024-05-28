@@ -145,3 +145,8 @@ export default router
 # 项目打包
 > `npm run build` 打包项目,生成`dist`文件夹
 > `npm run serve` 本地运行项目
+
+# 依赖注入「[官方文档](https://cn.vuejs.org/api/composition-api-dependency-injection.html)」
+> `provide` `inject` 用于父子组件传值
+
+```html

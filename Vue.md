@@ -3,7 +3,6 @@
 ```html
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 ```
-
 ## 事件绑定 「[官网](https://cn.vuejs.org/guide/components/events.html)」
 ```html
 <div id="app">
@@ -393,6 +392,33 @@ const app = Vue.createApp({
 </script>
 ```
 
+## 透传 `Attributes` 「[官网](https://cn.vuejs.org/guide/components/attrs.html)」
+```html
+<div id="app-6">
+  <base-input placeholder="请输入内容"></base-input>
+  <!-- 自动将placeholder属性写入到input框中 -->
+</div>
+
+<template id="base-input-template">
+  <input v-bind="$attrs" v-on="$listeners">
+<!--q：$attrs 是什么
+    a：$attrs 是一个对象，包含了父级作用域中不被 prop 所识别 (且获取) 的特性绑定 (class 和 style 除外)。当一个组件没有声明任何 prop 时，这里会包含所有父作用域的绑定 (class 和 style 除外)，并且可以通过 v-bind="$attrs" 传入内部组件。
+    q：$listeners 是什么
+    a：$listeners 是一个对象，里面包含了作为 v-on 侦听器传入 (不包括 .native 修饰器监听器) 的所有父组件监听器。可以通过 v-on="$listeners" 传入内部组件。
+-->
+</template>
+
+<script>
+  Vue.component("base-input", {
+    template: "#base-input-template",
+  });
+  var app6 = new Vue({
+    el: "#app-6",
+  });
+</script>
+
+```
+
 ## 组件自定义事件 「[官网](https://cn.vuejs.org/v2/guide/components-custom-events.html)」
 ```html
 <div id="app-7">
@@ -476,5 +502,41 @@ const app = Vue.createApp({
     },
   });
   console.log(app9);
+</script>
+```
+
+## telephoner 「[官网](https://cn.vuejs.org/guide/built-ins/teleport.html)」
+> 用于将元素移动到指定位置，常用于弹窗被遮挡问题
+```html
+<div id="app-10">
+  <teleport to="body">
+    <div>我是teleport</div>
+  </teleport>
+</div>
+
+<script>
+  var app10 = new Vue({
+    el: "#app-10",
+  });
+</script>
+```
+
+## keep-alive 「[官网](https://cn.vuejs.org/guide/built-ins/keep-alive.html)」
+> 用于保留组件状态或避免重新渲染，常用于组件切换
+```html
+<div id="app-11">
+  <keep-alive>
+    <component :is="currentTabComponent"></component>
+    <!-- 此组件不会销毁，在显示切换保留数据 -->
+  </keep-alive>
+</div>
+
+<script>
+  var app11 = new Vue({
+    el: "#app-11",
+    data: {
+      currentTabComponent: "home",
+    },
+  });
 </script>
 ```
