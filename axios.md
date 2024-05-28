@@ -229,3 +229,15 @@ axios.get('/user/12345', {
 axios.defaults.baseURL = 'https://api.example.com';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 ```
+
+# asmx 接口需配置
+```javascript
+{
+        headers: {
+        // 如果服务端要求特定的内容类型，这里设置为SOAP或XML，但大多数ASMX服务对POST请求期望的是'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded',
+        // 如果需要指定SOAPAction，根据你的服务端配置来设定，通常格式为"Namespace/MethodName"
+        'SOAPAction': 'http://tempuri.org/WebService1/login', // 请根据实际命名空间和方法名替换
+    },
+}
+```
