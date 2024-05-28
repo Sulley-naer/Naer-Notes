@@ -179,11 +179,11 @@ onMounted(() => {
 });
 //commit调用mutation方法 引号内为方法名
 const userUp = () => {
-  store.commit('updateFirstUser', { username: username.value });
+  store.commit('updateFirstUser', { username: username.value, password: password.value });
 };
 //dispatch调用action 引号内为方法名
 const userDown = () => {
-  store.dispatch('updateFirstUser', { password: password.value });
+  store.dispatch('updateFirstUser', { username: username.value, password: password.value });
 };
 
 </script>
