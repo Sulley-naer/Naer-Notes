@@ -241,3 +241,95 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
     },
 }
 ```
+# header 参数百科
+```javascript
+{
+        headers: {
+          //内容类型
+          'Content-Type': 'application/x-www-form-urlencoded',
+          //默认 application/json 表示发送的是JSON数据
+          //application/x-www-form-urlencoded 用于表单数据
+          //text/xml 或 application/soap+xml 用于SOAP请求
+          `Accept`:`application/json`
+          //指定客户端能够接收的内容类型
+          //application/json 表示客户端希望接收JSON数据
+          //application/xml 表示客户端希望接收XML数据
+          //text/plain 表示客户端希望接收纯文本格式
+          //text/html 表示客户端希望接收HTML格式
+          //application/javascript 表示客户端希望接收JSONP格式
+          //image/png 表示客户端希望接收PNG图片格式
+          `Authorization`: `Bearer ${token}`
+          //用于验证当前请求的用户身份
+          //Bearer token 表示携带的是JWT令牌
+          //Basic token 表示携带的是Basic认证令牌
+          //Digest token 表示携带的是Digest认证令牌
+          //OAuth token 表示携带的是OAuth认证令牌
+          //NTLM token 表示携带的是NTLM认证令牌
+          `User-Agent`: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3`
+          //用于指定客户端的类型
+          `Cookie`: `name=value; name2=value2`
+          //用于在请求中携带Cookie信息
+          `Cache-Control`: `no-cache`
+          //用于指定请求和响应的缓存机制
+          //no-cache 表示不使用缓存
+          //no-store 表示不使用缓存，也不存储缓存
+          //max-age=60 表示缓存60秒
+          //max-stale=60 表示即使缓存过期，仍然接收
+          //min-fresh=60 表示至少缓存60秒
+          //only-if-cached 表示只接收缓存
+          `Connection`: `keep-alive`
+          //用于指定连接是否保持
+          //keep-alive 表示连接保持
+          //close 表示连接关闭
+          `Accept-Encoding`: `gzip, deflate`
+          //用于指定客户端能够接收的内容编码
+          //gzip 表示客户端能够接收GZIP压缩格式
+          //deflate 表示客户端能够接收Deflate压缩格式
+          //br 表示客户端能够接收Brotli压缩格式
+          `Accept-Language`: `zh-CN,zh;q=0.9,en;q=0.8`
+          //用于指定客户端能够接收的自然语言
+          `Host`: `www.example.com`
+          //用于指定请求的服务器域名和端口号
+          `Referer`: `https://www.example.com`
+          //告诉服务器请求的原始资源的URI
+          `Content-Length`: `348`
+          //用于指定请求体的长度
+          `Date`: `Tue, 15 Nov 1994 08:12:31 GMT`
+          //用于指定请求的日期和时间
+          `Origin`: `https://www.example.com`
+          //在CORS请求中使用，表示请求的源（协议+域名+端口），用于跨域资源分享的检查。
+          `X-Requested-With`: `XMLHttpRequest`
+          //表示请求是否是Ajax请求
+          //XMLHttpRequest 表示请求是Ajax请求 Fetch 表示请求是Fetch请求 None 表示请求不是Ajax请求
+          `Pragma`: `no-cache`
+          //类似于Cache-Control，用于指定请求和响应的缓存机制 适用于HTTP/1.0
+          `Upgrade-Insecure-Requests`: `1`
+          //表示客户端是否支持HTTPS
+          //1 表示支持HTTPS 0 表示不支持HTTPS
+          `Content-Encoding`: `gzip`
+          //用于指定请求体的编码
+          //gzip 表示请求体使用GZIP压缩
+          //deflate 表示请求体使用Deflate压缩
+          //br 表示请求体使用Brotli压缩
+          `Content-Disposition`: `inline`; `filename`="document.pdf"
+          //指示内容的展示方式或作为附件下载。
+          //inline 表示内容内联展示 attachment 表示内容作为附件下载 filename 表示文件名
+          `Content-Security-Policy`: `default-src 'self'`
+          //用于指定请求体的安全策略
+          //default-src 'self' 表示默认策略是只允许加载同源资源
+          //script-src 'self' 表示只允许加载同源脚本
+          //style-src 'self' 表示只允许加载同源样式
+          `If-None-Match`: `W/"67ab43-4e1cb"`
+          //用于指定请求的标识符
+          //W/"67ab43-4e1cb" 表示资源的标识符
+          `If-Match`: `W/"67ab43-4e1cb"`
+          //用于条件请求，仅当资源的标识符匹配才返回响应
+          `If-Modified-Since`: `Sat, 29 Oct 1994 19:43:31 GMT`
+          //用于条件请求，仅当资源自指定日期以来未被修改过才返回响应
+          `Content-Language`: `en`
+          //用于指定请求体的自然语言
+          `Content-Range`: `bytes 0-499/1234`
+          //用于指定请求体的范围
+    },
+}
+```
