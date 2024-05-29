@@ -63,6 +63,7 @@ export default {
         ban
     }
 }
+//组件跳转请务必使用 this.$router.push('/new-route')
 </script>
 ```
 
@@ -88,7 +89,7 @@ export default {
 ```
 
 # 路由 「[官网](https://router.vuejs.org/zh/installation.html)」
-> 通过`vue-router`配置路由 入口文件`main.js`中引入并使用`router`配置路由
+> 通过`vue-router`配置路由 入口文件`main.js`中引入并使用`router`配置路由 组件不刷新跳转`this.$router.push('/new-route')`
 
 ```js
 //必须引入

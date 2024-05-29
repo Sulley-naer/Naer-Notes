@@ -188,3 +188,5 @@ const userDown = () => {
 
 </script>
 ```
+
+># 组件跳转用`router.push('/new-route')`

@@ -230,6 +230,49 @@ axios.defaults.baseURL = 'https://api.example.com';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 ```
 
+# 脚手架
+```javascript
+axios.post('https://localhost:44323/WebService1.asmx/login', {
+      username: username.value,
+      password: password.value
+    }, {
+        headers: {
+        // 如果服务端要求特定的内容类型，这里设置为SOAP或XML，但大多数ASMX服务对POST请求期望的是'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded',
+        // 如果需要指定SOAPAction，根据你的服务端配置来设定，通常格式为"Namespace/MethodName"
+        'SOAPAction': 'http://tempuri.org/WebService1/login', // 请根据实际命名空间和方法名替换
+    },
+    })
+    .then(response => {
+    // 解析 XML 响应
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(response.data, "text/xml");
+    console.log(xmlDoc); // 查看整个 XML 文档对象
+    const stringNode = xmlDoc.getElementsByTagName("string")[0];
+    console.log(stringNode); // 查看 string 节点
+    if (stringNode) {
+      const value = stringNode.textContent.trim();
+      console.log("结果：", value);
+      alert(value)
+      if(value == '登录成功'){
+        //保存cookie
+        document.cookie = "username=" + username.value + "password=" + password.value;
+        //设置1天过期
+        var date = new Date();
+        date.setDate(date.getDate() + 1);
+        document.cookie = "expires=" + date.toGMTString();
+
+      }
+    } else {
+      console.error("XML 响应中找不到 string 节点");
+    }
+    })
+    .catch(error => {
+      console.error("错误", error);
+    });
+```
+
+
 # asmx 接口需配置
 ```javascript
 {
