@@ -45,6 +45,7 @@ defineExpose({msg})
 import { getCurrentInstance } from 'vue';
 const instance = getCurrentInstance();
 console.log(instance)
+
 </script>
 ```
 2. 父子通讯

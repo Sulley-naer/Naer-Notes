@@ -91,6 +91,7 @@ export default {
 # 路由 「[官网](https://router.vuejs.org/zh/installation.html)」
 > 通过`vue-router`配置路由 入口文件`main.js`中引入并使用`router`配置路由 组件不刷新跳转`this.$router.push('/new-route')`
 
+> 如子组件需要通过 父组件获取数据，使用`component`引入父级，隐藏对象，在`onMounted`获取其参数
 ```js
 //必须引入
 import { createRouter, createWebHistory } from 'vue-router'
