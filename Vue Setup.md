@@ -1,8 +1,11 @@
 # Vue Script Setup「[官方文档](https://cn.vuejs.org/api/sfc-script-setup.html)」
+
 > 语法糖，用于简化 Vue 组件的编写, 从 Vue 3.0 开始支持，并且是推荐的写法，自动防止数据泄漏。
+
 ## 例子
 
 1. 数据绑定 注：`setup`获取变量为 `name.value` 不需要添加`this.`
+
 ```HTML
 <template>
   <div>
@@ -48,7 +51,9 @@ console.log(instance)
 
 </script>
 ```
-2. 父子通讯
+
+1. 父子通讯
+
 ```HTML
 <!-- 父 -->
 <template>
@@ -102,6 +107,7 @@ const sendToParent = () => {
 ```
 
 3.可导入函数
+
 ```html
 <template>
   <div>
@@ -164,7 +170,8 @@ provide('count', count)
 </script>
 ```
 
-3. 使用Vuex 进行组件间通信
+3.使用Vuex 进行组件间通信
+
 ```html
 <script setup>
 import { useStore } from 'vuex';
@@ -190,4 +197,25 @@ const userDown = () => {
 </script>
 ```
 
-># 组件跳转用`router.push('/new-route')`
+## [依赖注入](https://cn.vuejs.org/api/composition-api-dependency-injection.html)「父子路由通讯」
+
+> 父级向所有子级传递传递「不管有几层！」，子级是否接受那就要考虑很多了！
+
+```html
+<!-- 父级 -->
+<script setup>
+import { provide } from 'vue'
+
+provide(/* 注入名 */ 'message', /* 值 */ 'hello!')
+provide(/* 注入名 */ 'message2', /* 值 */ 'hello!')
+</script>
+
+<!-- 不管几层子级 -->
+<script setup>
+import { inject } from 'vue'
+//层级根据路由的/区分的
+const message = inject('message')
+</script>
+```
+
+>### 普通组件跳转用`router.push('/new-route')`
