@@ -144,11 +144,72 @@ export default router
 <router-view name="pop"/>
 ```
 
+# vuex
+> `vuex`用于解决组件数据通讯问题,多数用于解决组件之间共享状态（如登录状态、购物车、主题等）的问题
+
+```bash
+npm install vuex --save
+```
+
+```js
+//main.js
+import store from './store'
+import App from './App.vue'
+
+window.store = store;
+createApp(App).use(store).mount('#app')
+```
+
+```js
+// store.js
+import { createStore } from 'vuex'
+//防止刷新丢失数据
+import createPersistedState from 'vuex-persistedstate';
+
+const store=createStore({
+  state: {
+    count: 0
+  },
+  mutations: {
+    increment (state) {
+      state.count++
+    }
+  },
+  // plugins: [createPersistedState()]
+  plugins: [
+    createPersistedState({
+      storage: window.localStorage,
+    })
+  ]
+})
+
+export default store
+```
+
+```html
+<template>
+  <div>
+    <p>{{ count }}</p>
+    <button @click="increment">Increment</button>
+  </div>
+</template>
+
+<script>
+export default {
+  computed: {
+    count () {
+      return this.$store.state.count
+    }
+  },
+  methods: {
+    increment () {
+      this.$store.commit('increment')
+    }
+  }
+}
+</script>
+```
+
 # 项目打包
 > `npm run build` 打包项目,生成`dist`文件夹
 > `npm run serve` 本地运行项目
-
-# 依赖注入「[官方文档](https://cn.vuejs.org/api/composition-api-dependency-injection.html)」
-> `provide` `inject` 用于父子组件传值
-
-```html

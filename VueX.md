@@ -284,3 +284,52 @@ export default {
 }
 </script>
 ```
+
+# store 插件 「防止丢失」
+```javascript
+// store.js
+import { createStore } from 'vuex'
+//防止刷新丢失数据
+import createPersistedState from 'vuex-persistedstate';
+
+const store = createStore({
+  state: {
+    count: 0
+  },
+  mutations: {
+    increment (state) {
+      state.count++
+    }
+  },
+  plugins: [
+    createPersistedState()
+  ]
+})
+
+export default store
+```
+
+# store 插件配置
+```javascript
+// store.js
+import { createStore } from 'vuex'
+import createPersistedState from 'vuex-persistedstate';
+
+//npm install vuex-persistedstate --save
+
+export default createStore({
+  state: {
+    count: 0
+  },
+  mutations: {
+    increment (state) {
+      state.count++
+    }
+  },
+  plugins: [
+    createPersistedState({
+      storage: window.localStorage,
+    })
+  ]
+})
+```

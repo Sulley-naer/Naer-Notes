@@ -218,4 +218,4 @@ const message = inject('message')
 </script>
 ```
 
->### 普通组件跳转用`router.push('/new-route')`
+>### 组件跳转用`router.push('/new-route')` `router.push({name:'考勤'})`
