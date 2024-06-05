@@ -14,7 +14,6 @@ window.location.search;//?search=1 获取Get方式数据
 window.location.hash;//#page1 获取页面锚点
 ```
 
-
 1.获取当前网站GET参数
 
 ```JS
