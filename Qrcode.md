@@ -1,4 +1,5 @@
 # JS二维码创建
+
 ```bash
 npm install qrcode
 
