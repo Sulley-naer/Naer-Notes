@@ -68,3 +68,58 @@ function cosineSimilarity(str1 :string, str2:string) {
     return mag1 === 0 || mag2 === 0 ? 0 : dotProduct / (mag1 * mag2);
 }
 ```
+
+## sessionStorage 与 localStorage
+
+```javascript
+sessionStorage.setItem('name', 1);
+localStorage.setItem('name', 1);
+/* 拿取对象 */
+sessionStorage.getItem('name');
+...
+/* 删除对象 */
+sessionStorage.removeItem('name');
+...
+```
+
+## cookie [「支持库」](https://github.com/js-cookie/js-cookie)
+
+```javascript
+// 新版浏览器方法
+//创建cookie
+if ('cookieStore' in window) {
+    cookieStore.set('name', 1)
+        .then(() => console.log('Cookie set successfully'))
+        .catch(err => console.error('Failed to set cookie:', err));
+    //获取
+    cookieStore.get('name')
+        .then(cookie => console.log('Cookie value:', cookie.value))
+        .catch(err => console.error('Failed to get cookie:', err));
+} else {
+    setCookieFallback('name', 1, 1);
+    const nameValue = getCookieFallback('name');
+    console.log('Cookie value (fallback):', nameValue);
+}
+//老板浏览器方法
+function setCookieFallback(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+function getCookieFallback(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+//直接使用老板
+setCookieFallback('name', 1, 1);
+    const nameValue = getCookieFallback('name');
+    console.log('Cookie value (fallback):', nameValue);
+```
