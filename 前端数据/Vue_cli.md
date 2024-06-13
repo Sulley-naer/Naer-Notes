@@ -211,5 +211,6 @@ export default {
 ```
 
 # 项目打包
+
 > `npm run build` 打包项目,生成`dist`文件夹
-> `npm run serve` 本地运行项目
+>> `npm run serve` 本地运行项目

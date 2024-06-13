@@ -47,3 +47,24 @@ const models = $(res.data).find("model").map((index, element) => {
 }).get();
 data.value = models;
 ```
+
+4 余弦相似度
+
+```javascript
+function cosineSimilarity(str1 :string, str2:string) {
+    const vec1 = Array(128).fill(0), vec2 = Array(128).fill(0);
+    let dotProduct = 0, mag1 = 0, mag2 = 0;
+
+    for (let i = 0; i < str1.length; i++) vec1[str1.charCodeAt(i)]++;
+    for (let i = 0; i < str2.length; i++) vec2[str2.charCodeAt(i)]++;
+
+    for (let i = 0; i < 128; i++) {
+        dotProduct += vec1[i] * vec2[i];
+        mag1 += vec1[i] ** 2;
+        mag2 += vec2[i] ** 2;
+    }
+
+    mag1 = Math.sqrt(mag1), mag2 = Math.sqrt(mag2);
+    return mag1 === 0 || mag2 === 0 ? 0 : dotProduct / (mag1 * mag2);
+}
+```

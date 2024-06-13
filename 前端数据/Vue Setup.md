@@ -218,4 +218,4 @@ const message = inject('message')
 </script>
 ```
 
-> 组件跳转`router.push('/new-route')` `router.push({name:'考勤'})` `router.go(0)` 刷新 `router.go(-1)` 后退 `router.go(1)` 前进
+> 组件跳转`router.push('/new-route')` `router.push({name:'考勤'})` 变量跳转 `router.go(0)` 刷新 `router.go(-1)` 后退 `router.go(1)` 前进 `router.currentRoute.value.path` 获取`router`路由位置
