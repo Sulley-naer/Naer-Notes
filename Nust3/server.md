@@ -4,11 +4,19 @@
 
 ```typescript
 /* name.get.ts 加一个 get 是名称可选 必须在 server/api/*/
-export default defineEventHandler((event) => {
-  return {
-    hello: "world",
-  };
-});
+export default defineCachedEventHandler(
+  () => {
+    return {
+      msg: "cg",
+      bll: "test",
+    };
+  },
+  {
+    // 缓存选项
+    swr: true, // 启用 stale-while-revalidate
+    maxAge: 3600, // 缓存时间，单位是秒
+  }
+);
 ```
 
 > 组件中调用

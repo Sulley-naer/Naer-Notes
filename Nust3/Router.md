@@ -22,6 +22,50 @@
 </template>
 ```
 
+## JS 跳转
+
+```typescript
+//方法一
+navigateTo("/path");
+navigateTo({ path: "/path" });
+//方法二
+const router = useRouter();
+router.push("/path");
+router.push({ path: "/path" });
+```
+
+## 常用 router 方法
+
+```typescript
+//获取当前路由信息
+const route = useRoute();
+const currentSubRoute = route.path;
+//覆写
+router.replace("/path");
+router.replace({ path: "/path" });
+//返回 可填写 num 次数
+router.back();
+//前进 可填写 num 次数
+router.forward();
+```
+
+## JS 地址栏方法
+
+```typescript
+// 地址栏获取 hosts
+window.location.href;
+//路径获取 去hosts
+window.location.pathname;
+//查询参数获取
+const searchParams = new URLSearchParams(window.location.search);
+//跳转
+window.location.href = "/new-path";
+//跳转锚点 ID 滚动
+window.location.hash = "section1";
+//网页刷新
+window.location.reload();
+```
+
 ## 全局跳转过度动画
 
 > [!TIP]
