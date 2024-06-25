@@ -44,3 +44,46 @@ export default defineNuxtConfig({
   },
 });
 ```
+
+## 页面过度[文档](https://nuxt.com.cn/docs/getting-started/transitions#disable-transitions)
+
+```typescript
+app: {
+    // name: 调用名 mode：形式
+    pageTransition: { name: 'page', mode: 'out-in' },
+    //全局禁用
+    pageTransition: false,
+    layoutTransition: false
+  },
+
+//独立过度动画，记得声明css
+/* app.vue */
+definePageMeta({
+  pageTransition: {
+    name: 'slide-right',
+    mode: 'out-in'
+  },
+})
+```
+
+> 配置动画，可通过主组件声明，或者全局 css 声明效果，配置文件添加全局 css 文件
+
+```css
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+}
+```
+
+全局 css 实现方式
+
+```typescript
+module.exports = {
+  css: ["assets/main.css"],
+};
+```
