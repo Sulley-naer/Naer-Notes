@@ -90,6 +90,8 @@ module.exports = {
 };
 ```
 
+## provide/inject [官方文档](https://v3.nuxtjs.org/docs/directory-structure/plugins#provide-inject)
+
 ## 自定义组件过度动画
 
 > assets/main.css
