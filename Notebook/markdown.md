@@ -202,10 +202,12 @@ $$
 - [ ] 未完成任务
 ```
 
-- 表情
+- 表情 :heart:[部分](https://www.cnblogs.com/wutongxue132/p/16684085.html) :broken_heart:[全部](https://gist.github.com/rxaviers/7360908) :joy:[编辑器预览型](https://www.emojiall.com/zh-hans/all-emojis?type=normal)
 
 ```md
 <!-- 表情 -->
+
+:joy:
 ```
 
 - 更多
