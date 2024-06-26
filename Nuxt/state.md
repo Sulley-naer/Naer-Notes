@@ -22,7 +22,7 @@
 
 > 由于 Vue 的 `provide/inject`机制 太宝贝的难用了，所以推荐使用 [`pinia`](store.md) 进行状态共享。
 
-## [cookie](https://github.com/js-cookie) 「[通用版本](/数据交互/js%20字符处理.md#cookie)」
+## [cookie](https://github.com/js-cookie) 「[通用版本](/数据交互/js%20字符处理.md#cookie-支持库)」
 
 > 键值对形式的 cookie 库，可以方便的操作 cookie。
 

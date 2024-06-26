@@ -88,7 +88,7 @@ sessionStorage.removeItem('name');
 ...
 ```
 
-## cookie {#cookie} [「支持库」](https://github.com/js-cookie/js-cookie)
+## cookie [「支持库」](https://github.com/js-cookie/js-cookie)
 
 ```javascript
 // 新版浏览器方法
