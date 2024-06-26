@@ -42,7 +42,6 @@
 1. `$('[type=checkbox]')`. --获取复选框盒子
 1. `$('#/. :not(:last)')`. --获取元素排除最后一个
 
-
 1. `console.log($('#/.').css('color'))` --返回对应属性的值
 1. `$('#/.').width()` -- 返回宽属性的值 ()内不写参数为获取,写参数为设置 `Height` 同理
 1. `$('#/.').height()` -- 返回高属性的值 ()内不写参数为获取,写参数为设置 `Width` 同理
@@ -68,8 +67,7 @@
 
 #### 滚动条绑定导航栏跳转 [详见](第三期/淘宝网/index.html)
 
-![图 31](https://s2.loli.net/2023/11/08/UpXLOPfbAKstNli.gif)  
-
+![图 31](https://s2.loli.net/2023/11/08/UpXLOPfbAKstNli.gif)
 
 ##### JS
 
@@ -172,24 +170,19 @@
 </main>
 ```
 
-#### JS
-
 > `$('.ul-head').hover(function(){})` --鼠标悬停事件 `$(this)` --当前元素 `$(this).children('ul')` --当前元素的子元素 `$(this).children('ul').children('li')` --当前元素的子元素的子元素 `slideToggle(200)` --200ms 内显示隐藏 `stop()` --停止动画
 
-```
-$('.ul-head').hover(function () {
-    $(this).children('ul').children('li').stop().slideToggle(200)
-    })
+```javascript
+$(".ul-head").hover(function () {
+  $(this).children("ul").children("li").stop().slideToggle(200);
+});
 ```
 
 ### 排他元素 [详见](第三期/点击切换导航图片/index.html)
 
 ![GIF 2023-11-6 19-56-11.gif](https://s2.loli.net/2023/11/06/BWZzctHo731rDsh.gif)
 
-#### JS
-
 > `$(this).toggleClass('active').siblings().removeClass('active')` --当前元素添加类名,同级元素移除类名
-
 > `$('.at').eq($(this).index('.ad')).addClass('act').siblings().removeClass('act')` 使其他盒子中的元素也跟随变化,`index` 为当前元素的索引号,`eq` 为**索引号**对应的元素 在数量不同时 `index("")` 务必添加**判定条件**
 
 ```Javascript
@@ -202,6 +195,7 @@ $('.ad').click(function () { /*ad为文字盒子*/
 ### 对象的创建和合并
 
 > `$.extend(obj1,obj2)` 中的第一个对象为被合并的对象,后面的对象为合并的对象 如前面添加`true` 会创建一个全新的对象 不是第一个 修改不影响被合并的对象
+
 ```HTML
 <script>
 var newobj = {}; // 先定义newobj

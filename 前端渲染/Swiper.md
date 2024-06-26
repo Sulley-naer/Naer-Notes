@@ -6,7 +6,7 @@
 
 ## HTML
 
-```HTML
+```html
 <div class="swiper">
         <div class="swiper-wrapper">
             <div class="swiper-slide">Slide 1</div>

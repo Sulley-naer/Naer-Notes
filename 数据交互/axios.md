@@ -1,29 +1,40 @@
-# 认识axios
-1. axios是一个基于promise的HTTP库，可以用在浏览器和node.js中
-2. axios的主要特点：
-    - 从浏览器中创建XMLHttpRequest
-    - 从node.js创建http请求
-    - 支持Promise API
-    - 拦截请求和响应
-    - 转换请求和响应数据
-    - 取消请求
-    - 自动转换JSON数据
-    - 客户端支持防止CSRF
-3. 安装axios
-    - 使用npm
-    ```bash
-    npm install axios
-    ```
-    - 使用bower
-    ```bash
-    bower install axios
-    ```
-    - 使用CDN
-    ```html
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    ```
-# 支持的`api`
+# 认识 axios
+
+1. axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中
+2. axios 的主要特点：
+   - 从浏览器中创建 XMLHttpRequest
+   - 从 node.js 创建 http 请求
+   - 支持 Promise API
+   - 拦截请求和响应
+   - 转换请求和响应数据
+   - 取消请求
+   - 自动转换 JSON 数据
+   - 客户端支持防止 CSRF
+3. 安装 axios
+
+   - 使用 npm
+
+   ```bash
+   npm install axios
+   ```
+
+   - 使用 bower
+
+   ```bash
+   bower install axios
+   ```
+
+   - 使用 CDN
+
+   ```html
+   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+   ```
+
+> 支持的`api`
+
 ## 1. axios API
+
+```md
     - axios(config)
     - axios.request(config)
     - axios.get(url[, config])
@@ -33,8 +44,12 @@
     - axios.post(url[, data[, config]])
     - axios.put(url[, data[, config]])
     - axios.patch(url[, data[, config]])
-# 使用axios
-1. 发送一个GET请求
+```
+
+## 使用 axios
+
+- 发送一个 GET 请求
+
 ```javascript
 axios.get('/user?ID=12345')
   .then(function (response) {
@@ -50,7 +65,8 @@ axios.get('/user?ID=12345')
   });
 ```
 
-2. 发送一个POST请求
+- 发送一个 POST 请求
+
 ```javascript
 axios.post('/user', {
     firstName: 'Fred',
@@ -67,16 +83,22 @@ axios.post('/user', {
   });
 ```
 
-3. Put请求
+- Put 请求
+
 ```javascript
-axios.put('/user/12345', {
-    firstName: 'Fred',
-    lastName: 'Flintstone'
-  }, {
-    headers: {
-      'Content-Type': 'application/json'
+axios
+  .put(
+    "/user/12345",
+    {
+      firstName: "Fred",
+      lastName: "Flintstone",
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
     }
-  })
+  )
   .then(function (response) {
     console.log(response);
   })
@@ -85,112 +107,118 @@ axios.put('/user/12345', {
   });
 ```
 
-4. 执行多个并发请求
+- 执行多个并发请求
+
 ```javascript
 function getUserAccount() {
-  return axios.get('/user/12345');
+  return axios.get("/user/12345");
 }
 
 function getUserPermissions() {
-  return axios.post('/user/12345/permissions', {
-    firstName: 'Fred',
-    lastName: 'Flintstone'
+  return axios.post("/user/12345/permissions", {
+    firstName: "Fred",
+    lastName: "Flintstone",
   });
 }
 
-axios.all([getUserAccount(), getUserPermissions()])
-  .then(axios.spread(function (acct, perms) {
-    // 两个请求现在都执行完成
-    console.log(acct);
-    console.log(perms);
-  }))
+axios
+  .all([getUserAccount(), getUserPermissions()])
+  .then(
+    axios.spread(function (acct, perms) {
+      // 两个请求现在都执行完成
+      console.log(acct);
+      console.log(perms);
+    })
+  )
   .catch(function (error) {
     console.log(error);
   })
   .finally(function () {
-    console.log('请求完成');
+    console.log("请求完成");
   });
 ```
-# 拦截器
+
+## 拦截器
+
 1. 你可以为请求和响应添加拦截器
 2. 添加请求拦截器
+
 ```javascript
-axios.interceptors.request.use(function (config) {
-  // 在发送请求之前做些什么
-  return config;
-}, function (error) {
-  // 对请求错误做些什么
-  return Promise.reject(error);
-});
+axios.interceptors.request.use(
+  function (config) {
+    // 在发送请求之前做些什么
+    return config;
+  },
+  function (error) {
+    // 对请求错误做些什么
+    return Promise.reject(error);
+  }
+);
 ```
-# 取消请求
-1. 你可以通过向cancel token构造函数传递一个executor函数来创建一个cancel token
-2. 你可以通过调用cancel函数来取消请求
+
+## 取消请求
+
+1. 你可以通过向 cancel token 构造函数传递一个 executor 函数来创建一个 cancel token
+2. 你可以通过调用 cancel 函数来取消请求
+
 ```javascript
 var CancelToken = axios.CancelToken;
 var source = CancelToken.source();
 
-axios.get('/user/12345', {
-  cancel
-})
-.then(function (response) {
-  console.log(response);
-})
-.catch(function (error) {
-  if (axios.isCancel(error)) {
-    console.log('Request canceled', error.message);
-  } else {
-    // 处理错误
-  }
-});
-
-// 取消请求（message 参数是可选的）
-source.cancel('Operation canceled by the user.');
-```
-# 自定义请求头
-1. 你可以通过设置`headers`属性来自定义请求头
-```javascript
-axios.get('/user', {
-    headers: {
-      'Authorization': 'Bearer yourTokenHere',
-      'Content-Type': 'application/json'
-    }
-});
-
-asiox.post('/user', {
-    firstName: 'Fred',
-    lastName: 'Flintstone'
-  }, {
-    headers: {
-      'Content-Type': 'application/json'
+axios
+  .get("/user/12345", {
+    cancel,
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    if (axios.isCancel(error)) {
+      console.log("Request canceled", error.message);
+    } else {
+      // 处理错误
     }
   });
+
+// 取消请求（message 参数是可选的）
+source.cancel("Operation canceled by the user.");
 ```
 
-# 超时
+## 自定义请求头
+
+1. 你可以通过设置`headers`属性来自定义请求头
+
+```javascript
+axios.get("/user", {
+  headers: {
+    Authorization: "Bearer yourTokenHere",
+    "Content-Type": "application/json",
+  },
+});
+
+axios.post(
+  "/user",
+  {
+    firstName: "Fred",
+    lastName: "Flintstone",
+  },
+  {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }
+);
+```
+
+## 超时
+
 1. 你可以通过设置`timeout`属性来设置请求超时时间
-```javascript
-axios.get('/user', {
-  timeout: 1000
-})
-.then(function (response) {
-  console.log(response);
-})
-.catch(function (error) {
-  console.log(error);
-});
-```
 
-# 自定义实例
-1. 你可以通过创建一个axios实例来自定义实例的默认值
 ```javascript
-var instance = axios.create({
-  baseURL: 'https://some-domain.com/api/',
-  timeout: 1000,
-  headers: {'X-Custom-Header': 'foobar'}
-});
-
-instance.get('/user/12345')
+axios
+  .get("/user", {
+    timeout: 1000,
+  })
   .then(function (response) {
     console.log(response);
   })
@@ -199,51 +227,87 @@ instance.get('/user/12345')
   });
 ```
 
-# 全局默认值
-1. 你可以通过设置全局默认值来自定义实例的默认值
-```javascript
-axios.defaults.baseURL = 'https://api.example.com';
-axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-```
+## 自定义实例
 
-# 错误处理
-1. 你可以通过设置`validateStatus`属性来自定义HTTP状态码的合法性
+1. 你可以通过创建一个 axios 实例来自定义实例的默认值
+
 ```javascript
-axios.get('/user/12345', {
-  validateStatus: function (status) {
-    return status < 500; // 状态码小于500时均为成功
-  }
-})
-.then(function (response) {
-  console.log(response);
-})
-.catch(function (error) {
-  console.log(error);
+var instance = axios.create({
+  baseURL: "https://some-domain.com/api/",
+  timeout: 1000,
+  headers: { "X-Custom-Header": "foobar" },
 });
+
+instance
+  .get("/user/12345")
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
 ```
 
-# 配置默认值
-1. 你可以通过设置`defaults`属性来配置默认值
+## 全局默认值
+
+1. 你可以通过设置全局默认值来自定义实例的默认值
+
 ```javascript
-axios.defaults.baseURL = 'https://api.example.com';
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.baseURL = "https://api.example.com";
+axios.defaults.headers.common["Authorization"] = AUTH_TOKEN;
+axios.defaults.headers.post["Content-Type"] =
+  "application/x-www-form-urlencoded";
 ```
 
-# 脚手架
+## 错误处理
+
+1. 你可以通过设置`validateStatus`属性来自定义 HTTP 状态码的合法性
+
 ```javascript
-axios.post('https://localhost:44323/WebService1.asmx/login', {
-      username: username.value,
-      password: password.value
-    }, {
-        headers: {
-        // 如果服务端要求特定的内容类型，这里设置为SOAP或XML，但大多数ASMX服务对POST请求期望的是'application/x-www-form-urlencoded'
-        'Content-Type': 'application/x-www-form-urlencoded',
-        // 如果需要指定SOAPAction，根据你的服务端配置来设定，通常格式为"Namespace/MethodName"
-        'SOAPAction': 'http://tempuri.org/WebService1/login', // 请根据实际命名空间和方法名替换
+axios
+  .get("/user/12345", {
+    validateStatus: function (status) {
+      return status < 500; // 状态码小于500时均为成功
     },
-    })
-    .then(response => {
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+```
+
+## 配置默认值
+
+1. 你可以通过设置`defaults`属性来配置默认值
+
+```javascript
+axios.defaults.baseURL = "https://api.example.com";
+axios.defaults.headers.post["Content-Type"] =
+  "application/x-www-form-urlencoded";
+```
+
+## 脚手架
+
+```javascript
+axios
+  .post(
+    "https://localhost:44323/WebService1.asmx/login",
+    {
+      username: username.value,
+      password: password.value,
+    },
+    {
+      headers: {
+        // 如果服务端要求特定的内容类型，这里设置为SOAP或XML，但大多数ASMX服务对POST请求期望的是'application/x-www-form-urlencoded'
+        "Content-Type": "application/x-www-form-urlencoded",
+        // 如果需要指定SOAPAction，根据你的服务端配置来设定，通常格式为"Namespace/MethodName"
+        SOAPAction: "http://tempuri.org/WebService1/login", // 请根据实际命名空间和方法名替换
+      },
+    }
+  )
+  .then((response) => {
     // 解析 XML 响应
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(response.data, "text/xml");
@@ -253,27 +317,27 @@ axios.post('https://localhost:44323/WebService1.asmx/login', {
     if (stringNode) {
       const value = stringNode.textContent.trim();
       console.log("结果：", value);
-      alert(value)
-      if(value == '登录成功'){
+      alert(value);
+      if (value == "登录成功") {
         //保存cookie
-        document.cookie = "username=" + username.value + "password=" + password.value;
+        document.cookie =
+          "username=" + username.value + "password=" + password.value;
         //设置1天过期
         var date = new Date();
         date.setDate(date.getDate() + 1);
         document.cookie = "expires=" + date.toGMTString();
-
       }
     } else {
       console.error("XML 响应中找不到 string 节点");
     }
-    })
-    .catch(error => {
-      console.error("错误", error);
-    });
+  })
+  .catch((error) => {
+    console.error("错误", error);
+  });
 ```
 
+## asmx 接口需配置
 
-# asmx 接口需配置
 ```javascript
 {
         headers: {
@@ -284,7 +348,9 @@ axios.post('https://localhost:44323/WebService1.asmx/login', {
     },
 }
 ```
-# header 参数百科
+
+## header 参数百科
+
 ```javascript
 {
         headers: {

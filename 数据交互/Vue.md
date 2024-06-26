@@ -1,31 +1,35 @@
+# 使用 Vue 3.0 「[官网](https://v3.cn.vuejs.org/guide/introduction.html)」
 
-# 使用Vue 3.0 「[官网](https://v3.cn.vuejs.org/guide/introduction.html)」
 ```html
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 ```
+
 ## 事件绑定 「[官网](https://cn.vuejs.org/guide/components/events.html)」
+
 ```html
 <div id="app">
-    <!-- V-on:可简写为@ -->
+  <!-- V-on:可简写为@ -->
   <button v-on:click="count++">点击我</button>
   <p>这个按钮被点击了 {{ count }} 次。</p>
 </div>
 
 <script>
   var app3 = new Vue({
-    el: '#app',
+    el: "#app",
     data: {
-      message: 'Hello Vue!'
-    }
-  })
+      message: "Hello Vue!",
+    },
+  });
 </script>
 ```
 
-##` watch` 数据监听 「[官网](https://cn.vuejs.org/api/options-state.html#watchl)」
+## `watch` 数据监听 「[官网](https://cn.vuejs.org/api/options-state.html#watchl)」
+
 > 用于监听数据变化，当数据变化时，自动执行函数
+
 ```html
 <div id="app">
-  <input v-model="message">
+  <input v-model="message" />
   <p>当前值: "{{ message }}"</p>
 </div>
 
@@ -33,25 +37,32 @@
   var app3 = Vue.createApp({
     data() {
       return {
-        message: 'Hello Vue!'
+        message: "Hello Vue!",
       };
     },
     watch: {
       message(newValue, oldValue) {
-        console.log('message 发生变化了，新值为:', newValue, '旧值为:', oldValue);
+        console.log(
+          "message 发生变化了，新值为:",
+          newValue,
+          "旧值为:",
+          oldValue
+        );
         // 在这里可以执行你想要的操作，比如发送请求、更新其他数据等
-      }
-    }
-  }).mount('#app');
+      },
+    },
+  }).mount("#app");
 </script>
 ```
 
 ## computed 计算属性 「[官网](https://cn.vuejs.org/api/reactivity-core.html#computed)」
+
 > 常用于数据处理，也能监听数据。
+
 ```html
 <div id="app">
-  <input v-model="firstName">
-  <input v-model="lastName">
+  <input v-model="firstName" />
+  <input v-model="lastName" />
   <p>全名: "{{ fullName }}"</p>
 </div>
 
@@ -59,57 +70,59 @@
   var app3 = Vue.createApp({
     data() {
       return {
-        firstName: 'John',
-        lastName: 'Doe'
+        firstName: "John",
+        lastName: "Doe",
       };
     },
     computed: {
       fullName() {
-        return this.firstName + ' ' + this.lastName;
-      }
-    }
-  }).mount('#app');
+        return this.firstName + " " + this.lastName;
+      },
+    },
+  }).mount("#app");
 </script>
 ```
 
 ## 基础语法 「[官网](https://cn.vuejs.org/guide/essentials/template-syntax.html#directives)」
+
 ```html
 <div id="app-2">
-<!-- 简写为:title  -->
+  <!-- 简写为:title  -->
   <span v-bind:title="message">
     鼠标悬停几秒钟查看此处动态绑定的提示信息！
   </span>
-
 </div>
 
 <script>
   var app2 = new Vue({
-    el: '#app-2',
+    el: "#app-2",
     data: {
-      message: '页面加载于 ' + new Date().toLocaleString()
-    }
-  })
+      message: "页面加载于 " + new Date().toLocaleString(),
+    },
+  });
 </script>
 ```
 
 ## 表单数据绑定 「[官网](https://cn.vuejs.org/guide/essentials/forms.html#form-input-bindings)」
+
 ```html
 <div id="app-3">
   <p>{{ message }}</p>
-  <input v-model="message">
+  <input v-model="message" />
 </div>
 
 <script>
   var app3 = new Vue({
-    el: '#app-3',
+    el: "#app-3",
     data: {
-      message: 'Hello Vue!'
-    }
-  })
+      message: "Hello Vue!",
+    },
+  });
 </script>
 ```
 
 ## 类名与内联样式绑定 「[官网](https://cn.vuejs.org/v2/guide/class-and-style.html)」
+
 ```html
 <div id="app-4">
   <div v-bind:class="{ active: isActive }">1</div>
@@ -146,14 +159,16 @@
 
 ## 指令 「[官网](https://cn.vuejs.org/api/built-in-directives.html)」
 
-### v-text <span v-text="msg"></span> 绑定文本内容
+1. v-text `<span v-text="msg"></span>` 绑定文本内容
 
-### v-html <span v-html="msg"></span> 绑定HTML内容
+2. v-html `<span v-html="msg"></span>` 绑定 HTML 内容
 
-### v-show <div v-show="isShow"></div> 绑定值 true/false 显示隐藏
+3. v-show `<div v-show="isShow"></div>` 绑定值 true/false 显示隐藏
 
-### v-if/v-else/v-else if
+4. v-if/v-else/v-else if
+
 > 必须包含在一个元素内，并且挨在一起，否则会报错
+
 ```html
 <div id="app">
   <p v-if="status === 'success'">操作成功！</p>
@@ -162,17 +177,18 @@
 </div>
 
 <script>
-const app = Vue.createApp({
-  data() {
-    return {
-      status: 'success' // 可以根据不同的状态来显示不同的内容
-    };
-  }
-}).mount('#app');
+  const app = Vue.createApp({
+    data() {
+      return {
+        status: "success", // 可以根据不同的状态来显示不同的内容
+      };
+    },
+  }).mount("#app");
 </script>
 ```
 
 ### v-for
+
 ```html
 <div id="app">
   <table>
@@ -196,22 +212,22 @@ const app = Vue.createApp({
 </div>
 
 <script>
-const app = Vue.createApp({
-  data() {
-    return {
-      students: [
-        { sno: '001', class: 'A', name: '张三', gender: '男' },
-        { sno: '002', class: 'B', name: '李四', gender: '女' },
-        { sno: '003', class: 'A', name: '王五', gender: '男' }
-      ]
-    };
-  }
-}).mount('#app');
+  const app = Vue.createApp({
+    data() {
+      return {
+        students: [
+          { sno: "001", class: "A", name: "张三", gender: "男" },
+          { sno: "002", class: "B", name: "李四", gender: "女" },
+          { sno: "003", class: "A", name: "王五", gender: "男" },
+        ],
+      };
+    },
+  }).mount("#app");
 </script>
-
 ```
 
-### v-on <button v-on:click="alert('点击')"> 绑定事件 v-on可以简写为 @
+- v-on `<button v-on:click="alert('点击')">` 绑定事件 v-on 可以简写为 @
+
 ```HTML
 <!-- 方法处理函数 -->
 <button v-on:click="doThis"></button>
@@ -256,6 +272,7 @@ const app = Vue.createApp({
 ```
 
 ## 模板引用 「[官网](https://cn.vuejs.org/v2/guide/components.html)」
+
 ```html
 <div id="app-5">
   <button-counter></button-counter>
@@ -268,7 +285,8 @@ const app = Vue.createApp({
         count: 0,
       };
     },
-    template: '<button v-on:click="count++">你点击了我 {{ count }} 次。</button>',
+    template:
+      '<button v-on:click="count++">你点击了我 {{ count }} 次。</button>',
   });
 
   var app5 = new Vue({
@@ -278,6 +296,7 @@ const app = Vue.createApp({
 ```
 
 ### 全局组件 「[官网](https://cn.vuejs.org/guide/components/registration.html#global-registration)」
+
 ```HTML
 <div id="app-5">
   <button-counter></button-counter>
@@ -300,6 +319,7 @@ const app = Vue.createApp({
 ```
 
 ### 模板引用「查找形式」 「[官网](https://cn.vuejs.org/v2/guide/components.html)」
+
 ```html
 <div id="app-5">
   <custom-button></custom-button>
@@ -326,12 +346,12 @@ const app = Vue.createApp({
 ```
 
 ## 插槽 「[官网](https://cn.vuejs.org/guide/components/slots.html)」
+
 > 用于在父级组件中插入子级组件的内容
+
 ```html
 <div id="app-6">
-  <alert-box>
-    我是父级组件的内容
-  </alert-box>
+  <alert-box> 我是父级组件的内容 </alert-box>
 </div>
 
 <template id="alert-box-template">
@@ -353,7 +373,9 @@ const app = Vue.createApp({
 ```
 
 ### 具名插槽 「[官网](https://cn.vuejs.org/guide/components/slots.html#named-slots)」
-> 多个插槽时，可以通过name属性进行区分 `v-if="$slots.header"`判断存在
+
+> 多个插槽时，可以通过 name 属性进行区分 `v-if="$slots.header"`判断存在
+
 ```html
 <!-- 子级 -->
 <template id="alert-box-template">
@@ -393,6 +415,7 @@ const app = Vue.createApp({
 ```
 
 ## 透传 `Attributes` 「[官网](https://cn.vuejs.org/guide/components/attrs.html)」
+
 ```html
 <div id="app-6">
   <base-input placeholder="请输入内容"></base-input>
@@ -400,8 +423,8 @@ const app = Vue.createApp({
 </div>
 
 <template id="base-input-template">
-  <input v-bind="$attrs" v-on="$listeners">
-<!--q：$attrs 是什么
+  <input v-bind="$attrs" v-on="$listeners" />
+  <!--q：$attrs 是什么
     a：$attrs 是一个对象，包含了父级作用域中不被 prop 所识别 (且获取) 的特性绑定 (class 和 style 除外)。当一个组件没有声明任何 prop 时，这里会包含所有父作用域的绑定 (class 和 style 除外)，并且可以通过 v-bind="$attrs" 传入内部组件。
     q：$listeners 是什么
     a：$listeners 是一个对象，里面包含了作为 v-on 侦听器传入 (不包括 .native 修饰器监听器) 的所有父组件监听器。可以通过 v-on="$listeners" 传入内部组件。
@@ -416,10 +439,10 @@ const app = Vue.createApp({
     el: "#app-6",
   });
 </script>
-
 ```
 
 ## 组件自定义事件 「[官网](https://cn.vuejs.org/v2/guide/components-custom-events.html)」
+
 ```html
 <div id="app-7">
   <button-counter v-on:increment="incrementTotal"></button-counter>
@@ -433,7 +456,8 @@ const app = Vue.createApp({
         count: 0,
       };
     },
-    template: '<button v-on:click="increment">你点击了我 {{ count }} 次。</button>',
+    template:
+      '<button v-on:click="increment">你点击了我 {{ count }} 次。</button>',
     methods: {
       increment: function () {
         this.count++;
@@ -457,7 +481,9 @@ const app = Vue.createApp({
 ```
 
 ## Vue Props 「[官网](https://cn.vuejs.org/v2/guide/components-props.html)」
->实例化组件时，通过`props`属性传递数据,同级组件使用`vuex`
+
+> 实例化组件时，通过`props`属性传递数据,同级组件使用`vuex`
+
 ```html
 <div id="app-8">
   <blog-post title="My journey with Vue" @sendParent="receiveEvent"></blog-post>
@@ -486,6 +512,7 @@ const app = Vue.createApp({
 ```
 
 ## Vue 查看当前实例化对象 「[官网](https://cn.vuejs.org/v2/api/#vm-prototype)」
+
 ```html
 <div id="app-9">
   <p>{{ message }}</p>
@@ -506,7 +533,9 @@ const app = Vue.createApp({
 ```
 
 ## telephoner 「[官网](https://cn.vuejs.org/guide/built-ins/teleport.html)」
+
 > 用于将元素移动到指定位置，常用于弹窗被遮挡问题
+
 ```html
 <div id="app-10">
   <teleport to="body">
@@ -522,7 +551,9 @@ const app = Vue.createApp({
 ```
 
 ## keep-alive 「[官网](https://cn.vuejs.org/guide/built-ins/keep-alive.html)」
+
 > 用于保留组件状态或避免重新渲染，常用于组件切换
+
 ```html
 <div id="app-11">
   <keep-alive>

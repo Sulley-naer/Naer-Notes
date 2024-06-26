@@ -1,7 +1,8 @@
 # Javascript
+
 1. const 声明的内容无法被修改
 
-> 箭头函数 ES6 中 function升级版
+> 箭头函数 ES6 中 function 升级版
 
 ```javascript
 const fn1 = () => {
@@ -21,16 +22,16 @@ const fn3 = console.log("一行代码且不需要传参，可以省略()和{}");
 > arguments 动态参数
 
 ```javascript
-function sum(a,...name) {
-    console.log(name);
-    console.log(arguments);
+function sum(a, ...name) {
+  console.log(name);
+  console.log(arguments);
 }
 
 sum(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 //a被1赋值 name被2-10赋值 arguments被1-10赋值
-
 ```
-2. `...` --展开运算符
+
+- `...` --展开运算符
 
 > 解析数组中的值，而不是数组本身
 
@@ -42,18 +43,18 @@ console.table(arr3);
 // [1,2,3,4,5,6]
 ```
 
-2. 多维数组&&数组解析
-> 给数组中某个元素赋值为数组，就是多维数组
-> 数组解析就是将数组中的值解析出来
+- 多维数组&&数组解析
+  > 给数组中某个元素赋值为数组，就是多维数组
+  > 数组解析就是将数组中的值解析出来
 
-```javascript
+````javascript
 
 ```javascript
 [a, b, [c, d]] = [1, 2, [3, 4]];
 console.log(a, b, c, d);
-```
+````
 
-3. 对象解构语法`{}`
+- 对象解构语法`{}`
 
 ```javascript
 /* -解构的变量名必须和对象中的属性名相同
@@ -75,7 +76,7 @@ const obj = {
 console.log(obj.sayName());
 ```
 
-4. 解析对象中的值
+- 解析对象中的值
 
 ```javascript
 const city = [
@@ -89,14 +90,15 @@ const [{ city: city1, area }] = city;
 console.log(city1, area); //北京 ["朝阳", "海淀", "昌平"]
 ```
 
-4. 赛选数组中的值
+- 赛选数组中的值
 
 ```javascript
 const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const newArr = arr.filter((item) => item > 5);
 console.log(newArr); // [6,7,8,9]
 ```
-5. 遍历对象中的内容添加内容到元素中
+
+- 遍历对象中的内容添加内容到元素中
 
 ```javascript
 //声明容器盒子
@@ -240,19 +242,19 @@ renderItems(Object.values(kc));
 chooseprice(3000, 5000);
 
 /* 可选：调用禁止图片拖拽 */
-
 ```
 
 ## 网页本地存储
 
 1. localStorage 保存本地文件
-> 语法: `localStorage.setItem('key', 'value')` `localStorage.getItem('key')` `localStorage.removeItem('key')` `localStorage.clear()`
+
+   > 语法: `localStorage.setItem('key', 'value')` `localStorage.getItem('key')` `localStorage.removeItem('key')` `localStorage.clear()`
 
 2. sessionStorage 关闭浏览器就清除
-> 语法: `sessionStorage.setItem('key', 'value')` `sessionStorage.getItem('key')` `sessionStorage.removeItem('key')` `sessionStorage.clear()`
+   > 语法: `sessionStorage.setItem('key', 'value')` `sessionStorage.getItem('key')` `sessionStorage.removeItem('key')` `sessionStorage.clear()`
 
+## console 输出 [查看](https://www.bilibili.com/video/BV1v34y1w7Ro)
 
-# console 输出 [查看](https://www.bilibili.com/video/BV1v34y1w7Ro)
 1. console.log() --输出
 1. console.error() --错误
 1. console.warn() --警告

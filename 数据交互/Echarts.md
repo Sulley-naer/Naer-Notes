@@ -1,5 +1,7 @@
 # Echarts [详见](https://echarts.apache.org/zh/index.html)
+
 ![图 1](https://s2.loli.net/2023/12/28/GrgBUwTmozavRSM.png)
+
 ## 基本配置
 
 ```javascript
@@ -36,6 +38,3 @@
 ## 模板 [在这](https://echarts.apache.org/examples/zh/index.html#chart-type-custom)
 
 ## 配置[在这](https://echarts.apache.org/zh/option.html#title)
-
-
-

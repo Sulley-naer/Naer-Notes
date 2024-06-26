@@ -1,7 +1,8 @@
 # 状态管理库 [Pinia](pinia.md)「[官网](https://vuex.vuejs.org/zh/)」
 
 > 多数用于解决组件数据通讯问题
->> 长用于解决组件之间共享状态（如登录状态、购物车、主题等）的问题
+>
+> > 长用于解决组件之间共享状态（如登录状态、购物车、主题等）的问题
 
 ## 为什么使用状态管理库
 
@@ -9,42 +10,40 @@
 > Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态只能按照一定的方式进行修改。  
 > 数据会在刷新后丢失，故使用`this.$router.push('/new-route')` 跳转页面
 
-## 框架安装vuex
+## 框架安装 vuex
 
 ```bash
 npm install vuex --save
 ```
 
-## 创建store
+## 创建 store
 
 ```javascript
 //main.js
-import store from './store'
-import App from './App.vue'
+import store from "./store";
+import App from "./App.vue";
 
 //全局化store
 window.store = store;
-createApp(App).use(store).mount('#app')
-
+createApp(App).use(store).mount("#app");
 ```
 
-## 利用store 创建一个全局变量
+## 利用 store 创建一个全局变量
 
 ```javascript
 // store.js
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    count: 0
+    count: 0,
   },
   mutations: {
-    increment (state) {
-      state.count++
-    }
-  }
-})
-
+    increment(state) {
+      state.count++;
+    },
+  },
+});
 ```
 
 ## 组件使用全局变量
@@ -76,49 +75,47 @@ export default {
 
 ```javascript
 // store.js
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    count: 0
+    count: 0,
   },
   mutations: {
-    increment (state) {
-      state.count++
+    increment(state) {
+      state.count++;
     },
-    incrementBy (state, newCount) {
-      state.count = newCount
-    }
-  }
-})
-
+    incrementBy(state, newCount) {
+      state.count = newCount;
+    },
+  },
+});
 ```
 
 ## store 获取全部数据
 
 ```javascript
 // store.js
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    count: 0
+    count: 0,
   },
   mutations: {
-    increment (state) {
-      state.count++
+    increment(state) {
+      state.count++;
     },
-    incrementBy (state, newCount) {
-      state.count = newCount
-    }
+    incrementBy(state, newCount) {
+      state.count = newCount;
+    },
   },
   getters: {
-    getCount: state => {
-      return state.count
-    }
-  }
-})
-
+    getCount: (state) => {
+      return state.count;
+    },
+  },
+});
 ```
 
 ## 在组件中使用全局变量
@@ -155,34 +152,33 @@ export default {
 
 ```javascript
 // store.js
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    count: 0
+    count: 0,
   },
   mutations: {
-    increment (state) {
-      state.count++
+    increment(state) {
+      state.count++;
     },
-    incrementBy (state, newCount) {
-      state.count = newCount
-    }
+    incrementBy(state, newCount) {
+      state.count = newCount;
+    },
   },
   getters: {
-    getCount: state => {
-      return state.count
-    }
+    getCount: (state) => {
+      return state.count;
+    },
   },
   actions: {
-    incrementAsync ({ commit }) {
+    incrementAsync({ commit }) {
       setTimeout(() => {
-        commit('increment')
-      }, 1000)
-    }
-  }
-})
-
+        commit("increment");
+      }, 1000);
+    },
+  },
+});
 ```
 
 ## 使用动作「api.异步」
@@ -198,56 +194,58 @@ export default createStore({
 </template>
 
 <script>
-export default {
-  computed: {
-    count () {
-      return this.$store.getters.getCount
-    }
-  },
-  methods: {
-    increment () {
-      this.$store.commit('increment')
+  export default {
+    computed: {
+      count() {
+        return this.$store.getters.getCount;
+      },
     },
-    incrementBy () {
-      this.$store.commit('incrementBy', this.$store.state.count + 5)
+    methods: {
+      increment() {
+        this.$store.commit("increment");
+      },
+      incrementBy() {
+        this.$store.commit("incrementBy", this.$store.state.count + 5);
+      },
+      incrementAsync() {
+        this.$store.dispatch("incrementAsync");
+      },
     },
-    incrementAsync () {
-      this.$store.dispatch('incrementAsync')
-    }
-  }
-}
+  };
 </script>
 ```
 
 ## actions
 
->Action 提交的是 mutation
->>用于异步提交操作，如定时器、异步请求
+> Action 提交的是 mutation
+>
+> > 用于异步提交操作，如定时器、异步请求
 
 ```javascript
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    count: 0
+    count: 0,
   },
   mutations: {
-    setCount (state, newCount) {
-      state.count = newCount
-    }
+    setCount(state, newCount) {
+      state.count = newCount;
+    },
   },
   getters: {
-    getCount: state => {
-      return state.count
-    }
-  },actions: {
-    incrementAsync ({ commit }, newCount) {
+    getCount: (state) => {
+      return state.count;
+    },
+  },
+  actions: {
+    incrementAsync({ commit }, newCount) {
       setTimeout(() => {
-        commit('setCount', newCount)
-      }, 1000)
-    }
-  }
-})
+        commit("setCount", newCount);
+      }, 1000);
+    },
+  },
+});
 ```
 
 ```html
@@ -259,26 +257,26 @@ export default createStore({
 </template>
 
 <script>
-export default {
-  computed: {
-    count () {
-      return this.$store.getters.getCount
-    }
-  },
-  methods: {
-    incrementAsync () {
-      this.$store.dispatch('incrementAsync', this.$store.state.count + 5)
-    }
-    // 成功回调
-    /* incrementAsync () {
+  export default {
+    computed: {
+      count() {
+        return this.$store.getters.getCount;
+      },
+    },
+    methods: {
+      incrementAsync() {
+        this.$store.dispatch("incrementAsync", this.$store.state.count + 5);
+      },
+      // 成功回调
+      /* incrementAsync () {
       this.$store.dispatch('incrementAsync', this.$store.state.count + 5).then(() => {
         console.log('incrementAsync done')
       }).catch(() => {
         console.log('incrementAsync error')
       })
     } */
-  }
-}
+    },
+  };
 </script>
 ```
 
@@ -286,45 +284,45 @@ export default {
 
 ```javascript
 // store.js
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 
 const moduleA = {
   state: { count: 0 },
   mutations: {
-    increment (state) {
-      state.count++
-    }
+    increment(state) {
+      state.count++;
+    },
   },
   getters: {
-    getCount: state => {
-      return state.count
-    }
-  }
-}
+    getCount: (state) => {
+      return state.count;
+    },
+  },
+};
 
 const moduleB = {
   state: { count: 0 },
   mutations: {
-    increment (state) {
-      state.count++
-    }
+    increment(state) {
+      state.count++;
+    },
   },
   getters: {
-    getCount: state => {
-      return state.count
-    }
-  }
-}
+    getCount: (state) => {
+      return state.count;
+    },
+  },
+};
 
 export default createStore({
   modules: {
     a: moduleA,
-    b: moduleB
-  }
-})
+    b: moduleB,
+  },
+});
 ```
 
-## 使用模块化的store
+## 使用模块化的 store
 
 ```html
 <template>
@@ -337,24 +335,24 @@ export default createStore({
 </template>
 
 <script>
-export default {
-  computed: {
-    countA () {
-      return this.$store.getters['a/getCount']
+  export default {
+    computed: {
+      countA() {
+        return this.$store.getters["a/getCount"];
+      },
+      countB() {
+        return this.$store.getters["b/getCount"];
+      },
     },
-    countB () {
-      return this.$store.getters['b/getCount']
-    }
-  },
-  methods: {
-    incrementA () {
-      this.$store.commit('a/increment')
+    methods: {
+      incrementA() {
+        this.$store.commit("a/increment");
+      },
+      incrementB() {
+        this.$store.commit("b/increment");
+      },
     },
-    incrementB () {
-      this.$store.commit('b/increment')
-    }
-  }
-}
+  };
 </script>
 ```
 
@@ -362,49 +360,47 @@ export default {
 
 ```javascript
 // store.js
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 //防止刷新丢失数据
-import createPersistedState from 'vuex-persistedstate';
+import createPersistedState from "vuex-persistedstate";
 
 const store = createStore({
   state: {
-    count: 0
+    count: 0,
   },
   mutations: {
-    increment (state) {
-      state.count++
-    }
+    increment(state) {
+      state.count++;
+    },
   },
-  plugins: [
-    createPersistedState()
-  ]
-})
+  plugins: [createPersistedState()],
+});
 
-export default store
+export default store;
 ```
 
 ## store 插件配置
 
 ```javascript
 // store.js
-import { createStore } from 'vuex'
-import createPersistedState from 'vuex-persistedstate';
+import { createStore } from "vuex";
+import createPersistedState from "vuex-persistedstate";
 
 //npm install vuex-persistedstate --save
 
 export default createStore({
   state: {
-    count: 0
+    count: 0,
   },
   mutations: {
-    increment (state) {
-      state.count++
-    }
+    increment(state) {
+      state.count++;
+    },
   },
   plugins: [
     createPersistedState({
       storage: window.localStorage,
-    })
-  ]
-})
+    }),
+  ],
+});
 ```
