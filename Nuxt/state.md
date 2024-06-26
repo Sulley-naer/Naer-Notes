@@ -30,7 +30,7 @@
 npm i js-cookie
 ```
 
-> 兼容性一般
+> 兼容性一般 ES6+
 
 ```javascript
 //创建cookie
