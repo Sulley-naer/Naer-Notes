@@ -275,6 +275,62 @@ backpack.add(23);
 //declare 为ts 语言单独类型，他只是用来限制类型的，用于代码方便操作，js本身不支持，只能在转义过程使用
 ```
 
+类的使用
+
+```typescript
+class Animal {
+  name: string;
+
+  //构造函数
+  constructor(theName: string) {
+    this.name = theName;
+  }
+  // 方法
+  move(distanceInMeters: number = 0) {
+    console.log(`${this.name} moved ${distanceInMeters}m.`);
+  }
+}
+
+// 继承类
+class Dog extends Animal {
+  // 继承父类 并且 重写「添加」方法
+  bark() {
+    console.log(`${this.name} barked.`);
+  }
+}
+// 创建实例
+const myDog = new Dog(theName: "Rufus");
+myDog.move(30);
+myDog.bark();
+```
+
+接口的使用
+
+```typescript
+// 接口
+interface ClockInterface {
+  currentTime: Date;
+  setTime(d: Date): void;
+}
+// 继承接口 并重写方法 构建类
+class Clock implements ClockInterface {
+  currentTime: Date;
+  constructor(h: number, m: number, s: number) {
+    this.currentTime = new Date();
+    this.setTime(h, m, s);
+  }
+  //重写方法
+  setTime(h: number, m: number, s: number) {
+    this.currentTime.setHours(h);
+    this.currentTime.setMinutes(m);
+    this.currentTime.setSeconds(s);
+  }
+}
+
+const clock = new Clock(12, 13, 14);
+console.log(clock.currentTime.toLocaleTimeString());
+```
+
 实际使用
 
 ```typescript
