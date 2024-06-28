@@ -1,20 +1,20 @@
 # Typescript 强类型语言([TypeScript](https://www.typescriptlang.org/zh))
 
-Q: 什么是Typescript?
+Q: 什么是 Typescript?
 
 A: TypeScript 是 JavaScript 的一个超集，支持 ECMAScript 6 标准，TypeScript 由微软开发的自由和开源的编程语言。
 
-Q: 为什么要使用Typescript?
+Q: 为什么要使用 Typescript?
 
 A: TypeScript 增加了代码的可读性和可维护性，同时还能让你定义代码结构，提高代码的质量。
 
-Q: Typescript的优点有哪些?
+Q: Typescript 的优点有哪些?
 
 A:
 
 1. 增加了代码的可读性和可维护性
 2. 静态类型检查
-3. 支持ES6标准
+3. 支持 ES6 标准
 4. 更好的代码提示
 5. 更好的重构
 6. 更好的语法
@@ -23,7 +23,7 @@ A:
 9. 更好的生态系统
 10. 更好的大型项目的支持
 
-Q: Typescript的缺点有哪些?
+Q: Typescript 的缺点有哪些?
 
 A:
 
@@ -33,15 +33,15 @@ A:
 4. 可能和一些库结合的不是很完美
 5. 短期可能会增加一些开发成本
 
-## Typescript的安装
+## Typescript 的安装
 
 ```al
 npm install -g typescript
 ```
 
-## Typescript的使用
+## Typescript 的使用
 
-> 普通项目中使用Typescript
+> 普通项目中使用 Typescript
 
 1. 初始化项目
 
@@ -49,13 +49,13 @@ npm install -g typescript
 npm init -y
 ```
 
-2.安装Typescript
+2.安装 Typescript
 
 ```al
 npm install typescript
 ```
 
-3.创建tsconfig.json文件
+3.创建 tsconfig.json 文件
 
 ```json
 {
@@ -68,12 +68,12 @@ npm install typescript
 }
 ```
 
-4..编写Typescript代码
+4..编写 Typescript 代码
 
 ```ts
 // index.ts
-function greeter(person: string) {
-    return "Hello, " + person;
+function greeter(person: string | number) {
+  return "Hello, " + person;
 }
 
 let user = "Jane User";
@@ -81,24 +81,24 @@ let user = "Jane User";
 document.body.innerHTML = greeter(user);
 ```
 
-5.编译Typescript代码
+5.编译 Typescript 代码
 
 ```al
 tsc index.ts
 ```
 
-6.运行编译后的js代码
+6.运行编译后的 js 代码
 
 ```al
 node index.js
 ```
 
-> 在Vue/cli框架升级使用typescript 新建勾选Typescript
+> 在 Vue/cli 框架升级使用 typescript 新建勾选 Typescript
 
-1. 在Vue ui Plugins 中添加`@vue/cli-plugin-typescript` 勾选默认配置即可
-2. 卸载jquery 并且重新安装`npm uninstall jquery` 
-3. 重新安装type版本`jquery npm install @types/jquery --save-dev`
-4. 配置tsconfig 使入口函数能正常使用
+1. 在 Vue ui Plugins 中添加`@vue/cli-plugin-typescript` 勾选默认配置即可
+2. 卸载 jquery 并且重新安装`npm uninstall jquery`
+3. 重新安装 type 版本`jquery npm install @types/jquery --save-dev`
+4. 配置 tsconfig 使入口函数能正常使用
 
 ```json
 "types": [
@@ -132,7 +132,8 @@ node index.js
 ```
 
 1. 确保依赖齐全 -dex 为开发环境
-```
+
+```base
 npm install typescript --save-dev
 npm install @vue/cli-plugin-typescript --save-dev
 npm install @types/node --save-dev
@@ -145,10 +146,10 @@ npm install @types/jquery --save-dev
 
 ```typescript
 let helloWorld = "Hello World";
-    //let helloWorld: string
+//let helloWorld: string
 ```
 
-对象类型 name : string  id : number
+对象类型 name : string id : number
 
 ```typescript
 const user = {
@@ -172,16 +173,18 @@ const user: User = {
 ```
 
 面向对象
+
 ```typescript
+//抽象类
 interface User {
   name: string;
   id: number;
 }
-
+//类继承
 class UserAccount {
   name: string;
   id: number;
-
+  //构造函数
   constructor(name: string, id: number) {
     this.name = name;
     this.id = id;
@@ -202,17 +205,17 @@ interface User {
 
 /* ---分割线--- */
 
-//参数 : 限制返回值类型
+//参数 : 限制返回值类型 在形参后冒号
 function getAdminUser(): User {
-  const user:User={
-    name:"s",
-    id:1
-  }
-  return user
+  const user: User = {
+    name: "s",
+    id: 1,
+  };
+  return user;
 }
 //参数 : 限制参数类型 可直接写 string number
-function deleteUser(user: User):void {
-  // ...
+function deleteUser(user: User): void {
+  // ... void无返回值
 }
 ```
 
@@ -222,13 +225,13 @@ function deleteUser(user: User):void {
 // true|false = boolean
 interface User {
   name: string;
-  id: 1|2;
+  id: 1 | 2;
 }
 // id值会抛错
-const user:User={
-    name:"s",
-    id:3
-}
+const user: User = {
+  name: "s",
+  id: 3,
+};
 ```
 
 根据参数返回对象
@@ -254,12 +257,13 @@ type ObjectWithNameArray = Array<{ name: string }>;
 自声明泛型类型
 
 ```typescript
+// type 可修改类型
 interface Backpack<Type> {
   add: (obj: Type) => void;
   get: () => Type;
 }
 
-// 简写，声明`backpack`常量，限制类型
+// 继承类 并实现接口
 declare const backpack: Backpack<string>;
 
 // declare类型不能直接使用，相当于实例化对象
@@ -293,7 +297,3 @@ logPoint(point3); // 打印 "12, 26"
 const rect = { x: 33, y: 3, width: 30, height: 80 };
 logPoint(rect); // 打印 "33, 3"
 ```
-
-## 因最后ts终将换为js,限制也将不复存在，它只能用在开发阶段，防止bug之类
-
-### 如果不是大项目使用就是sb
