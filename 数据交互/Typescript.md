@@ -175,12 +175,12 @@ const user: User = {
 面向对象
 
 ```typescript
-//抽象类
+//接口
 interface User {
   name: string;
   id: number;
 }
-//类继承
+//类
 class UserAccount {
   name: string;
   id: number;
@@ -257,16 +257,23 @@ type ObjectWithNameArray = Array<{ name: string }>;
 自声明泛型类型
 
 ```typescript
-// type 可修改类型
+// 声明接口 定义泛型类型
 interface Backpack<Type> {
   add: (obj: Type) => void;
   get: () => Type;
 }
 
-// 继承类 并实现接口
-declare const backpack: Backpack<string>;
+// 继承接口 并重写方法
+declare const backpack: Backpack<string>{
+  add: (obj) => void {
+    console.log(`Adding ${obj} to backpack`);
+  },
+  get: () => string {
+    return "string backpack";
+  },
+};
 
-// declare类型不能直接使用，相当于实例化对象
+// 调用方法
 const object = backpack.get();
 
 // 因为 backpack 限制为字符串，数字抛错。
@@ -293,6 +300,13 @@ class Animal {
 
 // 继承类
 class Dog extends Animal {
+  age: number;
+  constructor(name: string, age: number) {
+    //继承类 重写构造函数通常 需要调用一次父类构造函数 再进行自己的构造函数
+    //否则父类构造函数功能缺失，子类需要重新实现其功能，造成代码冗余，逻辑上沦为接口
+    super(theName: name);
+    this.age = age;
+    }
   // 继承父类 并且 重写「添加」方法
   bark() {
     console.log(`${this.name} barked.`);
@@ -321,6 +335,9 @@ class Clock implements ClockInterface {
   }
   //重写方法
   setTime(h: number, m: number, s: number) {
+    //此代码调用父类的方法
+    super.setTime(this.currentTime);
+    //其余代码均为重写方法
     this.currentTime.setHours(h);
     this.currentTime.setMinutes(m);
     this.currentTime.setSeconds(s);
@@ -331,7 +348,7 @@ const clock = new Clock(12, 13, 14);
 console.log(clock.currentTime.toLocaleTimeString());
 ```
 
-实际使用
+接口的使用
 
 ```typescript
 interface Point {
