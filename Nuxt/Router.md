@@ -17,8 +17,9 @@
     <!-- /test/:tg/comment 显示test index 激活 _tg文件夹下 comment 不显示 index 依然能套动态文件夹-->
 
     <!-- 子路由需 同级下拥有 同名文件夹与组件 ，文件夹下的组件为子路由 -->
+    <NuxtPage> </NuxtPage>
     <router-view></router-view>
-    <nuxt-child /><!-- 俩个都是路由出口 调试中看路径 -->
+    <!-- 俩个都是路由出口 调试中看路径 -->
   </div>
 </template>
 ```

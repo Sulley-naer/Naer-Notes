@@ -44,7 +44,7 @@ $`
 
 ## 组件库 [文档](https://nuxt.com/modules/vant)
 
-![图 0](../images/a4e99a296b89b470d750f5bd16d9eae6eac840935efff61f84fbc673076903bb.png)
+![图 0](images/a4e99a296b89b470d750f5bd16d9eae6eac840935efff61f84fbc673076903bb.png)
 
 > nuxt 前端框架推荐 参考调试工具
 
@@ -93,14 +93,12 @@ export default defineNuxtConfig({
   defineRouteRules({
     prerender: true,
   });
-
-  /*
-export default defineNuxtConfig({
+  // 控制其他路由的预渲染
+  /* export default defineNuxtConfig({
   routeRules: {
     "/": { prerender: true },
   },
-});
-*/
+});*/
 
   //被实例化后控制其他预渲染
   prerenderRoutes(["/some/other/url"]);
