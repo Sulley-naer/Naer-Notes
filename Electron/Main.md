@@ -1,6 +1,6 @@
 # Electron 入口函数 [文档](https://www.electronjs.org/zh/docs/latest/tutorial/tutorial-first-app#%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97)
 
-窗口配置 [全部配置](https://www.electronjs.org/zh/docs/latest/api/base-window#实例属性)
+窗口配置 [全部配置](https://www.electronjs.org/zh/docs/latest/api/base-window#实例方法)
 
 ```javascript
 const { app, BrowserWindow } = require("electron");
@@ -21,6 +21,8 @@ app.on("ready", () => {
     },
     //控制窗口显示
     show: false,
+    // 禁止缩放
+    resizable: false,
   });
 });
 ```
@@ -41,7 +43,7 @@ app.on("ready", () => {
 > [!NOTE]
 > 窗口关闭事件监听
 >
-> > [控制事件](https://www.electronjs.org/zh/docs/latest/api/browser-window#%E7%94%A8%E6%B3%95)
+> > [完整事件](https://www.electronjs.org/zh/docs/latest/api/base-window#实例事件) [完整方法](https://www.electronjs.org/zh/docs/latest/api/base-window#实例方法) [完整属性](https://www.electronjs.org/zh/docs/latest/api/base-window#实例属性)
 > >
 > > > 1. `.loadURL(url)` 加载页面
 > > > 2. `.loadFile(path)` 加载本地页面
@@ -75,9 +77,9 @@ app.on("ready", () => {
 > > > Windows 和 Mac 区别 所有窗口均关闭 win 会自动关闭，mac 会显示在任务栏 添加用户体验
 >
 > > [!NOTE]
-> > electron 事件监听
+> > electron 窗口事件
 > >
-> > [完整事件](https://www.electronjs.org/zh/docs/latest/api/app#%E4%BA%8B%E4%BB%B6)
+> > [完整事件](https://www.electronjs.org/zh/docs/latest/api/browser-window#实例事件) [完整方法](https://www.electronjs.org/zh/docs/latest/api/browser-window#实例方法) [完整属性](https://www.electronjs.org/zh/docs/latest/api/browser-window#实例属性)
 > >
 > > > 1. `.ready`应用初始化完成
 > > > 2. `.dom-ready` 应用页面渲染完成
