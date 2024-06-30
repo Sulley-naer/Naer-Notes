@@ -19,6 +19,8 @@ app.on("ready", () => {
     webPreferences: {
       showMenuBar: false,
     },
+    //控制窗口显示
+    show: false,
   });
 });
 ```
@@ -33,28 +35,30 @@ app.on("ready", () => {
     width: 800,
     height: 600,
   });
-  //跳转到指定网址
-  mainWindow.loadURL("https://www.bing.com");
-  // 打开web页面 可利用 ctrl+shift+i 打开开发者工具
-  mainWindow.loadFile("index.html");
-  // 打开开发者工具
-  mainWindow.webContents.openDevTools();
-  // 最小化窗口
-  mainWindow.minimize();
-  // 最大化窗口
-  mainWindow.maximize();
-  // 关闭窗口
-  mainWindow.close();
 });
 ```
 
-[官方文档](https://www.electronjs.org/zh/docs/latest/tutorial/quick-start#%E7%AE%A1%E7%90%86%E7%AA%97%E5%8F%A3%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
-
-> [!TIP]
-> 打开开发者工具后，控制台里面会有一些 Electron 的日志信息，可以忽略
+> [!NOTE]
+> 窗口关闭事件监听
+>
+> > [控制事件](https://www.electronjs.org/zh/docs/latest/api/browser-window#%E7%94%A8%E6%B3%95)
+> >
+> > > 1. `.loadURL(url)` 加载页面
+> > > 2. `.loadFile(path)` 加载本地页面
+> > > 3. `.show()` 显示窗口
+> > > 4. `.hide()` 隐藏窗口
+> > > 5. `.minimize()` 最小化窗口
+> > > 6. `.maximize()` 最大化窗口
+> > > 7. `.close()` 关闭窗口
+> > > 8. `.setTitle(title)` 设置窗口标题
+> > > 9. `.setSize(width, height)` 修改窗口大小
+> > > 10. `.webContents.openDevTools()` 打开开发者工具 快捷键 `Ctrl+Shift+I`
+>
+> > [!TIP]
+> > 打开开发者工具后，控制台里面会有一些 Electron 的日志信息，可以忽略
 >
 > > [!WARNING]
-> > 注意：不要在渲染进程中使用 `console.log` 输出内容，因为它会导致渲染进程崩溃。
+> > 注意：尽量不要在渲染进程中使用 `console.log` 输出内容，因为它可能会导致渲染进程崩溃。
 > > ![图 0](images/853ed779df2b9b4160556af70025a50a2494f8939d3af5ef6a12b6c6e246c06b.png)
 > >
 > > > 此问题需在 HTML 添加 meta 标签
@@ -71,7 +75,20 @@ app.on("ready", () => {
 > > > Windows 和 Mac 区别 所有窗口均关闭 win 会自动关闭，mac 会显示在任务栏 添加用户体验
 >
 > > [!NOTE]
-> > electron 事件监听 `.ready`应用初始化完成 `.dom-ready` 应用页面渲染完成 `.did-finish-load` 页面 Js 加载完成 `.before-quit` 关闭窗口前触发 `.will-quit` 窗口关闭且应用退出时触发 `quit` 应用退出时触发 `activate` 应用激活时触发 `window-all-closed` 所有窗口关闭时触发 使用：`app.on('事件名', () => {})`
+> > electron 事件监听
+> >
+> > [完整事件](https://www.electronjs.org/zh/docs/latest/api/app#%E4%BA%8B%E4%BB%B6)
+> >
+> > > 1. `.ready`应用初始化完成
+> > > 2. `.dom-ready` 应用页面渲染完成
+> > > 3. `.did-finish-load` 页面 Js 加载完成
+> > > 4. `.before-quit` 关闭窗口前触发
+> > > 5. `.will-quit` 窗口关闭且应用退出时触发
+> > > 6. `quit` 应用退出时触发
+> > > 7. `activate` 应用激活时触发
+> > > 8. `window-all-closed` 所有窗口关闭时触发
+> > > 9. `ready-to-show` 窗口准备显示时触发 默认 `shot:false` 窗口 加载完成执行事件
+> > > 10. 使用：`app.on('事件名', () => {})` 添加监听事件
 >
 > ```javascript
 > <!-- 监听所有窗口关闭 -->
