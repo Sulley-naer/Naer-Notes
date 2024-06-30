@@ -67,8 +67,11 @@ app.on("ready", () => {
 > > > <!-- default-src 代表默认的安全策略，style-src 代表样式的安全策略，img-src 代表图片的安全策略 -->
 > > > ```
 >
-> > > [!NOTE]
+> > > [!TIP]
 > > > Windows 和 Mac 区别 所有窗口均关闭 win 会自动关闭，mac 会显示在任务栏 添加用户体验
+>
+> > [!NOTE]
+> > electron 事件监听 `.ready`应用初始化完成 `.dom-ready` 应用页面渲染完成 `.did-finish-load` 页面 Js 加载完成 `.before-quit` 关闭窗口前触发 `.will-quit` 窗口关闭且应用退出时触发 `quit` 应用退出时触发 `activate` 应用激活时触发 `window-all-closed` 所有窗口关闭时触发 使用：`app.on('事件名', () => {})`
 >
 > ```javascript
 > <!-- 监听所有窗口关闭 -->
@@ -85,7 +88,7 @@ app.on("ready", () => {
 > });
 > ```
 
-## nodemon 自动重启 electron 进程 便于开发
+## 插件 [nodemon](https://nodemon.io/) 自动重启 electron 进程 便于开发
 
 > ```bash
 > npm install -g nodemon
@@ -98,7 +101,7 @@ app.on("ready", () => {
 >  "start": "nodemon --exec electron ."
 > }
 > ```
-
+>
 > [!NOTE]
 > nodemon.json 配置 更改任何文件都重启配置
 >
