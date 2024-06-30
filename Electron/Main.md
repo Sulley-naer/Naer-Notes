@@ -41,7 +41,7 @@ app.on("ready", () => {
 ```
 
 > [!NOTE]
-> 窗口关闭事件监听
+> 主程序窗口的生命周期
 >
 > > [完整事件](https://www.electronjs.org/zh/docs/latest/api/base-window#实例事件) [完整方法](https://www.electronjs.org/zh/docs/latest/api/base-window#实例方法) [完整属性](https://www.electronjs.org/zh/docs/latest/api/base-window#实例属性)
 > >
