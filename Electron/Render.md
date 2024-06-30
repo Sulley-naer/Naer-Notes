@@ -29,6 +29,19 @@ btn.addEventListener("click", fn1);
 
 [获取当前 webContents 实例](https://www.electronjs.org/zh/docs/latest/api/web-contents#方法)
 
+> [!CAUTION]
+> electron 已经舍弃 remote 模块 ，使用 ipcRenderer 让主进程获取 ``
+>
+> > [!NOTE]
+> >
+> > app 为需要获取的 webContents 变量 再用.webContents.id 注意是实例 new BrowserWindow() 的对象去获取 Id 系列 无法双向通讯去看笔记
+> >
+> > ```javascript
+> > ipcMain.on("get-web-contents-id", (event) => {
+> >   event.reply("web-contents-id", app.webContents.id);
+> > });
+> > ```
+
 ```javascript
 //renderer.js
 const { remote } = require("electron");
@@ -56,4 +69,4 @@ subWin.on("closed", () => {
 });
 ```
 
-## [Build](Build.md)
+## [Build](Build.md) [menu](menu.md)

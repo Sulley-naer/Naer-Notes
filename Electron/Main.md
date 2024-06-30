@@ -23,6 +23,16 @@ app.on("ready", () => {
     show: false,
     // 禁止缩放
     resizable: false,
+    //设置re
+    preload: "preload.js",
+    webPreferences: {
+      // 开启 Node.js 集成
+      nodeIntegration: true,
+      // 开启远程模块
+      contextIsolation: false,
+      // 开启 DevTools
+      devTools: true,
+    },
   });
 });
 ```
@@ -142,6 +152,4 @@ app.on("ready", () => {
 >
 > `watch` 代表监听的文件夹，`ext` 代表监听的文件类型，`ignore` 代表忽略的文件夹，`exec` 代表执行的命令 `restartable` 配置终端重启代码，`rs` 为重启代码。 `env` 代表环境变量，`verbose` 代表是否显示详细日志。
 
-[preload](Preload.md)
-
-[render 进程](Render.md)
+## [preload](Preload.md) | [render](Render.md) | [menu](menu.md)
