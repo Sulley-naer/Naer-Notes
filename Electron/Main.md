@@ -88,35 +88,38 @@ app.on("ready", () => {
 > });
 > ```
 
-## 插件 [nodemon](https://nodemon.io/) 自动重启 electron 进程 便于开发
+## 插件 [Nodemon](https://nodemon.io/) 自动重启 electron 进程 便于开发
 
-> ```bash
-> npm install -g nodemon
-> ```
->
-> package.json 配置
->
-> ```json
-> scripts: {
->  "start": "nodemon --exec electron ."
-> }
-> ```
->
 > [!NOTE]
-> nodemon.json 配置 更改任何文件都重启配置
 >
-> ```json
-> {
->   "watch": ["src", "*.*"],
->   "ext": "js,json,html",
->   "ignore": ["node_modules/**", "dist/**"],
->   "exec": "electron .",
->   "env": {
->     "NODE_ENV": "development"
->   },
->   "restartable": "rs"
-> }
-> ```
+> > ```bash
+> > npm install -g nodemon
+> > ```
+>
+> > [!TIP]
+> > package.json 配置
+> >
+> > ```json
+> > scripts: {
+> >  "start": "nodemon --exec electron ."
+> > }
+> > ```
+>
+> > [!NOTE]
+> > nodemon.json 配置 更改任何文件都重启配置
+> >
+> > ```json
+> > {
+> >   "watch": ["src", "*.*"],
+> >   "ext": "js,json,html",
+> >   "ignore": ["node_modules/**", "dist/**"],
+> >   "exec": "electron .",
+> >   "env": {
+> >     "NODE_ENV": "development"
+> >   },
+> >   "restartable": "rs"
+> > }
+> > ```
 >
 > `watch` 代表监听的文件夹，`ext` 代表监听的文件类型，`ignore` 代表忽略的文件夹，`exec` 代表执行的命令 `restartable` 配置终端重启代码，`rs` 为重启代码。 `env` 代表环境变量，`verbose` 代表是否显示详细日志。
 
