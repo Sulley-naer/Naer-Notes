@@ -97,7 +97,7 @@ createApp(App).use(store).use(router).mount("#app");
 </script>
 ```
 
-## 路由 「[官网](https://router.vuejs.org/zh/installation.html)」
+## 路由 [官网](https://router.vuejs.org/zh/installation.html)
 
 > 通过`vue-router`配置路由 入口文件`main.js`中引入并使用`router`配置路由 组件不刷新跳转`this.$router.push('/new-route')`
 > 如子组件需要通过 父组件获取数据，使用`component`引入父级，隐藏对象，在`onMounted`获取其参数
@@ -140,7 +140,7 @@ const router = createRouter({
 export default router;
 ```
 
-## router-view & router-link
+### router-view & router-link
 
 > `router-view`用于显示路由组件 `router-link`用于跳转路由
 
@@ -154,6 +154,23 @@ export default router;
 <router-view />
 <router-view name="pop" />
 ```
+
+> ### Router Api
+>
+> > [!TIP]
+> > 使用 api 进行路由操作
+>
+> > [!NOTE]
+> >
+> > 1. 配置： `router.push()` 跳转路由 `router.push({path: '/about'})`
+> > 2. 配置： `router.replace()` 替换当前路由 `router.replace({path: '/about'})`
+> > 3. 配置： `router.go()` 前进后退 `router.go(1)`
+> > 4. 配置： `router.back()` 返回上一级路由 `router.back()`
+> > 5. 配置： `router.forward()` 前进一级路由 `router.forward()`
+> > 6. 配置： `router.currentRoute` 当前路由信息 `router.currentRoute.path`
+> > 7. 配置： `router.resolve()` 解析路由 `router.resolve({name: 'about'}).href`
+> > 8. 配置： `router.beforeEach()` 全局前置守卫 `router.beforeEach((to, from, next) => {})`
+> > 9. 配置： `router.afterEach()` 全局后置守卫 `router.afterEach((to, from) => {})`
 
 ## vuex
 

@@ -6,14 +6,16 @@
 
 ## 为什么使用状态管理库
 
-> Vuex 的核心概念： State、Getter、Mutation、Action、Module  
-> Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态只能按照一定的方式进行修改。  
+> Vuex 的核心概念： State、Getter、Mutation、Action、Module
+>
+> Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态只能按照一定的方式进行修改。
+>
 > 数据会在刷新后丢失，故使用`this.$router.push('/new-route')` 跳转页面
 
 ## 框架安装 vuex
 
 ```bash
-npm install vuex --save
+npm install vuex
 ```
 
 ## 创建 store
@@ -404,3 +406,5 @@ export default createStore({
   ],
 });
 ```
+
+## [Router](Vue_cli.md#路由-官网)
