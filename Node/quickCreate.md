@@ -24,6 +24,9 @@ npm install path
 
 ## 创建服务器 Index.js
 
+> [!IMPORTANT]
+> 注：服务端路径拼接请一定要使用 `path` 模块，如果使用终端的相对路径 `process.cwd()`，它是会基于终端运行目录来拼接路径，如果终端使用的不是项目根路径，就会导致路径错误。 `path` 的路径是基于运行当前文件 `main.js` 的路径来拼接的。不同系统的`/` 和 `\`也能处理，并且是先获取绝对路径，再使用 **相对路径** 拼接的。 `__dirname` 是 Node 内置方法
+
 ```javascript
 //开启服务器端口
 const Koa = require("koa");

@@ -63,6 +63,8 @@ npm i vite -D
 
 ```bash
 npm i webpack webpack-cli -D
+# 或者 vite
+npm i vite -D
 ```
 
 - 配置 webpack.config.js
@@ -101,8 +103,10 @@ module.exports = {
 
 ```json
 {
+  "main": "main.js", // 入口文件
   "scripts": {
-    "build": "webpack --config webpack.config.js"
+    "start": "vite",
+    "webpack": "webpack --config webpack.config.js"
   }
 }
 ```
@@ -170,6 +174,10 @@ export { firstName, lastName, year };
 export const firstName = "Michael";
 export const lastName = "Jackson";
 export const year = 1958;
+
+export = export default {}
+//export 导出的对象，最终还是放在了export default的对象里,导入的时候也可以选择直接导入整个对象或者按需导入属性。
+
 // 再库文件中，他们的数据是通过导入的方式来访问的 不是我这样写死的，使用的时候会全部导入进来运行加载。
 export { default as counter } from "./counter";
 ```
@@ -198,3 +206,7 @@ console.log(firstName + " " + lastName + " was born in " + year);
 > > Vite 构建时会自动处理这些情况，将其转换成统一的`ES6`格式。
 > >
 > > 并且识别你未导入使用的对象，并且自动删除不用的导出对象，再运行导入的时候 最终浏览器 访问到的 `bundle.js` 已经将时候不用的 `export{default as name} from './xxx'` 删除导出的无用 导出对象 不会再去请求 无用对象的引入代码 减少了大量的请求 最终性能翻了 >10 倍。减轻了很大的服务器压力。
+
+## footer
+
+[css 预处理器](Css.md)
