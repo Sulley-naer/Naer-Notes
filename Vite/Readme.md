@@ -158,15 +158,11 @@ module.exports = {
 > 导出格式差异，直观展示 require 是 Node 环境下的 import 语法，而 export default 是浏览器环境下的 export 语法。
 
 ```javascript
-// counter.js
-var firstName = "Michael";
-var lastName = "Jackson";
-var year = 1958;
-/* 直接导出整个对象，访问直接使用里面的属性和方法 */
+/* commonjs 直接导出整个对象 浏览器会拿去里面的所以属性*/
 export default {
-  firstName: firstName,
-  lastName: lastName,
-  year: year,
+  firstName: firstName.js,
+  lastName: lastName.js,
+  year: year.js,
 };
 /* 导出对象属性，访问时使用变量名.属性名 */
 export { firstName, lastName, year };
@@ -176,7 +172,7 @@ export const lastName = "Jackson";
 export const year = 1958;
 
 export = export default {}
-//export 导出的对象，最终还是放在了export default的对象里,导入的时候也可以选择直接导入整个对象或者按需导入属性。
+//ex6 export 导出的对象，最终还是放在了export default的对象里,导入的时候也可以选择直接导入整个对象或者按需导入属性。
 
 // 再库文件中，他们的数据是通过导入的方式来访问的 不是我这样写死的，使用的时候会全部导入进来运行加载。
 export { default as counter } from "./counter";
@@ -188,13 +184,15 @@ export { default as counter } from "./counter";
 ```javascript
 // main.js
 
-/* CommonJS 直接调用对象的属性和方法 */
+/* CommonJS 直接调用对象的属性和方法 ，将一次拿取全部属性 */
+/* VIte 里面千万别tm这么使 你直接拿一整个对象 Vite 不敢去移除你未用属性！*/
 import counter from "./counter";
+
 console.log(
   counter.firstName + " " + counter.lastName + " was born in " + counter.year
 );
 
-/* ES6 使用变量名.属性名 */
+/* ES6 使用变量名.属性名 每次按需拿取属性*/
 import { firstName, lastName, year } from "./counter";
 console.log(firstName + " " + lastName + " was born in " + year);
 ```
