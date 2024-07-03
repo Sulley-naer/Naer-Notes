@@ -129,6 +129,9 @@ import prodconfig from "./vite.prod.config";
 const envResolver = {
   build: () => Object.assign({}, prodconfig),
   serve: () => Object.assign({}, devconfig),
+  //es6语法 合并对象
+  build: () => ({ ...prodconfig }),
+  serve: () => ({ ...devconfig }),
 };
 
 export default defineConfig(({ command, mode }) => {
