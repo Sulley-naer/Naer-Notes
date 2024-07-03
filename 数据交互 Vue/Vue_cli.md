@@ -38,11 +38,16 @@ npm install -g @vue/cli
 ## 认识入口文件
 
 ```js
+//引入所需主页组件
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-//引入所需主页组件
+
+import axios from "axios";
+
+//全局挂载方法
+window.axios = axios;
 
 createApp(App).use(store).use(router).mount("#app");
 // 实例化App组件并挂载到#app 使用router 配置路由
