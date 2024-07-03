@@ -206,3 +206,60 @@ export default defineConfig({
 ```
 
 这样修改了之后,VITE\_ 前缀的就无法获取到环境变量了
+
+## 打包配置 [配置](https://cn.vitejs.dev/config/build-options.html)
+
+> [!TIP]
+> Vite 提供了一些内置的打包配置，如 `build.minify`、`build.target`、`build.rollupOptions` 等。
+
+```javascript
+// vite.config.js
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  build: {
+    minify: "terser", // 压缩代码
+    target: "es2015", // 编译目标
+    rollupOptions: {
+      output: {
+        assetFileNames: "assets/[ext]/[name]-[hash].[ext]", // 输出静态资源文件名 [ext] 扩展名 [name] 文件名 [hash] 哈希值 [query] 查询参数
+      },
+    },
+    assetsInlineLimit: 4096, // 静态资源内联压缩 Base64 大小限制
+    outerDir: "dist", // Build 打包输出目录
+    assetsDir: "assets", // 静态资源目录
+  },
+});
+```
+
+- `build.minify` 压缩代码，默认使用 `terser` 压缩代码，也可以设置为 `false` 不压缩代码。
+- `build.target` 编译目标，默认使用 `es2015` 编译目标，也可以设置为 `esnext` 编译最新特性。
+- `build.rollupOptions.input` 打包入口文件，可以指定多个入口文件。
+
+## 插件 [配置](https://cn.vitejs.dev/plugins/)
+
+> [!TIP]
+> Vite 提供了插件机制，可以扩展 Vite 的功能。 如 `vite-plugin-react-refresh`、`vite-plugin-windicss`、`vite-plugin-icons` 等。
+
+插件是用于帮助 Vite 生命周期 中执行 不同的事件 用于丰富拓展 Vite 的功能。同样是在 `vite.config.js` 文件中配置。**中间件** 也是一种插件，但它是在 Vite 生命周期的中间位置执行。
+
+- vite-aliased - 别名插件 自动根据 src 目录设置别名，可以给导入路径设置别名。
+- vite-plugin-components - 自动导入组件 自动导入 `.vue` 文件中的组件。
+- vite-plugin-icons - 自动导入图标 自动导入 `.svg` 文件中的图标。
+- vite-plugin-md - Markdown 编译插件 编译 `.md` 文件为 `.js` 文件。
+- vite-plugin-pages - 自动导入路由 自动导入 `.vue` 文件中的路由。
+
+```javascript
+// vite.config.js
+import { defineConfig } from "vite";
+import { ViteAliases } from "vite-aliases";
+
+export default defineConfig({
+  plugins: [
+    ViteAliases({
+      // 手动设置别名
+      "@": path.resolve(__dirname, "src"),
+    }),
+  ],
+});
+```
