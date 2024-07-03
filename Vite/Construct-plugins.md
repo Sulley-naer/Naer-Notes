@@ -58,7 +58,7 @@ const difffile = (DirFileArr = [], BasePath) => {
 };
 
 //获取路径 文件数组 再进行文件类型判断
-const GetTotal = () => {
+const GetTotal = (keyword) => {
   const RelativePath = "./src";
   //拿去文件夹对象 记得用异步方法 防止加载过长
   const fileList = fs.readdirSync(path.resolve(__dirname, RelativePath));
@@ -67,7 +67,7 @@ const GetTotal = () => {
   const resolveAliases = {};
 
   diffResult.dir.forEach((dirname) => {
-    const key = `@${dirname}`;
+    const key = `${keyword}${dirname}`;
     const asbPath = path.resolve(__dirname, RelativePath + "/" + dirname);
     resolveAliases[key] = asbPath;
   });
@@ -76,11 +76,15 @@ const GetTotal = () => {
 };
 
 const keyword = ["API", "component"];
-
+//定义前嘴 但是这样写无法修改配置项
 module.exports = () => {
+  keyword: "@";
+//可配置版，注意的语法！！！ 对象 设置 键值对 再 = {}  用于配置传入对象后 默认配置项 修改配置项 JS 形参 语法
+module.exports = ({ keyword = "@" } = {}) => {
+  console.log(keyword);
   return {
     config(config, env) {
-      const resolveAliasesObj = GetTotal();
+      const resolveAliasesObj = GetTotal(keyword);
       return {
         envPrefix: env ? env.envPrefix : "",
         resolve: {
@@ -98,6 +102,6 @@ module.exports = () => {
 const Aliases = require("./plugins/Aliases");
 
 module.exports = {
-  plugins: [Aliases()],
+  plugins: [Aliases(), Aliases({ keyword: "API" })],
 };
 ```

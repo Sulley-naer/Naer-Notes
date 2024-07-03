@@ -261,5 +261,11 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     }),
   ],
+  //原本别名配置
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+    },
+  },
 });
 ```
