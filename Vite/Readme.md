@@ -59,6 +59,8 @@ npm i vite -D
 
 ## 配置 webpack
 
+> webpack 相较于 Vite 比较复杂，Vite 是 Vue 一贯作风 将基本需要的拓展配置，都已经帮你配置完成了，而 webpack 需要自己去按需配置。
+
 - 安装依赖
 
 ```bash
