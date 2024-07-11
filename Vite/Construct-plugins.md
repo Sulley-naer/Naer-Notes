@@ -80,7 +80,7 @@ const keyword = ["API", "component"];
 //定义前缀 但是这样写无法修改配置项
 module.exports = () => {
   keyword: "@";
-//可配置版，注意的语法！！！ 对象 设置 键值对 再 = {}  用于配置传入对象后 默认配置项 修改配置项 JS 形参 语法 options 也能实现但是无法让编辑器识别，接受所有参数 并且默认参数还不能直接定义
+//可配置版，注意的语法！！！ 对象 设置 键值对 再 = {} 用于配置传入对象后 默认配置项 修改配置项 JS 形参
 module.exports = ({ keyword = "@" } = {}) => {
   console.log(keyword);
   return {
@@ -122,7 +122,8 @@ module.exports = {
 ```javascript
 //plugin.js
 
-/* option 参数是插件配置项，不传入也不会报错 */
+/* options 参数是插件配置项，不传入无法获取到配置项 */
+// 想写可配置功能 就需要在插件中预留可配置项 如 options = {} 然后在插件中接收配置项
 module.exports = (options) => {
   return {
     //无指定加载顺序 Vite 根据配置文件执行
@@ -160,3 +161,12 @@ import { createHtml } from "./plugins/EJS";
 - [插件顺序](https://cn.vitejs.dev/guide/api-plugin.html#plugin-ordering)
 - [Dom 钩子](https://cn.vitejs.dev/guide/api-plugin.html#transformindexhtml)
 - [正则](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Regular_expressions)
+
+## 其余配置项
+
+1. `config` 钩子函数 用于修改 Vite 配置对象，可用于修改配置项
+2. `configureServer` 钩子函数 配置 Vite 服务器，用于自定义客户端请求处理
+3. `configResolved` 钩子函数 在 vite 配置解析完成之后会走的钩子函数，可用于保存查看配置
+4. `configurePreview` 配置在预览生产环境模式时的钩子函数 拥有同上模式的配置项 `npm vite preview` 启动 Vite 预览 build 后的服务器
+
+## [configure](./Configure&mock.md) | [Ts](./VIteTS.md) | [structure](./structure.md)
