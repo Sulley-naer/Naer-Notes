@@ -388,6 +388,61 @@ app.get("/", (req, res) => {
 
 利用自定义中间件实现解析 json 请求体
 
-```typescript
+x-www-form-urlencoded 格式请求数据解析为对象 挂载到 body 上
 
+```typescript
+//可以自己挂载到对应的中间件上
+app.use((req, res, next) => {
+  let str: string;
+  let array = {};
+  req.on("data", (chunk: any) => {
+    str += chunk;
+  });
+  req.on("end", () => {
+    str = str.replace(/^undefined/, "");
+    str = str.split("&");
+    str.forEach((item: any) => {
+      let [key, value] = item.split("=");
+      array[key] = value;
+    });
+    console.log(array);
+    req.body = array;
+    next();
+  });
+});
+```
+
+封装为 package
+
+入口文件 index.ts
+
+```typescript
+const urlCOde = require("Urlcode/lib/handle");
+
+module.exports = urlCOde;
+```
+
+lib/handle.ts
+
+```typescript
+const urlCOde = (req, res, next) => {
+  let str;
+  let array = {};
+  req.on("data", (chunk) => {
+    str += chunk;
+  });
+  req.on("end", () => {
+    str = str.replace(/^undefined/, "");
+    str = str.split("&");
+    str.forEach((item) => {
+      let [key, value] = item.split("=");
+      array[key] = value;
+    });
+    console.log(array);
+    req.body = array;
+    next();
+  });
+};
+
+module.exports = urlCOde;
 ```
