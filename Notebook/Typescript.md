@@ -45,13 +45,13 @@ npm install -g typescript
 
 1. 初始化项目
 
-```al
+```bash
 npm init -y
 ```
 
 2.安装 Typescript
 
-```al
+```bash
 npm install typescript
 ```
 
@@ -84,13 +84,15 @@ document.body.innerHTML = greeter(user);
 
 5.编译 Typescript 代码
 
-```al
+```bash
 tsc index.ts
+# 监听文件变化 自动转换
+tsc index.ts -w
 ```
 
 6.运行编译后的 js 代码
 
-```al
+```bash
 node index.js
 ```
 
