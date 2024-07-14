@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["devconfig", "prodconfig"]
+  "cSpell.words": ["devconfig", "prodconfig"],
+  "cSpell.ignoreWords": ["INNODB", "myisam", "mysqld", "sercure"]
 }
