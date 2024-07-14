@@ -209,6 +209,14 @@ ALTER TABLE 表格名
 ALTER TABLE 表格名
     ADD COLUMN 列名 数据类型 [约束条件] [COMMENT '列注释'];
 
+-- 修改列为自增列
+ALTER TABLE 表格名
+    MODIFY COLUMN 列名 INT AUTO_INCREMENT;
+
+-- 修改列的自增起始值
+ALTER TABLE 表格名
+    ALTER COLUMN 列名 AUTO_INCREMENT = 起始值;
+
 -- 删除列
 ALTER TABLE 表格名
     DROP COLUMN 列名;
