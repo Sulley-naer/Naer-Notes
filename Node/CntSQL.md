@@ -17,8 +17,8 @@ npm install @types/mysql
 ```bash
 npm install mysql2
 # Ts
-npm install @types/mysql2
-# 现在似乎没有types包
+npm install @types/mysql
+# 现在似乎没有types包,直接用原本的也能提示
 ```
 
 > [!TIP]
