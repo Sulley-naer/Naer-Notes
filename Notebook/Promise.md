@@ -1,4 +1,9 @@
-# Promise
+# Promise [fetch](./fetch.md)
+
+- [Promise fetch](#promise-fetch)
+  - [Promise 基本用法](#promise-基本用法)
+  - [高级用法](#高级用法)
+  - [参考](#参考)
 
 > [!NOTE]
 > Promise 是异步编程的一种解决方案，它代表了一个异步操作的最终完成或失败及其结果值。 用于解决回调地狱的问题。

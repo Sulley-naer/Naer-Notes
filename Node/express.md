@@ -21,6 +21,15 @@
     - [错误拦截](#错误拦截)
     - [内置中间件 | 解析请求体数据](#内置中间件--解析请求体数据)
     - [自定义中间件](#自定义中间件)
+  - [开放跨域](#开放跨域)
+    - [插件跨域](#插件跨域)
+    - [简单跨域](#简单跨域)
+    - [复杂跨域](#复杂跨域)
+  - [请求](#请求)
+    - [简易请求](#简易请求)
+    - [预检请求](#预检请求)
+    - [复杂请求](#复杂请求)
+  - [JSONP 接口](#jsonp-接口)
 
 ## 安装
 
@@ -386,6 +395,33 @@ app.get("/", (req, res) => {
 
 ### 自定义中间件
 
+Json 请求体解析中间件
+
+```typescript
+app.post("/test", (req, res) => {
+  let bf;
+  req.on("data", (chunk: any) => {
+    bf = chunk;
+  });
+  req.on("end", (chunk) => {
+    console.log(bf.toString());
+    res.send(JSON.parse(bf));
+  });
+});
+```
+
+发送测试
+
+````typescript
+fetch("/test", {
+  method: "POST",
+  headers: {
+  'Content-Type': 'application/json; charset=UTF-8',
+  },
+  body: JSON.stringify(obj) // 序列化对象为 JSON 字符串
+})
+```
+
 利用自定义中间件实现解析 json 请求体
 
 x-www-form-urlencoded 格式请求数据解析为对象 挂载到 body 上
@@ -410,7 +446,7 @@ app.use((req, res, next) => {
     next();
   });
 });
-```
+````
 
 封装为 package
 
@@ -425,6 +461,9 @@ module.exports = urlCOde;
 lib/handle.ts
 
 ```typescript
+// 写的非常简单，没有做任何的异常处理，仅供参考
+// 后续些响应头类型判断，可以有效防止处理异常
+
 const urlCOde = (req, res, next) => {
   let str;
   let array = {};
@@ -445,4 +484,146 @@ const urlCOde = (req, res, next) => {
 };
 
 module.exports = urlCOde;
+```
+
+## 开放跨域
+
+> [!TIP]
+> 跨域是浏览器的一种安全策略，它是由浏览器的同源策略造成的。 使用 CORS（Cross-Origin Resource Sharing）可以允许一个域名下的 Web 应用访问另一个域名下的资源。
+
+### 插件跨域
+
+安装插件 cors
+
+```bash
+npm install cors --save
+npm install @types/cors --save-dev
+```
+
+使用插件
+
+> [!TIP]
+> cors 只能接受 9 个请求头，超出了它就无法处理，只能手动配置。
+
+```typescript
+const express = require("express");
+const cors = require("cors");
+const app = express();
+
+//使用插件
+app.use(cors());
+//想在哪使用就在 router app.all 方法里面加一个cors()方法就行了，记得是在写回调函数之前添加
+
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
+```
+
+### 简单跨域
+
+```typescript
+const express = require("express");
+const app = express();
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  //后面的header也不是很重要，主要是第一个行的验证，*代表允许所有域名跨域访问
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type,Content-Length,Authorization,Accept,X-Requested-With"
+  );
+  //指定方式
+  res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+  res.header("X-Powered-By", "3.2.1");
+  res.header("Content-Type", "application/json;charset=utf-8");
+  next();
+});
+
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
+```
+
+### 复杂跨域
+
+```typescript
+const express = require("express");
+const app = express();
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type,Content-Length,Authorization,Accept,X-Requested-With"
+  );
+  res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+  res.header("X-Powered-By", "3.2.1");
+  res.header("Content-Type", "application/json;charset=utf-8");
+  next();
+});
+
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
+```
+
+1. Access-Control-Allow-Origin 允许跨域访问的域名
+1. Access-Control-Allow-Headers 允许跨域请求携带的请求头
+1. Access-Control-Allow-Methods 允许跨域请求使用的请求方法
+1. X-Powered-By 服务器信息
+1. Content-Type 响应头类型
+
+## 请求
+
+### 简易请求
+
+> [!NOTE]
+> 简单请求是指不包含自定义 HTTP 头的 GET、HEAD、POST 请求。只有 GET 和 POST 请求会触发 CORS 预检。
+
+1. 简单请求不包含自定义 HTTP 头，所以不会触发 CORS 预检。
+2. 简单请求的请求方法是 GET、HEAD、POST，所以不会触发对请求方法的检查。
+3. 简易请求无自定义请求头，所以不会触发跨域请求。
+
+### 预检请求
+
+> [!TIP]
+> 预检请求是指使用 OPTIONS 方法发起的，会先发送一个预检请求 带有 OPTIONS 请求头，询问服务器是否响应请求。
+
+1. 预检请求会先发送一个 OPTIONS 请求，服务器端根据你的请求头判断是否响应请求。
+2. 预检请求具有安全性，防止接口恶心攻击|调用，需要预检请求自定义请求头。
+3. 预检请求能可实现跨域请求，但是需要服务器端响应预检请求。
+
+### 复杂请求
+
+> [!WARNING]
+> 复杂请求是指包含自定义 HTTP 头的请求，比如 PUT、DELETE 请求。
+
+1. 复杂请求可帮助服务器端区分请求，使服务器端提高可维护性。
+
+2. 复杂请求的请求方法是 PUT、DELETE …，服务器根据请求头类型进行相应的处理。
+
+3. 复杂请求也需要使用预检进行跨域请求，但是服务器端需要响应预检请求。
+
+## JSONP 接口
+
+> [!TIP]
+> JSONP 是一种跨域请求的技术，它利用 `<script>` 标签的 src 属性，请求一个跨域 URL，并在请求中加入回调函数参数，服务器端将响应内容作为参数值返回给回调函数。
+
+JSONP 只支持 GET 请求，所以只能实现 GET 请求的跨域请求。
+
+JSONP 通常是用来传输数据，通常不使用 JSONP 来作为普通接口使用。
+
+> [!CAUTION]
+> JSONP 只能返回 JSON 格式的数据，不能返回其他格式的数据。
+
+```typescript
+app.get("/jsonp", (req, res) => {
+  const data = { name: "张三", age: 20 };
+  //通过 query 获取参数
+  /* ?callback=jsonpCallback */
+  const callback = req.query.callback;
+  //将拿取到的参数和数据进行拼接 将数据转化为 JSON 格式
+  const jsonp = `${callback}(${JSON.stringify(data)})`;
+  res.send(jsonp);
+});
 ```
