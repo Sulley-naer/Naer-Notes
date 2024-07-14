@@ -1258,6 +1258,16 @@ REVOKE 权限列表 ON 数据库名.表格名 FROM '账号'@'主机';
 -- 修改用户密码
 ALTER USER '账号'@'主机' IDENTIFIED BY '新密码';
 
+-- 也可以直接用select update delete insert等语句来处理
+update mysql.user set host ='%' where user='user1';
+
+--查看所有用户 主要需查看就是 host 字段 其他均为权限信息
+select Host,user from mysql.user;
+
+-- 同理使用增删改查语句就行
+
+-- 刷新权限
+FLUSH PRIVILEGES;
 ```
 
 - 示例
