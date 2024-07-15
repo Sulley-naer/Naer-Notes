@@ -1,5 +1,18 @@
 # Mysql 基础语法
 
+> [!CAUTION]
+> 使用对应代码,请确保在对应数据库运行 use 对应的数据库
+>
+> mysql 数据库为系统数据库,可进行用户创建,权限管理,删除 修改 用户
+>
+> 代码正确依旧报错请检查用户权限
+>
+> 无法连接用户请确保是否已经被占用
+>
+> `declare`关键词出现的代码都是在存储过程或函数中使用的
+>
+> 不想创建可以直接 set 创建变量使用
+
 - [Mysql 基础语法](#mysql-基础语法)
   - [数据库](#数据库)
   - [表格](#表格)
@@ -19,7 +32,7 @@
     - [事务](#事务)
     - [视图](#视图)
     - [触发器](#触发器)
-    - [存储过程](#存储过程)
+    - [存储过程|函数](#存储过程函数)
   - [SQL 函数](#sql-函数)
     - [循环函数](#循环函数)
     - [自定义函数](#自定义函数)
@@ -28,20 +41,6 @@
     - [变量](#变量)
     - [游标](#游标)
     - [异常处理](#异常处理)
-    - [条件语句](#条件语句)
-    - [循环语句](#循环语句)
-  - [Mysql Manger Code](#mysql-manger-code)
-    - [索引的创建和管理](#索引的创建和管理)
-    - [用户管理](#用户管理)
-    - [权限管理](#权限管理)
-      - [根用户 管理员权限丢失 方案](#根用户-管理员权限丢失-方案)
-    - [全文搜索](#全文搜索)
-  - [存储引擎（Storage Engines）](#存储引擎storage-engines)
-  - [分区表（Partitioning）](#分区表partitioning)
-  - [字符集和校对规则（Character Sets and Collations）](#字符集和校对规则character-sets-and-collations)
-  - [备份和恢复](#备份和恢复)
-  - [Mysql config](#mysql-config)
-    - [MySQL 配置文件内容](#mysql-配置文件内容)
 
 ## 数据库
 
@@ -808,7 +807,7 @@ END;
 DROP TRIGGER trigger_name;
 ```
 
-### 存储过程
+### 存储过程|函数
 
 > [!TIP]
 > 存储过程（Stored Procedure）是一组预编译的 SQL 语句，存储在数据库中，可以被调用执行。
@@ -1050,7 +1049,36 @@ SELECT @variable_name;
 > [!TIP]
 > MySQL 支持游标用于处理查询结果集的逐行处理，常用于存储过程中：
 
+<details>
+  <summary style="font-size: 18px; font-weight: bold;">游标用处</summary>
+
+<br>
+
+游标的主要用途是处理从数据库查询中返回的多行数据。它允许你逐行处理结果集，每次只处理一行数据，这在需要对每行数据进行复杂处理时非常有用。
+
+<h3>游标的常见用法</h3>
+
+1. **逐行处理数据**：适用于需要对每行数据进行复杂逻辑处理的情况。
+2. **批量操作**：可以在循环中进行批量的插入、更新或删除操作。
+3. **复杂计算**：可以在循环中进行复杂的计算和数据处理。
+
+<h3>示例说明</h3>
+
+假设你有一个包含学生信息的表 student，并且你需要对每个学生的姓名进行某种处理，游标可以帮助你逐行读取并处理这些数据。
+
+<h3>使用游标的注意事项</h4>
+
+1. 性能问题：游标逐行处理数据，相比批量处理效率较低。如果可以使用批量处理，尽量避免使用游标。
+
+2. 资源管理：确保在使用完游标后关闭它，以避免资源泄漏。
+
+3. 复杂逻辑：游标适用于需要逐行处理复杂逻辑的情况，简单的操作可以直接使用 SQL 语句完成。
+
+</details>
+
 ```sql
+-- DECLARE 方法只能在存储过程中的变量声明中 Set 为普通变量声明
+
 -- 声明游标，命名为 cursor_name，用于执行 SELECT_statement 查询
 DECLARE cursor_name CURSOR FOR SELECT_statement;
 
@@ -1065,6 +1093,59 @@ CLOSE cursor_name;
 
 ```
 
+- 示例
+
+```sql
+-- 创建存储过程
+delimiter //
+
+create procedure st()
+begin
+    # 声明变量
+    declare i int default 0;       -- 控制循环的变量
+    declare name varchar(50);      -- 存储查询结果的变量
+    declare done int default 0;    -- 标志变量，表示游标是否读取完数据
+
+    # 声明游标
+    declare cur cursor for select sname from student;  -- 创建游标，查询student表中的sname列
+
+    # 定义退出条件
+    declare continue handler for not found set done = 1;  -- 当游标读取完数据时，将done设置为1
+
+    # 打开游标
+    open cur;  -- 打开游标
+
+    # 循环读取数据
+    fetch_loop: loop  -- 开始一个循环，名称为fetch_loop
+    fetch cur into name;  -- 从游标中获取一行数据，存储到name变量中
+    if done then  -- 如果done为1，表示没有更多数据
+        leave fetch_loop;  -- 退出循环
+    end if;
+    select name;  -- 显示当前name的值
+    end loop fetch_loop;  -- 结束循环
+
+    # 关闭游标
+    close cur;  -- 关闭游标
+end //
+
+delimiter ;
+```
+
+<details>
+  <summary>示例说明</summary>
+
+关键点
+
+1. `declare cur cursor for select sname from student;`：定义游标，指定查询语句。
+2. `declare continue handler for not found set done = 1;`：定义当没有更多数据时的处理方法，将 done 设置为 1。
+3. `open cur`;：打开游标。
+4. `fetch_loop: loop ... end loop fetch_loop;` 定义循环，从游标中获取数据。
+5. `fetch cur into name;`：从游标中读取一行数据
+6. `if done then leave fetch_loop; end if;`：检查 done 变量，如果为 1，则退出循环。
+7. `close cur;`：关闭游标。
+
+</details>
+
 ### 异常处理
 
 > [!TIP]
@@ -1078,6 +1159,8 @@ EXCEPTION
     -- 异常处理代码
 END TRY;
 ```
+
+````
 
 ### 条件语句
 
@@ -1680,3 +1763,4 @@ read_buffer_size=0
 read_rnd_buffer_size=256K
 sort_buffer_size=256K
 ```
+````
