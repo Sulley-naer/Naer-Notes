@@ -41,6 +41,20 @@
     - [变量](#变量)
     - [游标](#游标)
     - [异常处理](#异常处理)
+    - [条件语句](#条件语句)
+    - [循环语句](#循环语句)
+  - [Mysql Manger Code](#mysql-manger-code)
+    - [索引的创建和管理](#索引的创建和管理)
+    - [用户管理](#用户管理)
+    - [权限管理](#权限管理)
+      - [根用户 管理员权限丢失 方案](#根用户-管理员权限丢失-方案)
+    - [全文搜索](#全文搜索)
+  - [存储引擎（Storage Engines）](#存储引擎storage-engines)
+  - [分区表（Partitioning）](#分区表partitioning)
+  - [字符集和校对规则（Character Sets and Collations）](#字符集和校对规则character-sets-and-collations)
+  - [备份和恢复](#备份和恢复)
+  - [Mysql config](#mysql-config)
+    - [MySQL 配置文件内容](#mysql-配置文件内容)
 
 ## 数据库
 
@@ -1160,8 +1174,6 @@ EXCEPTION
 END TRY;
 ```
 
-````
-
 ### 条件语句
 
 > [!TIP]
@@ -1763,4 +1775,7 @@ read_buffer_size=0
 read_rnd_buffer_size=256K
 sort_buffer_size=256K
 ```
-````
+
+```
+
+```
