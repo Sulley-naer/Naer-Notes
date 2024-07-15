@@ -34,6 +34,7 @@
     - [索引的创建和管理](#索引的创建和管理)
     - [用户管理](#用户管理)
     - [权限管理](#权限管理)
+      - [根用户 管理员权限丢失 方案](#根用户-管理员权限丢失-方案)
     - [全文搜索](#全文搜索)
   - [存储引擎（Storage Engines）](#存储引擎storage-engines)
   - [分区表（Partitioning）](#分区表partitioning)
@@ -496,6 +497,13 @@ SELECT 列1, 列2 FROM 表格名 WHERE 条件 GROUP BY 列1;
 
 -- 查询特定条件的特定列数据并分组后过滤
 SELECT 列1, 列2 FROM 表格名 WHERE 条件 GROUP BY 列1 HAVING 条件;
+
+-- 指定列去除重复数据 Keyworld: DISTINCT 过滤 重复 过滤去重
+SELECT DISTINCT 列1, 列2 FROM 表格名;
+
+-- 查询列不能重复，并且查询出现次数 ，并定义别名和排序
+select DISTINCT 列名,count(必须为分组列) as 别名 from 表格 group by 分组列 order by count --自定义排序列名 desc 降序 默认升序: asc;
+
 ```
 
 ### 聚合函数
@@ -863,6 +871,7 @@ SELECT SHA1('字符串');   -- SHA1 加密
 
 
 -- 数学函数
+SELECT (列 * 2) --直接计算
 SELECT ABS(数字);      -- 绝对值
 SELECT CEIL(数字);      -- 向上取整
 SELECT FLOOR(数字);     -- 向下取整
@@ -1244,6 +1253,15 @@ DROP USER '账号'@'主机';
 ```sql
 -- 修改用户
 ALTER USER '账号'@'主机' IDENTIFIED BY '新密码';
+-- 修改用户 Host
+ALTER USER '账号'@'主机' IDENTIFIED BY '新密码' HOST '192.168.1.1';
+```
+
+- 查看用户
+
+```sql
+-- 查看所有用户
+SELECT Host,User FROM mysql.user;
 ```
 
 - 授权和权限管理
@@ -1261,14 +1279,17 @@ ALTER USER '账号'@'主机' IDENTIFIED BY '新密码';
 -- 也可以直接用select update delete insert等语句来处理
 update mysql.user set host ='%' where user='user1';
 
+-- 修改用户密码
+ALTER USER '账号'@'主机' IDENTIFIED BY '新密码';
+
 --查看所有用户 主要需查看就是 host 字段 其他均为权限信息
 select Host,user from mysql.user;
-
--- 同理使用增删改查语句就行
 
 -- 刷新权限
 FLUSH PRIVILEGES;
 ```
+
+无法使用[错误解决](#根用户-管理员权限丢失-方案)
 
 - 示例
 
@@ -1288,6 +1309,11 @@ REVOKE INSERT ON db1.table1 FROM '张三'@'localhost';
 -- 修改用户密码
 ALTER USER '张三'@'localhost' IDENTIFIED BY '新密码456';
 
+-- 修改用户 Host
+ALTER USER '张三'@'localhost' IDENTIFIED BY '新密码456' HOST '192.168.1.1';
+
+-- 查看所有用户 主要需查看就是 host 字段 其他均为权限信息
+select Host,user from mysql.user;
 ```
 
 ### 权限管理
@@ -1306,6 +1332,17 @@ GRANT ALL PRIVILEGES ON 数据库名.* TO '账号'@'主机';
 
 -- 授权给用户特定数据库特定表的特定权限
 GRANT 权限列表 ON 数据库名.表格名 TO '账号'@'主机';
+```
+
+- 无法使用
+
+#### 根用户 管理员权限丢失 [方案](https://blog.csdn.net/hualidezhen/article/details/116998498)
+
+```sql
+-- 回复根用户 权限 使用 workbench 登录mysql 输入以下命令
+use mysql
+select * from user -- 在查询窗口自行将所有 N 的改为 Y
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 ```
 
 - 撤销权限
@@ -1352,6 +1389,9 @@ REVOKE INSERT ON db1.table1 FROM '张三'@'localhost';
 
 -- 修改用户密码
 ALTER USER '张三'@'localhost' IDENTIFIED BY '新密码456';
+
+-- 修改用户 host
+ALTER USER '张三'@'localhost' IDENTIFIED BY '新密码456' HOST '192.168.1.1';
 ```
 
 ### 全文搜索
