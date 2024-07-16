@@ -205,7 +205,14 @@ app.listen(3000, () => {
 
 ### 全局中间件
 
-中间件需在路由之前注册
+> [!CAUTION]
+> 中间件需在路由之前注册 中间件需在路由之前注册 中间件需在路由之前注册
+>
+> 路由中间件需在接口最开始注册 路由中间件需在接口最开始注册 路由中间件需在接口最开始注册
+>
+> 中间件必须确保是在所有 api 完成后声明，除非你就是想让某些接口无法使用中间件，挂在路由上就不能这样弄
+>
+> 中间件用 try ! 中间件用 try ! 中间件用 try ! TS next 绑定 NextFunction 类型！
 
 ```typescript
 const express = require("express");
@@ -233,6 +240,9 @@ app.get("/", (req, res) => {
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
+
+// 路由在端口开启后挂载！！！
+app.user(router);
 ```
 
 - 多个中间件可以串行执行，也可以并行执行
@@ -275,7 +285,8 @@ app.get("/api", middleware, (req, res) => {
 
 ### Router 中间件 | 接近全局|应用级中间件
 
-中间件需在路由之前注册
+> [!CAUTION]
+> 中间件需在路由之前注册
 
 ```typescript
 const express = require("express");
@@ -408,18 +419,39 @@ app.post("/test", (req, res) => {
     res.send(JSON.parse(bf));
   });
 });
+
+//自定义中间件| 前往记得 next ts 标注 NextFunction 不给它编译后说它不是一个函数！
+router.use((req: any, res: any, next: NextFunction) => {
+  let body = "";
+
+  req.on("data", (chunk: Buffer) => {
+    body += chunk.toString();
+  });
+
+  req.on("end", () => {
+    //中间件用 trt 防止异常 中断服务！
+    try {
+      const msg = JSON.parse(body);
+      console.log(msg);
+      req.body = msg;
+      next();
+    } catch (error) {
+      res.status(400).send({ error: "Invalid JSON data" });
+    }
+  });
+});
 ```
 
 发送测试
 
-````typescript
+```typescript
 fetch("/test", {
   method: "POST",
   headers: {
-  'Content-Type': 'application/json; charset=UTF-8',
+    "Content-Type": "application/json; charset=UTF-8",
   },
-  body: JSON.stringify(obj) // 序列化对象为 JSON 字符串
-})
+  body: JSON.stringify(obj), // 序列化对象为 JSON 字符串
+});
 ```
 
 利用自定义中间件实现解析 json 请求体
@@ -446,7 +478,7 @@ app.use((req, res, next) => {
     next();
   });
 });
-````
+```
 
 封装为 package
 

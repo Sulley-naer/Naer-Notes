@@ -42,7 +42,7 @@ FLUSH PRIVILEGES;
 update mysql.user set host ='%' where user='user1';
 ```
 
-## 连接数据库
+## 连接[数据库](../Mysql/Get%20started.md)
 
 ```javascript
 const mysql = require("mysql2/promise");
@@ -67,3 +67,5 @@ app.post("/api/all", async (req, res) => {
   res.json(rows);
 });
 ```
+
+[服务端状态管理]()
