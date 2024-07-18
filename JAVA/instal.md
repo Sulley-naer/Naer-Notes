@@ -21,4 +21,27 @@ public class hello {
 }
 ```
 
-通过命令行运行 javac hello.java 编译代码，然后 java hello 运行程序。
+通过命令行运行 javac hello.java 编译代码，然后 java hello 运行程序。 还有
+
+## JDK 工具集合
+
+- javac：编译 Java 源文件
+- java：运行 Java 类
+- javadoc：生成 Java API 文档
+- jar：创建和管理 Java 归档文件
+- jdb：Java 调试器
+- jconsole：Java 监视和管理工具
+- jvisualvm：Java 性能分析工具
+- appletviewer：运行 Java Applet
+- extcheck：检查 Java 扩展
+- idlj：Java IDL 编译器
+- jarsigner：签名和验证 Java 归档文件
+- javah：生成 JNI 头文件
+- javap：反汇编 Java 类文件
+- java-rmi.cgi：远程方法调用工具
+- jps：Java 进程状态工具
+- jinfo：Java 系统信息工具
+- jmap：Java 内存映像工具
+- jstack：Java 堆栈跟踪工具
+- jstat：Java 性能监控工具
+- jdeps：Java 类依赖分析工具

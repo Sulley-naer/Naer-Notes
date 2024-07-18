@@ -1,4 +1,5 @@
 {
   "cSpell.words": ["abbb", "baaa", "devconfig", "prodconfig"],
-  "cSpell.ignoreWords": ["INNODB", "myisam", "mysqld", "sercure"]
+  "cSpell.ignoreWords": ["INNODB", "myisam", "mysqld", "sercure"],
+  "cSpell.enableFiletypes": ["java"]
 }
