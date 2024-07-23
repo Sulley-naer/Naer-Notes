@@ -449,16 +449,12 @@ Java 语言支持以下数组：
 
 1. 静态数组
 
-   ```java
-   int[] arr = new int[10];     // 声明一个长度为 10 的 int 数组
-   ```
-
-2. 动态数组
+   > 直接打印多层数组是内存地址 **`Arrays.deepToString(arr)`**
+   >
+   > 访问修改指定位置就需要 **`arr[i][j]`**
 
    ```java
    int[] arr = new int[10];     // 声明一个长度为 10 的 int 数组
-   arr[0] = 10;                 // 给数组的第一个元素赋值
-   arr[9] = 20;                 // 给数组的最后一个元素赋值
    ```
 
    ```java
@@ -470,7 +466,14 @@ Java 语言支持以下数组：
    ```
 
    ```java
-   int[][] arr = new int[2][3];    // 声明一个 2 行 3 列的 int 数组
+   int[][] arr = new int[2][3];    // 声明一个二维数组，第一维长度为 2，第二维长度为 唯就是数组的层数
+   // 不好理解你就 int[row][column] = {{1, 2, 3}, {4, 5, 6}}; 第一个括号是行数，第二个括号是列数
+   [
+    [1],[2],[3]
+   ],
+   [
+    [4],[5],[6]
+   ]
    ```
 
    ```java
@@ -486,6 +489,33 @@ Java 语言支持以下数组：
    for (int i = 0; i < arr.length; i++) {
        arr[i] = i * 2;           // 给数组的每个元素赋值
    }
+   ```
+
+2. 动态数组
+
+   ```java
+    import java.util.ArrayList;
+    ArrayList<Integer> list = new ArrayList<Integer>();
+    list.add(10);
+    int[] arr = new int[list.size()];
+    for (int i = 0; i < arr.length; i++) {
+        arr[i] = list.get(i);
+    }
+    //不能在创建时候直接添加内容
+   list.add(); // 向 ArrayList 中添加元素
+   list.get(0); // 访问 ArrayList 中的元素
+   list.remove(0); // 从 ArrayList 中删除元素
+   list.size(); // 获取 ArrayList 中元素的个数
+   list.isEmpty(); // 判断 ArrayList 是否为空
+   list.clear(); // 清空 ArrayList
+   list.contains(obj); // 判断 ArrayList 中是否包含某个元素
+   list.set(0, obj); // 修改 ArrayList 中某个元素的值
+   list.subList(0, 2); // 获取 ArrayList 的子列表
+   list.toArray(); // 将 ArrayList 转换为数组
+   list.toArray(new Integer[0]); // 将 ArrayList 转换为指定类型的数组
+   list.iterator(); // 获取 ArrayList 的迭代器
+   list.listIterator(); // 获取 ArrayList 的列表迭代器
+   list.forEach(System.out::println); // 遍历 ArrayList 的元素
    ```
 
 </details>
