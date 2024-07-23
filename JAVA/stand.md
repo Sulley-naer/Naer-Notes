@@ -2,9 +2,14 @@
 
 - [Java 基础语法](#java-基础语法)
   - [入口函数](#入口函数)
+  - [项目构建](#项目构建)
+    - [Java 语言的构建工具有两种：Maven 和 Gradle](#java-语言的构建工具有两种maven-和-gradle)
+    - [Project](#project)
+    - [Package「项目结构」](#package项目结构)
   - [目录结构规范](#目录结构规范)
-    - [构建工具](#构建工具)
   - [高级语法相关 类库 |](#高级语法相关-类库-)
+  - [Class](#class)
+    - [语法](#语法)
   - [1. 变量](#1-变量)
   - [2. 数据类型 | Model](#2-数据类型--model)
   - [3. 运算符](#3-运算符)
@@ -54,6 +59,44 @@ public class Main {
 
 > 使用 javac 命令编译 Java 源文件，并使用 java 命令运行 Java 程序。
 
+## 项目构建
+
+> [!TIP]
+> 创建项目的基础，Java 编辑器请选择 Idea
+>
+> IDea 菜单栏>文件>项目结构>模块中勾选想要的项目预设
+
+### Java 语言的构建工具有两种：Maven 和 Gradle
+
+- Maven：Apache Maven 是 Java 项目管理工具，它可以自动化构建、依赖管理、项目信息管理等。
+- Gradle：Gradle 是基于 Groovy 的项目自动化构建工具，它可以简化构建过程，提升构建效率。
+
+### Project
+
+> [!TIP]
+> Idea 会自动打开上次的项目，可去菜单栏点击关闭项目，打开项目目录
+>
+> 管理你的项目或者添加项目，它自带一些模板快速构建项目录 插件可添加，也可以创建空目录自己创建项目。
+>
+> IDea 可以在注释首字母输入 **TIP** 再通过左测行位置点击即可切换 具有 UI 的注释
+>
+> ![comment](./image/UICommont.png)
+
+### Package「项目结构」
+
+> [!TIP]
+> 包是 Java 语言的组织结构，它是 Java 项目的基本单元、通常存放于 src 目录下。
+>
+> 项目结构：
+>
+> IDea 中直接右键你所需要创建的目录下，新建>新建软件包，注意包的命名通过 `.` 分割 每一个 `.` 代表一个层级，它会不同层级生成不同的目录。三层就有三个文件夹
+
+包的命名规则：
+
+1. 包名只能包含字母、数字、下划线（\_）、美元符号（$）
+2. 包名不能以数字开头
+3. 包名不能是关键字
+
 ## 目录结构规范
 
 > [!TIP]
@@ -85,7 +128,7 @@ my-java-project/
 
 1. main/: 主源代码
    1. java/: Java 源代码
-      1. com/example/: 包目录，对应包名 `com.example`
+      1. com/example/: 包目录，对应包名 `com.example` 命名通常是域名反写
          1. App.java: 主应用程序类
          2. utils/: 工具类包，对应包名 `com.example.utils`
             1. Utils.java: 工具类
@@ -99,16 +142,144 @@ my-java-project/
 6. docs/: 文档目录
 7. pom.xml 或 build.gradle: 项目构建工具配置文件（分别用于 Maven 或 Gradle）。
 
-### 构建工具
-
-Java 语言的构建工具有两种：Maven 和 Gradle。
-
-- Maven：Apache Maven 是 Java 项目管理工具，它可以自动化构建、依赖管理、项目信息管理等。
-- Gradle：Gradle 是基于 Groovy 的项目自动化构建工具，它可以简化构建过程，提升构建效率。
-
 ## 高级语法相关 [类库](./Class.md) |
 
+## Class
+
+> [!TIP]
+> 类是 Java 语言的基本单位，它包含成员变量、方法、构造器、访问控制符、继承、多态等。
+
+类（Class）：模板，用来创建对象的蓝图。
+
+类是 Java 语言的基本单位，它包含成员变量、方法、构造器、访问控制符、继承、多态等。
+
+类可以包含以下元素：
+
+- 成员变量：类中定义的变量，用于存储数据。
+- 方法：类中定义的函数，用于实现功能。
+- 构造器：类中用于创建对象的函数。
+- 访问控制符：public、private、protected。
+- 继承：一个类可以从另一个类继承所有其成员变量和方法。
+- 多态：同一个方法可以作用于不同的对象，根据对象的实际类型调用不同的方法。
+- 封装：将数据和方法包装在一起，隐藏内部实现细节。
+
+### 语法
+
+<details>
+<summary>类语法</summary>
+
+1. 构造器（Constructor）
+
+   ```java
+   public class Person {
+       private String name;
+       private int age;
+       private String gender;
+
+       public Person(String name, int age, String gender) {
+           this.name = name;
+           this.age = age;
+           this.gender = gender;
+       }
+   }
+   ```
+
+2. 方法（Method）
+
+   ```java
+   public class Person {
+       private String name;
+       private int age;
+       private String gender;
+
+       public void sayHello() {
+           System.out.println("Hello, my name is " + name + " and I am " + age + " years old.");
+       }
+   }
+   ```
+
+3. 成员变量（Field）
+
+   ```java
+   public class Person {
+       private String name;
+       private int age;
+       private String gender;
+   }
+   ```
+
+4. 访问控制符（Access Modifier）
+
+   ```java
+   public class Person {
+       public String name;    // public 修饰的变量可以被任何地方访问
+       private int age;       // private 修饰的变量只能在本类中访问
+       protected String gender;   // protected 修饰的变量可以被本类和子类访问
+   }
+   ```
+
+5. 继承（Inheritance）
+
+   ```java
+   public class Animal {
+       public void eat() {
+           System.out.println("Animal is eating.");
+       }
+   }
+
+   public class Dog extends Animal {
+       public void bark() {
+           System.out.println("Dog is barking.");
+       }
+   }
+
+   public class Cat extends Animal {
+       public void meow() {
+           System.out.println("Cat is meowing.");
+       }
+   }
+   ```
+
+6. 多态（Polymorphism）
+
+   ```java
+   public class Animal {
+       public void eat() {
+           System.out.println("Animal is eating.");
+       }
+   }
+
+   public class Dog extends Animal {
+       public void bark() {
+           System.out.println("Dog is barking.");
+       }
+   }
+
+   public class Cat extends Animal {
+       public void meow() {
+           System.out.println("Cat is meowing.");
+       }
+   }
+
+   public class Main {
+       public static void main(String[] args) {
+           Animal animal = new Dog();
+           animal.eat();
+           ((Dog) animal).bark();
+
+           Animal cat = new Cat();
+           cat.eat();
+           ((Cat) cat).meow();
+       }
+   }
+   ```
+
+</details>
+
 ## 1. 变量
+
+<details>
+<summary>变量语法</summary>
 
 变量是程序中用于存储数据的占位符，它可以用来保存各种数据类型的值。
 
@@ -139,8 +310,12 @@ Java 语言支持以下运算符：
 - 位运算符：&、|、^、~、<<、>>、>>>
 - 条件运算符：?:
 
+</details>
+
 <details>
 <summary>更多运算符</summary>
+
+- Java 进行小数运算结果不是精确的，而是近似值任意出现偏差，尽量不要使用浮点型进行精确运算。
 
 ```java
 // 三元运算符
@@ -169,6 +344,9 @@ String str = "Hello" * 3;
 </details>
 
 ## 4. 控制语句
+
+<details>
+<summary>控制语句语法</summary>
 
 Java 语言支持以下控制语句：
 
@@ -260,7 +438,12 @@ Java 语言支持以下控制语句：
    }
    ```
 
+</details>
+
 ## 5. 数组
+
+<details>
+<summary>数组语法</summary>
 
 Java 语言支持以下数组：
 
@@ -305,6 +488,8 @@ Java 语言支持以下数组：
    }
    ```
 
+</details>
+
 ## 6. 类与对象
 
 - 类（Class）：模板，用来创建对象的蓝图。
@@ -316,6 +501,9 @@ Java 语言支持以下数组：
 - 继承（Inheritance）：一个类可以从另一个类继承所有其成员变量和方法。
 - 多态（Polymorphism）：同一个方法可以作用于不同的对象，根据对象的实际类型调用不同的方法。
 - 封装（Encapsulation）：将数据和方法包装在一起，隐藏内部实现细节。
+
+<details>
+<summary>类与对象语法</summary>
 
 1. 创建类
 
@@ -405,6 +593,8 @@ Java 语言支持以下数组：
        }
    }
    ```
+
+</details>
 
 ## 7. 接口与抽象类
 
