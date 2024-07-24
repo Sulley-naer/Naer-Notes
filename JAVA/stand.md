@@ -455,6 +455,7 @@ Java 语言支持以下数组：
 
    ```java
    int[] arr = new int[10];     // 声明一个长度为 10 的 int 数组
+   int[] arr = new int[5-1];     // 声明一个长度为 5-1 = 4 的 int 数组
    ```
 
    ```java
