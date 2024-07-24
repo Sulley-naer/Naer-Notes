@@ -567,13 +567,37 @@ Java 语言支持以下数组：
    person.sayHello();
    ```
 
-4. 访问成员变量
+4. 方法重载
+
+   ```java
+   public class Person {
+    private String name;
+    private int age;
+    private String gender;
+
+    public Person(String name, int age, String gender) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
+
+    public void sayHello() {
+        System.out.println("Hello, my name is " + name + " and I am " + age + " years old.");
+    }
+    // 方法重载
+    public void sayHello(String name) {
+        System.out.println("Hello, my name is " + name + " and I am " + age + " years old.");
+    }
+   }
+   ```
+
+5. 访问成员变量
 
    ```java
    System.out.println(person.name);
    ```
 
-5. 继承
+6. 继承
 
    ```java
    public class Student extends Person {
@@ -590,7 +614,7 @@ Java 语言支持以下数组：
    }
    ```
 
-6. 多态
+7. 多态
 
    ```java
    public class Animal {
@@ -627,6 +651,75 @@ Java 语言支持以下数组：
 </details>
 
 ## 7. 接口与抽象类
+
+> [!TIP]
+> 接口（Interface）：一种抽象的类型，它定义了某一类事物的行为，但是不提供具体的实现。
+>
+> 抽象类（Abstract Class）：一种类，它不能实例化，只能作为父类被继承，可以包含抽象方法和具体方法。
+
+<details>
+<summary>接口与抽象类语法</summary>
+
+1. 接口
+
+   ```java
+   public interface Animal {
+       void eat();
+   }
+   ```
+
+2. 抽象类
+
+   ```java
+   public abstract class Person {
+       private String name;
+       private int age;
+       private String gender;
+
+       public Person(String name, int age, String gender) {
+           this.name = name;
+           this.age = age;
+           this.gender = gender;
+       }
+
+       public abstract void sayHello();
+   }
+   ```
+
+3. 实现接口
+
+   ```java
+   public class Dog implements Animal {
+       public void eat() {
+           System.out.println("Dog is eating.");
+       }
+   }
+   ```
+
+4. 继承抽象类
+
+   - super() 方法调用父类的构造器，并初始化父类的成员变量。super 调用继承抽象类
+
+   ```java
+      public class Student extends Person {
+         private String major;
+
+         public Student(String name, int age, String gender, String major) {
+             super(name, age, gender);
+             this.major = major;
+         }
+
+         public void study() {
+             System.out.println(name + " is studying in " + major + ".");
+         }
+
+         public void sayHello() {
+             System.out.println("Hello, my name is " + name + " and I am " + age + " years old.");
+         }
+      }
+   ```
+
+</details>
 
 ## 8. 异常处理
 
