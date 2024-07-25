@@ -519,6 +519,19 @@ Java 语言支持以下数组：
    list.forEach(System.out::println); // 遍历 ArrayList 的元素
    ```
 
+   -二维动态数组
+
+   ```java
+    ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+    ArrayList<Integer> list1 = new ArrayList<>();
+    list1.add(1);
+    ArrayList<Integer> list2 = new ArrayList<>();
+    list2.add(2);
+    list.add(list1);
+    list.add(list2);
+    System.out.println(list);
+   ```
+
 </details>
 
 ## 6. 类与对象
@@ -536,10 +549,16 @@ Java 语言支持以下数组：
 <details>
 <summary>类与对象语法</summary>
 
+> [!TIP]
+> 注意！Java 语言是强类型语言，参数类型与返回值类型必须一致。并且，方法不能重载，也就是说，一个类中不能有两个同名的方法。
+>
+> 并且 Java 只允许一个文件中只有一个 public 类，并且这个类必须与文件名相同。还有 Java 不能多继承，只能单继承。
+
 1. 创建类
 
    ```java
    public class Person {
+       //成员变量/属性
        private String name;
        private int age;
        private String gender;
@@ -549,8 +568,9 @@ Java 语言支持以下数组：
            this.age = age;
            this.gender = gender;
        }
-
+       //方法不要给静态 static 关键字，实例化对象不能调用静态方法
        public void sayHello() {
+        /* public 公共方法 private 私有方法 protected 保护方法 */
            System.out.println("Hello, my name is " + name + " and I am " + age + " years old.");
        }
    }
@@ -660,6 +680,9 @@ Java 语言支持以下数组：
 
 <details>
 <summary>接口与抽象类语法</summary>
+
+> [!CAUTION]
+> Java 8 开始支持接口的默认方法和静态方法。 Java 不能多继承，只能单继承！。Java 9 开始支持**模块化**和**注解**<sup>`告诉方法参数类型…`</sup>。
 
 1. 接口
 
