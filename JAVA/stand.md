@@ -554,14 +554,19 @@ Java 语言支持以下数组：
 >
 > 并且 Java 只允许一个文件中只有一个 public 类，并且这个类必须与文件名相同。还有 Java 不能多继承，只能单继承。
 
-1. 创建类
+1. 属性
+
+   > [!CAUTION]
+   > 请务必遵守「属性尽量不要用 public」的原则，因为 public 属性会被其他类访问，可能导致被修改数据，后续 debug 很难排查问题。就按照 pinia 状态管理思想。
 
    ```java
    public class Person {
-       //成员变量/属性
        private String name;
        private int age;
        private String gender;
+      // 属性不能像C# 一样 {get;set;}
+
+      //idea可直接右键生成[alt+insert]构造器和get/set方法都能自动生成
 
        public Person(String name, int age, String gender) {
            this.name = name;

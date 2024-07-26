@@ -1,5 +1,7 @@
 # Java 标准库
 
+- [官方文档](./jdk-9_汉化版.CHM) [在线阅读](https://java.cunzaima.cn/jdk21/doc-zh/api/index.html)
+
 - [Java 标准库](#java-标准库)
   - [定义类](#定义类)
   - [导入类 | Java 类库包](#导入类--java-类库包)
