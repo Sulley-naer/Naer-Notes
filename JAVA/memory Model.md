@@ -9,7 +9,7 @@
   - [栈帧「stack frame」](#栈帧stack-frame)
   - [堆「Heap」](#堆heap)
   - [方法区/元空间「Method Area/Metadata Area」](#方法区元空间method-areametadata-area)
-  - [本地方法区](#本地方法区)
+  - [本地方法区 「Native Method Area」](#本地方法区-native-method-area)
   - [寄存器 「Registers」](#寄存器-registers)
   - [程序计数器 「Program Counter」](#程序计数器-program-counter)
   - [直接内存映射 「Direct Memory Mapping」](#直接内存映射-direct-memory-mapping)
@@ -148,7 +148,7 @@ Java 内存模型规定，变量的创建、分配、读写、释放等操作必
 
 `-XX:PermSize`：设置方法区初始分配空间
 
-## 本地方法区
+## 本地方法区 「Native Method Area」
 
 > [!NOTE]
 > 本地方法区是 JVM 所管理的内存中第三大块，用于存放 native 方法栈。
