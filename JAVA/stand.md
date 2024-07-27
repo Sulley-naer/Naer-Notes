@@ -575,11 +575,12 @@ Java 语言支持以下数组：
       //idea可直接右键生成[alt+insert]构造器和get/set方法都能自动生成
 
        public Person(String name, int age, String gender) {
+           //this. 是获取当前对象的引用地址，也是就是 在堆中的地址。默认拿去栈帧中的数据
            this.name = name;
            this.age = age;
            this.gender = gender;
        }
-       //方法不要给静态 static 关键字，实例化对象不能调用静态方法
+       //static 静态方法 不用实例化存在方法区
        public void sayHello() {
         /* public 公共方法 private 私有方法 protected 保护方法 */
            System.out.println("Hello, my name is " + name + " and I am " + age + " years old.");
