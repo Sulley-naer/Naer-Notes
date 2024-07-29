@@ -80,7 +80,7 @@ public class Main {
 >
 > IDea 可以在注释首字母输入 **TIP** 再通过左测行位置点击即可切换 具有 UI 的注释
 >
-> ![comment](./image/UICommont.png)
+> ![comment](./images/UICommont.png)
 
 ### Package「项目结构」
 
