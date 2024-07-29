@@ -86,3 +86,15 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 | Alt + A           | 显示智能操作   |
 | Ctrl+ I           | 激活代码提示   |
 | Ctrl+ Alt + S     | 代码格式化    |
+
+## 拓展
+
+1. Better HighLights「智能高光」
+
+```java
+//TODO IDea 自带待做
+// ! 注意
+// ? 提示
+// Region 代码块 开始 
+// End 代码库 结束
+```
