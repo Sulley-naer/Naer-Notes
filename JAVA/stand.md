@@ -458,6 +458,8 @@ Java 语言支持以下数组：
    > 直接打印多层数组是内存地址 **`Arrays.deepToString(arr)`**
    >
    > 访问修改指定位置就需要 **`arr[i][j]`**
+   >
+   > 下表`-1`就是设置空值，Java 逻辑处理无法直接使用 null;
 
    ```java
    int[] arr = new int[10];     // 声明一个长度为 10 的 int 数组

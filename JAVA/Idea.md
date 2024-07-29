@@ -84,8 +84,9 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 | Alt + Num5        | 取消拆分     |
 | Alt + Shift +Num5 | 取消全部拆分   |
 | Alt + A           | 显示智能操作   |
-| Ctrl+ I           | 激活代码提示   |
-| Ctrl+ Alt + S     | 代码格式化    |
+| Ctrl + I          | 激活代码提示   |
+| Ctrl + Alt + S    | 代码格式化    |
+| Ctrl + Alt + t    | 代码包裹方法   |
 
 ## 拓展
 
