@@ -52,13 +52,13 @@ final String str = new String(bytes);
      }
    ```
 
-    - 方法返回值查看
+   - 方法返回值查看
 
-    1. 一直 Ctrl + 左键 去看 return 对象 基本上是套娃方法 继续转到方法声明处
-    2. 右键>转到>实现！选择最符合的方法类型 再次重复上面 返回方法跳转查看
-    3. `return new String(Arrays.copyOfRange(val, index, index + len), LATIN1);`
-    4. 最后应该能看到熟悉的没有方法的代码了，它使用了 new string 就能知道了
-    5. 它返回的字符串是 New String 对象，所以我们直接使用 "value" 判断无法通过 它返回的是堆中的地址
+   1. 一直 Ctrl + 左键 去看 return 对象 基本上是套娃方法 继续转到方法声明处
+   2. 右键>转到>实现！选择最符合的方法类型 再次重复上面 返回方法跳转查看
+   3. `return new String(Arrays.copyOfRange(val, index, index + len), LATIN1);`
+   4. 最后应该能看到熟悉的没有方法的代码了，它使用了 new string 就能知道了
+   5. 它返回的字符串是 New String 对象，所以我们直接使用 "value" 判断无法通过 它返回的是堆中的地址
 
 2. 索引
 
@@ -147,11 +147,11 @@ final String str = new String(bytes);
 import java.util.StringJoiner;
 
 public static void main(String[] args) {
-    StringJoiner Box = new StringJoiner("-", "[", "]");//三个参数：连接词，预加词，追加词
-    // 添加了A和B 输出：[a-b]
-    StringJoiner Box = new StringJoiner("=");
-    Box.add(A).add("1");
-    System.out.println(Box);
+   StringJoiner Box = new StringJoiner("-", "[", "]");//三个参数：连接词，预加词，追加词
+   // 添加了A和B 输出：[a-b]
+   StringJoiner Box = new StringJoiner("=");
+   Box.add(A).add("1");
+   System.out.println(Box);
 }
 ```
 
@@ -224,18 +224,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public static void main(String[] args) {
-    String number;
-    number = "15023389356";
+   String number;
+   number = "15023389356";
 
-    Pattern r = Pattern.compile("^(.{3})(.{5})(.{3})");
-    Matcher m = r.matcher(number);
+   Pattern r = Pattern.compile("^(.{3})(.{5})(.{3})");
+   Matcher m = r.matcher(number);
 
-    while (m.find()) {
-        System.out.println(m.group(0)); // 全部结果，没打组的返回对象
-        System.out.println(m.group(1));
-        System.out.println(m.group(2));
-        System.out.println(m.group(3));
-    }
+   while (m.find()) {
+      System.out.println(m.group(0)); // 全部结果，没打组的返回对象
+      System.out.println(m.group(1));
+      System.out.println(m.group(2));
+      System.out.println(m.group(3));
+   }
 }
 ```
 
@@ -247,18 +247,22 @@ public static void main(String[] args) {
 //编译时栈帧会查看，与否有变量参与计算，无则直接合并存储结果
 public static void main(String[] args) {
    //1. 字符串连接，直接计算
-    String st1 = "1+1+1+1";
-    //2. 变量连接，栈帧调用堆
-    String st2 = st1 + "1";
+   String st1 = "1+1+1+1";
+   //2. 变量连接，栈帧调用堆
+   String st2 = st1 + "1";
 }
 ```
 
 1. 字符串连接
-    1. 栈帧发现有变量参与计算，就会去调用 stringBuilder类
-    2. 实例化SB类，再调用addend方法添加内存，再存储它的计算结果。
-    3. 可去string》toString》newString 源码中查看，返回的结果
-    4. JDK8 之后 性能优化，会在调用方法前，获取栈帧的值，判断长度，小则直接连接，省去循环
+   1. 栈帧发现有变量参与计算，就会去调用 stringBuilder类
+   2. 实例化SB类，再调用addend方法添加内存，再存储它的计算结果。
+   3. 可去string》toString》newString 源码中查看，返回的结果
+   4. JDK8 之后 性能优化，会在调用方法前，获取栈帧的值，判断长度，小则直接连接，省去循环
 2. 变量连接
    1. 结论：JDK8前无论长度都会创建 "+" 个sb对象,造成性能资源浪费
    2. 而在JDK8时，它加入了字符长度判断，还会连接时先获取变量判断，大于则创建SB
    3. 所以：JDK8需连接直接用SB，JDK8 连接的字符不要太多，造成判断的性能浪费，还可能创建多个SB
+3. StringBuild
+   1. Sb在添加的内容实际是一个数组，数组中有长度，默认为16字节
+   2. 在添加新内容，发现数组长度不够了，它会尝试扩容 默认增长 `*2+2`
+   3. 如果增长之后长度还是不够，如果长度依然不够它就会以 增长内容的长度为准
