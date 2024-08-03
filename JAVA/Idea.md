@@ -157,4 +157,5 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
       1. 效果图: <br>
          <img alt="puml" src="./images/Idea/Idea-1722681179115.png" width="300"/>
       2. [官网](https://plantuml.com/zh/running) [文献](https://plantuml.com/zh/guide)
-   
+
+[//]: # (5. Lombok 「隐藏Get、set」)
