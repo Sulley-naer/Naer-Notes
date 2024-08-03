@@ -72,30 +72,74 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 
 ## 我的快捷键
 
-| 快捷键               | 功能       |
-|-------------------|----------|
-| Alt + b           | 运行       |
-| Alt + D           | 调试       |
-| Ctrl + Q          | 切换行断点    |
-| Alt + G           | SQL 语句运行 |
-| Alt + Enter       | Idea 生成  |
-| Alt + Num6        | 向右拆分     |
-| Alt + Num2        | 向下拆分     |
-| Alt + Num5        | 取消拆分     |
-| Alt + Shift +Num5 | 取消全部拆分   |
-| Alt + A           | 显示智能操作   |
-| Ctrl + I          | 激活代码提示   |
-| Ctrl + Alt + S    | 代码格式化    |
-| Ctrl + Alt + t    | 代码包裹方法   |
+| 快捷键                             | 功能       |
+|---------------------------------|----------|
+| <kbd> Alt + b          </kdb>   | 运行       |
+| <kbd> Alt + D          </kdb>   | 调试       |
+| <kbd> Ctrl + Q         </kdb>   | 切换行断点    |
+| <kbd> Alt + G          </kdb>   | SQL 语句运行 |
+| <kbd> Alt + Enter      </kdb>   | Idea 生成  |
+| <kbd> Alt + Num6       </kdb>   | 向右拆分     |
+| <kbd> Alt + Num2       </kdb>   | 向下拆分     |
+| <kbd> Alt + Num5       </kdb>   | 取消拆分     |
+| <kbd> Alt + Shift +Num5</kdb>   | 取消全部拆分   |
+| <kbd> Alt + A          </kdb>   | 显示智能操作   |
+| <kbd> Ctrl + I         </kdb>   | 激活代码提示   |
+| <kbd> Ctrl + Alt + S   </kdb>   | 代码格式化    |
+| <kbd> Ctrl + Alt + T   </kdb>   | 代码包裹方式   |
+| <kbd> Ctrl + Alt + t   </kdb>   | 代码包围方法   |
+| <kbd> Ctrl + Shift + v   </kdb> | MD文件切换预览 |
+| <kbd> Ctrl + Shift + E   </kdb> | MD文件切换编辑 |
 
 ## 拓展
 
 1. Better HighLights「智能高光」
 
-```java
-//TODO IDea 自带待做
-// ! 注意
-// ? 提示
-// Region 代码块 开始 
-// End 代码库 结束
-```
+   ```java
+   //TODO IDea 自带待做
+   // ! 注意
+   // ? 提示
+   // Region 代码块 开始 
+   // End 代码库 结束
+   ```
+
+2. Rainbow Brackets「多彩括号」
+
+   ```java
+   public static void main(String[] args) {
+       try {
+           System.out.println(test());
+       } catch (Exception e) {
+           System.out.println(e);
+       }
+   }
+   
+   public static String test() {
+       return "cg";
+   }
+   ```
+
+   快捷键:
+
+   | 快捷键                      | 功能   |
+   |--------------------------|------|
+   | <kbd>Ctrl + MRight</kdb> | 局部高亮 |
+   | <kbd>Alt + MRight</kdb>  | 专注模式 |
+   | <kbd>ESC</kdb>           | 普通模式 |
+
+   局部高亮:<br>
+   <img alt="局部高亮" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/5/15/17216ed4c58a5dac~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp" width="300"/>
+
+   专注模式：<br>
+   <img alt="专注模式" src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/5/15/17216ed7a28cf8a7~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp" width="300"/>
+
+3. Translation「翻译工具」
+
+   | 快捷键                         | 功能   |
+   |-----------------------------|------|
+   | <kdb>Ctrl + Shift + Y</kdb> | 选中翻译 |
+   | <kdb>Ctrl + Shift + X</kdb> | 翻译替换 |
+
+   效果图: <br>
+   <img alt="效果预览" src="./images/Idea/Idea-1722673096162.png" width="300"/>
+   <img alt="效果预览" height="250" src="./images/Idea/Idea-1722673422953.png"/>
