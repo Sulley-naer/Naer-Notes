@@ -17,6 +17,7 @@
   - [5. 数组](#5-数组)
   - [6. 类与对象](#6-类与对象)
   - [7. 接口与抽象类](#7-接口与抽象类)
+    - [适配器模式](#适配器模式)
   - [8. 多态](#8-多态)
   - [常量于静态 『`Final`』 \& 『`Static`』](#常量于静态-final--static)
   - [8. 异常处理](#8-异常处理)
@@ -771,13 +772,26 @@ Java 语言支持以下数组：
       //属性 不写访问修饰符 默认 public static final
       int age;
      //方法 不写访问修饰符 默认 public abstract
-       void eat();
+     void eat();
+
+     //static | default 方法 必须有方法体。静态方法由于 存放方法区，必须使用 接口 + 静态方法 调用。
+      static void sleep() {
+         //static JDK 8 开始支持
+         System.out.println("default 方法 是由接口定义 并且不用实现 而且自动继承 类可直接调用.");
+      }
+
+    //private 方法 是为 default 方法提供的方法，将 default 方法中的重复代码抽离出来。
+    //仅供自己使用，虚拟表不会出现。不会被实现类继承。静态方法 想调用 同样加上 static
+    private void run() {
+    //JDK 9 开始支持 没必要加 default 私有方法 不能被继承
+        System.out.println("私有方法 默认 public 不能被继承 不能被重写 不能被调用。");
+    }
    }
 
    //接口可以继承接口、继承了也必须实现接口的方法。
-   public interface Flyable extends Animal {
+    public interface Flyable extends Animal {
        void fly();
-   }
+    }
    ```
 
 2. 抽象类
@@ -831,6 +845,70 @@ Java 语言支持以下数组：
              System.out.println("Hello, my name is " + name + " and I am " + age + " years old.");
          }
       }
+   ```
+
+</details>
+
+### 适配器模式
+
+> [!TIP]
+> 适配器模式（Adapter Pattern）：将一个类的接口转换成客户希望的另一个接口。适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。
+
+- 适配器模式的作用：
+  - 兼容性：适配器模式可以使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。
+  - 复用性：适配器模式可以将一个类的接口转换成客户希望的另一个接口，从而使得原本因接口不兼容而不能一起工作的两个类可以一起工作。
+  - 开放封闭原则：开放封闭原则是说一个软件实体应该对扩展开放，对修改封闭。通过使用适配器模式，我们可以对原有接口进行扩展，而无需修改原有代码。
+
+<details>
+<summary>适配器模式语法</summary>
+
+> [!TIP]
+> 适配器模式的实现：
+>
+> 1. 定义一个原有接口。
+> 2. 定义一个实现类
+> 3. 调用类，实现适配器
+
+1. 定义一个原有接口
+
+   ```java
+   public interface Sourceable {
+       void method1();
+       void method2();
+       //默认方法，此方法可不实现，但必须声明，实现类自动继承。在接口刚更新时来不及修改实现类使用。
+       default void method3() {
+           System.out.println("This is the default Interface method3.");
+       }
+   }
+   ```
+
+2. 定义一个实现类
+
+   ```java
+   //如果实现了多接口，并且方法|属性相同，且使用了默认方法，必须重新定义方法，否则会报错它不知道该调用哪个方法。
+   public class Adapter implements Sourceable {
+
+       public void method1() {
+           System.out.println("This is the method1 of Adapter.");
+       }
+
+       public void method2() {
+           System.out.println("This is the method2 of Adapter.");
+       }
+   }
+   ```
+
+3. 调用类，实现适配器
+
+   ```java
+   public class Main {
+       public static void main(String[] args) {
+           Sourceable source = new Adapter();   //调用适配器
+           source.method1();
+           source.method2();
+           source.method3();
+       }
+   }
    ```
 
 </details>
