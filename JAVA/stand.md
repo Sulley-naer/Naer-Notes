@@ -17,7 +17,7 @@
   - [5. 数组](#5-数组)
   - [6. 类与对象](#6-类与对象)
   - [7. 接口与抽象类](#7-接口与抽象类)
-    - [适配器模式](#适配器模式)
+    - [接口的应用](#接口的应用)
   - [8. 多态](#8-多态)
   - [常量于静态 『`Final`』 \& 『`Static`』](#常量于静态-final--static)
   - [8. 异常处理](#8-异常处理)
@@ -775,10 +775,17 @@ Java 语言支持以下数组：
      void eat();
 
      //static | default 方法 必须有方法体。静态方法由于 存放方法区，必须使用 接口 + 静态方法 调用。
-      static void sleep() {
+      default void sleep() {
          //static JDK 8 开始支持
          System.out.println("default 方法 是由接口定义 并且不用实现 而且自动继承 类可直接调用.");
+
+         run(); //调用私有方法
       }
+
+       static void sayHello() {
+         System.out.println("我是静态方法.");
+      }
+   }
 
     //private 方法 是为 default 方法提供的方法，将 default 方法中的重复代码抽离出来。
     //仅供自己使用，虚拟表不会出现。不会被实现类继承。静态方法 想调用 同样加上 static
@@ -794,7 +801,22 @@ Java 语言支持以下数组：
     }
    ```
 
-2. 抽象类
+2. 实现接口
+
+   ```java
+   public class Dog implements Animal {
+       int age;
+       String name;
+
+       public void eat() {
+           System.out.println("Dog is eating.");
+            sleep(); //调用接口继承方法
+           Animal.sayHello(); //调用接口中的静态方法
+       }
+   }
+   ```
+
+3. 抽象类
 
    ```java
    public abstract class Person {
@@ -809,16 +831,6 @@ Java 语言支持以下数组：
        }
 
        public abstract void sayHello();
-   }
-   ```
-
-3. 实现接口
-
-   ```java
-   public class Dog implements Animal {
-       public void eat() {
-           System.out.println("Dog is eating.");
-       }
    }
    ```
 
@@ -849,67 +861,225 @@ Java 语言支持以下数组：
 
 </details>
 
-### 适配器模式
+### 接口的应用
 
 > [!TIP]
-> 适配器模式（Adapter Pattern）：将一个类的接口转换成客户希望的另一个接口。适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。
-
-- 适配器模式的作用：
-  - 兼容性：适配器模式可以使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。
-  - 复用性：适配器模式可以将一个类的接口转换成客户希望的另一个接口，从而使得原本因接口不兼容而不能一起工作的两个类可以一起工作。
-  - 开放封闭原则：开放封闭原则是说一个软件实体应该对扩展开放，对修改封闭。通过使用适配器模式，我们可以对原有接口进行扩展，而无需修改原有代码。
+> 接口的应用场景：
+>
+> 1. 解耦：将接口定义的功能，分离到不同的类中，实现解耦。
+> 2. 依赖倒置：依赖接口，而不是依赖实现类，实现依赖倒置。
+> 3. 适配器模式：适配器模式，将一个接口转换成另一个接口，实现适配器模式。
+> 4. 多态：接口可以实现多态，实现多态。
+> 5. 扩展：可以扩展接口，实现扩展。
 
 <details>
-<summary>适配器模式语法</summary>
+<summary>接口的应用</summary>
+
+- 解耦『基础』
+
+  ```java
+  //接口定义功能
+  public interface Animal {
+      void eat();
+  }
+
+  //实现类实现接口
+  public class Dog implements Animal {
+      public void eat() {
+          System.out.println("Dog is eating.");
+      }
+  }
+
+  public class Cat implements Animal {
+      public void eat() {
+          System.out.println("Cat is eating.");
+      }
+  }
+
+  //调用方依赖接口，而不是实现类
+  public class Main {
+      public static void main(String[] args) {
+          Animal animal = new Dog();
+          animal.eat();
+      }
+  }
+  ```
+
+- 依赖倒置『基础』
+
+  ```java
+  //接口定义功能
+  public interface Animal {
+      void eat();
+  }
+
+  //实现类实现接口
+  public class Dog implements Animal {
+      public void eat() {
+          System.out.println("Dog is eating.");
+      }
+  }
+
+  public class Cat implements Animal {
+      public void eat() {
+          System.out.println("Cat is eating.");
+      }
+  }
+
+  //调用方依赖接口，而不是实现类
+  public class Main {
+      public static void main(String[] args) {
+          //依赖接口，而不是实现类
+          Animal animal = new Dog();
+          animal.eat();
+      }
+  }
+  ```
+
+  依赖倒置的好处：
+
+  - 解耦：调用方只依赖接口，不依赖实现类，实现解耦。
+  - 灵活：可以替换实现类，实现灵活。
+  - 方便：调用方只需要知道接口，不需要知道实现类，方便调用。
+
+- 适配器模式『中级』
 
 > [!TIP]
-> 适配器模式的实现：
+> 适配器是将接口的所有方法实现，其他类需要使用对应接口时，直接继承该抽象类。
 >
-> 1. 定义一个原有接口。
-> 2. 定义一个实现类
-> 3. 调用类，实现适配器
+> 其他所有需使用这个接口的类，继承了这个抽象类，它实现了接口的方法=所有类都实现了接口的方法。
 
-1. 定义一个原有接口
+```java
+//接口定义功能
+public interface Animal {
+    void eat();
+    //假设有10个方法
+}
 
-   ```java
-   public interface Sourceable {
-       void method1();
-       void method2();
-       //默认方法，此方法可不实现，但必须声明，实现类自动继承。在接口刚更新时来不及修改实现类使用。
-       default void method3() {
-           System.out.println("This is the default Interface method3.");
-       }
-   }
-   ```
+//适配器类实现接口
+public abstract class Adapter implements Animal {
+    public void eat() {
+        dog.eat();
+    }
+    // 其他方法 全部写了 留空也好
+}
 
-2. 定义一个实现类
+//继承适配器，使用方法覆写，实现适配器模式
+public class Dog extends Adapter {
+    public void eat() {
+        System.out.println("Dog is eating.");
+    }
+}
 
-   ```java
-   //如果实现了多接口，并且方法|属性相同，且使用了默认方法，必须重新定义方法，否则会报错它不知道该调用哪个方法。
-   public class Adapter implements Sourceable {
+//调用方依赖接口，而不是实现类
+public class Main {
+    public static void main(String[] args) {
+        //Animal类型，实例化的是子类，类型检测通过
+        Animal animal = new Dog();
+        animal.eat();
+    }
+}
+```
 
-       public void method1() {
-           System.out.println("This is the method1 of Adapter.");
-       }
+适配器模式的好处：
 
-       public void method2() {
-           System.out.println("This is the method2 of Adapter.");
-       }
-   }
-   ```
+- 复用已有类：适配器模式可以复用已有类，实现复用。
+- 增加功能：适配器模式可以增加功能，实现功能扩展。
 
-3. 调用类，实现适配器
+- 多态『[高级](#8-多态)』
 
-   ```java
-   public class Main {
-       public static void main(String[] args) {
-           Sourceable source = new Adapter();   //调用适配器
-           source.method1();
-           source.method2();
-           source.method3();
-       }
-   }
-   ```
+  ```java
+  //接口定义功能
+  public interface Animal {
+      void eat();
+  }
+
+  //实现类实现接口
+  public class Dog implements Animal {
+      public void eat() {
+          System.out.println("Dog is eating.");
+      }
+  }
+
+  public class Cat implements Animal {
+      public void eat() {
+          System.out.println("Cat is eating.");
+      }
+  }
+
+  //调用方依赖接口，而不是实现类
+  public class Main {
+      public static void main(String[] args) {
+          //依赖接口，而不是实现类
+          Animal animal = new Dog();
+          animal.eat();
+      }
+  }
+  ```
+
+  多态的好处：
+
+  - 代码重用：父类引用可以指向子类的对象，可以调用子类的方法。
+  - 接口和抽象类：接口和抽象类可以定义方法，子类可以实现接口或继承抽象类，可以调用父类和子类的共同方法。
+  - 灵活性：程序可以根据需要调用不同的对象，灵活地处理对象。
+
+- 扩展『字意』
+
+  ```java
+  //接口定义功能
+  public interface Animal {
+      void eat();
+  }
+
+  //实现类实现接口
+  public class Dog implements Animal {
+      public void eat() {
+          System.out.println("Dog is eating.");
+      }
+  }
+
+  public class Cat implements Animal {
+      public void eat() {
+          System.out.println("Cat is eating.");
+      }
+  }
+
+  //扩展接口
+  public interface Flyable extends Animal {
+      void fly();
+  }
+
+  //实现类实现接口
+  public class Bird implements Flyable {
+      public void eat() {
+          System.out.println("Bird is eating.");
+      }
+
+      public void fly() {
+          System.out.println("Bird is flying.");
+      }
+  }
+
+  //调用方依赖接口，而不是实现类
+  public class Main {
+      public static void main(String[] args) {
+          //依赖接口，而不是实现类
+          Animal animal = new Dog();
+          animal.eat();
+
+          //依赖接口，而不是实现类
+          Flyable flyable = new Bird();
+          flyable.eat();
+          flyable.fly();
+      }
+  }
+  ```
+
+  扩展的好处：
+
+  - 解耦：扩展接口，实现解耦。
+  - 灵活：可以扩展接口，实现灵活。
+  - 方便：调用方只需要知道接口，不需要知道实现类，方便调用。
 
 </details>
 
