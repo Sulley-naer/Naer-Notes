@@ -17,6 +17,7 @@
   - [5. 数组](#5-数组)
   - [6. 类与对象](#6-类与对象)
   - [7. 接口与抽象类](#7-接口与抽象类)
+  - [8. 多态](#8-多态)
   - [8. 异常处理](#8-异常处理)
   - [9. 多线程](#9-多线程)
   - [10. 反射](#10-反射)
@@ -552,14 +553,14 @@ Java 语言支持以下数组：
 - 访问控制符（Access Modifier）：public、private、protected。
 - 继承（Inheritance）：一个类可以从另一个类继承所有其成员变量和方法。
   - Java 所有类都继承 Object 类使其作为基类
-  - Java不能**多继承**，但是可以**多层继承**，变相解决继承问题。
-  - Java对继承做了优化，非 `static`、`final`、`private` 属性|方法 <br>
-  均在虚方法中允许并**被继承**，继承了 `Getter` 方法，但静态属性**未继承**，`Getter`发现未继承属性，抛错！
+  - Java 不能**多继承**，但是可以**多层继承**，变相解决继承问题。
+  - Java 对继承做了优化，非 `static`、`final`、`private` 属性|方法 <br>
+    均在虚方法中允许并**被继承**，继承了 `Getter` 方法，但静态属性**未继承**，`Getter`发现未继承属性，抛错！
   - **第二层**继承了**第一层**，**第三层**继承**第二层**，**第二层**中继承的**第一层**，所以**第三层**继承了**一二层**
-  - Java类中只能存在**一个**公开的类，所以继承的类必须**分离**文件出来 <br>
-  类中写类无法调用 `super` 因 `this` 无法指向父类而是自己的堆值
+  - Java 类中只能存在**一个**公开的类，所以继承的类必须**分离**文件出来 <br>
+    类中写类无法调用 `super` 因 `this` 无法指向父类而是自己的堆值
   - 还需注意 继承类的 **堆** 中是拥有 父类的属性，`super` 是调用父类 **构造函数** <br>
-  尽管没调用它也继承了 **父类的属性**，它实例化后就记录在了**方法区**中。
+    尽管没调用它也继承了 **父类的属性**，它实例化后就记录在了**方法区**中。
 - 多态（Polymorphism）：同一个方法可以作用于不同的对象，根据对象的实际类型调用不同的方法。
 - 封装（Encapsulation）：将数据和方法包装在一起，隐藏内部实现细节。
 
@@ -567,9 +568,14 @@ Java 语言支持以下数组：
 <summary>类与对象语法</summary>
 
 > [!TIP]
-> 注意！Java 语言是强类型语言，参数类型与返回值类型必须一致。并且，方法不能重载，也就是说，一个类中不能有两个同名的方法。
+> 注意！Java 语言是强类型语言，参数类型与返回值类型必须一致。
 >
 > 并且 Java 只允许一个文件中只有一个 public 类，并且这个类必须与文件名相同。还有 Java 不能多继承，只能单继承。
+>
+> 方法重载和方法重写的区别：方法重载是指在一个类中，有多个方法名相同，但是参数列表不同。方法重写是指子类重写父类的方法。<br>
+> Java 语言不支持方法重载，只能通过方法重写来实现多态。
+>
+> 方法中使用 `this()` 方法来实现调用构造器。
 
 1. 属性
 
@@ -626,6 +632,8 @@ Java 语言支持以下数组：
     }
 
     public void sayHello() {
+        //调用构造方法
+        this(name, age, gender)
         System.out.println("Hello, my name is " + name + " and I am " + age + " years old.");
     }
     // 方法重载
@@ -650,6 +658,8 @@ Java 语言支持以下数组：
        public Student(String name, int age, String gender, String major) {
            super(name, age, gender);
            this.major = major;
+           //访问父类属性
+           String name = super.name;
        }
 
        public void study() {
@@ -700,6 +710,8 @@ Java 语言支持以下数组：
 > 接口（Interface）：一种抽象的类型，它定义了某一类事物的行为，但是不提供具体的实现。
 >
 > 抽象类（Abstract Class）：一种类，它不能实例化，只能作为父类被继承，可以包含抽象方法和具体方法。
+>
+> `Super`关键字指向父类「内存地址」，`this`关键字指向当前类。
 
 <details>
 <summary>接口与抽象类语法</summary>
@@ -754,6 +766,8 @@ Java 语言支持以下数组：
          public Student(String name, int age, String gender, String major) {
              super(name, age, gender);
              this.major = major;
+             //直接拿取父类属性
+             System.out.println(super.name);
          }
 
          public void study() {
@@ -765,6 +779,165 @@ Java 语言支持以下数组：
          }
       }
    ```
+
+</details>
+
+## 8. 多态
+
+> [!TIP]
+> 多态（Polymorphism）：同一个方法可以作用于不同的对象，根据对象的实际类型调用不同的方法。
+>
+> **多态**：对象的多种形态，即一个对象可以有多种形态，具有不同的功能。
+
+- 向上转型（Upcasting）：将子类的引用赋给父类的引用。
+- 向下转型（Downcasting）：将父类的引用赋给子类的引用。
+- instanceof 运算符：判断对象是否属于某个类。
+- 多态的好处：
+  - 代码重用：父类引用可以指向子类的对象，可以调用子类的方法。
+  - 接口和抽象类：接口和抽象类可以定义方法，子类可以实现接口或继承抽象类，可以调用父类和子类的共同方法。
+  - 灵活性：程序可以根据需要调用不同的对象，灵活地处理对象。
+
+<details>
+<summary>多态语法</summary>
+
+多态类型：
+
+> [!CAUTION]
+>
+> `Object` 类是所有类的基类，所有类的父类。`person a = new student();`
+>
+> 看左边类型，如果有属性冲突，则采用左边类型，也就是基类中的写的值。方法也同理
+>
+> 说简单点就是，父类型，实例化子类，优先去找父类方法或者属性。找不到就直接报错！
+>
+> 因为类型是引用的父类，编译时候会去看父类方法，只有通过了检查才能运行。
+>
+> 运行的时候因为类继承了父类，他会将父类的所有方法都复制到子类实例中，所以子类实例可以调用父类的方法。
+>
+> `student s = new student();`
+>
+> 左边类型自己，看到有继承类，调用方法先看自己 methods，再看父类 methods，再看 Object methods。
+>
+> 其实也不是真正去实例了父类，在方法区加载的时候 | 编译，Java 记录了所有类能继承的方法 非 `static` 、`final` 、`private`
+>
+> 将其称之为 `虚方法表` ，在栈实例化类的时候，就将从父类 **虚方法表** 中的方法复制到子类实例中，没有实例化父类。
+
+````java
+public class person {
+    String name;
+    int age;
+
+    public void sayHello() {
+        System.out.println(STR."默认：\{name},\{age}");
+    }
+}
+
+public class student extends person {
+    @Override
+    public void sayHello() {
+        System.out.println(STR."学生：\{name},\{age}");
+    }
+}
+
+public class admin {
+    @Override
+    public void sayHello() {
+        System.out.println(STR."管理：\{name},\{age}");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        //看左边类型，如果有属性冲突，则采用左边类型，也就是基类中的写的值。方法也同理
+        //说简单点就是，父类型，实例化子类，优先去找父类方法或者属性。找不到就直接报错！
+        //因为类型是引用的父类，编译时候会去看父类方法，只有通过了检查才能运行。
+        //运行的时候因为类继承了父类，他会将父类的所有方法都复制到子类实例中，所以子类实例可以调用父类的方法。
+        person p = new person();
+        p.name = "Alice";
+        p.age = 25;
+        sayHello(p);
+
+        student s = new student();
+        s.name = "Bob";
+        s.age = 20;
+        sayHello(s);
+
+        admin a = new admin();
+        a.name = "Tom";
+        a.age = 30;
+        sayHello(a);
+    }
+
+  //他们都是person类型，只要是被继承的类，都可以属于person类型。
+  //父级的类型不一定是person，只需要它是基类即可。
+  public static void sayHello(person p) {
+        p.sayHello();
+  }
+}
+```
+
+转型语法：
+
+> [!TIP]
+> 转型语法就是用于专门解决，父类引用指向子类对象，或者子类对象指向父类引用。类型检查无法调用方法，需要使用转型。
+>
+> 向上转型：将子类的引用赋给父类的引用。
+>
+> 向下转型：将父类的引用赋给子类的引用。
+
+
+```java
+//基类
+public class Animal {
+    public void eat() {
+        System.out.println("Animal is eating.");
+    }
+}
+
+public class Dog extends Animal {
+    public void bark() {
+        System.out.println("Dog is barking.");
+    }
+}
+
+public class Cat extends Animal {
+    public void meow() {
+        System.out.println("Cat is meowing.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        //向上转型 animal 引用指向子类对象
+        Animal animal = new Dog();
+        animal.eat();
+        ((Dog) animal).bark();
+        //向下转型 子类对象指向父类引用
+        Animal cat = new Cat();
+        cat.eat();
+        ((Cat) cat).meow();
+
+       //判断类型再转换
+        if (animal instanceof Dog) {
+            ((Dog) animal).bark();
+            //括号内是父类，括号外是子类
+            animal = (Animal) cat;
+        }
+        else if (animal instanceof Cat) {
+            ((Cat) animal).meow();
+        }
+        //JDK11语法，判断对象是不是指定类型，是就直接转换。再使用命名接受转换后的对象
+        //如果 a 变量是 Dog 就调用 bark 方法，如果是猫就调用 meow 方法
+        if (animal instanceof Dog dog) {
+            //在判断成功后，已经转换了，接受的转换类型变量去调用方法
+            dog.bark();
+        }
+        else if (animal instanceof Cat cat) {
+            cat.meow();
+        }
+    }
+}
+````
 
 </details>
 
@@ -809,3 +982,7 @@ Java 语言支持以下数组：
 ## 27. 设计原则
 
 ## 28. 设计模式
+
+```
+
+```
