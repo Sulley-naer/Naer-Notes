@@ -72,29 +72,40 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 
 ## 我的快捷键
 
-| 快捷键                             | 功能       |
-|---------------------------------|----------|
-| <kbd> Alt + b </kdb>            | 运行       |
-| <kbd> Alt + D </kdb>            | 调试       |
-| <kbd> Ctrl + Q </kdb>           | 切换行断点    |
-| <kbd> Alt + G </kdb>            | SQL 语句运行 |
-| <kbd> Alt + Enter </kdb>        | Idea 生成  |
-| <kbd> Ctrl + Alt + K </kdb>     | 删除整行     |
-| <kbd> Ctrl + Enter </kdb>       | 智能换行     |
-| <kbd> Ctrl + PgUp 『Num9』 </kdb> | 标签下切换    |
-| <kbd> Ctrl + PgDn 『Num3』 </kdb> | 标签上切换    |
-| <kbd> Alt + Num6 </kdb>         | 向右拆分     |
-| <kbd> Alt + Num2 </kdb>         | 向下拆分     |
-| <kbd> Alt + Num5 </kdb>         | 取消拆分     |
-| <kbd> Alt + Shift +Num5 </kdb>  | 取消全部拆分   |
-| <kbd> Alt + A </kdb>            | 显示智能操作   |
-| <kbd> Ctrl + I </kdb>           | 激活代码提示   |
-| <kbd> Alt + T </kdb>            | 切换代码折叠   |
-| <kbd> Ctrl + Alt + S </kdb>     | 代码格式化    |
-| <kbd> Ctrl + Alt + T </kdb>     | 代码包裹方式   |
-| <kbd> Ctrl + Alt + t </kdb>     | 代码包围方法   |
-| <kbd> Ctrl + Shift + v </kdb>   | MD文件切换预览 |
-| <kbd> Ctrl + Shift + E </kdb>   | MD文件切换编辑 |
+| 快捷键                                 | 功能       |
+|-------------------------------------|----------|
+| <kbd> Alt + Left </kdb>             | 上一步      |
+| <kbd> Alt + Right </kdb>            | 下一步      |
+| <kbd> Alt + b </kdb>                | 运行       |
+| <kbd> Alt + D </kdb>                | 调试       |
+| <kbd> Ctrl + Q </kdb>               | 切换行断点    |
+| <kbd> Alt + G </kdb>                | SQL 语句运行 |
+| <kbd> Alt + G </kdb>                | 类中提取为方法  |
+| <kbd> Alt + Enter </kdb>            | Idea 生成  |
+| <kbd> Ctrl + Enter </kdb>           | 智能换行     |
+| <kbd> Ctrl + Shift + K </kdb>       | 删除整行     |
+| <kbd> Ctrl + PgUp 『Num9』 </kdb>     | 标签下切换    |
+| <kbd> Ctrl + PgDn 『Num3』 </kdb>     | 标签上切换    |
+| <kbd> Alt + Num6 </kdb>             | 向右拆分     |
+| <kbd> Alt + Num2 </kdb>             | 向下拆分     |
+| <kbd> Alt + Num5 </kdb>             | 取消拆分     |
+| <kbd> Alt + Shift +Num5 </kdb>      | 取消全部拆分   |
+| <kbd> Alt + A </kdb>                | 显示智能操作   |
+| <kbd> Ctrl + I </kdb>               | 激活代码提示   |
+| <kbd> Alt + T </kdb>                | 切换代码折叠   |
+| <kbd> Ctrl + Alt + S </kdb>         | 代码格式化    |
+| <kbd> Ctrl + Alt + T </kdb>         | 代码包围方法   |
+| <kbd> Ctrl + Shift + Alt + S </kdb> | 项目模块     |
+| <kbd> Ctrl + Shift + v </kdb>       | MD文件切换预览 |
+| <kbd> Ctrl + Shift + E </kdb>       | MD文件切换编辑 |
+
+说明：
+
+1. 提取为方法，Java类选择代码，会出现小菜单栏，也可以选择提取，还有些提取功能
+2. 智能换行:代码换行自动对齐
+3. 智能操作:快速修复
+4. 包裹方式:将代码外包裹一层，if、try、while、……
+5. 项目模块:项目模块『文件夹』管理
 
 ## 拓展
 
@@ -127,7 +138,7 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
    快捷键:
 
    | 快捷键                      | 功能   |
-                        |--------------------------|------|
+                              |--------------------------|------|
    | <kbd>Ctrl + MRight</kdb> | 局部高亮 |
    | <kbd>Alt + MRight</kdb>  | 专注模式 |
    | <kbd>ESC</kdb>           | 普通模式 |
@@ -141,7 +152,7 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 3. Translation「翻译工具」
 
    | 快捷键                         | 功能   |
-                        |-----------------------------|------|
+                              |-----------------------------|------|
    | <kdb>Ctrl + Shift + Y</kdb> | 选中翻译 |
    | <kdb>Ctrl + Shift + X</kdb> | 翻译替换 |
 
