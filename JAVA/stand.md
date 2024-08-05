@@ -16,6 +16,8 @@
   - [4. 控制语句](#4-控制语句)
   - [5. 数组](#5-数组)
   - [6. 类与对象](#6-类与对象)
+    - [内部类](#内部类)
+      - [匿名内部类「非常重要」](#匿名内部类非常重要)
   - [7. 接口与抽象类](#7-接口与抽象类)
     - [接口的应用](#接口的应用)
   - [8. 多态](#8-多态)
@@ -619,7 +621,7 @@ Java 语言支持以下数组：
    }
    ```
 
-2. 创建对象
+2. 实例化对象
 
    ```java
    Person person = new Person("Alice", 25, "Female");
@@ -663,7 +665,36 @@ Java 语言支持以下数组：
    System.out.println(person.name);
    ```
 
-6. 继承
+6. 内部类
+
+   ```java
+   //外部其他类
+   public class Outer {
+       private String name;
+
+       public Outer(String name) {
+           this.name = name;
+           //内部类是类，所以需要实例化，其他语法跟类没区别。
+           Inner inner = new Inner(name);
+           inner.sayHello();
+       }
+       //内部类 | 类中再定于类
+       //内部类用于，某个属性也有自己的子类属性，比如学生有专业 专业这个属性可能出现子属性，这时候就使用内部类
+       public class Inner {
+           private String name;
+
+           public Inner(String name) {
+               this.name = name;
+           }
+
+           public void sayHello() {
+               System.out.println("Hello, my name is " + name + " and I am " + age + " years old.");
+           }
+       }
+   }
+   ```
+
+7. 继承
 
    ```java
    public class Student extends Person {
@@ -682,7 +713,7 @@ Java 语言支持以下数组：
    }
    ```
 
-7. 多态
+8. 多态
 
    ```java
    public class Animal {
@@ -715,6 +746,169 @@ Java 语言支持以下数组：
        }
    }
    ```
+
+</details>
+
+<details>
+<summary>内部类语法</summary>
+
+### 内部类
+
+> [!TIP]
+> 内部类是一种嵌套类，它可以访问外部类的成员变量和方法，并且可以访问外部类的局部变量。
+>
+> 内部类是独立的一个类 文件 编译文件是 外部类$内部类 的形式。 它只是自动继承了外部类，写着方便。
+
+基础语法
+
+```java
+public class Outer {
+    String name;
+    int age;
+
+    protected class Inner {
+        String name;
+        int age;
+    }
+
+    public Inner getInner() {
+        return new Inner();
+    }
+}
+//链式编程，直接调用内部类
+Outer.Inner inner = new Outer().new Inner();
+//或者调用 Getter 利用的多态基类，绕过类型检测。
+Object inner = new Outer().getInner();
+// 方式二 普通方式
+Outer out = new Outer();
+out.getInner()
+```
+
+内部内指针
+
+```java
+public class Outer {
+    String name;
+    int age = 1;
+
+    protected class Inner {
+        String name;
+        int age = 2;
+
+        public void show() {
+            //this 是在类实例后 传递的。this 记录的是当前类的实例地址
+            int age = 3;
+            //就近原则，指向自己
+            System.out.println(age);
+            //指向内部类 this 是类自动传递给内部方法的，不写形参强制传递
+            System.out.println(this.age+"我的this 指向自己和 Inner 类");
+            //指向类 Java Outer 对象中同样也有 this 这个属性 | 继承了外部类，外部类下的 this 属性
+            System.out.println(Outer.this.age+"我的 this 来自 Outer 类，Outer this 指向自己和 Object ");
+        }
+    }
+}
+```
+
+静态内部类
+
+```java
+public class Outer {
+    static String name = "hello";
+    //静态类型 不用实例 类名+方法|属性 使用 存在方法区
+    protected static class Inner {
+        //方法区 只能访问 方法区的对象。静态属性
+        public static void show() {
+            //因为是在方法区，没有 this 指针 ，它是全局属性，不需要堆内存地址。直接访问即可
+            System.out.println(Outer.name);
+        }
+    }
+}
+
+//调用
+Outer.Inner.show();
+```
+
+局部内部类
+
+```java
+public class Outer {
+    String name;
+    int age;
+
+    public void show() {
+        int age = 1;
+        //局部内部类
+        class Inner {
+            String name;
+            int age;
+            //静态的方法
+            public static void show() {
+                System.out.println(age);
+            }
+            //非静态的方法
+            public void show1() {
+                System.out.println(age);
+            }
+        }
+        //局部内部类 你用的静态就直接访问。
+        Inner i = new Inner();
+        Inner.show1();
+        i.show1();
+    }
+}
+
+//调用
+Outer outer = new Outer();
+outer.show();
+```
+
+#### 匿名内部类「非常重要」
+
+> [!TIP]
+> 匿名内部类是一种特殊的内部类，它没有名字，只能在方法内部使用。
+>
+> 匿名内部类可以访问外部类的成员变量和方法，并且可以访问外部类的局部变量。
+>
+> 匿名内部类可以实现 Runnable 接口，可以作为线程启动。
+
+```java
+//抽象类 | 接口 都可以
+public abstract class Outer {
+    abstract void show();
+}
+
+//匿名内部类，可以写在 类成员、局部 位置
+Object Inter1 = new Outer(){
+    @Override
+    void show() {
+        System.out.println("重写方法");
+    }
+}.show(); // 尾巴这里也可以直接调用
+
+public static void method(Outer o) {
+  o.show();
+}
+
+//将匿名内部类作为参数传递给方法，再直接调用方法，不需要再实例化。
+method(Inter1)
+//或者 参数中定义匿名类
+method(new Outer(){
+    @Override
+    void show() {
+        System.out.println("重写方法");
+    }
+});
+```
+
+Q：然后有什么用呢？
+
+A：以前继承类需要再单独写一个类，在继承|实现接口重写方法，再去实例化调用。
+
+A：现在我们写一个匿名类，并继承实现接口，这样一个子类，就不需要再单独写一个类了。
+
+说简单点抽象类继承，有不同形态方法，原来我们继承需要分离文件，继承并实现再实例化类，才能调用方法。
+
+现在我们直接在外部类 里面 写内部类 继承 重写 传递给方法 调用。省去了分离文件、实例化类、繁琐的步骤
 
 </details>
 

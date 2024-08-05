@@ -79,6 +79,8 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 | <kbd> Ctrl + Q </kdb>           | 切换行断点    |
 | <kbd> Alt + G </kdb>            | SQL 语句运行 |
 | <kbd> Alt + Enter </kdb>        | Idea 生成  |
+| <kbd> Ctrl + Alt + K </kdb>     | 删除整行     |
+| <kbd> Ctrl + Enter </kdb>       | 智能换行     |
 | <kbd> Ctrl + PgUp 『Num9』 </kdb> | 标签下切换    |
 | <kbd> Ctrl + PgDn 『Num3』 </kdb> | 标签上切换    |
 | <kbd> Alt + Num6 </kdb>         | 向右拆分     |

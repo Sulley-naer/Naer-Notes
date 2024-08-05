@@ -31,6 +31,15 @@ Java 内存模型规定了变量在内存中的存储布局，以及变量的访
 
 Java 内存模型规定，变量的创建、分配、读写、释放等操作必须满足一定的顺序，这就保证了 Java 程序的正确性。
 
+```bash
+## Java 进程分析工具
+JPS
+## Java 内存分析工具
+jhsdb hsdb
+## Java 反编译工具
+Javap Filename.class
+```
+
 ## 栈「Stack」
 
 > [!NOTE]
