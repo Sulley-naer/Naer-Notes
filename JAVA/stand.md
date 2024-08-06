@@ -542,6 +542,7 @@ Java 语言支持以下数组：
    list.iterator(); // 获取 ArrayList 的迭代器
    list.listIterator(); // 获取 ArrayList 的列表迭代器
    list.forEach(System.out::println); // 遍历 ArrayList 的元素
+   list.forEach(item->{}) //箭头函数方式
    ```
 
    -二维动态数组
