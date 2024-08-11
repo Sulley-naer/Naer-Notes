@@ -92,6 +92,7 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 | <kbd> Alt + Num2 </kdb>             | 向下拆分     |
 | <kbd> Alt + Num5 </kdb>             | 取消拆分     |
 | <kbd> Alt + Shift +Num5 </kdb>      | 取消全部拆分   |
+| <kbd> Alt + Shift +Space </kdb>     | 形参预览     |
 | <kbd> Alt + A </kdb>                | 显示智能操作   |
 | <kbd> Ctrl + I </kdb>               | 激活代码提示   |
 | <kbd> Alt + T </kdb>                | 切换代码折叠   |
@@ -112,7 +113,6 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 7. 项目模块:项目模块『文件夹』管理
 
 ## 拓展
-
 1. Better HighLights「智能高光」
 
    ```java
