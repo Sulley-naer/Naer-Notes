@@ -179,7 +179,7 @@ protected Object clone() throws CloneNotSupportedException {
   <summary style="font-size:17px;font-weight:bold;">正则语法</summary>
 
 1. | 类型              | 作用                                                     |
-         |-----------------|--------------------------------------------------------|
+                                                                                                                                                      |-----------------|--------------------------------------------------------|
    | （^）             | 匹配字符串的开始位置，如“^a”表示以字母 a 开头的字符串。                        |
    | （$）             | 匹配字符串的结束位置，如“X^”表示以字母 X 结尾的字符串。                        |
    | （.）             | 这个字符就是英文下的点，它匹配**任何一个字符**，包括回车、换行等。 通配符 \_             |
@@ -196,7 +196,7 @@ protected Object clone() throws CloneNotSupportedException {
    | （?=）            | a(?=b) 结果可为 a 或者 a **后面**紧跟着 b 的字符 零宽度正向前瞻             |
    | （?<!）           | b(?<!a) 与(?!)相同，只不过是**前面**不能有字符 a 零宽度负向回顾              |
    | （?<=）           | b(?<!a) 与(?=)相同，只不过是**前面**有 字符 a 零宽度正向回顾               |
-   | (?i)            | a(?i)bc bc两个字符将忽视大小写 Java测试                            |
+   | (?i)            | a(?i)bc bc两个字符将忽视大小写 多用括号限制范围 Java测试                   |
    | \[a-z\]         | 表示当前位置的字符，**是** Ascii 码表 a-z 范围内                       |
    | \[^a-z\]        | 表示当前位置的字符，**非** Ascii 码表 a-z 范围内                       |
    | \[a-zA-Z\]      | 表示当前位置的字符 a-z**或**A-Z之间，不用空格 给范围符号提高阅读性                |
@@ -273,3 +273,215 @@ public static void main(String[] args) {
     System.out.println(email3.matches(regex));
 }
 ```
+
+Java 正则爬虫
+
+```java
+public static void main(String[] args) {
+    Pattern p = Pattern.compile("Java\\d{0,2}");
+    Matcher m = p.matcher("Java来自*****Java8和Java11是长期支持版本！");
+    /*
+     * m.find 方法就是爬虫，依次往后阅读，找到符合返回true，到最后返回true
+     * 并且 m.find发现之后，它会将当前符合规则的记录 group方法
+     * .并且将历史结果存储在内部数组中，可以在调用 group方法时 填写int
+     * */
+    while (m.find()) {
+        System.out.println(m.group());//!1是指第一个组 0 位置整行所有内容了
+    }
+}
+```
+
+Matcher：正则匹配结果返回值 | String 字符串操作方法
+
+| 功能          | 参数\|作用       |
+|-------------|--------------|
+| replace     | Regex string |
+| replaceAll  | Regex string |
+| toLowerCase | 转换小写         |
+| toUpperCase | 转换大写         |
+| split       | Regex        |
+
+### 说明
+
+1. 只能是字符串类型才能使用的方法，matcher 是字符串正则匹配是否成功！
+2. Replace 依然是通过正则匹配，再讲匹配到的内容进行替换，将非英文 全部移除 `.("\W","")`
+3. split 正则结果切割为数组，匹配非英文，就在英文结束的位置记录，再去找下一个再记录 似`m.group`
+
+## Java 爬虫
+
+- 基础使用
+
+```java
+public static void main(String[] args) {
+    //可选使用正则拿取内容 所有href链接地址
+    Pattern p = Pattern.compile("(.*)href=\"([\\w :/.\"]*)\"(.*)");//!使用了分组，以左括号分组 1起始
+
+    //?声明在线链接
+    URL site = new URL("https://otp.landian.vip/zh-cn/");
+    //?连接地址并声明类型
+    URLConnection connection = site.openConnection();
+    //?阅读获取的输出流
+    BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+    String line;
+
+
+    //?行读取循环,直到没有行
+    while ((line = br.readLine()) != null) {
+        System.out.println(line);
+        //可选使用正则
+        Matcher m = p.matcher(line);
+        while (m.find()) {
+            System.out.println(m.group(2));//!1是指第一个括号 0 位置留给整行所有内容了 2是匹配的链接内字符
+        }
+    }
+}
+```
+
+## Time
+
+JDK7
+
+- 基础
+
+```java
+import java.util.Date;
+
+public static void main(String[] args) {
+    Date d = new Date();//括号填写0表示从时区是从0开始的 中国是 8 L是 long类型
+    System.out.println(d);
+
+    //修改时间
+    d.setTime(1000L); //1000毫秒
+    System.out.println(d);
+
+    //获取时间
+    long time = d.getTime();
+    System.out.println(time);
+
+    //增加一年
+    time add = time + 1000L * 60 * 60 * 24 * 365; //?第一个数给 L 防止输出超出 int 上线 用 long 类型
+    System.out.println(d.setTime(add));//1971年 
+
+    //!时间判断,不能直接进行比较，2个对象通过get方式获取时间再进行判断。
+}
+```
+
+- 转换
+
+> [!TIP]
+> 处理时间转换，时间修改
+
+```java
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public static void main(String[] args) {
+    //实例化对象
+    SimpleDateFormat sdf = new SimpleDateFormat();
+    //指定格式 自行查看api文档 EE 表示星期
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+    Date d = new Date();
+
+    String After = sdf.format(d);
+    System.out.println(After);
+
+    //!字符串转换时间 format 格式必须与输入格式一致 否则无法转换
+    String time = "2023-11-11";
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    Date date = format.parse(time);
+    System.out.println(date.getTime());
+}
+```
+
+- 优化 日历
+
+> [!TIP]
+> 用于优化时间修改时的重复转换。
+
+```java
+import java.util.Calendar;
+import java.util.Date;
+
+public static void main(String[] args) {
+    //?源码中它会根据时区，获取不同日历对象，日本历和佛历……
+    //!它是日历月范围是 0~11 从零计数的
+    //!外国人 星期天 是一周的第一天！
+    Calendar c = Calendar.getInstance();
+    Date date = new Date(0L);
+    c.set(date);
+    /*
+     * Get api
+     * 0 : 纪元 : ERA
+     * 1 : 年 : YEAR
+     * 2 : 月 : MONTH
+     * 3 : 年周数 : WEEK_OF_YEAR
+     * 4 : 月周数 : WEEK_OF_MONTH
+     * 5 : 月天数 : DATE
+     * ... 自行查看 api 或者翻阅源码
+     * 月记得加一,它从零计数 周起始是星期日,自行解决,可选用数组根据传入值,返回对于数据 : 查表法
+     * */
+    int year = c.get(Calendar.YEAR);
+
+    //?修改 超出则进位
+    c.set(Calendar.YEAR, 2024);
+    //?增加 超出则进位
+    c.add(Calendar.MONTH, -50);
+}
+```
+
+JDK8
+
+| 功能                        | 参数                        | 简述                 |
+|---------------------------|---------------------------|--------------------|
+| ---------------           | zoneID   static           | ---------------    |
+| getAvailableZoneIds       | method                    | 获取所有时区名称           |
+| of                        | string                    | 指定时区               |
+| systemDefault             | method                    | 获取当前系统时区           |
+| ---------------           | Instant  static           | ---------------    |
+| now                       | method                    | 获取当前时间 ins 对象      |
+| ofEpoch\[Milli...\]       | long num                  | 根据时间(类型)获取 ins 对象  |
+| atZone                    | ZoneID zone               | 指定时区               |
+| atZone                    | ZoneID zone               | 指定时区               |
+| ---------------           | Instant dynamic           | ---------------    |
+| equals、is                 | ...                       | 判断相关               |
+| minus                     | ...                       | 减少时间相关             |
+| plus                      | ...                       | 增加时间相关             |
+| ---------------           | ZonedDateTime  static     | ---------------    |
+| of                        | y/m/d/h/m/s/ns ZoneId     | 获取指定的时间对象需时区       |
+| ofInstant                 | Instant                   | 根据Ins获得时间对象        |
+| with\[YEAR...\]           | num                       | 修改时间系列方法           |
+| minus\[YEAR...\]          | num                       | 减少时间系列方法           |
+| plus\[YEAR...\]           | num                       | 增加时间系列方法           |
+| ---------------           | DateTimeFormatter  static | ---------------    |
+| ofPattern                 | YYYY-MM-dd HH:mm:ss EE a  | 时间格式化              |
+| ---------------           | Calendar  static          | ---------------    |
+| Local\[Date、Time、DT\]     | method                    | 日历对象系列             |
+| now                       | method                    | 获取当前时间对象           |
+| of...                     | method                    | 指定时间对象             |
+| get...                    | method                    | 获取系列语法             |
+| isBefore,after，equals     | method                    | 比较时间系列             |
+| with...                   | method                    | 修改时间系列             |
+| minus...                  | method                    | 减少时间系列             |
+| plus...                   | method                    | 增加时间相关             |
+| ------------------        | Tools                     | ------------------ |
+| ---------------           | Duration  static          | ---------------    |
+| ---------------           | 计算时间差 (秒，纳秒)              | ---------------    |
+| between                   | LocalTime、INS * 2         | 计算差                |
+| get...                    | method                    | 获取系列               |
+| to...                     | method                    | 换算差总               |
+| ---------------           | Period  static            | ---------------    |
+| ---------------           | 计算日期间隔 (年,月,日)            | ---------------    |
+| between                   | LocalDate * 2             | 计算差                |
+| get...                    | method                    | 获取系列               |
+| toTotal...                | method                    | 换算差总               |
+| ---------------           | ChronoUnit static         | ---------------    |
+| ---------------           | 计算日期间隔                    | ---------------    |
+| Unit.\[YEARS...\].between | LocalDateTime * 2         | 计算差,前缀为单位          |
+
+### 说明
+
+1. zoneID为时间时区相关类
+2. Instant时间戳相关
+3. ZonedDateTime是真正的时间对象
+4. Calendar为日历 JDK8 使用需使用 LocalDateTime 系列类
+5. 真正使用实例化 LocalDateTime.of 直接填写值 ，需要时区再去使用 Zone ,精准时间用 INS,格式化ofPattern
