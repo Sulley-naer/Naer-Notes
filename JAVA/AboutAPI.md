@@ -179,7 +179,7 @@ protected Object clone() throws CloneNotSupportedException {
   <summary style="font-size:17px;font-weight:bold;">正则语法</summary>
 
 1. | 类型              | 作用                                                     |
-                                                                                                                                                         |-----------------|--------------------------------------------------------|
+                                                                                                                                                                                                      |-----------------|--------------------------------------------------------|
    | （^）             | 匹配字符串的开始位置，如“^a”表示以字母 a 开头的字符串。                        |
    | （$）             | 匹配字符串的结束位置，如“X^”表示以字母 X 结尾的字符串。                        |
    | （.）             | 这个字符就是英文下的点，它匹配**任何一个字符**，包括回车、换行等。 通配符 \_             |
@@ -472,6 +472,7 @@ JDK8
 | between                   | LocalTime、INS * 2         | 计算差                |
 | get...                    | method                    | 获取系列               |
 | to...                     | method                    | 换算差总               |
+| isLeapYear                | method                    | 闰年判断               |
 | ---------------           | Period  static            | ---------------    |
 | ---------------           | 计算日期间隔 (年,月,日)            | ---------------    |
 | between                   | LocalDate * 2             | 计算差                |
@@ -490,3 +491,94 @@ JDK8
 3. ZonedDateTime是真正的时间对象
 4. Calendar为日历 JDK8 使用需使用 LocalDateTime 系列类
 5. 真正使用实例化 LocalDateTime.of 直接填写值 ，需要时区再去使用 Zone ,精准时间用 INS,格式化ofPattern
+
+```java
+public static void main(String[] args) {
+//!JDK7
+    //规则:只要对时间进行计算或者判断，都需要先获取当前时间的毫秒值
+    //1.计算出生年月日的亳秒值
+    String birthday = "2000年1月1日";
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd");
+    Date date = sdf.parse(birthday);
+    long birthdayTime = date.getTime();
+    //2.获取当前时间的毫秒值
+    long todayTime = System.currentTimeMillis();
+    //3.计算间隔多少天
+    long time = todayTime - birthdayTime;
+    System.out.println(time / 1000 / 60 / 60 / 24);
+
+//!JDK8
+    LocalDate ld1 = LocalDate.of(2000, 1, 1);
+    LocalDate ld2 = LocalDate.now();
+    long days = chronoUnit.DArs.between(ld1, ld2);
+    System.out.println(days);
+}
+```
+
+## 包装类
+
+> [!TIP]
+> 包装类是Java数据类型的对象，int->Integer char->Character string->String boolean->Boolean ……
+
+| 方法 静态               | 功能       |
+|---------------------|----------|
+| ParseInt            | 类型转换     |
+| ValueOf             | 填写数据     |
+| new                 | 实例化，可选构造 |
+| toBinaryString(int) | 得到二进制    |
+| toOctalString(int)  | 得到八进制    |
+| toHexString(int)    | 得到十六进制   |
+
+说明
+
+1. `Integer` 0~127 有优化，方法区已实例化了，可正常直接判断
+2. arrayList 类似需要填写类型时候，写包装类而不是简写的int
+3. int 这些简写是 JDK5 之后 Java特性 自动包装 拆箱。省实例。
+
+## Arrays 算法API
+
+| 方法 静态        | 功能   | 说明      |
+|--------------|------|---------|
+| toString     | 数组转换 | 转为字符串   |
+| binarySearch | 二分查找 | 找不到 -1  |
+| copeOf       | 拷贝数组 | 自动扩容    |
+| copeOfRange  | 范围拷贝 | 左包右不包   |
+| fill         | 数组填充 | 字意      |
+| sort         | 排序   | 快速 + 二分 |
+
+```java
+import java.util.Arrays;
+
+public static void main(String[] args) {
+   int[] list = {1, 3, 9, 6, 5, 6, 8};
+
+   Arrays.sort(list, new Comparator<Integer>() {
+      @Override
+      public int compare(Integer o1, Integer o2) {
+         return o2-o1;//o2-o1 倒序，o1-o2 正序
+         //o1是有序列表，o2是无序列表
+         //负数往前排，正数为正序。
+      }
+   });
+}
+```
+
+## lambda
+
+> Java 中的箭头函数，函数式编程思维，作用在匿名内部类中，并且接口必须为函数式接口。
+> 
+> 函数式接口：只有一个抽象方法的接口，需头顶添加 @FunctionalInterface 注释
+ 
+```java
+public static void main(String[] args) {
+   //实习接口需要 new 出来，而 lambda可以直接
+   lam gf = () -> {
+   };
+   //?省略写法，就别写大括号 箭头后面直接写返回值,单参数括号可省 () -> ()
+}
+
+@FunctionalInterface
+interface lam {
+   public abstract void doSomething();
+}
+```
