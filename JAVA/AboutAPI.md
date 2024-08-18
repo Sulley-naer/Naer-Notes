@@ -566,9 +566,9 @@ public static void main(String[] args) {
 ## lambda
 
 > Java 中的箭头函数，函数式编程思维，作用在匿名内部类中，并且接口必须为函数式接口。
-> 
+>
 > 函数式接口：只有一个抽象方法的接口，需头顶添加 @FunctionalInterface 注释
- 
+
 ```java
 public static void main(String[] args) {
    //实习接口需要 new 出来，而 lambda可以直接
@@ -582,3 +582,53 @@ interface lam {
    public abstract void doSomething();
 }
 ```
+
+
+## For & Foreach
+
+> Java 增强for 和 Foreach 使用和原理
+
+For
+
+> 增强for的变量是临时变量，对他进行操作不会对原数据产生影响。
+
+```java
+public static void main(String[] args) {
+    int[] list = {1, 2, 6, 8, 7, 3, 1, 4, 8};
+    //语法：类型 变量 : 对象。不用死记 Idea 变量.for 或者普通 for 解决方法有提示
+    for (String item : list) {
+        System.out.println(item);
+    }
+}
+```
+
+Foreach
+
+> 底层代码就是普通的For循环，只不过用起来更方便了。
+
+```java
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.function.Consumer;
+
+public static void main(String[] args) {
+   Collection<String> cl = new ArrayList<String>();
+   cl.add("test1");
+   cl.add("test2");
+   cl.add("test3");
+   //普通写法，内部类实现接口，并执行操作
+   cl.forEach(new Consumer<String>() {
+      @Override
+      public void accept(String s) {
+         System.out.println(s);
+      }
+   });
+   //? 于Lambda联动
+   cl.forEach(s -> System.out.println(s));
+}
+```
+
+## More
+
+1. ArrayList 动态数组，方法名很易懂，自动扩容组数
+2. LinkedList 用法跟动态数组一样，方法名同样易懂，用的双向链表
