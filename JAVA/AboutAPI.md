@@ -583,7 +583,6 @@ interface lam {
 }
 ```
 
-
 ## For & Foreach
 
 > Java 增强for 和 Foreach 使用和原理
@@ -632,3 +631,155 @@ public static void main(String[] args) {
 
 1. ArrayList 动态数组，方法名很易懂，自动扩容组数
 2. LinkedList 用法跟动态数组一样，方法名同样易懂，用的双向链表
+
+
+## List
+
+> 常规 [list](stand.md#8-集合体系结构) 方法，这里记录set系列语法。
+
+1. 哈希表
+
+   1. 如果没有重写hashCode方法，不同对象计算出的哈希值是不同的
+   2. 如果已经重写hashcode方法，不同的对象只要属性值相同，计算出的哈希值就是一样的
+   3. 在小部分情况下，不同的属性值或者不同的地址值计算出来的哈希值也有可能一样。（哈希碰撞）
+   4. JDK8:数组+链表+红黑数 JDK7:数组+链表
+
+   ```java
+   public static void main(String[] args) {
+       //!set系列内容不能重复。
+      Set<String> S = new HashSet<>();
+      System.out.println(S.add("张三"));
+      System.out.println(S.add("李四"));
+      System.out.println(S.add("王五"));
+      //?结果是无序,无索引。
+      System.out.println(S);
+      // Region 三种遍历方式 
+      Iterator<String> iterator = S.iterator();
+      while (iterator.hasNext()) {
+         System.out.println(iterator.next());
+      }
+   
+      for (String s : S) {
+         System.out.println(s);
+      }
+   
+      S.forEach(s -> System.out.println(s));
+      // End
+   }
+   ```
+   
+   哈希值获取
+
+   ```java
+    public String name;
+    public static void main(String[] args){
+      Object one = new Object();
+      one.hashCode();
+      //?想要通过成员变量值生成对象哈希请重写方法
+      this.hashCode();
+      System.out.println("ddd".hashCode());//String类有单独的哈希方法。
+    }
+   @Override
+    public int hashCode() {
+        //Idea自动生成的。
+        return Objects.hashCode(Name);
+    }
+   ```
+
+2. LinkedHashSet
+   1. 有序：存储取出元素一致、不重复、无索引
+   2. 底层数据结构是依然哈希表，只是每个元素又额外的多了一个双链表的机制记录存储的顺序。
+
+   ```java
+   import java.util.LinkedHashSet;    
+   public static void main(String[] args){
+     LinkedHashSet<int> lhs = new LinkedHashSet<>();
+     lhs.add("1");
+     lhs.add("2");
+     lhs.add("3");
+     lhs.add("4");
+     System.out.println(lhs);//按照添加顺序输出。
+   }
+   ```
+
+3. TreeSet
+   1. 不重复、无索引、可排序：升序
+   2. 红黑树数据结构，增删改查性能较好。
+   3. 类排序请实现接口，不然使用匿名内部类。
+   4. 排序特点，O是当前需要排序的对象.
+   5. 按照红黑树顺序来排序的，根节点，到下层节点
+
+   ```java
+   import java.util.TreeSet;
+   public static void main(String[] args){
+     TreeSet<Integer> ts = new TreeSet<>();
+     ts.add(9);
+     ts.add(5);
+     ts.add(3);
+     ts.add(7);
+     ts.add(4);
+     System.out.println(ts);
+   }
+   ```
+   
+   对象排序：必须实现接口，重写方法，底层用的红黑数，不需要重写equals和HashCode
+
+   ```java
+   import java.util.TreeSet;
+   public String name;
+   public static void main(String[] args){
+        TreeSet<student> ts = new TreeSet<>();
+        ts.add(new student("张三",12));
+        ts.add(new student("李四",16));
+   }
+   public class student implements Comparable<student>{
+       public String name;
+       public int age;
+        
+        public student(String name,int age) {
+            this.name = name;
+            this.age = age;
+        }
+   
+        @Override
+         public int compareTo(student o) {
+            //按照年龄排序,数字越小越靠前。o是即将进行排序的下个对象。 0就舍弃不存储。
+            //o 是根据红黑数的插入来进行计算的，>0 存右边，< 左边 。0就代表重复了。
+             return this.age - o.age;
+         }
+   }
+   ```
+   
+   方式二排序
+
+   ```java
+   import java.util.Comparator;    
+   import java.util.TreeSet;
+   public static void main(String[] args){
+    //可以用lambda简写;
+    TreeSet<String> treeSet = new TreeSet<>(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                //使用长度排序
+                int i = o1.length() - o2.length();
+                //一样则使用默认
+                i = i == 0 ? o1.compareTo(o2) : i;
+                return i;
+            }
+        });
+    treeSet.add("d");
+    treeSet.add("a");
+    treeSet.add("b");
+    System.out.println(treeSet);
+   }
+   ```
+   
+4. 总结
+   1. 如果想要集合中的**元素可重复**
+       - 用ArrayList集合，基于数组的。（用的最多）
+   2. 如果想要集合中的元素可重复，而且当前的**增删**操作明显多于查询
+      - 用LinkedList集合，基于链表的。
+   3. 如果想对集合中的**元素去重**
+      - 用HashSet集合，基于哈希表的。（用的最多）
+   4. 如果想对集合中的元素去重，而且保证**存取顺序**
+      - 用LinkedHashSet集合，基于哈希表和双链表，效率低于HashSet。

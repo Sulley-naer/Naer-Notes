@@ -1517,7 +1517,7 @@ public class Main {
 
 </details>
 
-## 8. 集合体系结构
+## 8. 集合体系[结构](data Structure.md)
 
 红色为接口，蓝色为实现类
 
