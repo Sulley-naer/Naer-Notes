@@ -23,6 +23,7 @@
   - [8. 多态](#8-多态)
   - [常量于静态 『`Final`』 \& 『`Static`』](#常量于静态-final--static)
   - [8. 集合体系结构](#8-集合体系结构)
+  - [9. 泛型 『`Generic`』](#9-泛型-generic)
   - [8. 异常处理](#8-异常处理)
   - [9. 多线程](#9-多线程)
   - [10. 反射](#10-反射)
@@ -146,15 +147,15 @@ my-java-project/
 ```
 
 1. main/: 主源代码
-    1. java/: Java 源代码
-        1. com/example/: 包目录，对应包名 `com.example` 命名通常是域名反写
-            1. App.java: 主应用程序类
-            2. utils/: 工具类包，对应包名 `com.example.utils`
-                1. Utils.java: 工具类
+   1. java/: Java 源代码
+      1. com/example/: 包目录，对应包名 `com.example` 命名通常是域名反写
+         1. App.java: 主应用程序类
+         2. utils/: 工具类包，对应包名 `com.example.utils`
+            1. Utils.java: 工具类
 2. test/: 测试代码
-    1. java/: Java 测试代码
-        1. com/example/: 测试类包目录，对应包名 `com.example`
-            1. AppTest.java: 测试类
+   1. java/: Java 测试代码
+      1. com/example/: 测试类包目录，对应包名 `com.example`
+         1. AppTest.java: 测试类
 3. lib/: 存放外部库的目录。
 4. bin/: 编译输出目录，存放编译后的 `.class` 文件。
 5. build/: 构建输出目录。
@@ -571,15 +572,15 @@ Java 语言支持以下数组：
 - 构造器（Constructor）：类中用于创建对象的函数。
 - 访问控制符（Access Modifier）：public、private、protected。
 - 继承（Inheritance）：一个类可以从另一个类继承所有其成员变量和方法。
-    - Java 所有类都继承 Object 类使其作为基类
-    - Java 不能**多继承**，但是可以**多层继承**，变相解决继承问题。
-    - Java 对继承做了优化，非 `static`、`final`、`private` 属性|方法 <br>
-      均在虚方法中允许并**被继承**，继承了 `Getter` 方法，但静态属性**未继承**，`Getter`发现未继承属性，抛错！
-    - **第二层**继承了**第一层**，**第三层**继承**第二层**，**第二层**中继承的**第一层**，所以**第三层**继承了**一二层**
-    - Java 类中只能存在**一个**公开的类，所以继承的类必须**分离**文件出来 <br>
-      类中写类无法调用 `super` 因 `this` 无法指向父类而是自己的堆值
-    - 还需注意 继承类的 **堆** 中是拥有 父类的属性，`super` 是调用父类 **构造函数** <br>
-      尽管没调用它也继承了 **父类的属性**，它实例化后就记录在了**方法区**中。
+  - Java 所有类都继承 Object 类使其作为基类
+  - Java 不能**多继承**，但是可以**多层继承**，变相解决继承问题。
+  - Java 对继承做了优化，非 `static`、`final`、`private` 属性|方法 <br>
+    均在虚方法中允许并**被继承**，继承了 `Getter` 方法，但静态属性**未继承**，`Getter`发现未继承属性，抛错！
+  - **第二层**继承了**第一层**，**第三层**继承**第二层**，**第二层**中继承的**第一层**，所以**第三层**继承了**一二层**
+  - Java 类中只能存在**一个**公开的类，所以继承的类必须**分离**文件出来 <br>
+    类中写类无法调用 `super` 因 `this` 无法指向父类而是自己的堆值
+  - 还需注意 继承类的 **堆** 中是拥有 父类的属性，`super` 是调用父类 **构造函数** <br>
+    尽管没调用它也继承了 **父类的属性**，它实例化后就记录在了**方法区**中。
 - 多态（Polymorphism）：同一个方法可以作用于不同的对象，根据对象的实际类型调用不同的方法。
 - 封装（Encapsulation）：将数据和方法包装在一起，隐藏内部实现细节。
 
@@ -1045,7 +1046,7 @@ A：现在我们写一个匿名类，并继承实现接口，这样一个子类�
 
 4. 继承抽象类
 
-    - super() 方法调用父类的构造器，并初始化父类的成员变量。super 调用继承抽象类
+   - super() 方法调用父类的构造器，并初始化父类的成员变量。super 调用继承抽象类
 
    ```java
       public class Student extends Person {
@@ -1147,9 +1148,9 @@ A：现在我们写一个匿名类，并继承实现接口，这样一个子类�
 
   依赖倒置的好处：
 
-    - 解耦：调用方只依赖接口，不依赖实现类，实现解耦。
-    - 灵活：可以替换实现类，实现灵活。
-    - 方便：调用方只需要知道接口，不需要知道实现类，方便调用。
+  - 解耦：调用方只依赖接口，不依赖实现类，实现解耦。
+  - 灵活：可以替换实现类，实现灵活。
+  - 方便：调用方只需要知道接口，不需要知道实现类，方便调用。
 
 - 适配器模式『中级』
 
@@ -1228,9 +1229,9 @@ public class Main {
 
   多态的好处：
 
-    - 代码重用：父类引用可以指向子类的对象，可以调用子类的方法。
-    - 接口和抽象类：接口和抽象类可以定义方法，子类可以实现接口或继承抽象类，可以调用父类和子类的共同方法。
-    - 灵活性：程序可以根据需要调用不同的对象，灵活地处理对象。
+  - 代码重用：父类引用可以指向子类的对象，可以调用子类的方法。
+  - 接口和抽象类：接口和抽象类可以定义方法，子类可以实现接口或继承抽象类，可以调用父类和子类的共同方法。
+  - 灵活性：程序可以根据需要调用不同的对象，灵活地处理对象。
 
 - 扩展『字意』
 
@@ -1286,9 +1287,9 @@ public class Main {
 
   扩展的好处：
 
-    - 解耦：扩展接口，实现解耦。
-    - 灵活：可以扩展接口，实现灵活。
-    - 方便：调用方只需要知道接口，不需要知道实现类，方便调用。
+  - 解耦：扩展接口，实现解耦。
+  - 灵活：可以扩展接口，实现灵活。
+  - 方便：调用方只需要知道接口，不需要知道实现类，方便调用。
 
 </details>
 
@@ -1303,9 +1304,9 @@ public class Main {
 - 向下转型（Downcasting）：将父类的引用赋给子类的引用。
 - instanceof 运算符：判断对象是否属于某个类。
 - 多态的好处：
-    - 代码重用：父类引用可以指向子类的对象，可以调用子类的方法。
-    - 接口和抽象类：接口和抽象类可以定义方法，子类可以实现接口或继承抽象类，可以调用父类和子类的共同方法。
-    - 灵活性：程序可以根据需要调用不同的对象，灵活地处理对象。
+  - 代码重用：父类引用可以指向子类的对象，可以调用子类的方法。
+  - 接口和抽象类：接口和抽象类可以定义方法，子类可以实现接口或继承抽象类，可以调用父类和子类的共同方法。
+  - 灵活性：程序可以根据需要调用不同的对象，灵活地处理对象。
 
 <details>
 <summary>多态语法</summary>
@@ -1528,27 +1529,27 @@ set 系列：无序、不重复、无索引
 
 apis：
 
-| 方法          | 功能           | 说明       |
-|-------------|--------------|----------|
-| --------    | Collection   | -------- |
-| add         | 添加           | 字意       |
-| remove      | 移除           | 字意       |
-| contains    | 判断存在         | 字意       |
-| size        | 获取长度         | 字意       |
-| isEmpty     | 是否为空         | 字意       |
-| --------    | iterator     | -------- |
-| hasNext     | 是否有元素        | 当前指针位置   |
-| next        | 获取当前元素       | 移动指针     |
-| remove      | 删除元素         | 当前位置     |
-| --------    | List         | -------- |
-| add         | 添加元素         | 选参：索引位置  |
-| set         | 修改元素         | 必参：索引位置  |
-| remove      | 移除元素         | 必参：索引位置  |
-| get         | 获取元素         | 必参：索引位置  |
-| size        | 获取长度         | 方法       |
-| --------    | ListIterator | -------- |
-| hasPrevious | 前方是否有元素      | 当前指针位置   |
-| previous    | 获取当前元素       | 移动指针     |
+| 方法        | 功能           | 说明           |
+| ----------- | -------------- | -------------- |
+| --------    | Collection     | --------       |
+| add         | 添加           | 字意           |
+| remove      | 移除           | 字意           |
+| contains    | 判断存在       | 字意           |
+| size        | 获取长度       | 字意           |
+| isEmpty     | 是否为空       | 字意           |
+| --------    | iterator       | --------       |
+| hasNext     | 是否有元素     | 当前指针位置   |
+| next        | 获取当前元素   | 移动指针       |
+| remove      | 删除元素       | 当前位置       |
+| --------    | List           | --------       |
+| add         | 添加元素       | 选参：索引位置 |
+| set         | 修改元素       | 必参：索引位置 |
+| remove      | 移除元素       | 必参：索引位置 |
+| get         | 获取元素       | 必参：索引位置 |
+| size        | 获取长度       | 方法           |
+| --------    | ListIterator   | --------       |
+| hasPrevious | 前方是否有元素 | 当前指针位置   |
+| previous    | 获取当前元素   | 移动指针       |
 
 <details>
 <summary>集合体语法</summary>
@@ -1606,17 +1607,139 @@ apis：
 
    ListIterator : List 专用迭代器
 
-    ```java
-    public static void main(String[] args){
-      List<String> cl = new ArrayList<>();
-      cl.add("test");
-      //继承自普通迭代器，拥有往前读取的方法。
-      ListIterator<String> lit =cl.listIterator();
-      //拥有特性，可以在遍历过程中添加元素。
-      lit.hasPrevious();
-      lit.previous();
+   ```java
+   public static void main(String[] args){
+     List<String> cl = new ArrayList<>();
+     cl.add("test");
+     //继承自普通迭代器，拥有往前读取的方法。
+     ListIterator<String> lit =cl.listIterator();
+     //拥有特性，可以在遍历过程中添加元素。
+     lit.hasPrevious();
+     lit.previous();
+   }
+   ```
+
+</details>
+
+## 9. 泛型 『`Generic`』
+
+> [!TIP]
+> 泛型是 JDK5 新特性，用于解决参数类型、返回类型、变量类型不确定的问题。
+
+- 泛型的好处：
+  - 代码重用：父类引用可以指向子类的对象，可以调用子类的方法。
+  - 接口和抽象类：接口和抽象类可以定义方法，子类可以实现接口或继承抽象类，可以调用父类和子类的共同方法。
+  - 灵活性：程序可以根据需要调用不同的对象，灵活地处理对象。
+
+<details>
+<summary>泛型语法</summary>
+
+泛型的用处：
+
+```java
+public static void main(String[] args) throws IOException {
+        //没有泛型，数组可以接受，Object对象：基类，也就是任意数据类型。
+        ArrayList list = new ArrayList();
+        list.add(123);
+        list.add("dad");
+        //!弊端：类型不确定，由于多态特性，不能使用子类方法，强转可能会报错，integer无法转为string。
     }
-    ```
+```
+
+使用泛型：
+
+```java
+public static void main(String[] args) throws IOException {
+        //使用泛型指定类型，省去强转，编译器会检查类型。
+        /* Java是伪泛型，只是在编译阶段进行类型检查，运行阶段仍然是Object类型。 */
+        ArrayList<String> list = new ArrayList();
+        list.add("dad");
+    }
+```
+
+定义泛型类：
+
+- E：元素类型，可以是任意类型。T：类型参数，可以是任意类型。
+- K：键类型，可以是任意类型。V：值类型，可以是任意类型。
+- N：数字类型，可以是任意类型。S：字符串类型，可以是任意类型。
+- 可以是任意字符，上面是常用单词。
+
+```java
+public static class myList<E,K>{
+    // e 形参名字
+    public void add(E e){
+     sout(e);
+    }
+    //返回值类型，同样可以使用泛型。
+    public K get(){
+      return (K) value ;
+    }
+  }
+```
+
+定义泛型方法：
+
+```java
+/* 如果只是一个方法需要用到泛型，就可以不用给整个类添加泛型。 */
+public static <T> void add(ArrayList<T> arr,T...e){ /* ...新语法，可以传入多个参数，自动转为数组 */
+     for(T t:e){
+         arr.add(t);
+     }
+}
+```
+
+定义泛型接口：
+
+```java
+public interface MyInterface<T>{
+    public void add(T t);
+    public T get();
+}
+//实现接口，并指定类型：
+public class Cls implements MyInterface<String>{
+  ...
+}
+//实现接口，仍然使用泛型。
+public class NewCls<E> implements MyInterface<E>{
+   ...
+}
+```
+
+泛型数据继承
+
+```java
+public void add(T t){
+    sout(t);
+}
+
+public static void main(String[] args) {
+    add("hello")
+    add(123) //编译器会报错，类型不匹配，泛型会在首次使用时确定类型，后面使用类型必须与首次一致。
+
+    //?但是如果你传入的是类，可以使用多态继承来实现，绕过类型检查。
+    /* 比如你首次传入 Ye 类，后面传入 Zi 类，肯定是不行的，但是你可以让 Zi 类去继承 Ye 类，这样就能实现多态。 */
+}
+
+public static <E> void example(T t){
+    sout(t);
+    /* 上面说的多态在泛型方法中就可以省去了，方法每次调用都算作首次 */
+}
+```
+
+泛型通配符
+
+- ? extends T：可以接受任何 T 类型的子类,包括 T 类型本身。
+  -? super T：可以接受任何 T 类型的父类,包括 T 类型本身。
+
+```java
+public static void method(ArrayList<? extends Number> list){
+    //? 泛型通配符，可以接受任何 Number 类型的子类。
+    //? 但是不能添加元素，只能读取。
+    for(Number n:list){
+        sout(n);
+    }
+}
+```
 
 </details>
 
