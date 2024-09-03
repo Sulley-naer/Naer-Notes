@@ -72,54 +72,56 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 
 ## 我的快捷键
 
-| 快捷键                                 | 功能       |
-|-------------------------------------|----------|
-| <kbd> F2 </kdb>                     | 重命名      |
-| <kbd> Alt + V </kdb>                | 方法声明变量   |
-| <kbd> Alt + Left </kdb>             | 上一步      |
-| <kbd> Alt + Right </kdb>            | 下一步      |
-| <kbd> Alt + b </kdb>                | 运行       |
-| <kbd> Alt + D </kdb>                | 调试       |
-| <kbd> Ctrl + Q </kdb>               | 切换行断点    |
-| <kbd> Alt + G </kdb>                | SQL 语句运行 |
+| 快捷键                              | 功能            |
+| ----------------------------------- | --------------- |
+| <kbd> F2 </kdb>                     | 重命名          |
+| <kbd> Alt + V </kdb>                | 方法声明变量    |
+| <kbd> Alt + Left </kdb>             | 上一步          |
+| <kbd> Alt + Right </kdb>            | 下一步          |
+| <kbd> Alt + b </kdb>                | 运行            |
+| <kbd> Alt + D </kdb>                | 调试            |
+| <kbd> Ctrl + Q </kdb>               | 切换行断点      |
+| <kbd> Alt + G </kdb>                | SQL 语句运行    |
 | <kbd> Alt + G </kdb>                | 类中提取为方法  |
-| <kbd> Alt + Enter </kdb>            | Idea 生成  |
-| <kbd> Ctrl + Enter </kdb>           | 智能换行     |
-| <kbd> Ctrl + Shift + K </kdb>       | 删除整行     |
-| <kbd> Ctrl + PgUp 『Num9』 </kdb>     | 标签下切换    |
-| <kbd> Ctrl + PgDn 『Num3』 </kdb>     | 标签上切换    |
-| <kbd> Alt + Num6 </kdb>             | 向右拆分     |
-| <kbd> Alt + Num2 </kdb>             | 向下拆分     |
-| <kbd> Alt + Num5 </kdb>             | 取消拆分     |
-| <kbd> Alt + Shift +Num5 </kdb>      | 取消全部拆分   |
-| <kbd> Alt + Shift +Space </kdb>     | 形参预览     |
-| <kbd> Alt + A </kdb>                | 显示智能操作   |
-| <kbd> Ctrl + I </kdb>               | 激活代码提示   |
-| <kbd> Alt + T </kdb>                | 切换代码折叠   |
-| <kbd> Ctrl + Alt + S </kdb>         | 代码格式化    |
-| <kbd> Ctrl + Alt + T </kdb>         | 代码包围方法   |
-| <kbd> Ctrl + Shift + Alt + S </kdb> | 项目模块     |
-| <kbd> Ctrl + Shift + v </kdb>       | MD文件切换预览 |
-| <kbd> Ctrl + Shift + E </kdb>       | MD文件切换编辑 |
+| <kbd> Alt + Enter </kdb>            | Idea 生成       |
+| <kbd> Ctrl + Enter </kdb>           | 智能换行        |
+| <kbd> Ctrl + Shift + K </kdb>       | 删除整行        |
+| <kbd> Ctrl + PgUp 『Num9』 </kdb>   | 标签下切换      |
+| <kbd> Ctrl + PgDn 『Num3』 </kdb>   | 标签上切换      |
+| <kbd> Alt + Num6 </kdb>             | 向右拆分        |
+| <kbd> Alt + Num2 </kdb>             | 向下拆分        |
+| <kbd> Alt + Num5 </kdb>             | 取消拆分        |
+| <kbd> Alt + Shift +Num5 </kdb>      | 取消全部拆分    |
+| <kbd> Alt + Shift +Space </kdb>     | 形参预览        |
+| <kbd> Alt + A </kdb>                | 显示智能操作    |
+| <kbd> Ctrl + I </kdb>               | 激活代码提示    |
+| <kbd> Alt + T </kdb>                | 切换代码折叠    |
+| <kbd> Ctrl + Alt + S </kdb>         | 代码格式化      |
+| <kbd> Ctrl + Alt + T </kdb>         | 代码包围方法    |
+| <kbd> Ctrl + Shift + Del </kdb>     | 代码移除包围    |
+| <kbd> Ctrl + Shift + Alt + S </kdb> | 项目模块        |
+| <kbd> Ctrl + Shift + v </kdb>       | MD 文件切换预览 |
+| <kbd> Ctrl + Shift + E </kdb>       | MD 文件切换编辑 |
 
 说明：
 
 1. 方法说明变量：调用方法，有返回值需接受，它智能识别类型并声明变量
 2. 重命名:支持文件重命名，也可以变量重命名，不再需要挨个替换
-3. 提取为方法，Java类选择代码，会出现小菜单栏，也可以选择提取，还有些提取功能
+3. 提取为方法，Java 类选择代码，会出现小菜单栏，也可以选择提取，还有些提取功能
 4. 智能换行:代码换行自动对齐
 5. 智能操作:快速修复
 6. 包裹方式:将代码外包裹一层，if、try、while、……
 7. 项目模块:项目模块『文件夹』管理
 
 ## 拓展
+
 1. Better HighLights「智能高光」
 
    ```java
    //TODO IDea 自带待做
    // ! 注意
    // ? 提示
-   // Region 代码块 开始 
+   // Region 代码块 开始
    // End 代码库 结束
    ```
 
@@ -133,7 +135,7 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
            System.out.println(e);
        }
    }
-   
+
    public static String test() {
        return "cg";
    }
@@ -141,8 +143,8 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 
    快捷键:
 
-   | 快捷键                      | 功能   |
-                                       |--------------------------|------|
+   | 快捷键                   | 功能     |
+   | ------------------------ | -------- |
    | <kbd>Ctrl + MRight</kdb> | 局部高亮 |
    | <kbd>Alt + MRight</kdb>  | 专注模式 |
    | <kbd>ESC</kdb>           | 普通模式 |
@@ -155,8 +157,8 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 
 3. Translation「翻译工具」
 
-   | 快捷键                         | 功能   |
-                                       |-----------------------------|------|
+   | 快捷键                      | 功能     |
+   | --------------------------- | -------- |
    | <kdb>Ctrl + Shift + Y</kdb> | 选中翻译 |
    | <kdb>Ctrl + Shift + X</kdb> | 翻译替换 |
 
@@ -166,15 +168,15 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 
 4. Draw、UML 流程图绘制工具
 
-    1. `drawio` 文件再底部切换图片绘制 或者 代码编写模式 后缀 `drawio`
-        1. 代码：<br>
-           <img alt="code" src="./images/Idea/Idea-1722680524054.png" width="300"/>
-        2. 绘制：<br>
-           <img alt="draw" src="./images/Idea/Idea-1722680589329.png" width="300"/>
-        3. Idea卡顿 [解决](https://app.diagrams.net/)
-    2. `UML` 纯代码编写，心智负担 不建议使用 后缀 `puml`
-        1. 效果图: <br>
-           <img alt="puml" src="./images/Idea/Idea-1722681179115.png" width="300"/>
-        2. [官网](https://plantuml.com/zh/running) [文献](https://plantuml.com/zh/guide)
+   1. `drawio` 文件再底部切换图片绘制 或者 代码编写模式 后缀 `drawio`
+      1. 代码：<br>
+         <img alt="code" src="./images/Idea/Idea-1722680524054.png" width="300"/>
+      2. 绘制：<br>
+         <img alt="draw" src="./images/Idea/Idea-1722680589329.png" width="300"/>
+      3. Idea 卡顿 [解决](https://app.diagrams.net/)
+   2. `UML` 纯代码编写，心智负担 不建议使用 后缀 `puml`
+      1. 效果图: <br>
+         <img alt="puml" src="./images/Idea/Idea-1722681179115.png" width="300"/>
+      2. [官网](https://plantuml.com/zh/running) [文献](https://plantuml.com/zh/guide)
 
-[//]: # (5. Lombok 「隐藏Get、set」)
+[//]: # "5. Lombok 「隐藏Get、set」"

@@ -9,7 +9,11 @@ window.location.host; //www.xxx.com
 window.location.hostname; //www.xxx.com (不包含子域名)
 window.location.port; //80 获取端口号
 window.location.pathname; // /index 获取当前路径名
-// router.currentRoute.value.path Vue直接获取最后子路由
+router.currentRoute.value.path; //Vue直接获取最后子路由
+computed(
+  () =>
+    router.currentRoute.value.path /* 动态获取当前路由，也就是跳转了也会更新 */
+);
 window.location.search; //?search=1 获取Get方式数据
 window.location.hash; //#page1 获取页面锚点
 ```

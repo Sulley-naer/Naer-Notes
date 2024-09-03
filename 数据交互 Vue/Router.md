@@ -6,6 +6,7 @@
 > 2. `main.js`中引入并使用
 > 3. `router`配置路由 组件不刷新跳转
 > 4. `this.$router.push('/new-route')` 跳转路由
+> 5. `computed(() => router.currentRoute.value.path)` 动态获取当前路由节点
 
 ## 安装
 
