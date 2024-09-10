@@ -1,6 +1,8 @@
 # Vue 组件通讯
 
-方法一：通过 emit 事件传递数据给父组件
+## 方法一
+
+> 通过 emit 事件传递数据给父组件
 
 子组件
 
@@ -49,7 +51,9 @@ function handleSearch(query) {
 </script>
 ```
 
-方法二：子组件中，使用 props 和 emit 实现双向绑定。弊端：父组件无法准确监听子组件对数据的变化。
+## 方法二
+
+> 子组件中，使用 props 和 emit 实现双向绑定。弊端：父组件无法准确监听子组件对数据的变化。
 
 子组件
 
@@ -105,7 +109,9 @@ watch(searchQuery, (newQuery) => {
 </script>
 ```
 
-方式三：子组件触发自定义属性，变相实现双向绑定。解决了数据变化监听不准确的问题。
+## 方式三
+
+> 子组件触发自定义属性，变相实现双向绑定。解决了数据变化监听不准确的问题。
 
 子组件
 
@@ -177,7 +183,9 @@ watch(
 )
 ```
 
-方式四 解决多参数传递，v-model 单独问题，可使用 props 和 emit 双向绑定
+## 方式四
+
+> 解决多参数传递，v-model 单独问题，可使用 props 和 emit 双向绑定
 
 父组件
 
@@ -197,6 +205,8 @@ const props = defineProps<{
   anotherProp: string
 }>()
 
+// v-Model() 3.4推荐使用api defineModel()
+
 const search = ref(props.modelValue)
 
 const user = ref(props.anotherProp)
@@ -209,12 +219,158 @@ watch(user, (newVal) => {
   emit('update:anotherProp', newVal)
 })
 
-//父组件异步更新了数据，子组件未同步更新，解决方法
-//Vue3 的watch是拦截式，所以必须要保证使用的最后，让新数据保存给变量，否则无法更新数据了，后续的watch不会生效
-watch(
-  () => props.anotherProp,
-  (newVal) => {
-    user.value = newVal
-  }
-)
+```
+
+## 双向绑定
+
+> Vue model 双向绑定 [说明](https://cn.vuejs.org/guide/components/v-model) [Api](https://cn.vuejs.org/api/sfc-script-setup.html#definemodel)
+
+- 父组件
+
+```html
+<son
+  v-model:kit='"two"'
+  v-model='"hello"'
+  @update:kit="handleKit"
+  @update:model="handleModel"></son>
+```
+
+- 子组件
+
+```Typescript
+//接受 3.4+
+const model = defineModel()
+const kit = defineModel("Kit", { type: string, default: "one" })
+
+//监听
+watch(model, (newVal) => {
+  console.log(newVal)
+  emit("update:model", newVal)
+})
+
+watch(kit, (newVal) => {
+  console.log(newVal)
+  emit("update:kit", newVal)
+})
+```
+
+## Watcher
+
+- 监听数据的变化，当数据变化时，执行回调函数。
+
+```html
+<template>
+  <div>
+    <input v-model="searchQuery" placeholder="搜索..." />
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { ref, watch } from "vue";
+
+  const searchQuery = ref("");
+
+  //Vue3 的watch是拦截式，所以必须要保证使用的最后，让新数据保存给变量，否则无法更新数据了，后续的watch不会生效
+  watch(searchQuery, (newVal) => {
+    console.log("Search query updated:", newVal);
+    searchQuery.value = newVal;
+  });
+
+  //Vue 新语法省去了填写对象，也不需要给他赋值，弊端就是无法获取到新值 [链接](https://cn.vuejs.org/api/reactivity-core#watcheffect)
+  watchEffect(() => console.log(searchQuery.value));
+</script>
+```
+
+- 监听多个数据变化，当多个数据变化时，执行回调函数。
+
+```html
+<template>
+  <div>
+    <input v-model="searchQuery" placeholder="搜索..." />
+    <input v-model="searchCategory" placeholder="分类..." />
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { ref, watch } from "vue";
+
+  const searchQuery = ref("");
+  const searchCategory = ref("");
+
+  watch([searchQuery, searchCategory], (newVal) => {
+    console.log("Search query and category updated:", newVal);
+    ...自行将 newVal 赋值给原对象
+  });
+</script>
+```
+
+- 监听数据的变化，并执行异步操作。
+
+```html
+<template>
+  <div>
+    <input v-model="searchQuery" placeholder="搜索..." />
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { ref, watch } from "vue";
+
+  const searchQuery = ref("");
+
+  const fetchData = async () => {
+    const response = await fetch(
+      `https://api.example.com/search?q=${searchQuery.value}`
+    );
+    const data = await response.json();
+    console.log(data);
+  };
+
+  watch(searchQuery, () => {
+    fetchData();
+  });
+</script>
+```
+
+## Dom 绑定
+
+- Ref 给模板对象添加一个引用，方便操作 DOM。
+
+```html
+<template>
+  <div>
+    <h1 ref="title">我的标题</h1>
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { ref, onMounted } from "vue";
+
+  const title = ref(null);
+
+  onMounted(() => {
+    // 这里可以通过 myElement.value 操作 DOM 元素
+    console.log(myElement.value); // 访问 DOM 元素
+    console.log(myElement.value.ref); // elementPlus 访问
+    myElement.value.style.backgroundColor = "yellow"; // 修改背景颜色
+  });
+</script>
+```
+
+- 点击事件获取元素
+
+```html
+<template>
+  <div>
+    <el-button @click="handleClick($event)">点击</el-button>
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { ref } from "vue";
+
+  const handleClick = (element: MouseEvent) => {
+    console.log(element);// 访问 DOM 元素
+    console.log(element.target);// element.target 访问点击的元素
+  };
 ```
