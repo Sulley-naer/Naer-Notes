@@ -35,8 +35,8 @@ npm install -g npm
 普通配置
 
 ```bash
-npm config set proxy http://server:port
-npm config set https-proxy http://server:port
+npm config set --global proxy http://server:port
+npm config set --global https-proxy http://server:port
 ```
 
 验证配置
