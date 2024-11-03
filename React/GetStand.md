@@ -426,6 +426,46 @@ export default Input;
 3. `current`：一个属性，指向组件 元素 实例
 4. `focus`：一个方法，用来聚焦元素
 
+#### 注意事项
+
+> [!TIP]
+>
+> 1. 如果你拿取不到 Dom 实例，应该是使用了自定义标签或者组件函数，因此无法直接绑定 ref。
+
+解决办法：
+
+1. 使用 `forwardRef` 组件，将自定义组件包装成一个可以拿取 ref 的组件。
+2. 使用 `useImperativeHandle` 钩子，将自定义组件的实例暴露给父组件。
+
+```jsx
+import React, { forwardRef, useImperativeHandle } from "react";
+
+function Input(props, ref) {
+  const inputRef = useRef(null);
+
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      inputRef.current.focus();
+    },
+  }));
+
+  return <input type="text" ref={inputRef} {...props} />;
+}
+
+//官方文档案例,简写直接拿 props 获取标签属性
+
+const MyInput = forwardRef(({ value, onChange }, ref) => {
+  return <input value={value} onChange={onChange} ref={ref} />;
+});
+
+export default forwardRef(Input);
+```
+
+1. `forwardRef`：一个函数，用来将自定义组件包装成一个可以拿取 ref 的组件
+2. `useImperativeHandle`：一个钩子，用来将自定义组件的实例暴露给父组件
+3. `ref`：一个参数，用来拿取组件实例
+4. `focus`：一个方法，用来聚焦元素
+
 ### context ⭐
 
 React 中可以使用 `context` 来实现跨组件数据共享。
