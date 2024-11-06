@@ -858,11 +858,11 @@ return (
 
 ## 插槽
 
-React 中可以使用 `slot` 来实现组件插槽。
+React 中可以使用 `children` 来实现组件插槽。
 
-1. `slot`：一个 HTML 标签，用来定义组件插槽
-2. `default`：一个插槽，用来定义默认插槽
-3. `named`：一个插槽，用来定义命名插槽
+1. `default`：一个插槽，用来定义默认插槽
+2. `named`：一个插槽，用来定义命名插槽
+3. `children`：Props 的属性，能看到组件中里面所有的子元素
 
 ```jsx
 //父组件
@@ -875,9 +875,9 @@ function Child(props) {
   return (
     <div>
       <h1>子组件</h1>
-      <slot>子默认插槽</slot>
-      <slot name="left">左边插槽</slot>
-      <slot name="right">右边插槽</slot>
+      <div>子默认插槽</div>
+      <div name="left">左边插槽：{props.children[0]}</div>
+      <div name="right">右边插槽：{props.children[1]}</div>
     </div>
   );
 }
@@ -887,7 +887,7 @@ return (
   <>
     <Parent />
     <Parent>
-      <span>渲染时默认插槽</span>
+      渲染时默认插槽
       <span slot="left">父组件修改左边插槽</span>
       <span slot="right">父组件修改右边插槽</span>
     </Parent>
