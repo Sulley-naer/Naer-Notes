@@ -72,36 +72,39 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 
 ## 我的快捷键
 
-| 快捷键                              | 功能            |
-| ----------------------------------- | --------------- |
-| <kbd> F2 </kdb>                     | 重命名          |
+| 快捷键                                 | 功能        |
+|-------------------------------------|-----------|
+| <kbd> F2 </kdb>                     | 重命名       |
 | <kbd> Alt + V </kdb>                | 方法声明变量    |
-| <kbd> Alt + Left </kdb>             | 上一步          |
-| <kbd> Alt + Right </kdb>            | 下一步          |
-| <kbd> Alt + b </kdb>                | 运行            |
-| <kbd> Alt + D </kdb>                | 调试            |
-| <kbd> Ctrl + Q </kdb>               | 切换行断点      |
-| <kbd> Alt + G </kdb>                | SQL 语句运行    |
-| <kbd> Alt + G </kdb>                | 类中提取为方法  |
-| <kbd> Alt + Enter </kdb>            | Idea 生成       |
-| <kbd> Ctrl + Enter </kdb>           | 智能换行        |
-| <kbd> Ctrl + Shift + K </kdb>       | 删除整行        |
-| <kbd> Ctrl + PgUp 『Num9』 </kdb>   | 标签下切换      |
-| <kbd> Ctrl + PgDn 『Num3』 </kdb>   | 标签上切换      |
-| <kbd> Alt + Num6 </kdb>             | 向右拆分        |
-| <kbd> Alt + Num2 </kdb>             | 向下拆分        |
-| <kbd> Alt + Num5 </kdb>             | 取消拆分        |
+| <kbd> Alt + Left </kdb>             | 上一步       |
+| <kbd> Alt + Right </kdb>            | 下一步       |
+| <kbd> Ctrl + F12 </kdb>             | 类结构       |
+| <kbd> Alt + M </kdb>                | 转到实现      |
+| <kbd> Alt + b </kdb>                | 运行        |
+| <kbd> Alt + D </kdb>                | 调试        |
+| <kbd> Ctrl + Q </kdb>               | 切换行断点     |
+| <kbd> Alt + G </kdb>                | SQL 语句运行  |
+| <kbd> Alt + G </kdb>                | 类中提取为方法   |
+| <kbd> Alt + Enter </kdb>            | Idea 生成   |
+| <kbd> Ctrl + Enter </kdb>           | 智能换行      |
+| <kbd> Ctrl + Shift + K </kdb>       | 删除整行      |
+| <kbd> Ctrl + PgUp 『Num9』 </kdb>     | 标签下切换     |
+| <kbd> Ctrl + PgDn 『Num3』 </kdb>     | 标签上切换     |
+| <kbd> Alt + Num6 </kdb>             | 向右拆分      |
+| <kbd> Alt + Num2 </kdb>             | 向下拆分      |
+| <kbd> Alt + Num5 </kdb>             | 取消拆分      |
 | <kbd> Alt + Shift +Num5 </kdb>      | 取消全部拆分    |
-| <kbd> Alt + Shift +Space </kdb>     | 形参预览        |
+| <kbd> Alt + Shift +Space </kdb>     | 形参预览      |
 | <kbd> Alt + A </kdb>                | 显示智能操作    |
 | <kbd> Ctrl + I </kdb>               | 激活代码提示    |
 | <kbd> Alt + T </kdb>                | 切换代码折叠    |
-| <kbd> Ctrl + Alt + S </kdb>         | 代码格式化      |
+| <kbd> Ctrl + Alt + S </kdb>         | 代码格式化     |
 | <kbd> Ctrl + Alt + T </kdb>         | 代码包围方法    |
 | <kbd> Ctrl + Shift + Del </kdb>     | 代码移除包围    |
-| <kbd> Ctrl + Shift + Alt + S </kdb> | 项目模块        |
+| <kbd> Ctrl + Shift + Alt + S </kdb> | 项目模块      |
 | <kbd> Ctrl + Shift + v </kdb>       | MD 文件切换预览 |
 | <kbd> Ctrl + Shift + E </kdb>       | MD 文件切换编辑 |
+
 
 说明：
 

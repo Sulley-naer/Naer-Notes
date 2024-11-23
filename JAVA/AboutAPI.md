@@ -633,7 +633,7 @@ public static void main(String[] args) {
 2. LinkedList 用法跟动态数组一样，方法名同样易懂，用的双向链表
 
 
-## List
+## List [更多详情](./List.md)
 
 > 常规 [list](stand.md#8-集合体系结构) 方法，这里记录set系列语法。
 
@@ -780,6 +780,6 @@ public static void main(String[] args) {
    2. 如果想要集合中的元素可重复，而且当前的**增删**操作明显多于查询
       - 用LinkedList集合，基于链表的。
    3. 如果想对集合中的**元素去重**
-      - 用HashSet集合，基于哈希表的。（用的最多）
+      - 用HashSet集合，基于哈希表的。（用的最多，效率也最高）
    4. 如果想对集合中的元素去重，而且保证**存取顺序**
       - 用LinkedHashSet集合，基于哈希表和双链表，效率低于HashSet。
