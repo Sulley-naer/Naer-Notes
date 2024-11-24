@@ -632,10 +632,7 @@ public static void main(String[] args) {
 1. ArrayList 动态数组，方法名很易懂，自动扩容组数
 2. LinkedList 用法跟动态数组一样，方法名同样易懂，用的双向链表
 
-
-## List [更多详情](./List.md)
-
-> 常规 [list](stand.md#8-集合体系结构) 方法，这里记录set系列语法。
+> 常规 [list](stand.md#8-集合体系结构) 方法，这里记录的都是 `set` 系列语法。
 
 1. 哈希表
 
@@ -783,3 +780,28 @@ public static void main(String[] args) {
       - 用HashSet集合，基于哈希表的。（用的最多，效率也最高）
    4. 如果想对集合中的元素去重，而且保证**存取顺序**
       - 用LinkedHashSet集合，基于哈希表和双链表，效率低于HashSet。
+   5. 更多高阶集合 [双列集合](./List.md#双列集合)
+
+## Collections 集合工具类
+
+> [!TIP]
+> Collections 是用于专门处理集合的，使用时候不需要实例化，基本上全是静态方法。
+
+`Comparator<T>` 用了很多次了，匿名内部内实现，或者Lambda表达式
+
+接受两个参数 param1 新增|当前 对象 param2 过去|已存在 对象
+
+返回 正数为大，负数为小，0表示已经存在，根据它进行排序
+
+| 方法           | 功能          | 参数                 | 说明            |
+|--------------|-------------|--------------------|---------------|
+| addAll       | 批量添加元素      | List 、`argument`   | 参二：可变参数，可一直传递 |
+| shuffle      | 打乱原数组       | List               |               |
+| sort         | 数组排序        | List               |               |
+| sort         | 数组排序        | List Comparator<T> | 自定义排序规则       |
+| binarySearch | 二分查找        | List  key          | 返回数组位置        |
+| fill         | 使用指定元素填充    | List  Object       | 数组全内容替换为参数    |
+| max/min      | 默认排序获取大小值   | List               | 返回元素          |
+| max/min      | 自定义排序获取大小值  | List Collections   | 建议：匿名内部类      |
+| swap         | 指定集合位置的元素交换 | List int int       |               |
+| copy         | 拷贝数组        | List list          | 接受数组会被覆盖      |
