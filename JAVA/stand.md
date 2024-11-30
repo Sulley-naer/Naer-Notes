@@ -624,6 +624,10 @@ Java 语言支持以下数组：
         /* public 公共方法 private 私有方法 protected 保护方法 */
            System.out.println("Hello, my name is " + name + " and I am " + age + " years old.");
        }
+       //静态代码块
+        static {
+            String test;
+        }
    }
    ```
 

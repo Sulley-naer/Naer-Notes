@@ -345,3 +345,64 @@ HashMap 不需要实现 Compareable 接口，它是利用哈希值进行大小�
 Treemap底层是用的红黑树，它需要实现 Compareable 来比较大小，不然它无法确认存放位置
 它底层看到是相同的就覆盖原来的值，所以不需要重写equals 和 hashCode。
 它默认直接就是红黑树进行存储，在查找的时候默认就是有二分的优势。
+
+### 排序技巧
+
+>[!TIP]
+> 利用 hashMap `entrySet` 的键值对实现简易快速排序
+
+有固定规律的数据使用方式
+
+   ```java
+   public static List<String> Demos = new ArrayList<>();
+   
+   public static void main(String[] args) {
+      //添加数据
+      Collections.addAll(Demos,"#1","#2","#3","*1","*2","*3");
+   
+      Map<String, Integer> map = new HashMap<>();
+      //!找寻数据规律，使用循环设置权重
+      for (int i = 0; i < Demos.size(); i++) {
+         //?自行分析规则，并用int值设置权重
+         String s = Demos.get(i);
+         map.put(s, map.getOrDefault(s, i));
+      }
+      //利用TreeSet Int 自动排序，数据必须是 HashMap 存在关系
+      TreeMap<String, Integer> res = new TreeMap<>(map);
+   
+      System.out.println(res);
+   }
+   ```
+
+没有固定规律使用方式
+
+```java
+import java.util.Collections;
+
+public static List<String> Demos = new ArrayList<>();
+
+public static void main(String[] args) {
+   //添加数据
+   Collections.addAll(Demos, "#1", "#2", "#3", "*1", "*2", "*3", "Joker");
+
+   Map<String, Integer> map = new HashMap<>();
+
+   //自定义特殊权重
+   map.put("Joker", 999);
+    
+   //!多开一个是为了不影响原数据，再原数据被使用时候使用排序。
+   ArrayList<String> res = new ArrayList<>(Demos);
+   
+   //自定义排序规则，判断自定义权重是否存在。
+   Collections.sort((o1, o2) -> {
+      if (map.containsKey(o1)) {
+         String i = map.get(o1).toString();
+         return i.compareTo(o2);
+      } else {
+         return o1.compareTo(o2);
+      }
+   });
+
+   System.out.println(res);
+}
+```

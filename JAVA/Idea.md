@@ -82,7 +82,8 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 | <kbd> Alt + M </kdb>                | 转到实现      |
 | <kbd> Alt + b </kdb>                | 运行        |
 | <kbd> Alt + D </kdb>                | 调试        |
-| <kbd> Ctrl + Q </kdb>               | 切换行断点     |
+| <kbd> Alt + Q </kdb>                | 切换行断点     |
+| <kbd> Ctrl + Q </kdb>               | 查看上下文信息   |
 | <kbd> Alt + G </kdb>                | SQL 语句运行  |
 | <kbd> Alt + G </kdb>                | 类中提取为方法   |
 | <kbd> Alt + Enter </kdb>            | Idea 生成   |
