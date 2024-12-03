@@ -5,30 +5,29 @@
 
 ## System
 
-| 方法名               | 说明         | 参数                              | 说明            |
-|-------------------|------------|---------------------------------|---------------|
-| exit              | 终止当前虚拟机    | status                          | 0:正常停止,其余异常   |
-| currentTimeMillis | 返回系统时间〖毫秒〗 | 方法                              | long 类型       |
-| arraycopy         | 数组复制       | srcPos \[arr2\] ,destPos,length | 数组 记录数组 索引 长度 |
+| 方法名            | 说明                 | 参数                            | 说明                    |
+| ----------------- | -------------------- | ------------------------------- | ----------------------- |
+| exit              | 终止当前虚拟机       | status                          | 0:正常停止,其余异常     |
+| currentTimeMillis | 返回系统时间〖毫秒〗 | 方法                            | long 类型               |
+| arraycopy         | 数组复制             | srcPos \[arr2\] ,destPos,length | 数组 记录数组 索引 长度 |
 
 ### 说明
 
 1. 记得在前面添加 `System` 它们是静态类方法
 2. `currentTimeMillis` 从 `1970年1月1日 0:0:0` 开始计算毫秒时间,时差则在 **时分秒** 做加法
-3. `arraycopy` 是 **可选数组** `arr2` 是将原数组的内容 放到数组 2 中,类型必须一致,Idea 无错误提示 <br>
-   -遵循多态继承语法,同样可以用基类最为类型
+3. `arraycopy` 是 **可选数组** `arr2` 是将原数组的内容 放到数组 2 中,类型必须一致,Idea 无错误提示 <br> -遵循多态继承语法,同样可以用基类最为类型
 
 ## Runtime
 
-| 方法名                 | 说明            |
-|---------------------|---------------|
-| getRuntime          | 当前系统的运行环境对象   |
-| exit                | 停止虚拟机         |
-| availableProcessors | 获得 CPU 的线程数   |
+| 方法名              | 说明                   |
+| ------------------- | ---------------------- |
+| getRuntime          | 当前系统的运行环境对象 |
+| exit                | 停止虚拟机             |
+| availableProcessors | 获得 CPU 的线程数      |
 | MaxMemory           | Jvm 能获取最大内存大小 |
-| totalMemory         | Jvm 已获得内存大小   |
-| freeMemory          | Jvm 剩余内存大小    |
-| exec                | 运行 cmd 命令     |
+| totalMemory         | Jvm 已获得内存大小     |
+| freeMemory          | Jvm 剩余内存大小       |
+| exec                | 运行 cmd 命令          |
 
 ### 说明
 
@@ -39,11 +38,11 @@
 
 ## Object
 
-| 方法名      | 说明      |
-|----------|---------|
+| 方法名   | 说明           |
+| -------- | -------------- |
 | toString | 转换字符串类型 |
-| equals   | 对象比较    |
-| clone    | 对象克隆    |
+| equals   | 对象比较       |
+| clone    | 对象克隆       |
 
 ### 说明
 
@@ -99,10 +98,10 @@ protected Object clone() throws CloneNotSupportedException {
 
 ## Objects
 
-| 方法名     | 说明   |
-|---------|------|
-| equals  | 比较   |
-| isNull  | 判断   |
+| 方法名  | 说明     |
+| ------- | -------- |
+| equals  | 比较     |
+| isNull  | 判断     |
 | nonNull | 判断取反 |
 
 ### 说明
@@ -113,24 +112,24 @@ protected Object clone() throws CloneNotSupportedException {
 
 ## BigInteger
 
-| 方法名                  | 说明          | 参数                     |
-|----------------------|-------------|------------------------|
-| BigInteger           | 随机大整数       | int num Random r       |
-| BigInteger           | 获取指定的大整数    | String val             |
-| BigInteger           | 获取指定进制大整数   | sting val ,int radix   |
-| -------------------- | 静态方法        | ---------------------- |
+| 方法名               | 说明               | 参数                   |
+| -------------------- | ------------------ | ---------------------- |
+| BigInteger           | 随机大整数         | int num Random r       |
+| BigInteger           | 获取指定的大整数   | String val             |
+| BigInteger           | 获取指定进制大整数 | sting val ,int radix   |
+| -------------------- | 静态方法           | ---------------------- |
 | valueOF              | 转换大整数类型     | long num               |
-| -------------------- | 常见方法        | ---------------------- |
-| add                  | 加法          |
-| subtract             | 减法          |
-| multiply             | 乘法          |
-| divide               | 除法 获取 商     |
+| -------------------- | 常见方法           | ---------------------- |
+| add                  | 加法               |
+| subtract             | 减法               |
+| multiply             | 乘法               |
+| divide               | 除法 获取 商       |
 | divideAndRemainder   | 除法 获取 伤 余数  |
-| equals               | 比较          |
-| pow                  | 次幂          |
-| max/min              | 返回较大值       |
-| intValue             | 转为 int 类型整数 |
-| double、long value    | 转换指定类型      |
+| equals               | 比较               |
+| pow                  | 次幂               |
+| max/min              | 返回较大值         |
+| intValue             | 转为 int 类型整数  |
+| double、long value   | 转换指定类型       |
 
 ### 说明
 
@@ -150,20 +149,20 @@ protected Object clone() throws CloneNotSupportedException {
 
 ## BigDecimal
 
-| 方法名                  | 说明        | 参数\|用法                     |
-|----------------------|-----------|----------------------------|
-| new BigDecimal       | 实例化       | int double string          |
-| value of             | 获取对象      | String val                 |
+| 方法名               | 说明               | 参数\|用法                 |
+| -------------------- | ------------------ | -------------------------- |
+| new BigDecimal       | 实例化             | int double string          |
+| value of             | 获取对象           | String val                 |
 | BigInteger           | 获取指定进制大整数 | sting val ,int radix       |
-| add                  | 加法        | bd1.add(bd2)               |
-| subtract             | 减法        | bd1.subtract(bd2)          |
-| multiply             | 乘法        | bd1.multiply(bg2)          |
-| divide               | 除法        | bd1.divide(bg2)            |
-| divide               | 精确除法      | bd1.divide(bg2,scale,mode) |
-| -------------------- | 静态方法      | ----------------------     |
-| valueOf              | 静态获取对象    | long num flot              |
-| -------------------- | 常见方法      | ----------------------     |
-| add                  | 加法        |
+| add                  | 加法               | bd1.add(bd2)               |
+| subtract             | 减法               | bd1.subtract(bd2)          |
+| multiply             | 乘法               | bd1.multiply(bg2)          |
+| divide               | 除法               | bd1.divide(bg2)            |
+| divide               | 精确除法           | bd1.divide(bg2,scale,mode) |
+| -------------------- | 静态方法           | ----------------------     |
+| valueOf              | 静态获取对象       | long num flot              |
+| -------------------- | 常见方法           | ----------------------     |
+| add                  | 加法               |
 
 ### 说明
 
@@ -178,60 +177,60 @@ protected Object clone() throws CloneNotSupportedException {
 <details>
   <summary style="font-size:17px;font-weight:bold;">正则语法</summary>
 
-1. | 类型              | 作用                                                     |
-                                                                                                                                                                                                      |-----------------|--------------------------------------------------------|
-   | （^）             | 匹配字符串的开始位置，如“^a”表示以字母 a 开头的字符串。                        |
-   | （$）             | 匹配字符串的结束位置，如“X^”表示以字母 X 结尾的字符串。                        |
-   | （.）             | 这个字符就是英文下的点，它匹配**任何一个字符**，包括回车、换行等。 通配符 \_             |
-   | （\*）            | 星号匹配 0 个或多个字符，在它之前必须有内容。通配符 % 后续字符等于之前的字符              |
-   | （+）             | 加号匹配 1 个或多个字符，星号允许出现 0 次，加号必须出现一次。a+ 后面至少一个 a          |
-   | {n}             | 匹配指定 n 个 ab{3} abbb 有 3 个 (ab){3} ababab .{3} 任意字符出现三次 |
-   | {n,}            | 匹配不少于 n 个 字面意思，跟上面语法相同                                 |
-   | {n,m}           | 匹配 n-m 个 字面意思，语法相同                                     |
-   | a?              | ?为断言匹配，自动填充，结果可为 `[字符]`或者 a`[字符]` 它可存在，可不存在 量子态        |
-   | (ab)?a          | 断言匹配，结果可为 aba 或者 c 和上面的用法称为**量词**                      |
-   | .\*?b           | .是如何字符，\*让第二字符必须和.的相同，?让\*的匹配可有可无，最后一位强制 b             |
-   | a+?             | a+ 特性为后面字符**必须有一个** a，要么单 a 要么 至少有 2 个 a。 非贪婪量词        |
-   | （?!）            | a(?!b) 匹配到 a，只要 a **后面非紧**跟着 b 零宽度负向前瞻                 |
-   | （?=）            | a(?=b) 结果可为 a 或者 a **后面**紧跟着 b 的字符 零宽度正向前瞻             |
-   | （?<!）           | b(?<!a) 与(?!)相同，只不过是**前面**不能有字符 a 零宽度负向回顾              |
-   | （?<=）           | b(?<!a) 与(?=)相同，只不过是**前面**有 字符 a 零宽度正向回顾               |
-   | (?i)            | a(?i)bc bc两个字符将忽视大小写 多用括号限制范围 Java测试                   |
-   | \[a-z\]         | 表示当前位置的字符，**是** Ascii 码表 a-z 范围内                       |
-   | \[^a-z\]        | 表示当前位置的字符，**非** Ascii 码表 a-z 范围内                       |
-   | \[a-zA-Z\]      | 表示当前位置的字符 a-z**或**A-Z之间，不用空格 给范围符号提高阅读性                |
-   | \[a-z[0-9]\]    | 表示当前位置的字符，a-z **或者** 0-9                               |
-   | \[a-z&[def]\]   | 表示当前位置的字符，a-z 之间 也可以是 **&** 符号 **或者** 是 def            |
-   | \[a-z&&[def]\]  | 表示当前位置的字符，a-z 和 def 的**交集**: 先必须在 a-z 然后再看 是不是 def     |
-   | \[a-z&&[^bc]\]  | 表示当前位置的字符，a-z **非** bc 的**交集** 排除 bc                   |
-   | \[a-z&&[^m-p]\] | 表示当前位置的字符，a-z **非** m-p 的**交集** 排除 m-p 之间              |
-   | 成果              | `select * from student where sname regexp '^张.*?$'`    |
+1. | 类型            | 作用                                                                             |
+   | --------------- | -------------------------------------------------------------------------------- |
+   | （^）           | 匹配字符串的开始位置，如“^a”表示以字母 a 开头的字符串。                          |
+   | （$）           | 匹配字符串的结束位置，如“X^”表示以字母 X 结尾的字符串。                          |
+   | （.）           | 这个字符就是英文下的点，它匹配**任何一个字符**，包括回车、换行等。 通配符 \_     |
+   | （\*）          | 星号匹配 0 个或多个字符，在它之前必须有内容。通配符 % 后续字符等于之前的字符     |
+   | （+）           | 加号匹配 1 个或多个字符，星号允许出现 0 次，加号必须出现一次。a+ 后面至少一个 a  |
+   | {n}             | 匹配指定 n 个 ab{3} abbb 有 3 个 (ab){3} ababab .{3} 任意字符出现三次            |
+   | {n,}            | 匹配不少于 n 个 字面意思，跟上面语法相同                                         |
+   | {n,m}           | 匹配 n-m 个 字面意思，语法相同                                                   |
+   | a?              | ?为断言匹配，自动填充，结果可为 `[字符]`或者 a`[字符]` 它可存在，可不存在 量子态 |
+   | (ab)?a          | 断言匹配，结果可为 aba 或者 c 和上面的用法称为**量词**                           |
+   | .\*?b           | .是如何字符，\*让第二字符必须和.的相同，?让\*的匹配可有可无，最后一位强制 b      |
+   | a+?             | a+ 特性为后面字符**必须有一个** a，要么单 a 要么 至少有 2 个 a。 非贪婪量词      |
+   | （?!）          | a(?!b) 匹配到 a，只要 a **后面非紧**跟着 b 零宽度负向前瞻                        |
+   | （?=）          | a(?=b) 结果可为 a 或者 a **后面**紧跟着 b 的字符 零宽度正向前瞻                  |
+   | （?<!）         | b(?<!a) 与(?!)相同，只不过是**前面**不能有字符 a 零宽度负向回顾                  |
+   | （?<=）         | b(?<!a) 与(?=)相同，只不过是**前面**有 字符 a 零宽度正向回顾                     |
+   | (?i)            | a(?i)bc bc 两个字符将忽视大小写 多用括号限制范围 Java 测试                       |
+   | \[a-z\]         | 表示当前位置的字符，**是** Ascii 码表 a-z 范围内                                 |
+   | \[^a-z\]        | 表示当前位置的字符，**非** Ascii 码表 a-z 范围内                                 |
+   | \[a-zA-Z\]      | 表示当前位置的字符 a-z**或**A-Z 之间，不用空格 给范围符号提高阅读性              |
+   | \[a-z[0-9]\]    | 表示当前位置的字符，a-z **或者** 0-9                                             |
+   | \[a-z&[def]\]   | 表示当前位置的字符，a-z 之间 也可以是 **&** 符号 **或者** 是 def                 |
+   | \[a-z&&[def]\]  | 表示当前位置的字符，a-z 和 def 的**交集**: 先必须在 a-z 然后再看 是不是 def      |
+   | \[a-z&&[^bc]\]  | 表示当前位置的字符，a-z **非** bc 的**交集** 排除 bc                             |
+   | \[a-z&&[^m-p]\] | 表示当前位置的字符，a-z **非** m-p 的**交集** 排除 m-p 之间                      |
+   | 成果            | `select * from student where sname regexp '^张.*?$'`                             |
 
 2. `'字符'` ：没有意思，就是判断它是不是 字符两个字
 3. `|`：表示或 匹配多数据
 4. `.+`：**当前字段** `.` 匹配任意字符 `+` 包括空格、换行符等。
 5. `[]`：**当前字段** 匹配指定范围内的字符。`[a-z]` `[1-9]` `[a-zA-Z0-9]` 高版本不区分大小写。
 6. `[^]`：匹配不在指定范围内的字符。 无法使用 可在表达式前添加 `NOT`
-    1. `[5|6|7|8|9]` : 不代表或 它识别为 | 为字符了。`^[5|6|7]` 才能表达 或
-    2. `[5|6|7]$` 匹配以 5、6、7 结尾的字符串。
+   1. `[5|6|7|8|9]` : 不代表或 它识别为 | 为字符了。`^[5|6|7]` 才能表达 或
+   2. `[5|6|7]$` 匹配以 5、6、7 结尾的字符串。
 7. 字节匹配
-    1. `^.{10}$` 匹配 10 个字节的字符串。 `[a-z{10}$]` 英文 10 字节
-        1. UTF8 编码下，一个中文字符占 3 个字节。 GBK 2 个字节。
-        2. 英文字符占 1 个字节。 GBK 1 个字节。
-        3. 数字占 1 个字节。 GBK 1 个字节。
-    2. `BINARY ^'[A-Z]{10}$'` 匹配大写字母 10 个字节的字符串。
-    3. `^.{10}|` 匹配 10 个字节的字符串或以 | 结尾的字符串。
+   1. `^.{10}$` 匹配 10 个字节的字符串。 `[a-z{10}$]` 英文 10 字节
+      1. UTF8 编码下，一个中文字符占 3 个字节。 GBK 2 个字节。
+      2. 英文字符占 1 个字节。 GBK 1 个字节。
+      3. 数字占 1 个字节。 GBK 1 个字节。
+   2. `BINARY ^'[A-Z]{10}$'` 匹配大写字母 10 个字节的字符串。
+   3. `^.{10}|` 匹配 10 个字节的字符串或以 | 结尾的字符串。
 8. `^[0-9.]{6}$` 匹配 6 位数字或小数点的字符串。| 版本号
-    1. `^1[0-9.]{5}$` 以 1 开头 数字 或者 . 是 5 字节的 字符串。
-    2. `^1[0-9.]{4}7$` 首为 1 末为 7 ……
-    3. `{4,6}$` 匹配 4-6 字节的字符串。
-    4. `^(.{1}|.{7})$` 匹配 为 1 或 7 字节的单个字符
+   1. `^1[0-9.]{5}$` 以 1 开头 数字 或者 . 是 5 字节的 字符串。
+   2. `^1[0-9.]{4}7$` 首为 1 末为 7 ……
+   3. `{4,6}$` 匹配 4-6 字节的字符串。
+   4. `^(.{1}|.{7})$` 匹配 为 1 或 7 字节的单个字符
 9. `^[^ -~]` 首字中文。`[^]` 为非字符。`-~` 从空格到~ ASCII 所有字符。
 10. `^([a-z]|[0-9]|[A-Z])+$` 匹配不包含空格、换行符、中文的字符串。
 11. `\\d+` 匹配数字。第一个 \ 是 转意符，`\d` 是原值 `+` 表示 至少出现一次
 12. `\\D+` 匹配非数字。
-13. `\\w+` 匹配单词字符。 键盘上所有字符 ASCii码表
-14. `\\W+` 匹配非单词字符。 也就是仅匹配非ASCII码表 中文等等
+13. `\\w+` 匹配单词字符。 键盘上所有字符 ASCii 码表
+14. `\\W+` 匹配非单词字符。 也就是仅匹配非 ASCII 码表 中文等等
 15. `\\s+` 匹配空白字符。
 16. `\\S+` 匹配非空白字符。
 17. `\\b` 匹配单词边界。
@@ -293,12 +292,12 @@ public static void main(String[] args) {
 
 Matcher：正则匹配结果返回值 | String 字符串操作方法
 
-| 功能          | 参数\|作用       |
-|-------------|--------------|
+| 功能        | 参数\|作用   |
+| ----------- | ------------ |
 | replace     | Regex string |
 | replaceAll  | Regex string |
-| toLowerCase | 转换小写         |
-| toUpperCase | 转换大写         |
+| toLowerCase | 转换小写     |
+| toUpperCase | 转换大写     |
 | split       | Regex        |
 
 ### 说明
@@ -360,7 +359,7 @@ public static void main(String[] args) {
 
     //增加一年
     time add = time + 1000L * 60 * 60 * 24 * 365; //?第一个数给 L 防止输出超出 int 上线 用 long 类型
-    System.out.println(d.setTime(add));//1971年 
+    System.out.println(d.setTime(add));//1971年
 
     //!时间判断,不能直接进行比较，2个对象通过get方式获取时间再进行判断。
 }
@@ -434,63 +433,63 @@ JDK8
 <details>
    <summary>完整表格</summary>
 
-| 功能                        | 参数                        | 简述                 |
-|---------------------------|---------------------------|--------------------|
-| ---------------           | zoneID   static           | ---------------    |
-| getAvailableZoneIds       | method                    | 获取所有时区名称           |
-| of                        | string                    | 指定时区               |
-| systemDefault             | method                    | 获取当前系统时区           |
-| ---------------           | Instant  static           | ---------------    |
-| now                       | method                    | 获取当前时间 ins 对象      |
-| ofEpoch\[Milli...\]       | long num                  | 根据时间(类型)获取 ins 对象  |
-| atZone                    | ZoneID zone               | 指定时区               |
-| atZone                    | ZoneID zone               | 指定时区               |
-| ---------------           | Instant dynamic           | ---------------    |
-| equals、is                 | ...                       | 判断相关               |
-| minus                     | ...                       | 减少时间相关             |
-| plus                      | ...                       | 增加时间相关             |
-| ---------------           | ZonedDateTime  static     | ---------------    |
-| of                        | y/m/d/h/m/s/ns ZoneId     | 获取指定的时间对象需时区       |
-| ofInstant                 | Instant                   | 根据Ins获得时间对象        |
-| with\[YEAR...\]           | num                       | 修改时间系列方法           |
-| minus\[YEAR...\]          | num                       | 减少时间系列方法           |
-| plus\[YEAR...\]           | num                       | 增加时间系列方法           |
-| ---------------           | DateTimeFormatter  static | ---------------    |
-| ofPattern                 | YYYY-MM-dd HH:mm:ss EE a  | 时间格式化              |
-| ---------------           | Calendar  static          | ---------------    |
-| Local\[Date、Time、DT\]     | method                    | 日历对象系列             |
-| now                       | method                    | 获取当前时间对象           |
-| of...                     | method                    | 指定时间对象             |
-| get...                    | method                    | 获取系列语法             |
-| isBefore,after，equals     | method                    | 比较时间系列             |
-| with...                   | method                    | 修改时间系列             |
-| minus...                  | method                    | 减少时间系列             |
-| plus...                   | method                    | 增加时间相关             |
-| ------------------        | Tools                     | ------------------ |
-| ---------------           | Duration  static          | ---------------    |
-| ---------------           | 计算时间差 (秒，纳秒)              | ---------------    |
-| between                   | LocalTime、INS * 2         | 计算差                |
-| get...                    | method                    | 获取系列               |
-| to...                     | method                    | 换算差总               |
-| isLeapYear                | method                    | 闰年判断               |
-| ---------------           | Period  static            | ---------------    |
-| ---------------           | 计算日期间隔 (年,月,日)            | ---------------    |
-| between                   | LocalDate * 2             | 计算差                |
-| get...                    | method                    | 获取系列               |
-| toTotal...                | method                    | 换算差总               |
-| ---------------           | ChronoUnit static         | ---------------    |
-| ---------------           | 计算日期间隔                    | ---------------    |
-| Unit.\[YEARS...\].between | LocalDateTime * 2         | 计算差,前缀为单位          |
+| 功能                      | 参数                     | 简述                        |
+| ------------------------- | ------------------------ | --------------------------- |
+| ---------------           | zoneID static            | ---------------             |
+| getAvailableZoneIds       | method                   | 获取所有时区名称            |
+| of                        | string                   | 指定时区                    |
+| systemDefault             | method                   | 获取当前系统时区            |
+| ---------------           | Instant static           | ---------------             |
+| now                       | method                   | 获取当前时间 ins 对象       |
+| ofEpoch\[Milli...\]       | long num                 | 根据时间(类型)获取 ins 对象 |
+| atZone                    | ZoneID zone              | 指定时区                    |
+| atZone                    | ZoneID zone              | 指定时区                    |
+| ---------------           | Instant dynamic          | ---------------             |
+| equals、is                | ...                      | 判断相关                    |
+| minus                     | ...                      | 减少时间相关                |
+| plus                      | ...                      | 增加时间相关                |
+| ---------------           | ZonedDateTime static     | ---------------             |
+| of                        | y/m/d/h/m/s/ns ZoneId    | 获取指定的时间对象需时区    |
+| ofInstant                 | Instant                  | 根据 Ins 获得时间对象       |
+| with\[YEAR...\]           | num                      | 修改时间系列方法            |
+| minus\[YEAR...\]          | num                      | 减少时间系列方法            |
+| plus\[YEAR...\]           | num                      | 增加时间系列方法            |
+| ---------------           | DateTimeFormatter static | ---------------             |
+| ofPattern                 | YYYY-MM-dd HH:mm:ss EE a | 时间格式化                  |
+| ---------------           | Calendar static          | ---------------             |
+| Local\[Date、Time、DT\]   | method                   | 日历对象系列                |
+| now                       | method                   | 获取当前时间对象            |
+| of...                     | method                   | 指定时间对象                |
+| get...                    | method                   | 获取系列语法                |
+| isBefore,after，equals    | method                   | 比较时间系列                |
+| with...                   | method                   | 修改时间系列                |
+| minus...                  | method                   | 减少时间系列                |
+| plus...                   | method                   | 增加时间相关                |
+| ------------------        | Tools                    | ------------------          |
+| ---------------           | Duration static          | ---------------             |
+| ---------------           | 计算时间差 (秒，纳秒)    | ---------------             |
+| between                   | LocalTime、INS \* 2      | 计算差                      |
+| get...                    | method                   | 获取系列                    |
+| to...                     | method                   | 换算差总                    |
+| isLeapYear                | method                   | 闰年判断                    |
+| ---------------           | Period static            | ---------------             |
+| ---------------           | 计算日期间隔 (年,月,日)  | ---------------             |
+| between                   | LocalDate \* 2           | 计算差                      |
+| get...                    | method                   | 获取系列                    |
+| toTotal...                | method                   | 换算差总                    |
+| ---------------           | ChronoUnit static        | ---------------             |
+| ---------------           | 计算日期间隔             | ---------------             |
+| Unit.\[YEARS...\].between | LocalDateTime \* 2       | 计算差,前缀为单位           |
 
 </details>
 
 ### 说明
 
-1. zoneID为时间时区相关类
-2. Instant时间戳相关
-3. ZonedDateTime是真正的时间对象
-4. Calendar为日历 JDK8 使用需使用 LocalDateTime 系列类
-5. 真正使用实例化 LocalDateTime.of 直接填写值 ，需要时区再去使用 Zone ,精准时间用 INS,格式化ofPattern
+1. zoneID 为时间时区相关类
+2. Instant 时间戳相关
+3. ZonedDateTime 是真正的时间对象
+4. Calendar 为日历 JDK8 使用需使用 LocalDateTime 系列类
+5. 真正使用实例化 LocalDateTime.of 直接填写值 ，需要时区再去使用 Zone ,精准时间用 INS,格式化 ofPattern
 
 ```java
 public static void main(String[] args) {
@@ -518,33 +517,34 @@ public static void main(String[] args) {
 ## 包装类
 
 > [!TIP]
-> 包装类是Java数据类型的对象，int->Integer char->Character string->String boolean->Boolean ……
+> 包装类是 Java 数据类型的对象，int->Integer char->Character string->String boolean->Boolean ……
 
-| 方法 静态               | 功能       |
-|---------------------|----------|
-| ParseInt            | 类型转换     |
-| ValueOf             | 填写数据     |
+| 方法 静态           | 功能             |
+| ------------------- | ---------------- |
+| ParseInt            | 类型转换         |
+| ValueOf             | 填写数据         |
 | new                 | 实例化，可选构造 |
-| toBinaryString(int) | 得到二进制    |
-| toOctalString(int)  | 得到八进制    |
-| toHexString(int)    | 得到十六进制   |
+| toBinaryString(int) | 得到二进制       |
+| toOctalString(int)  | 得到八进制       |
+| toHexString(int)    | 得到十六进制     |
 
 说明
 
 1. `Integer` 0~127 有优化，方法区已实例化了，可正常直接判断
-2. arrayList 类似需要填写类型时候，写包装类而不是简写的int
-3. int 这些简写是 JDK5 之后 Java特性 自动包装 拆箱。省实例。
+2. arrayList 类似需要填写类型时候，写包装类而不是简写的 int
+3. int 这些简写是 JDK5 之后 Java 特性 自动包装 拆箱。省实例。
 
-## Arrays 算法API
+## Arrays 算法 API
 
-| 方法 静态        | 功能   | 说明      |
-|--------------|------|---------|
-| toString     | 数组转换 | 转为字符串   |
+| 方法 静态    | 功能     | 说明       |
+| ------------ | -------- | ---------- |
+| asList       | 转换数组 | 参数无上限 |
+| toString     | 数组转换 | 转为字符串 |
 | binarySearch | 二分查找 | 找不到 -1  |
-| copeOf       | 拷贝数组 | 自动扩容    |
-| copeOfRange  | 范围拷贝 | 左包右不包   |
-| fill         | 数组填充 | 字意      |
-| sort         | 排序   | 快速 + 二分 |
+| copeOf       | 拷贝数组 | 自动扩容   |
+| copeOfRange  | 范围拷贝 | 左包右不包 |
+| fill         | 数组填充 | 字意       |
+| sort         | 排序     | ArrayList  |
 
 ```java
 import java.util.Arrays;
@@ -585,11 +585,11 @@ interface lam {
 
 ## For & Foreach
 
-> Java 增强for 和 Foreach 使用和原理
+> Java 增强 for 和 Foreach 使用和原理
 
 For
 
-> 增强for的变量是临时变量，对他进行操作不会对原数据产生影响。
+> 增强 for 的变量是临时变量，对他进行操作不会对原数据产生影响。
 
 ```java
 public static void main(String[] args) {
@@ -603,7 +603,7 @@ public static void main(String[] args) {
 
 Foreach
 
-> 底层代码就是普通的For循环，只不过用起来更方便了。
+> 底层代码就是普通的 For 循环，只不过用起来更方便了。
 
 ```java
 import java.util.ArrayList;
@@ -636,8 +636,8 @@ public static void main(String[] args) {
 
 1. 哈希表
 
-   1. 如果没有重写hashCode方法，不同对象计算出的哈希值是不同的
-   2. 如果已经重写hashcode方法，不同的对象只要属性值相同，计算出的哈希值就是一样的
+   1. 如果没有重写 hashCode 方法，不同对象计算出的哈希值是不同的
+   2. 如果已经重写 hashcode 方法，不同的对象只要属性值相同，计算出的哈希值就是一样的
    3. 在小部分情况下，不同的属性值或者不同的地址值计算出来的哈希值也有可能一样。（哈希碰撞）
    4. JDK8:数组+链表+红黑数 JDK7:数组+链表
 
@@ -650,21 +650,21 @@ public static void main(String[] args) {
       System.out.println(S.add("王五"));
       //?结果是无序,无索引。
       System.out.println(S);
-      // Region 三种遍历方式 
+      // Region 三种遍历方式
       Iterator<String> iterator = S.iterator();
       while (iterator.hasNext()) {
          System.out.println(iterator.next());
       }
-   
+
       for (String s : S) {
          System.out.println(s);
       }
-   
+
       S.forEach(s -> System.out.println(s));
       // End
    }
    ```
-   
+
    哈希值获取
 
    ```java
@@ -684,11 +684,12 @@ public static void main(String[] args) {
    ```
 
 2. LinkedHashSet
+
    1. 有序：存储取出元素一致、不重复、无索引
    2. 底层数据结构是依然哈希表，只是每个元素又额外的多了一个双链表的机制记录存储的顺序。
 
    ```java
-   import java.util.LinkedHashSet;    
+   import java.util.LinkedHashSet;
    public static void main(String[] args){
      LinkedHashSet<int> lhs = new LinkedHashSet<>();
      lhs.add("1");
@@ -700,10 +701,11 @@ public static void main(String[] args) {
    ```
 
 3. TreeSet
+
    1. 不重复、无索引、可排序：升序
    2. 红黑树数据结构，增删改查性能较好。
    3. 类排序请实现接口，不然使用匿名内部类。
-   4. 排序特点，O是当前需要排序的对象.
+   4. 排序特点，O 是当前需要排序的对象.
    5. 按照红黑树顺序来排序的，根节点，到下层节点
 
    ```java
@@ -718,8 +720,8 @@ public static void main(String[] args) {
      System.out.println(ts);
    }
    ```
-   
-   对象排序：必须实现接口，重写方法，底层用的红黑数，不需要重写equals和HashCode
+
+   对象排序：必须实现接口，重写方法，底层用的红黑数，不需要重写 equals 和 HashCode
 
    ```java
    import java.util.TreeSet;
@@ -732,12 +734,12 @@ public static void main(String[] args) {
    public class student implements Comparable<student>{
        public String name;
        public int age;
-        
+
         public student(String name,int age) {
             this.name = name;
             this.age = age;
         }
-   
+
         @Override
          public int compareTo(student o) {
             //按照年龄排序,数字越小越靠前。o是即将进行排序的下个对象。 0就舍弃不存储。
@@ -746,11 +748,11 @@ public static void main(String[] args) {
          }
    }
    ```
-   
+
    方式二排序
 
    ```java
-   import java.util.Comparator;    
+   import java.util.Comparator;
    import java.util.TreeSet;
    public static void main(String[] args){
     //可以用lambda简写;
@@ -770,16 +772,16 @@ public static void main(String[] args) {
     System.out.println(treeSet);
    }
    ```
-   
+
 4. 总结
    1. 如果想要集合中的**元素可重复**
-       - 用ArrayList集合，基于数组的。（用的最多）
+      - 用 ArrayList 集合，基于数组的。（用的最多）
    2. 如果想要集合中的元素可重复，而且当前的**增删**操作明显多于查询
-      - 用LinkedList集合，基于链表的。
+      - 用 LinkedList 集合，基于链表的。
    3. 如果想对集合中的**元素去重**
-      - 用HashSet集合，基于哈希表的。（用的最多，效率也最高）
+      - 用 HashSet 集合，基于哈希表的。（用的最多，效率也最高）
    4. 如果想对集合中的元素去重，而且保证**存取顺序**
-      - 用LinkedHashSet集合，基于哈希表和双链表，效率低于HashSet。
+      - 用 LinkedHashSet 集合，基于哈希表和双链表，效率低于 HashSet。
    5. 更多高阶集合 [双列集合](./List.md#双列集合)
 
 ## Collections 集合工具类
@@ -787,21 +789,265 @@ public static void main(String[] args) {
 > [!TIP]
 > Collections 是用于专门处理集合的，使用时候不需要实例化，基本上全是静态方法。
 
-`Comparator<T>` 用了很多次了，匿名内部内实现，或者Lambda表达式
+`Comparator<T>` 用了很多次了，匿名内部内实现，或者 Lambda 表达式
 
 接受两个参数 param1 新增|当前 对象 param2 过去|已存在 对象
 
-返回 正数为大，负数为小，0表示已经存在，根据它进行排序
+返回 正数为大，负数为小，0 表示已经存在，根据它进行排序
 
-| 方法           | 功能          | 参数                 | 说明            |
-|--------------|-------------|--------------------|---------------|
-| addAll       | 批量添加元素      | List 、`argument`   | 参二：可变参数，可一直传递 |
-| shuffle      | 打乱原数组       | List               |               |
-| sort         | 数组排序        | List               |               |
-| sort         | 数组排序        | List Comparator<T> | 自定义排序规则       |
-| binarySearch | 二分查找        | List  key          | 返回数组位置        |
-| fill         | 使用指定元素填充    | List  Object       | 数组全内容替换为参数    |
-| max/min      | 默认排序获取大小值   | List               | 返回元素          |
-| max/min      | 自定义排序获取大小值  | List Collections   | 建议：匿名内部类      |
-| swap         | 指定集合位置的元素交换 | List int int       |               |
-| copy         | 拷贝数组        | List list          | 接受数组会被覆盖      |
+| 方法         | 功能                   | 参数               | 说明                       |
+| ------------ | ---------------------- | ------------------ | -------------------------- |
+| addAll       | 批量添加元素           | List 、`argument`  | 参二：可变参数，可一直传递 |
+| shuffle      | 打乱原数组             | List               |                            |
+| sort         | 数组排序               | List               |                            |
+| sort         | 数组排序               | List Comparator<T> | 自定义排序规则             |
+| binarySearch | 二分查找               | List key           | 返回数组位置               |
+| fill         | 使用指定元素填充       | List Object        | 数组全内容替换为参数       |
+| max/min      | 默认排序获取大小值     | List               | 返回元素                   |
+| max/min      | 自定义排序获取大小值   | List Collections   | 建议：匿名内部类           |
+| swap         | 指定集合位置的元素交换 | List int int       |                            |
+| copy         | 拷贝数组               | List list          | 接受数组会被覆盖           |
+| toMap        | 转换 Map 集合          | K V                | 需要俩个参数               |
+
+## Strem 流 [API](./stand.md#stream-流)
+
+一个 Steam 只能完整使用一次,可链式编程多个操作,与 iterator 类似。
+
+| 集合     | 实现            |
+| -------- | --------------- |
+| 单列集合 | stream()        |
+| 双列集合 | 无直接实现      |
+| 零散数据 | Arrays.stream() |
+| 数组     | Stream<T>       |
+
+![PixPin_2024-12-03_13-46-18.png](./images/Idea/AboutAPI-1733204791453.png)
+
+### Stream API
+
+| 方法 静态           | 功能       | 参数                 | 说明                |
+| ------------------- | ---------- | -------------------- | ------------------- |
+| of                  | 数组流     | T...                 | 数组                |
+| sort                | 排序       | Comparator:Interface | 默认升序            |
+| forEach             | 遍历       | void                 | Lambda              |
+| concat              | 合并       | Stream \* 2          | 记得去重            |
+| distinct            | 去重       | void                 | hashCode eq         |
+| filter              | 过滤       | Predicate<T>         | 过滤条件            |
+| limit               | 截取       | Integer              | 截取元素            |
+| skip                | 跳过       | Integer              | 跳过元素            |
+| map                 | 映射       | Function<T, R>       | 数据转换 JS         |
+| reduce              | 归约       | BinaryOperator<T>    | 聚合操作            |
+| count               | 计数       | Integer              | 元素数量            |
+| min                 | 最小值     | Optional<T>          | 最小值              |
+| sum                 | 求和       | Integer              | 元素求和            |
+| max                 | 最大值     | Optional<T>          | 最大值              |
+| parallel            | 并行       | void                 | 并行流              |
+| ----------          | 流数据处理 | Collect              | ----------          |
+| Collectors.toSet()  | set 集合   | void                 |                     |
+| Collectors.toList() | List 集合  | void                 |                     |
+| Collectors.toMap()  | Map 集合   | fn \* 2              | fn1->key fn2->value |
+
+终结方法 无法再次链式调用
+
+返回 Stream<T> 就是中间操作，可以继续调用其他方法
+
+返回值 void Object[] ... 就是终结流
+
+| 方法    |
+| ------- |
+| forEach |
+| count   |
+| min     |
+| max     |
+| sum     |
+
+<details>
+<summary>Stream 流 API</summary>
+
+1. 单列集合
+
+   ```java
+   import java.util.stream.Stream;
+   public static void main(String[] args) {
+       //1. 数组
+       int[] arr = {1, 2, 3, 4, 5};
+       Stream<Integer> stream = Arrays.stream(arr);
+       //2. 集合
+       List<Integer> list = Arrays.asList("a", "b", "c", "d", "e");
+       Stream<String> stream1 = list.stream();
+       //3. 字符串
+       String str = "hello world";
+       Stream<String> stream2 = Arrays.stream(str.split(" "));
+   }
+   ```
+
+2. 双列集合
+
+   ```java
+   import java.util.stream.Stream;
+   public static void main(String[] args) {
+       //?Map等 双列集合本身不支持，拿取到健和值的集合后,转为单列集合
+        //添加数据
+        List<String> K = Arrays.asList("张三", "李四", "王五");
+        List<Integer> V = Arrays.asList(18,16,80);
+
+        Map<String,Integer> list = new HashMap<String, Integer>();
+
+        K.stream().forEach(i->{
+            list.put(i,V.get(K.indexOf(i)));
+        });
+
+        System.out.println("原数据："+list);
+
+        Set<Map.Entry<String, Integer>> entries = list.entrySet();
+
+        ArrayList res = new ArrayList<>();
+
+        entries.stream().forEach(i->{
+            res.add(i.getKey() + " : " + i.getValue());
+        });
+
+        System.out.println(res);
+   }
+   ```
+
+3. 零散数据
+
+   ```java
+   import java.util.stream.Stream;
+   public static void main(String[] args) {
+    //通过of()方法创建流,参数只能为同类型,使用了可变参数
+     Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5);
+     stream.forEach(System.out::println);/* 可选用lambda表达式 */
+
+     String tips = "
+        /*
+          Stream.of 注意事项
+          1. 参数为变量时候，注意变量类型问题
+          2. 引用数据 存入内存地址
+          3. 基本数据 数组单个元素   数组可直接使用.stream
+          4. 它是可变参数,多数据记得隔开,单参就是单个元素
+        */
+      "
+   }
+   ```
+
+4. 数组
+
+   ```java
+   import java.util.Arrays;
+   import java.util.stream.IntStream;
+   public static void main(String[] args) {
+       int[] arr = {1, 2, 3, 4, 5};
+       Arrays.stream(arr).forEach(System.out::println);
+       // IntStream.of(arr).forEach(System.out::println);
+   }
+   ```
+
+5. 集合转换
+
+   ```java
+   public static void main(String[] args){
+        List<String> K = Arrays.asList("张三", "李四", "王五");
+
+        Map<Object, Object> res;
+
+        //将流数据合并和数组.
+        res = K.stream().filter(g -> g.length() == 2)
+                .collect(Collectors.toMap(i -> i.charAt(0), b -> b.substring(1)));
+
+        //!异常就是触发了map集合异常，键不能重复!
+        System.out.println(res);
+   }
+   ```
+
+6. More
+
+    <details>
+    <summary>进阶操作</summary>
+
+   1. 过滤
+
+      ```java
+      import java.util.stream.IntStream;
+      public static void main(String[] args) {
+          int[] arr = {1, 2, 3, 4, 5};
+          IntStream intStream = IntStream.of(arr);
+          //源码中使用了Predicate接口，返回 boolean
+          intStream.filter(i -> i > 2).forEach(System.out::println);
+      }
+      ```
+
+   2. 映射
+
+      ```java
+      import java.util.stream.IntStream;
+      public static void main(String[] args) {
+          int[] arr = {1, 2, 3, 4, 5};
+          IntStream intStream = IntStream.of(arr);
+          intStream.map(i -> i * 2).forEach(System.out::println);
+      }
+      ```
+
+   3. 归约
+
+      ```java
+      import java.util.stream.IntStream;
+      public static void main(String[] args) {
+          int[] arr = {1, 2, 3, 4, 5};
+          IntStream intStream = IntStream.of(arr);
+          int sum = intStream.reduce(0, (a, b) -> a + b);
+          System.out.println(sum);
+      }
+      ```
+
+   4. 排序
+
+      ```java
+      import java.util.stream.IntStream;
+      public static void main(String[] args) {
+          int[] arr = {1, 2, 3, 4, 5};
+          IntStream intStream = IntStream.of(arr);
+          intStream.sorted().forEach(System.out::println);
+      }
+      ```
+
+   5. 并行流
+
+      ```java
+      import java.util.stream.IntStream;
+      public static void main(String[] args) {
+          int[] arr = {1, 2, 3, 4, 5};
+          IntStream intStream = IntStream.of(arr);
+          intStream.parallel().forEach(System.out::println);
+      }
+      ```
+
+   6. 其他
+
+      ```java
+      import java.util.stream.IntStream;
+      public static void main(String[] args) {
+          int[] arr = {1, 2, 3, 4, 5};
+          IntStream intStream = IntStream.of(arr);
+          // 跳过前两个元素
+          intStream.skip(2).forEach(System.out::println);
+          // 截取前两个元素
+          intStream.limit(2).forEach(System.out::println);
+          // 元素计数
+          long count = intStream.count();
+          System.out.println(count);
+          // 元素求和
+          int sum = intStream.sum();
+          System.out.println(sum);
+          // 元素最大值
+          int max = intStream.max().getAsInt();
+          System.out.println(max);
+          // 元素最小值
+          int min = intStream.min().getAsInt();
+          System.out.println(min);
+      }
+      ```
+
+   </details>
+
+</details>

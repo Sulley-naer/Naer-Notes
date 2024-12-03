@@ -5,7 +5,7 @@
 > [!NOTE]
 > Java中集合有 `set` `get` `map` 系列，实现有 `Hash`、`Linked` 标准库
 
-### [set系列](./AboutAPI.md#List-更多详情)
+### [set系列](./AboutAPI.md#More)
 
 ### map系列-Entry
 
@@ -22,9 +22,10 @@ public static void main(String[] args) {
 }
 ```
 
-| 方法          | 说明    | 参数   | 额外说明           |
+| 方法          | 说明    | 参数   | 解释             |
 |-------------|-------|------|----------------|
 | put         | 添加数据  | 泛型键值 | 已有键会覆盖原值       |
+| putAll      | 合并数据  | Map  | 合并集合数据         |
 | get         | 获取键值  | 对应键名 | key为键 value为值  |
 | remove      | 移除键值  | 移除键值 |                |
 | containsKey | 判断存在  | 对应键名 |                |
@@ -404,5 +405,36 @@ public static void main(String[] args) {
    });
 
    System.out.println(res);
+}
+```
+
+## 不可变集合
+
+> 不可变集合是集合的常量版，只能在初始化的时候写内容。
+
+| 方法      | 说明    | 参数     | 解释     |
+|---------|-------|--------|--------|
+| list    | 集合类型  | method | 常规集合   |
+| set     | 集合类型  | method | 不重复    |
+| map     | 集合类型  | entry  | 上限10对  |
+| of      | 不可变   | 任意类型   | null   |
+| get     | 获取元素  | 下标位置   | null   |
+| ofEntry | 不可变   | 多参同类型  | 不会上限   |
+| toArray | 转换为数组 | list   | 数组长度就新 |
+| copyOf  | 拷贝数据  | list   | 直接覆盖   |
+
+
+
+```java
+import java.util.List;
+
+public static void main(String[] args) {
+    //还可以用 `set`
+   List<String> list = List.of("1", "2", "3", "4");
+
+   //!调用添加、修改、删除等方法会无法通过编译阶段
+    list.add("2");
+    //?拿取不会有问题
+    list.get(0).System.out.println();
 }
 ```

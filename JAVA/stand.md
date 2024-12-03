@@ -23,8 +23,10 @@
     - [接口的应用](#接口的应用)
   - [8. 多态](#8-多态)
   - [常量与静态 『`Final`』 \& 『`Static`』](#常量与静态-final--static)
-  - [8. 集合体系\[结构\](data Structure.md)](#8-集合体系结构data-structuremd)
+  - [8. 集合体系\[结构\](./data Structure.md)](#8-集合体系结构data-structuremd)
   - [9. 泛型 『`Generic`』](#9-泛型-generic)
+  - [Stream 流](#stream-流)
+    - [总结](#总结)
   - [8. 异常处理](#8-异常处理)
   - [9. 多线程](#9-多线程)
   - [10. 反射](#10-反射)
@@ -1568,7 +1570,7 @@ public class Main {
 
 </details>
 
-## 8. 集合体系[结构](data Structure.md)
+## 8. 集合体系[结构](./data Structure.md)
 
 红色为接口，蓝色为实现类
 
@@ -1601,6 +1603,8 @@ apis：
 | --------    | ListIterator   | --------       |
 | hasPrevious | 前方是否有元素 | 当前指针位置   |
 | previous    | 获取当前元素   | 移动指针       |
+| --------    | Arrays         | --------       |
+| asList      | 参数转换数组   | 返回 arraylist |
 
 <details>
 <summary>集合体语法</summary>
@@ -1793,6 +1797,57 @@ public static void method(ArrayList<? extends Number> list){
 ```
 
 </details>
+
+## Stream 流
+
+> [!TIP]
+> Stream 是 Java8 引入的新特性，用于处理集合数据。
+> 将集合数据处理为流，可以进行过滤、排序、映射等操作。
+
+- Stream 是一个数据流，可以对集合数据进行操作，类似于 SQL 语句。
+- Stream 操作可以顺序执行，也可以并行执行。
+- Stream 操作可以是中间操作，也可以是终止操作。
+- Stream 操作可以连接多个操作，形成一个流水线。
+- [集合操场](./AboutAPI.md#strem-流-api)
+
+<details>
+<summary>Stream 语法</summary>
+
+```java
+import java.util.stream.Stream;
+
+public class Main {
+    public static void main(String[] args) {
+        //创建集合
+        List<String> list = Arrays.asList("hello", "world", "java");
+        //创建流
+        Stream<String> stream = list.stream();
+        //中间操作
+        stream = stream.filter(s -> s.length() > 3);
+        //终止操作
+        stream.forEach(System.out::println);
+    }
+}
+```
+
+</details>
+
+### 总结
+
+1. `Stream` 流的作用
+  结合了Lambda表达式，简化集合、数组的操作
+2. `Stream` 的使用步骤
+  获取 `stream` 流对象
+  使用中间方法处理数据
+  使用终结方法处理数据
+3. 如何获取 `stream` 流对象
+  单列集合：`Collection` 中的默认方法 `stream`
+  双列集合：不能直接获取
+  数组：`Arrays` 工具类型中的静态方法 stream
+  一堆零散的数据：`Stream` 接口中的静态方法 `of`
+4. 常见方法
+  中间方法：filter,limit,skip,distinct,concat,map
+  终结方法：forEach,count, collect
 
 ## 8. 异常处理
 
