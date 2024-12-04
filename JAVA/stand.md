@@ -27,6 +27,7 @@
   - [9. 泛型 『`Generic`』](#9-泛型-generic)
   - [Stream 流](#stream-流)
     - [总结](#总结)
+  - [方法引用](#方法引用)
   - [8. 异常处理](#8-异常处理)
   - [9. 多线程](#9-多线程)
   - [10. 反射](#10-反射)
@@ -1835,19 +1836,65 @@ public class Main {
 ### 总结
 
 1. `Stream` 流的作用
-  结合了Lambda表达式，简化集合、数组的操作
+   结合了 Lambda 表达式，简化集合、数组的操作
 2. `Stream` 的使用步骤
-  获取 `stream` 流对象
-  使用中间方法处理数据
-  使用终结方法处理数据
+   获取 `stream` 流对象
+   使用中间方法处理数据
+   使用终结方法处理数据
 3. 如何获取 `stream` 流对象
-  单列集合：`Collection` 中的默认方法 `stream`
-  双列集合：不能直接获取
-  数组：`Arrays` 工具类型中的静态方法 stream
-  一堆零散的数据：`Stream` 接口中的静态方法 `of`
+   单列集合：`Collection` 中的默认方法 `stream`
+   双列集合：不能直接获取
+   数组：`Arrays` 工具类型中的静态方法 stream
+   一堆零散的数据：`Stream` 接口中的静态方法 `of`
 4. 常见方法
-  中间方法：filter,limit,skip,distinct,concat,map
-  终结方法：forEach,count, collect
+   中间方法：filter,limit,skip,distinct,concat,map
+   终结方法：forEach,count, collect
+
+## 方法引用
+
+> [!TIP]
+> 方法引用是 Java8 引入的新特性，用于简化代码。
+> 允许直接引用已有的方法或构造方法，无需显式的创建对象。
+
+- 方法引用可以引用已有的方法或构造方法，无需显式的创建对象。
+- 方法引用可以传递给其他方法，作为参数传递，或者作为返回值。
+- 方法引用可以作为 lambda 表达式的替代。
+
+1. 语法：
+
+   ```java
+   //类名::方法名
+   ClassName::methodName
+   //对象::方法名
+   object::methodName
+   //类名::new
+   ClassName::new
+   //表达式::方法名
+   expression::methodName
+   ```
+
+2. 实例：
+
+   ```java
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(4,2,5,9,6,5,6,77,13,3);
+        //使用方法引用 替代 匿名内部类 可以多次使用
+        list.sort(App::sort);/* ::方法引用的语法 */
+
+        System.out.println(list);
+    }
+
+    public static int sort(int o1,int o2) {
+        return o2-o1;
+    }
+   ```
+
+3. 注意事项：
+
+   1. 引用处需要是函数式接口
+   2. 被引用的方法需要已经存在
+   3. 被引用方法的形参和返回值需要跟抽象方法的形参和返回值保持一致
+   4. 被引用方法的功能需要满足当前的要求
 
 ## 8. 异常处理
 
