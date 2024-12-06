@@ -28,7 +28,7 @@
   - [Stream 流](#stream-流)
     - [总结](#总结)
   - [方法引用](#方法引用)
-  - [8. 异常处理](#8-异常处理)
+    - [总结](#总结-1)
   - [9. 多线程](#9-多线程)
   - [10. 反射](#10-反射)
   - [11. 注解](#11-注解)
@@ -1860,6 +1860,13 @@ public class Main {
 - 方法引用可以传递给其他方法，作为参数传递，或者作为返回值。
 - 方法引用可以作为 lambda 表达式的替代。
 
+1. 注意事项：
+
+   1. 引用处需要是**函数式接口**
+   2. 被引用的方法需要已经存在
+   3. 被引用方法的形参和返回值需要跟抽象方法的形参和返回值保持一致
+   4. 被引用方法的功能需要满足当前的要求
+
 1. 语法：
 
    ```java
@@ -1873,7 +1880,7 @@ public class Main {
    expression::methodName
    ```
 
-2. 实例：
+1. 实例：
 
    ```java
     public static void main(String[] args) {
@@ -1882,6 +1889,20 @@ public class Main {
         list.sort(App::sort);/* ::方法引用的语法 */
 
         System.out.println(list);
+
+        //类型转换
+        List<String> ls2 = Arrays.asList("4","2","5","9","6","5","6","77","13","3");
+
+        //?完整形式
+        list.stream().map(new Function<String, Integer>() {
+            @Override
+            public Integer apply(String s) {
+                return Integer.parseInt(s);
+            }
+        }).forEach(System.out::println);
+
+        //!引用简写,跳过了实现接口，重写方法的步骤，还能写多个相同方法，只需要参数和返回值类型一致。
+        ls2.stream().map(Integer::parseInt).forEach(System.out::println);
     }
 
     public static int sort(int o1,int o2) {
@@ -1889,14 +1910,104 @@ public class Main {
     }
    ```
 
-3. 注意事项：
+<details>
+<summary>方法引用语法</summary>
 
-   1. 引用处需要是函数式接口
-   2. 被引用的方法需要已经存在
-   3. 被引用方法的形参和返回值需要跟抽象方法的形参和返回值保持一致
-   4. 被引用方法的功能需要满足当前的要求
+```java
+//类名::方法名
+ClassName::methodName
+//对象::方法名
+object::methodName
+//类名::new
+ClassName::new
+//表达式::方法名
+expression::methodName
+//! 可以用多态语法 this super
+/* 必须静态方法，静态方法没有 this ，new 自己类才能调用 */
+this::methodName
+super::methodName
+```
 
-## 8. 异常处理
+1. 类名::new 自动调用构造方法
+
+   ```java
+    List<String> list = Arrays.asList("4","2","5","9","6","5","6","77","13","3");
+
+    list.stream().map(student::new).forEach(System.out::println);
+
+    class student {
+      public student(String name) {
+        this.name = name;
+      }
+    }
+
+    //完整写法
+    list.stream().map(new App()::apply).forEach(System.out::println);
+
+    public student apply(String s) {
+        return new student(s);
+    }
+   ```
+
+2. 类名::方法名
+
+   ```java
+   //类名::方法名
+   List<String> list = Arrays.asList("a","b","c","d","e","f","g","h","i","j");
+   list.stream().map(className::apply).forEach(System.out::println);
+
+   //!注意，参数数量第二个开始必须与接口一致,第一个参数是对象本身,第一个参数的类型必须与接口一致。
+   public student apply(String s) {
+       return s.toUpperCase();
+   }
+   ```
+
+3. 表达式::方法名
+
+   ```java
+   List<String> list = Arrays.asList("4","2","5","9","6","5","6","77","13","3");
+   //方法引用,我直接引用是说明，它是静态方法，非静态 new 出来方法就能调用了
+   list.stream().map(Integer::parseInt).forEach(System.out::println);
+   ```
+
+4. 数组::new 调用数组的构造方法
+
+   ```java
+   List<String> list = Arrays.asList("4","2","5","9","6","5","6","77","13","3");
+    //转换类型
+   List<Integer> list1 = list.stream().map(Integer::parseInt).collect(Collectors.toList());
+   //将 stream 流转换为数组
+   //?方法引用写法
+   Integer[] res = list1.stream().toArray(Integer[]::new);
+   //完整写法
+   /*
+   Integer[] res = list1.stream().toArray(new IntFunction<Integer[]>() {
+       @Override
+       public Integer[] apply(int value) {
+           return new Integer[value];
+       }
+   });
+   */
+
+   for (Integer i : res) {
+       System.out.println(i);
+   }
+   ```
+
+</details>
+
+### 总结
+
+1. 方法引用的作用：
+   1. 简化代码
+   2. 增强可读性
+   3. 减少重复代码
+2. 方法引用的语法：
+
+   1. 类名::方法名
+   2. 对象::方法名
+   3. 类名::new
+   4. 表达式::方法名
 
 ## 9. 多线程
 
