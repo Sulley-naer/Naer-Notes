@@ -1873,13 +1873,13 @@ public class Main {
 
    ```javascript
    //类名::方法名
-   ClassName::methodName
+   ClassName::methodName;
    //对象::方法名
-   object::methodName
+   object::methodName;
    //类名::new
-   ClassName::new
-   //表达式::方法名
-   expression::methodName
+   ClassName
+     ::new //表达式::方法名
+     expression()::methodName;
    ```
 
 1. 实例：
@@ -1937,11 +1937,11 @@ super::methodName
     List<String> list = Arrays.asList("4","2","5","9","6","5","6","77","13","3");
 
     list.stream().map(student::new).forEach(System.out::println);
-   
+
     //完整写法
     list.stream().map(new App()::apply).forEach(System.out::println);
    }
-   
+
    public student apply(String s) {
         return new student(s);
     }
@@ -1961,7 +1961,7 @@ super::methodName
     List<String> list = Arrays.asList("a","b","c","d","e","f","g","h","i","j");
     list.stream().map(className::apply).forEach(System.out::println);
    }
-   
+
    //!注意，参数数量第二个开始必须与接口一致,第一个参数是对象本身,第一个参数的类型必须与接口一致。
    public student apply(String s) {
        return s.toUpperCase();
@@ -1976,7 +1976,7 @@ super::methodName
        //方法引用,我直接引用是说明，它是静态方法，非静态 new 出来方法就能调用了
        list.stream().map(Integer::parseInt).forEach(System.out::println);
      }
-   
+
    ```
 
 4. 数组::new 调用数组的构造方法
@@ -2003,7 +2003,7 @@ super::methodName
         System.out.println(i);
     }
    }
-   
+
    ```
 
 </details>
@@ -2058,9 +2058,9 @@ super::methodName
 
 ![PixPin_2024-12-07_14-45-04.png](./images/Idea/stand-1733553936682.png)
 
-| 方法                | 参数        | 说明     |
-|-------------------|-----------|--------|
-| ---               | Throwable | ---    |
+| 方法              | 参数      | 说明         |
+| ----------------- | --------- | ------------ |
+| ---               | Throwable | ---          |
 | getMessage        | void      | 返回异常消息 |
 | toString()        | void      | 返回简短描述 |
 | printStackTrace() | void      | 打印完整异常 |
@@ -2101,23 +2101,23 @@ super::methodName
     catch (NullPointerException | ArithmeticException b)
     {
         Objects.requireNonNull(System.out).println("nullPointer");
-    } 
+    }
    }
    ```
 
 2. try-with-resources
 
-    ```java
-    public static void main(String[] args){
-    try {
-       //可能产生异常的代码
-        InputStream in = new FileInputStream("file.txt")
-    } 
+   ```java
+   public static void main(String[] args){
+   try {
+      //可能产生异常的代码
+       InputStream in = new FileInputStream("file.txt")
+   }
    catch (IOException e) {
-       //异常处理代码
-        }
-    }
-    ```
+      //异常处理代码
+       }
+   }
+   ```
 
 3. throw
 
@@ -2129,7 +2129,7 @@ super::methodName
    ```
 
 4. throws
-    
+
    ```java
     /*
     * throws 表示 在方法中可能会出现的异常，说明了编译器就可以正常了
@@ -2137,9 +2137,9 @@ super::methodName
     * 用来绕过编译检查，它无法处理运行时异常，需 try-catch 处理
     */
     public static void main(String[] args) throws Exception {
-              
+
     }
-    ```
+   ```
 
 5. 自定义异常
 
@@ -2150,7 +2150,7 @@ super::methodName
     public MyException(String message) {
         super(message);
     }
-    
+
    public MyException(){
         //自定义异常必须要写空参构造，否则自定义就没存在意义了.
         super("MyException");
