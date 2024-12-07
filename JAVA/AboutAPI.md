@@ -824,27 +824,27 @@ public static void main(String[] args) {
 
 ### Stream API
 
-| 方法 静态           | 功能       | 参数                 | 说明                |
-| ------------------- | ---------- | -------------------- | ------------------- |
-| of                  | 数组流     | T...                 | 数组                |
-| sort                | 排序       | Comparator:Interface | 默认升序            |
-| forEach             | 遍历       | void                 | Lambda              |
-| concat              | 合并       | Stream \* 2          | 记得去重            |
-| distinct            | 去重       | void                 | hashCode eq         |
-| filter              | 过滤       | Predicate<T>         | 过滤条件            |
-| limit               | 截取       | Integer              | 截取元素            |
-| skip                | 跳过       | Integer              | 跳过元素            |
-| map                 | 映射       | Function<T, R>       | 数据转换 JS         |
-| reduce              | 归约       | BinaryOperator<T>    | 聚合操作            |
-| count               | 计数       | Integer              | 元素数量            |
-| min                 | 最小值     | Optional<T>          | 最小值              |
-| sum                 | 求和       | Integer              | 元素求和            |
-| max                 | 最大值     | Optional<T>          | 最大值              |
-| parallel            | 并行       | void                 | 并行流              |
-| ----------          | 流数据处理 | Collect              | ----------          |
-| Collectors.toSet()  | set 集合   | void                 |                     |
-| Collectors.toList() | List 集合  | void                 |                     |
-| Collectors.toMap()  | Map 集合   | fn \* 2              | fn1->key fn2->value |
+| 方法 静态           | 功能       | 参数                 | 说明                   |
+| ------------------- | ---------- | -------------------- | ---------------------- |
+| of                  | 数组流     | T...                 | 数组                   |
+| sort                | 排序       | Comparator:Interface | 默认升序               |
+| forEach             | 遍历       | void                 | Lambda                 |
+| concat              | 合并       | Stream \* 2          | 记得去重               |
+| distinct            | 去重       | void                 | hashCode eq            |
+| filter              | 过滤       | Predicate<T>         | 过滤条件               |
+| limit               | 截取       | Integer              | 截取元素               |
+| skip                | 跳过       | Integer              | 跳过元素               |
+| map                 | 映射       | Function<T, R>       | 数据转换 JS            |
+| reduce              | 归约       | BinaryOperator<T>    | 聚合操作               |
+| count               | 计数       | Integer              | 元素数量               |
+| min                 | 最小值     | Optional<T>          | 最小值                 |
+| sum                 | 求和       | Integer              | 元素求和               |
+| max                 | 最大值     | Optional<T>          | 最大值                 |
+| parallel            | 并行       | void                 | 并行流                 |
+| ----------          | 流数据处理 | Collect、toArray     | ----------             |
+| Collectors.toSet()  | set 集合   | void                 | Int 类型方法用 toArray |
+| Collectors.toList() | List 集合  | void                 |                        |
+| Collectors.toMap()  | Map 集合   | fn \* 2              | fn1->key fn2->value    |
 
 终结方法 无法再次链式调用
 

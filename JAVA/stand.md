@@ -29,6 +29,8 @@
     - [总结](#总结)
   - [方法引用](#方法引用)
     - [总结](#总结-1)
+  - [10. 异常处理](#10-异常处理)
+    - [总结](#总结-2)
   - [9. 多线程](#9-多线程)
   - [10. 反射](#10-反射)
   - [11. 注解](#11-注解)
@@ -1769,8 +1771,8 @@ public void add(T t){
 }
 
 public static void main(String[] args) {
-    add("hello")
-    add(123) //编译器会报错，类型不匹配，泛型会在首次使用时确定类型，后面使用类型必须与首次一致。
+    add("hello");
+    add(123); //编译器会报错，类型不匹配，泛型会在首次使用时确定类型，后面使用类型必须与首次一致。
 
     //?但是如果你传入的是类，可以使用多态继承来实现，绕过类型检查。
     /* 比如你首次传入 Ye 类，后面传入 Zi 类，肯定是不行的，但是你可以让 Zi 类去继承 Ye 类，这样就能实现多态。 */
@@ -1869,7 +1871,7 @@ public class Main {
 
 1. 语法：
 
-   ```java
+   ```javascript
    //类名::方法名
    ClassName::methodName
    //对象::方法名
@@ -1913,7 +1915,7 @@ public class Main {
 <details>
 <summary>方法引用语法</summary>
 
-```java
+```javascript
 //类名::方法名
 ClassName::methodName
 //对象::方法名
@@ -1931,31 +1933,35 @@ super::methodName
 1. 类名::new 自动调用构造方法
 
    ```java
+   public static void main(String[] args){
     List<String> list = Arrays.asList("4","2","5","9","6","5","6","77","13","3");
 
     list.stream().map(student::new).forEach(System.out::println);
+   
+    //完整写法
+    list.stream().map(new App()::apply).forEach(System.out::println);
+   }
+   
+   public student apply(String s) {
+        return new student(s);
+    }
 
     class student {
       public student(String name) {
         this.name = name;
       }
     }
-
-    //完整写法
-    list.stream().map(new App()::apply).forEach(System.out::println);
-
-    public student apply(String s) {
-        return new student(s);
-    }
    ```
 
 2. 类名::方法名
 
    ```java
-   //类名::方法名
-   List<String> list = Arrays.asList("a","b","c","d","e","f","g","h","i","j");
-   list.stream().map(className::apply).forEach(System.out::println);
-
+   public static void main(String[] args){
+    //类名::方法名
+    List<String> list = Arrays.asList("a","b","c","d","e","f","g","h","i","j");
+    list.stream().map(className::apply).forEach(System.out::println);
+   }
+   
    //!注意，参数数量第二个开始必须与接口一致,第一个参数是对象本身,第一个参数的类型必须与接口一致。
    public student apply(String s) {
        return s.toUpperCase();
@@ -1965,33 +1971,39 @@ super::methodName
 3. 表达式::方法名
 
    ```java
-   List<String> list = Arrays.asList("4","2","5","9","6","5","6","77","13","3");
-   //方法引用,我直接引用是说明，它是静态方法，非静态 new 出来方法就能调用了
-   list.stream().map(Integer::parseInt).forEach(System.out::println);
+    public static void main(String[] args){
+       List<String> list = Arrays.asList("4","2","5","9","6","5","6","77","13","3");
+       //方法引用,我直接引用是说明，它是静态方法，非静态 new 出来方法就能调用了
+       list.stream().map(Integer::parseInt).forEach(System.out::println);
+     }
+   
    ```
 
 4. 数组::new 调用数组的构造方法
 
    ```java
-   List<String> list = Arrays.asList("4","2","5","9","6","5","6","77","13","3");
+   public static void main(String[] args){
+    List<String> list = Arrays.asList("4","2","5","9","6","5","6","77","13","3");
     //转换类型
-   List<Integer> list1 = list.stream().map(Integer::parseInt).collect(Collectors.toList());
-   //将 stream 流转换为数组
-   //?方法引用写法
-   Integer[] res = list1.stream().toArray(Integer[]::new);
-   //完整写法
-   /*
-   Integer[] res = list1.stream().toArray(new IntFunction<Integer[]>() {
-       @Override
-       public Integer[] apply(int value) {
-           return new Integer[value];
-       }
-   });
-   */
+    List<Integer> list1 = list.stream().map(Integer::parseInt).collect(Collectors.toList());
+    //将 stream 流转换为数组
+    //?方法引用写法
+    Integer[] res = list1.stream().toArray(Integer[]::new);
+    //完整写法
+    /*
+    Integer[] res = list1.stream().toArray(new IntFunction<Integer[]>() {
+        @Override
+        public Integer[] apply(int value) {
+            return new Integer[value];
+        }
+    });
+    */
 
-   for (Integer i : res) {
-       System.out.println(i);
+    for (Integer i : res) {
+        System.out.println(i);
+    }
    }
+   
    ```
 
 </details>
@@ -2008,6 +2020,165 @@ super::methodName
    2. 对象::方法名
    3. 类名::new
    4. 表达式::方法名
+
+## 10. 异常处理
+
+> [!TIP]
+> 异常处理是 Java 编程中必备的技能，用于处理程序运行过程中出现的错误。
+
+- 异常处理是程序运行过程中出现的错误，需要对其进行处理，以避免程序崩溃。
+- 异常处理的目的：
+  - 提高程序的健壮性
+  - 避免程序崩溃
+  - 帮助定位错误
+- 异常处理的原则：
+  - 异常应该被捕获
+  - 异常应该被处理
+  - 异常应该被记录
+
+异常分为两种：
+
+1. Error：程序运行过程中，由于系统错误或者资源不足硬件等原因导致的异常。给 Java 开发者使用的，无法拦截。
+2. 异常（Exception）：程序运行过程中，由于逻辑错误或者资源不足等原因导致的异常。
+   1. 运行时异常（RuntimeException）：在编译阶段无法检查的异常，只会在运行时触发。
+      1. 空指针异常(NullPointerException)
+      2. 数组下标越界异常(IndexOutOfBoundsException)。
+   2. 编译时异常（CheckedException）：在编译阶段检查的异常，必须用 try-catch 语句捕获。
+      1. 类 CastException
+      2. 文件不存在异常(FileNotFoundException)
+      3. 输入输出异常(IOException)
+
+> [!TIP]
+> 异常是一种特殊的返回值，没有被正确执行的时候，需要通知调用者，没有异常只能打印控制台。
+>
+> 这样做调用者无法区分是正常的返回还是异常的返回
+> 异常就能很好的解决，它是特殊的 retuen 能被 try-catch 捕获。
+
+如果没有拦截异常，JVM 会执行默认方式，将异常 原因、信息、位置 打印到控制台，并终止程序的执行。
+
+![PixPin_2024-12-07_14-45-04.png](./images/Idea/stand-1733553936682.png)
+
+| 方法                | 参数        | 说明     |
+|-------------------|-----------|--------|
+| ---               | Throwable | ---    |
+| getMessage        | void      | 返回异常消息 |
+| toString()        | void      | 返回简短描述 |
+| printStackTrace() | void      | 打印完整异常 |
+
+<details>
+<summary>异常捕获语法</summary>
+
+1. try-catch-finally
+
+   ```java
+   public static void main(String[] args){
+    //不确定异常类型，可以直接用异常根接口 exception 代表所有异常
+   try {
+       //可能产生异常的代码
+   } catch (ExceptionType e/* 填写异常类型，是对应关系 */) {
+       //异常处理代码
+   } finally {
+       //资源释放代码
+   }
+
+    Integer[] List ={1,2,3};
+
+    try {
+        System.out.println(List[6]);
+    }
+    //指定了异常类型，可以捕获指定类型的异常
+    catch (ArrayIndexOutOfBoundsException e){
+        Objects.requireNonNull(System.out).println("Error");
+    }
+
+    /*
+     * 当然也支持分支写法，if-else 一样逻辑，先后顺序，
+     * Exception 拦截所有类型 防止程序终止，写最后否则其他拦截不走判断了。
+     * JDK7 后 能用 `|` 每个 catch 只能捕获一个类型异常 注意语法是类型间的 `|`
+     * 如果出现异常但是类型匹配的时候都没有捕获到，会继续走 JVM 默认异常处理
+     * 如果没有出现异常，catch 连判断都不走，说明 try 里面的代码全部正确执行完成。
+    */
+    catch (NullPointerException | ArithmeticException b)
+    {
+        Objects.requireNonNull(System.out).println("nullPointer");
+    } 
+   }
+   ```
+
+2. try-with-resources
+
+    ```java
+    public static void main(String[] args){
+    try {
+       //可能产生异常的代码
+        InputStream in = new FileInputStream("file.txt")
+    } 
+   catch (IOException e) {
+       //异常处理代码
+        }
+    }
+    ```
+
+3. throw
+
+   ```java
+    public static void main(String[] args){
+      //抛出异常 类型可根据情况使用
+      throw new Exception("异常信息");
+    }
+   ```
+
+4. throws
+    
+   ```java
+    /*
+    * throws 表示 在方法中可能会出现的异常，说明了编译器就可以正常了
+    * 运行时接口的异常都可以省略不写，编译不会警告你
+    * 用来绕过编译检查，它无法处理运行时异常，需 try-catch 处理
+    */
+    public static void main(String[] args) throws Exception {
+              
+    }
+    ```
+
+5. 自定义异常
+
+   ```java
+   //自定义异常,必须静态!
+   public static class MyException extends Exception {
+    //还有其他的，idea 生成会有，自定义异常，主要是为了类名
+    public MyException(String message) {
+        super(message);
+    }
+    
+   public MyException(){
+        //自定义异常必须要写空参构造，否则自定义就没存在意义了.
+        super("MyException");
+        //throw new MyException();
+    }
+   }
+   ```
+
+</details>
+
+### 总结
+
+1. 异常处理的作用：
+   1. 增强程序的健壮性
+   2. 避免程序崩溃
+   3. 帮助定位错误
+2. 异常处理的原则：
+   1. 异常应该被捕获
+   2. 异常应该被处理
+   3. 异常应该被记录
+3. 异常的分类：
+   1. 运行时异常（RuntimeException）
+   2. 编译时异常（CheckedException）
+4. 异常处理的语法：
+   1. try-catch-finally
+   2. try-with-resources
+   3. throw
+   4. 自定义异常
 
 ## 9. 多线程
 
