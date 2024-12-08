@@ -2111,7 +2111,7 @@ super::methodName
    public static void main(String[] args){
    try {
       //可能产生异常的代码
-       InputStream in = new FileInputStream("file.txt")
+       InputStream in = new FileInputStream("file.txt");
    }
    catch (IOException e) {
       //异常处理代码

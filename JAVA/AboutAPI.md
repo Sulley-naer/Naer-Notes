@@ -1051,3 +1051,216 @@ public static void main(String[] args) {
    </details>
 
 </details>
+
+## File
+
+> [!TIP]
+> File 类 用来操作文件和目录，可以对文件进行创建、删除、复制、移动、读写等操作。
+> 
+> 字符串拼接交给 File 它可以根据系统来自动转换,file 两参数就是 `目录和文件` 。
+
+- File 类是 Java 中用于处理文件和目录的类。
+- File 类可以创建、删除、复制、移动文件和目录。
+- File 类可以获取文件或目录的属性，如：文件名、路径、大小、最后修改时间等。
+- File 类可以对文件进行读写操作。
+
+<details>
+<summary>File 类方法</summary>
+
+| 方法                                        | 参数                         | 说明                            |
+|-------------------------------------------|----------------------------|-------------------------------|
+| File(String pathname)                     | pathname：文件路径              | 创建一个 File 对象，指定文件路径。          |
+| File(String parent, String child)         | parent：父目录路径 child：子目录或文件名 | 创建一个 File 对象，指定父目录路径和子目录或文件名。 |
+| File(File parent, String child)           | parent：父目录对象 child：子目录或文件名 | 创建一个 File 对象，指定父目录对象和子目录或文件名。 |
+| boolean exists()                          | void                       | 判断文件或目录是否存在。                  |
+| boolean createNewFile()                   | void                       | 创建文件，根据路径末尾名称                 |
+| boolean mkdirs()                          | void                       | 创建多级文件夹，多级创建，不存在的路径自动创建       |
+| boolean mkdir()                           | void                       | 创建文件夹,被 dirs 完全优化             |
+| boolean delete()                          | void                       | 删除文件或目录 永久删除。文件夹中有文件无法删除 递归删除 |
+| boolean renameTo(File dest)               | dest：目标文件或目录               | 重命名文件或目录。                     |
+| long length()                             | void                       | 获取文件大小 字节。                    |
+| String[] list()                           | void                       | 列出目录中的文件和目录。                  |
+| String[] list(FilenameFilter filter)      | filter：文件名过滤器              | 列出目录中的文件和目录，并过滤。              |
+| File[] listFiles()                        | void                       | 列出目录中的文件。权限不够 返回 null         |
+| File[] listFiles(FilenameFilter filter)   | filter：文件名过滤器              | 列出目录中的文件，并过滤。                 |
+| File[] listFiles(FileFilter filter)       | filter：文件过滤器               | 列出目录中的文件，并过滤。                 |
+
+```java
+public static void main(String[] args) {
+    //创建 File 对象
+    File file = new File("D:\\test.txt");
+
+    //判断文件是否存在
+    if (file.exists()) {
+        //删除文件
+        file.delete();
+    }
+
+    //创建目录
+    File dir = new File("D:\\test");
+    if (!dir.exists()) {
+        dir.mkdir();
+    }
+
+    //创建文件
+    try {
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    //列出目录中的文件 一定要确保地址是文件夹,file 对象只能调用一次方法，新地址用新对象存储
+    String[] list = dir.list();
+    for (String s : list) {
+        System.out.println(s);
+    }
+    
+    //文件路径获取父级
+   String path = "test.txt";
+
+   File f1 = new File(path);
+
+   System.out.println(f1.exists());
+   //!相对路径无法获取到上级目录，必须先转换为绝对路径。
+   f1 = new File(f1.getAbsolutePath());
+   System.out.println(f1.getParent());
+
+   //?根据目录来创建文件 file2 确保它是文件夹就行了
+   File f2 = new File(file1.getAbsolutePath(),"addTest.text");
+   System.out.println(f2.createNewFile());
+   
+   /*
+    *  列出文件系列方法，filter接口语法。
+    *  过滤器 dir 文件夹，name是当前文件路径。
+    *  f2.list((dir, name) -> !".idea".equals(name)))
+    * */
+}
+```
+
+<details>
+<summary>更多语法</summary>
+
+| 方法                                        | 参数                         | 说明             |
+|-------------------------------------------|----------------------------|----------------|
+| boolean setReadOnly()                     | void                       | 设置文件为只读。       |
+| boolean isDirectory()                     | void                       | 判断是否是目录。       |
+| boolean isFile()                          | void                       | 判断是否是文件。       |
+| boolean canRead()                         | void                       | 判断是否可读。        |
+| boolean canWrite()                        | void                       | 判断是否可写。        |
+| boolean isHidden()                        | void                       | 判断是否隐藏。        |
+| boolean setWritable(boolean writable)     | writable：是否可写              | 设置文件是否可写。      |
+| boolean setReadable(boolean readable)     | readable：是否可读              | 设置文件是否可读。      |
+| boolean setExecutable(boolean executable) | executable：是否可执行           | 设置文件是否可执行。     |
+| boolean setLastModified(long time)        | time：最后修改时间                | 设置文件最后修改时间 毫秒。 |
+| boolean compareTo(File pathname)          | pathname：文件路径              | 比较两个文件路径。      |
+| boolean equals(Object obj)                | obj：对象                     | 判断两个对象是否相等。    |
+| int hashCode()                            | void                       | 获取对象的哈希值。      |
+| String getPath()                          | void                       | 获取文件路径。        |
+| String getName()                          | void                       | 获取文件名。         |
+| String getParent()                        | void                       | 获取父目录路径。       |
+| String getAbsolutePath()                  | void                       | 获取绝对路径。        |
+| String getCanonicalPath()                 | void                       | 获取规范路径。        |
+| File getAbsoluteFile()                    | void                       | 获取绝对文件。        |
+| File getCanonicalFile()                   | void                       | 获取规范文件。        |
+| URL toURL()                               | void                       | 获取文件 URL。      |
+| boolean isAbsolute()                      | void                       | 判断是否是绝对路径。     |
+
+
+```java
+public static void main(String[] args) {
+   //列出目录中的文件，并过滤
+   FilenameFilter filter = new FilenameFilter() {
+      @Override
+      public boolean accept(File dir, String name) {
+         return name.endsWith(".txt");
+      }
+   };
+   String[] list1 = dir.list(filter);
+   for (String s : list1) {
+      System.out.println(s);
+   }
+
+   //列出目录中的文件，并过滤
+   FileFilter filter1 = new FileFilter() {
+      @Override
+      public boolean accept(File pathname) {
+         return pathname.isFile();
+      }
+   };
+   File[] listFiles = dir.listFiles(filter1);
+   for (File file1 : listFiles) {
+      System.out.println(file1.getName());
+   }
+
+   //获取文件大小
+   long length = file.length();
+   System.out.println(length);
+
+   //设置文件为只读
+   file.setReadOnly();
+
+   //设置文件是否可写
+   file.setWritable(false);
+
+   //设置文件是否可读
+   file.setReadable(false);
+
+   //设置文件是否可执行
+   file.setExecutable(false);
+
+   //设置文件最后修改时间
+   long time = System.currentTimeMillis();
+   file.setLastModified(time);
+
+   //比较两个文件路径
+   File file1 = new File("D:\\test.txt");
+   int compareTo = file.compareTo(file1);
+   System.out.println(compareTo);
+
+   //获取文件路径
+   String path = file.getPath();
+   System.out.println(path);
+
+   //获取文件名
+   String name = file.getName();
+   System.out.println(name);
+
+   //获取父目录路径
+   String parent = file.getParent();
+   System.out.println(parent);
+
+   //获取绝对路径
+   String absolutePath = file.getAbsolutePath();
+   System.out.println(absolutePath);
+
+   //获取规范路径
+   String canonicalPath = file.getCanonicalPath();
+   System.out.println(canonicalPath);
+
+   //获取绝对文件
+   File absoluteFile = file.getAbsoluteFile();
+   System.out.println(absoluteFile);
+
+   //获取规范文件
+   File canonicalFile = file.getCanonicalFile();
+   System.out.println(canonicalFile);
+
+   //获取文件 URL
+   URL url = file.toURL();
+   System.out.println(url);
+
+   //获取文件 URI
+   URI uri = file.toURI();
+   System.out.println(uri);
+
+   //判断是否是绝对路径
+   boolean isAbsolute = file.isAbsolute();
+   System.out.println(isAbsolute);
+}
+```
+
+</details>
+
+</details>
