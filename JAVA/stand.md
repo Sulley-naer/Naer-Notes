@@ -31,6 +31,7 @@
     - [总结](#总结-1)
   - [10. 异常处理](#10-异常处理)
     - [总结](#总结-2)
+  - [IO 流](#io-流)
   - [9. 多线程](#9-多线程)
   - [10. 反射](#10-反射)
   - [11. 注解](#11-注解)
@@ -946,11 +947,11 @@ A：现在我们写一个匿名类，并继承实现接口，这样一个子类�
 
 ```java
 public static void main(String[] args) {
-   demo demp = new demo(1,2,3,4);
+    demo demp = new demo(1, 2, 3, 4);
 }
 
 // ... 就是动态参数，返回的是数组。
-public demo(int ...arg) {
+public demo(int... arg) {
     //!可变参数的方法 只能有一个可变参数 必须留做方法的最后一个参数。
     int sum = 0;
 
@@ -968,18 +969,19 @@ public demo(int ...arg) {
 import java.security.PublicKey;
 
 public static void main(String[] args) {
-    int[] arr = {1,2,3,4,5,6,7,8};
-   System.out.println(getSum(arr));
+    int[] arr = {1, 2, 3, 4, 5, 6, 7, 8};
+    System.out.println(getSum(arr));
 }
-    //不使用可变参数的方式，但不实用就是直接限制为数组。
-   public static int getSum(int[] arr){
+
+//不使用可变参数的方式，但不实用就是直接限制为数组。
+public static int getSum(int[] arr) {
     int sum;
 
     for (int item : arr) {
-         sum+=item;
+        sum += item;
     }
     return sum;
-   }
+}
 ```
 
 </details>
@@ -1696,23 +1698,23 @@ apis：
 
 ```java
 public static void main(String[] args) throws IOException {
-        //没有泛型，数组可以接受，Object对象：基类，也就是任意数据类型。
-        ArrayList list = new ArrayList();
-        list.add(123);
-        list.add("dad");
-        //!弊端：类型不确定，由于多态特性，不能使用子类方法，强转可能会报错，integer无法转为string。
-    }
+    //没有泛型，数组可以接受，Object对象：基类，也就是任意数据类型。
+    ArrayList list = new ArrayList();
+    list.add(123);
+    list.add("dad");
+    //!弊端：类型不确定，由于多态特性，不能使用子类方法，强转可能会报错，integer无法转为string。
+}
 ```
 
 使用泛型：
 
 ```java
 public static void main(String[] args) throws IOException {
-        //使用泛型指定类型，省去强转，编译器会检查类型。
-        /* Java是伪泛型，只是在编译阶段进行类型检查，运行阶段仍然是Object类型。 */
-        ArrayList<String> list = new ArrayList();
-        list.add("dad");
-    }
+    //使用泛型指定类型，省去强转，编译器会检查类型。
+    /* Java是伪泛型，只是在编译阶段进行类型检查，运行阶段仍然是Object类型。 */
+    ArrayList<String> list = new ArrayList();
+    list.add("dad");
+}
 ```
 
 定义泛型类：
@@ -1723,42 +1725,46 @@ public static void main(String[] args) throws IOException {
 - 可以是任意字符，上面是常用单词。
 
 ```java
-public static class myList<E,K>{
+public static class myList<E, K> {
     // e 形参名字
-    public void add(E e){
-     sout(e);
+    public void add(E e) {
+        sout(e);
     }
+
     //返回值类型，同样可以使用泛型。
-    public K get(){
-      return (K) value ;
+    public K get() {
+        return (K) value;
     }
-  }
+}
 ```
 
 定义泛型方法：
 
 ```java
 /* 如果只是一个方法需要用到泛型，就可以不用给整个类添加泛型。 */
-public static <T> void add(ArrayList<T> arr,T...e){ /* ...新语法，可以传入多个参数，自动转为数组 */
-     for(T t:e){
-         arr.add(t);
-     }
+public static <T> void add(ArrayList<T> arr, T... e) { /* ...新语法，可以传入多个参数，自动转为数组 */
+    for (T t : e) {
+        arr.add(t);
+    }
 }
 ```
 
 定义泛型接口：
 
 ```java
-public interface MyInterface<T>{
+public interface MyInterface<T> {
     public void add(T t);
+
     public T get();
 }
+
 //实现接口，并指定类型：
-public class Cls implements MyInterface<String>{
+public class Cls implements MyInterface<String> {
   ...
 }
+
 //实现接口，仍然使用泛型。
-public class NewCls<E> implements MyInterface<E>{
+public class NewCls<E> implements MyInterface<E> {
    ...
 }
 ```
@@ -1766,7 +1772,7 @@ public class NewCls<E> implements MyInterface<E>{
 泛型数据继承
 
 ```java
-public void add(T t){
+public void add(T t) {
     sout(t);
 }
 
@@ -1778,7 +1784,7 @@ public static void main(String[] args) {
     /* 比如你首次传入 Ye 类，后面传入 Zi 类，肯定是不行的，但是你可以让 Zi 类去继承 Ye 类，这样就能实现多态。 */
 }
 
-public static <E> void example(T t){
+public static <E> void example(T t) {
     sout(t);
     /* 上面说的多态在泛型方法中就可以省去了，方法每次调用都算作首次 */
 }
@@ -1790,10 +1796,10 @@ public static <E> void example(T t){
   -? super T：可以接受任何 T 类型的父类,包括 T 类型本身。
 
 ```java
-public static void method(ArrayList<? extends Number> list){
+public static void method(ArrayList<? extends Number> list) {
     //? 泛型通配符，可以接受任何 Number 类型的子类。
     //? 但是不能添加元素，只能读取。
-    for(Number n:list){
+    for (Number n : list) {
         sout(n);
     }
 }
@@ -1922,8 +1928,8 @@ ClassName::methodName
 object::methodName
 //类名::new
 ClassName::new
-//表达式::方法名
-expression::methodName
+    //表达式::方法名
+    expression::methodName
 //! 可以用多态语法 this super
 /* 必须静态方法，静态方法没有 this ，new 自己类才能调用 */
 this::methodName
@@ -2179,6 +2185,12 @@ super::methodName
    2. try-with-resources
    3. throw
    4. 自定义异常
+
+## IO 流
+
+> [!TIP]
+> IO 流是 Java 编程中处理输入输出的重要工具。
+> 常用与文件、网络、数据库等的输入输出。也就是写入或读取数据。
 
 ## 9. 多线程
 

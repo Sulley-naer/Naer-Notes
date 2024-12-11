@@ -21,16 +21,16 @@ public static boolean BasicSearch(int[] list, int target) {
 ## 二分查找、折半查找
 
 > [!TIP]
-> 数据具有规律性，每次查找都会，排除一半查找范围，比如 a-z d开头直接去大概范围内
+> 数据具有规律性，每次查找都会，排除一半查找范围，比如 a-z d 开头直接去大概范围内
 
 [1,2,3,4,5,6,7,8,9] `target:7`
 
 `max：length`
 `min: 0`
 
-第一次直接 max/2 判断值。5小于目标，目标肯定在右边部分。
+第一次直接 max/2 判断值。5 小于目标，目标肯定在右边部分。
 
-接着循环max次，每次循环判断，组数min的值，不对就根据中间值缩小范围
+接着循环 max 次，每次循环判断，组数 min 的值，不对就根据中间值缩小范围
 
 ```java
 public static int binarySearch(int[] list, int target) {
@@ -247,9 +247,9 @@ public static void UpTheLadder(int n) {
 ## 快速排序
 
 > 递归和排序结合使用的算法，性能并不占优势使用循环是最佳方案，但是它非常快！
-> 栈一直运行，循环是内存要更新index
+> 栈一直运行，循环是内存要更新 index
 >
-> 找到之后交换start和end指向的元素，并循环这一过程，直到start和end
+> 找到之后交换 start 和 end 指向的元素，并循环这一过程，直到 start 和 end
 > 处于同一个位置，该位置是基准数在数组中应存入的位置，再让基准数归位。
 >
 > 归位后的效果：基准数左边的，比基准数小，基准数右边的，比基准数大
@@ -270,6 +270,7 @@ public static void quickSort(int[] arr, int left, int right) {
     if (start >= end) {
         return;
     }
+
     //寻找自己应该放在什么位置。
     while (start != end) {
         while (end > start && arr[end] >= base) {

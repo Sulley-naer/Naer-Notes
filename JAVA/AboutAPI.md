@@ -1063,6 +1063,7 @@ public static void main(String[] args) {
 - File 类可以创建、删除、复制、移动文件和目录。
 - File 类可以获取文件或目录的属性，如：文件名、路径、大小、最后修改时间等。
 - File 类可以对文件进行读写操作。
+- File 类不能链式调用,file获取父级路径，新获取的并不能使用操作方法，需 new 再使用
 
 <details>
 <summary>File 类方法</summary>
