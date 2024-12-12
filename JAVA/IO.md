@@ -54,6 +54,8 @@ FileOutputStream fos = new FileOutputStream("test.txt");
 
 > [!TIP]
 > FileInputStream 用于从文件中读取字节数据，它是指针读取，读一次移动一个字节。
+>
+> 弊端一次只能读取一个字节，文件过大会循环次数太多导致低效率。
 
 | 方法                                 | 参数                                 | 描述                                               |
 | ------------------------------------ | ------------------------------------ | -------------------------------------------------- |
@@ -64,10 +66,12 @@ FileOutputStream fos = new FileOutputStream("test.txt");
 | int read(byte[] b, int off, int len) | b:字节数组,off:偏移量,len:读取字节数 | 从文件中读取字节数组范围，返回值是读取的字节数     |
 | close()                              | 无                                   | 关闭 FileInputStream，释放系统资源,先开后关        |
 
+适用于小文件拷贝
+
 ```java
 //?拷贝文件,写入文件时候 找不到文件就异常 需要自己创建文件
 public static void main(String[] args) {
-    
+
     File file = new File("test2.txt");
     System.out.println(file.createNewFile());
 
@@ -77,12 +81,66 @@ public static void main(String[] args) {
     while (true) {
         int i = fus.read();
         if(i == -1) {
+            fus.close();
             break;
         }else {
             fos.write(i);
         }
     }
 }
-  ```
+```
+
+大文件拷贝
+
+```java
+public static void main(String[] args) throws RuntimeException {
+    /*
+     * ?由于一次只能读取一个字节导致慢，我们可以自定义一次读取大小，
+     * 方法是传递一个byte[]根据长度来定义一次读取大小。
+     * 注意重复读取的时候，数组第一次读取的数据并不会删除而是重新覆盖第二次字节位置的
+     * 比如第一次 50 字节 ，第二次只读取到 10 字节 数组0~10 是第二次数据 后面还是首次数据。
+     */
+        File file = new File("test2.txt");
+        System.out.println(file.createNewFile());
+
+        FileInputStream fus = new FileInputStream("test.txt");
+        FileOutputStream fos = new FileOutputStream("test2.txt");
+
+        while (true) {
+            byte[] bytes = new byte[1024 * 1024/* 1Mb */];
+            //读取的数据会全部存入传递的数组里面，没有读取到就是 null
+            int i = fus.read(bytes);//?read 传递数组 返回值就是读取字节数
+            if(i == -1) {
+                //? 指针一开始就没读取到数据就是 -1，有数据才会返回读取到的字节数
+                fus.close();
+                break;
+            }else {
+                //? 写入也支持传入数组，但是数组长度是写实的，里面会包含null数据
+                //! 我们可以根据读取到的字节数来限制它写入范围，不会写入null 和 前一次的数据
+                fos.write(bytes,0,i);
+            }
+        }
+}
+```
+
+编译异常,解决方法
+
+```java
+public static void main(String[] args) {
+    //JDK 7
+    try(FileInputStream fus = new FileInputStream("test.txt");
+        FileOutputStream fos = new FileOutputStream("test2.txt")) {}
+    catch(Exception e) {
+        /*
+         * 注意 只有实现了AutoCloseable按口的类，才能在小括号中创建对象。
+         * 这是简写版，如果在try大括号里面写创建对象，我们无法获取到fos
+         * 无法获取到 无法确保 资源被释放
+         */
+        e.printStackTrace();
+    }
+    //JDK 9
+    //?JDK9就是实例化的过程不需要写在括号里面，可以在外面写完 括号写变量名称就行了，需要 throws 过编译异常
+}
+```
 
 ## 缓存流
