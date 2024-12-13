@@ -24,24 +24,23 @@ public static void main(String[] args) {
 
 ## 字节流(二进制)
 
-## 字符流(文本)
-
 ### FileOutputStream :: 写入文件
 
 > [!TIP]
 > FileOutputStream 用于将字节数据写入文件。
 
-| 方法                                                          | 参数                     | 描述                                        |
-| ------------------------------------------------------------- | ------------------------ | ------------------------------------------- |
-| FileOutputStream(String name)                                 | name:文件路径            | 实例化对象                                  |
-| FileOutputStream(File file)                                   | file:文件对象            | 实例化对象                                  |
-| FileOutputStream([File file, boolean append],append:是否追加) | file:文件对象            | 实例化对象                                  |
-| write(int b)                                                  | b:写入的字节             | 将单个字节写入文件                          |
-| write(byte[] b)                                               | b:写入的字节数组         | 将字节数组写入文件                          |
-| write(byte[] b , int off, int len)                            | b:写入的字节数组自选范围 | 将字节数组范围写入 `len` 是个数不是结束位置 |
-| Str.getBytes()                                                | 将字符串转换为字节数组   | 返回值是字节数组,write 可用                 |
-| flush()                                                       | 无                       | 刷新缓冲区，将缓冲区中的数据立即写入文件    |
-| close()                                                       | 无                       | 关闭 FileOutputStream，释放系统资源         |
+| 方法                                                          | 参数                     | 描述                                                       |
+| ------------------------------------------------------------- | ------------------------ | ---------------------------------------------------------- |
+| FileOutputStream(String name)                                 | name:文件路径            | 实例化对象                                                 |
+| FileOutputStream(File file)                                   | file:文件对象            | 实例化对象                                                 |
+| FileOutputStream([File file, boolean append],append:是否追加) | file:文件对象            | 实例化对象                                                 |
+| write(int b)                                                  | b:写入的字节             | 将单个字节写入文件                                         |
+| write(byte[] b)                                               | b:写入的字节数组         | 将字节数组写入文件                                         |
+| write(byte[] b , int off, int len)                            | b:写入的字节数组自选范围 | 将字节数组范围写入 `len` 是个数不是结束位置                |
+| flush()                                                       | 无                       | 刷新缓冲区，将缓冲区中的数据立即写入文件                   |
+| close()                                                       | 无                       | 关闭 FileOutputStream，释放系统资源                        |
+| Str.getBytes()                                                | 将字符串转换为字节数组   | 返回值是字节数组,write 可用                                |
+| Str.getBytes()                                                | charsetName              | 使用特点格式编码器，返回格式对应字符码 \[数组\] 查看需解码 |
 
 > [!NOTE]
 > 换行符：**windows** 换行符是 `\r\n`, **Unix** 换行符是 `\n` **Mac** 换行符是 `\r`。
@@ -56,6 +55,8 @@ FileOutputStream fos = new FileOutputStream("test.txt");
 > FileInputStream 用于从文件中读取字节数据，它是指针读取，读一次移动一个字节。
 >
 > 弊端一次只能读取一个字节，文件过大会循环次数太多导致低效率。
+>
+> 不要用字节流读取文本文件，它会导致乱码的问题，它的字节需要解码，拷贝不影响。
 
 | 方法                                 | 参数                                 | 描述                                               |
 | ------------------------------------ | ------------------------------------ | -------------------------------------------------- |
@@ -65,6 +66,9 @@ FileOutputStream fos = new FileOutputStream("test.txt");
 | int read(byte[] b)                   | b:字节数组                           | 从文件中读取字节数组，返回值是读取的字节数         |
 | int read(byte[] b, int off, int len) | b:字节数组,off:偏移量,len:读取字节数 | 从文件中读取字节数组范围，返回值是读取的字节数     |
 | close()                              | 无                                   | 关闭 FileInputStream，释放系统资源,先开后关        |
+
+<details>
+<summary>示例代码</summary>
 
 适用于小文件拷贝
 
@@ -140,6 +144,42 @@ public static void main(String[] args) {
     }
     //JDK 9
     //?JDK9就是实例化的过程不需要写在括号里面，可以在外面写完 括号写变量名称就行了，需要 throws 过编译异常
+}
+```
+
+</details>
+
+## 字符流(文本)
+
+> [!NOTE]
+> 字节流只能一字节的解析，再遇到文字编码后 会多字节存储 时候无法处理
+>
+> 码表中 Ascii 系列只有 1 字节，因为英语的码表中编码最大就 999 内，不需要多字节存储
+>
+> 而国家语言增加后 一字节 8 的长度不够使用 所以引入的字符编码器 utf 8 (Unicode Transformation Format)
+>
+> 中文数量很多在 utf8 中为中文划分的区间是 3 个字节 左边第一字节 10 就表示 一字节 110 两字节 0 是断开符
+>
+> 由于上面的编码问题所以通过字节读取文件，一字节可能会出现文字解码错误，字符流就是 utf 解码器
+>
+> 字符刘 = 字节流 + 字符集
+
+快速使用
+
+```java
+public static void main(String[] args) {
+  //没有指定编码格式，默认使用系统默认编码格式
+  FileReader f1 = new FileReader(new File("test.txt"));
+  while (f1.ready()) {
+      //读取之后它会 自动解码并转换成 10 进制，它对应的是字符集上面的数据
+      int text =f1.read();
+      if(text > 0) {
+          System.out.println((char) text);
+      }else {
+          break;
+      }
+  }
+  f1.close();
 }
 ```
 
