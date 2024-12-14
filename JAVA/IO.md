@@ -34,7 +34,7 @@ public static void main(String[] args) {
 | FileOutputStream(String name)                                 | name:文件路径            | 实例化对象                                                 |
 | FileOutputStream(File file)                                   | file:文件对象            | 实例化对象                                                 |
 | FileOutputStream([File file, boolean append],append:是否追加) | file:文件对象            | 实例化对象                                                 |
-| write(int b)                                                  | b:写入的字节             | 将单个字节写入文件                                         |
+| write(int b)                                                  | b:写入的字节             | 将单个字节写入文件,写入不能超出一字节！                    |
 | write(byte[] b)                                               | b:写入的字节数组         | 将字节数组写入文件                                         |
 | write(byte[] b , int off, int len)                            | b:写入的字节数组自选范围 | 将字节数组范围写入 `len` 是个数不是结束位置                |
 | flush()                                                       | 无                       | 刷新缓冲区，将缓冲区中的数据立即写入文件                   |
@@ -164,6 +164,8 @@ public static void main(String[] args) {
 >
 > 字符刘 = 字节流 + 字符集
 
+### FileReader :: 读取文本
+
 快速使用
 
 ```java
@@ -171,7 +173,7 @@ public static void main(String[] args) {
   //没有指定编码格式，默认使用系统默认编码格式
   FileReader f1 = new FileReader(new File("test.txt"));
   while (f1.ready()) {
-      //读取之后它会 自动解码并转换成 10 进制，它对应的是字符集上面的数据
+      //?读取之后它会 自动解码并转换成 10 进制，它返回的是编码值，编码值可以转换字符。
       int text =f1.read();
       if(text > 0) {
           System.out.println((char) text);
@@ -182,5 +184,109 @@ public static void main(String[] args) {
   f1.close();
 }
 ```
+
+| 方法                                       | 参数     | 说明                 |
+|------------------------------------------|--------|--------------------|
+| public FileReader(File file)             | File   | 传入文件对象             |
+| public FileReader(String path)           | String | 传入文件路径             |
+| --------分割符-------                       | 分割符    | 分割符                |
+| public int read ()                       | void   | 读取数据,结束返回-1        |
+| public int read (char[])                 | 数组长度   | 指定读取数,返回读取文字数 -1   |
+| public int read (char[],int off,int len) | int    | 指定读取数,并指定起始位置,往后长度 |
+| public void close ()                     | void   | 结束资源占用             |
+
+指定长度 Demo
+
+```java
+public static void main(String[] args) {
+    try (FileReader f1 = new FileReader("test.txt")) {
+        int i;
+        char[] chars = new char[100];
+        //?数组里面装的已经是chars的数组了，编码已经转换成字符了，只需要拿取对应位置的使用即可。
+        while ((i = f1.read(chars)) != -1) {
+            //! read 数组方法返回的是 读取到的 **文字数量** 使用的时候注意位置避免使用错误位置 否则出现 null
+            System.out.println((new String(chars, 0, i)));//换行符也算在文字数量里面 \r 算一个文字 \n 同样如此
+        }
+    }
+}
+```
+
+### FileWriter :: 写入文本
+
+快速入手
+
+```java
+public static void main(String[] args) {
+    try (FileWriter fw = new FileWriter("test.txt")) {
+        //也可以用char[]数组,可以指定范围,注意范围是 起始位置和起始位置长度
+        fw.write("Hello World");
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+```
+
+| 方法         | 参数                          | 说明    | 额外           |
+|------------|-----------------------------|-------|--------------|
+| -----      | 构造方法                        | ----- |              |
+| FileWriter | File                        | 文件对象  |              |
+| FileWriter | (Str Path)                  | 文件路径  |              |
+| FileWriter | (File,boolean)              | 续写开关  | 关续写，清空数据     |
+| FileWriter | (Path,boolean)              | 续写开关  | 关续写，清空数据     |
+| -----      | 成员方法                        | ----- |              |
+| Write      | Int、str                     | 写入字符  | Int 需对应 字符编码 |
+| Write      | \[Int、str\],int off,int len | 写入部分  | 写入可以超出一字节    |
+| Write      | char[]                      | 写入字组  |              |
+| Write      | char[],int off,int len      | 指定范围  | 起始位置 往后长度    |
+| flush      | void                        | 刷新资源  | 同步数据，然无更新    |
+| close      | void                        | 释放资源  | 关闭占用         |
+
+## 原理
+
+### 字符输入流
+
+字符输入流是字节输入流的封装，它会自动解码字节为字符，并返回。
+
+> [!CAUTION]
+> 字节流没有缓存区，操作比较细化没必要。
+
+在实例化的时候，它会先创建 8192 长度的数组，然后创建内存与硬盘的通道
+
+等你首次使用了 read 后，再贪婪填充数组，这样就实现了\[`缓存`、`缓冲区`\]，通道开启休眠。
+
+在读取的时候，它会依次将二进制转换十进制，再返回给你，在内存操作因此速度很快。
+
+在读取指针到数组末尾的时候，它就重写激活通道，从上次结束的位置重写填充，覆盖数组并还原指针
+
+如果遇到了文件字节不注意填满数组，它就会将读取的字节数记录下来，读取全部完成后就返回 -1
+
+传入的是数组也是同理，会根据你的数组长度依次对照修改，不足以填充完成不重要 返回值是修改的数量
+
+逻辑上你读取使用起始位置和填充数量就能正确拿取使用。
+
+特殊情况：
+
+最后一字节是中文多字节编码，它每次从硬盘加载都会判断最后一字节是不是多字节编码，是就通过变量记录
+
+等到我们使用到最后一字节的时候，它会判断是不是多字节，是的话就重新走硬盘缓存覆盖数组。
+
+前一次我们保存了最后一字节的位置，读取完成会看多字节变量存在，有就把多字节和数组前面的字节拼接成字符再返回。
+
+### 字符输出流
+
+字符输出流是字节输出流的封装，它会自动编码字符为字节，并写入。
+
+> [!CAUTION]
+> 字符写入流同样有 缓冲区，对数据进行写入操作是在内存中进行，没有同步和关闭资源，会导致数据丢失。
+
+它与字符读取一样 拥有 8192 长度的数组，然后创建内存与硬盘的通道。
+
+自动更新会触发逻辑 等写入的数据已经把数组全部写完，它就执行同步操作，将数据写入硬盘。
+
+然后清空数组，正确移动指针到写入后，手动执行刷新也是同样的操作。
+
+特殊情况：
+
+数组最后是多字符,它会先将字符的前部分写入数组，等待同步完成后，自动续写入上一次多字节的后续部分
 
 ## 缓存流
