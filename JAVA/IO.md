@@ -1,5 +1,7 @@
 # Java IO（Input/Output）
 
+![PixPin_2024-12-15_13-57-59.png](./images/Idea/IO-1734242283989.png)
+
 ## 输入输出流
 
 Java IO 包括输入流和输出流。输入流用于从源（如文件、网络、控制台）**读取数据**
@@ -57,6 +59,8 @@ FileOutputStream fos = new FileOutputStream("test.txt");
 > 弊端一次只能读取一个字节，文件过大会循环次数太多导致低效率。
 >
 > 不要用字节流读取文本文件，它会导致乱码的问题，它的字节需要解码，拷贝不影响。
+>
+> 拷贝文件的通解，用其他拷贝可能出现问题，字节就不会出现。内部数组 是字节类型。
 
 | 方法                                 | 参数                                 | 描述                                               |
 | ------------------------------------ | ------------------------------------ | -------------------------------------------------- |
@@ -162,7 +166,7 @@ public static void main(String[] args) {
 >
 > 由于上面的编码问题所以通过字节读取文件，一字节可能会出现文字解码错误，字符流就是 utf 解码器
 >
-> 字符刘 = 字节流 + 字符集
+> 字符刘 = 字节流 + 字符集 。**字符流内部数组是 字符类型，而不是字节类型**
 
 ### FileReader :: 读取文本
 
@@ -289,4 +293,64 @@ public static void main(String[] args) {
 
 数组最后是多字符,它会先将字符的前部分写入数组，等待同步完成后，自动续写入上一次多字节的后续部分
 
-## 缓存流
+## 缓冲流
+
+> [!TIP]
+> 缓冲流 是基本流 <sup>字节|字符</sup> 的高级封装流，用于提高性能和自动同步。
+
+### 字节缓冲流
+
+快速入手
+
+```java
+public static void main(String[] args) {
+    //!只有两个特有方法，构造和关闭,其余字符流方法。
+    BufferedInputStream bis = new BufferedInputStream(new FileInputStream("test.txt"));
+    BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("test2.txt"));
+    int c;
+    //?多字节同理 传入数组 写入用返回的范围。
+    while ((c = bis.read()) != -1) {
+        bos.write(c);
+    }
+    bis.close();
+    bos.close();
+}
+```
+
+> [!NOTE]
+>
+> 提高性能原理：缓冲区内部也有一有 8192 的数组
+>
+> 在我们写入流的时候它会，先将传入的基本流内部的 缓存数组 给拷贝到自己数组中
+>
+> 等到我们执行write数量到达数组上线再去执行硬盘同步，关闭缓冲流占用也会执行手动同步。
+>
+> 以前的写入是每次都一字节的写入，内存等待硬盘时间较长，它加了个中间数组从而提高性能。
+
+### 字符缓冲流
+
+快速入手
+
+```java
+/*
+ * 同样只有两个特有方法
+ * 构造需传入基本流。
+ * 读取流：readLine()  读一行返回 string  \r\n 换行符不会存储在里面 
+ * 写入流：newLine() 写入换行符 自动根据平台切换换行符。
+ * */
+public static void main(String[] args) {
+    //?续写功能是 基本流控制的，缓冲流只负责提高性能，原来怎么写就怎么写。多给个参数 true
+    BufferedReader br = new BufferedReader(new FileReader("test.txt"));
+    BufferedWriter bw = new BufferedWriter(new FileWriter("test2.txt"));
+
+    String line;
+
+    while ((line = br.readLine()) != null) {
+        bw.write(line);
+        bw.newLine();
+    }
+
+    br.close();
+    bw.close();
+}
+```
