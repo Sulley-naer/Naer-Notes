@@ -335,7 +335,7 @@ public static void main(String[] args) {
 /*
  * 同样只有两个特有方法
  * 构造需传入基本流。
- * 读取流：readLine()  读一行返回 string  \r\n 换行符不会存储在里面 
+ * 读取流：readLine()  读一行返回 string  \r\n 换行符不会存储在里面
  * 写入流：newLine() 写入换行符 自动根据平台切换换行符。
  * */
 public static void main(String[] args) {
@@ -354,3 +354,151 @@ public static void main(String[] args) {
     bw.close();
 }
 ```
+
+## 转换流
+
+> [!TIP]
+> 转换流是字符流和字节流的桥梁,并且指定编码解读字节。
+> 
+> 当字节流中突然想使用字符流的方法，就可以使用它来桥接。
+
+
+```java
+public static void main(String[] args) {
+    //?Java 7
+    InputStreamReader isr = new InputStreamReader(new FileInputStream("test.txt"),"utf-8"); /*输出流 把input 改 Output */
+    int c;
+    while ((c = isr.read()) != -1) {
+        System.out.print((char) c);
+    }
+    //!Java 11
+    FileReader isr = new FileReader("test.txt", Charset.forName("utf-8"));
+    int c;
+    while ((c = isr.read()) != -1) {
+        System.out.print((char) c);
+    }
+}
+```
+
+## 序列化流
+
+> [!TIP]
+> 用处是将对象存储到本地文件中
+> 
+> 多对象的情况 一定要序列化数组，否则后续使用很麻烦，一个数组就是一个对象，用起来不会有问题。
+
+| 方法                 | 参数                 | 说明                          |
+|--------------------|--------------------|-----------------------------|
+| -----              | 构造方法               | -----                       |
+| ObjectOutputStream | ObjectOutputStream | 参数都需要new两个类，源码参数嵌套 Obj>file |
+| ObjectInputStream  | ObjectOutputStream | 参数都需要new两个类，源码参数嵌套 Obj>file |
+| -----              | 成员方法               | -----                       |
+| WriteObjects       | Object             | 写入类对象,Write 还有其他方法 一次写一个    |
+| readObject         | void、char[]        | 读取写入类,完全还原！类型强转。一次读一个       |
+| flush              | void               | 同步硬盘                        |
+| close              | void               | 关闭占用                        |
+
+快速上手
+
+### 序列化
+
+```java
+public static void main(String[] args) {
+    ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("test2.txt"));
+
+    os.writeObject(new student("张三",8));
+
+    os.flush();
+    os.close();
+}
+
+//? 需实现标记性接口,它本身没有任何方法，只是确保你所写的类是可被序列化。
+static class  student implements Serializable {
+    private String name;
+    private int age;
+
+    public student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof student student)) return false;
+        return age == student.age && Objects.equals(name, student.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+    
+}
+```
+
+### 反序列化
+
+```java
+public static void main(String[] args) {
+    ObjectInputStream os = new ObjectInputStream(new FileInputStream("test2.txt"));
+    //! 方法完全还原！ toString 很明显字节输入res 打印内存地址，有则调用方法。
+    student res = (student) os.readObject();
+
+    System.out.println(res);
+
+    System.out.println(res.age);
+
+    os.close();
+}
+```
+
+<details>
+
+<summary> 版本异常 </summary>
+
+> [!TIP]
+> 注意: 序列化的时候，Java会自动根据类结构去生成 id，
+> 
+> 后续进行反虚拟化的时候会自动去项目找同名类，再次根据结构生成id，再进行比对同则正常，而不同就会出现版本异常
+> 
+> Java 提供了解决方式，类属性自行定义版本号，它就不会根据id去拦截，留给你进行判断处理，版本号需遵守规定。
+> 
+> 反序列化，不知道数量，推荐是在序列化的时候序列化数组，就能确保不会出现异常 `EOFException`
+> 
+> 没办法的情况使用 try-catch 死循环并添加进数组，catch里面去 break 就行了。
+
+![Idea添加自动修复，再实现了 Serializable 需声明版本属性](./images/Idea/IO-1734402888725.png)
+
+```java
+import java.io.Serial;
+import java.io.Serializable;
+
+static class student implements Serializable, Serializable {
+    //?idea 自动修复 配置好了 类名会警告
+    
+    @Serial
+    private static final long serialVersionUID = 1806412263878124732L;
+
+    private String name;
+    private int age;
+    private transient String Test;/*! transient 修饰符，可以让属性不再本地存储 */
+//    private int id; 制造差异并尝试运行
+
+    public student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "student{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+```
+
+</details>
+
+

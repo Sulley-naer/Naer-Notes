@@ -536,15 +536,15 @@ public static void main(String[] args) {
 
 ## Arrays 算法 API
 
-| 方法 静态    | 功能     | 说明       |
-| ------------ | -------- | ---------- |
-| asList       | 转换数组 | 参数无上限 |
-| toString     | 数组转换 | 转为字符串 |
-| binarySearch | 二分查找 | 找不到 -1  |
-| copeOf       | 拷贝数组 | 自动扩容   |
-| copeOfRange  | 范围拷贝 | 左包右不包 |
-| fill         | 数组填充 | 字意       |
-| sort         | 排序     | ArrayList  |
+| 方法 静态        | 功能   | 说明        |
+|--------------|------|-----------|
+| asList       | 转换数组 | 参数无上限     |
+| toString     | 数组转换 | 转为字符串     |
+| binarySearch | 二分查找 | 找不到 -1    |
+| copeOf       | 拷贝数组 | 自动扩容      |
+| copeOfRange  | 范围拷贝 | 左包右不包     |
+| fill         | 数组填充 | 字意        |
+| sort         | 排序   | ArrayList |
 
 ```java
 import java.util.Arrays;

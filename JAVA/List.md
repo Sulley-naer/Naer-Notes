@@ -1,4 +1,4 @@
-# Java 高阶集合方法 [返回上级](./AboutAPI.md#List-更多详情))
+# Java 高阶集合方法 [返回上级](./AboutAPI.md#More))
 
 ## 双列集合
 
