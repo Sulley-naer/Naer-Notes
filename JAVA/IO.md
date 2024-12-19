@@ -31,18 +31,18 @@ public static void main(String[] args) {
 > [!TIP]
 > FileOutputStream 用于将字节数据写入文件。
 
-| 方法                                                          | 参数                     | 描述                                                       |
-| ------------------------------------------------------------- | ------------------------ | ---------------------------------------------------------- |
-| FileOutputStream(String name)                                 | name:文件路径            | 实例化对象                                                 |
-| FileOutputStream(File file)                                   | file:文件对象            | 实例化对象                                                 |
-| FileOutputStream([File file, boolean append],append:是否追加) | file:文件对象            | 实例化对象                                                 |
-| write(int b)                                                  | b:写入的字节             | 将单个字节写入文件,写入不能超出一字节！                    |
-| write(byte[] b)                                               | b:写入的字节数组         | 将字节数组写入文件                                         |
-| write(byte[] b , int off, int len)                            | b:写入的字节数组自选范围 | 将字节数组范围写入 `len` 是个数不是结束位置                |
-| flush()                                                       | 无                       | 刷新缓冲区，将缓冲区中的数据立即写入文件                   |
-| close()                                                       | 无                       | 关闭 FileOutputStream，释放系统资源                        |
-| Str.getBytes()                                                | 将字符串转换为字节数组   | 返回值是字节数组,write 可用                                |
-| Str.getBytes()                                                | charsetName              | 使用特点格式编码器，返回格式对应字符码 \[数组\] 查看需解码 |
+| 方法                                                        | 参数            | 描述                               |
+|-----------------------------------------------------------|---------------|----------------------------------|
+| FileOutputStream(String name)                             | name:文件路径     | 实例化对象                            |
+| FileOutputStream(File file)                               | file:文件对象     | 实例化对象                            |
+| FileOutputStream([File file, boolean append],append:是否追加) | file:文件对象     | 实例化对象                            |
+| write(int b)                                              | b:写入的字节       | 将单个字节写入文件,写入不能超出一字节！             |
+| write(byte[] b)                                           | b:写入的字节数组     | 将字节数组写入文件                        |
+| write(byte[] b , int off, int len)                        | b:写入的字节数组自选范围 | 将字节数组范围写入 `len` 是个数不是结束位置        |
+| flush()                                                   | 无             | 刷新缓冲区，将缓冲区中的数据立即写入文件             |
+| close()                                                   | 无             | 关闭 FileOutputStream，释放系统资源       |
+| Str.getBytes()                                            | 将字符串转换为字节数组   | 返回值是字节数组,write 可用                |
+| Str.getBytes()                                            | charsetName   | 使用特点格式编码器，返回格式对应字符码 \[数组\] 查看需解码 |
 
 > [!NOTE]
 > 换行符：**windows** 换行符是 `\r\n`, **Unix** 换行符是 `\n` **Mac** 换行符是 `\r`。
@@ -502,3 +502,117 @@ static class student implements Serializable, Serializable {
 </details>
 
 
+
+
+## 打印流
+
+> [!TIP]
+> 打印流一般是指：PrintStream，PrintWriter两个类
+ 
+1. 打印流只操作文件目的地，不操作数据源
+2. 特有的写出方法可以实现，数据原样写出 | 打印：97 文件中：97
+3. 特有的写出方法可以实现自动刷新，自动换行 | 打印一次数据=写出+换行+刷新
+
+| 方法                 | 参数                                                   | 说明                |
+|--------------------|------------------------------------------------------|-------------------|
+| -----              | 构造方法                                                 | -----             |
+| public PrintStream | OutputStream/File/String                             | 关联字节输出流/文件/文件路径   |
+| public PrintStream | String fileName, Charset charset                     | 指定字符编码            |
+| public PrintStream | OutputStream out，boolean autoFlush                   | 自动刷新 底层没有缓冲流 实际无效 |
+| public PrintStream | OutputStream out, boolean autoFlush, String encoding | 指定字符编码且自动刷新       |
+| -----              | 成员方法                                                 | -----             |
+| write              | int                                                  | 与普通的写入一样          |
+| println            | any                                                  | 特有 打印任意数据,自动换行,刷新 |
+| print              | any                                                  | 特有 打印任意数据,不换行     |
+| printf             | String format, Object... args                        | 特有 带有占位符的打印语句，不换行 |
+| flush              | void                                                 | 同步资源              |
+| close              | void                                                 | 关闭占用,控制台权限丢失      |
+
+### 字节打印流
+
+> 不需要同步之类的，它每次写入都走硬盘通道
+
+```java
+public static void main(String[] args) {
+    PrintStream ps = new PrintStream(new FileOutputStream("test3.txt",false), true, StandardCharsets.UTF_8);
+    ps.println("A");
+    ps.printf("%s dadx %s","张三","李四");//占位符 关键字 %s 后续参数会自动根据位置替换
+    /*
+     * %n 换行
+     * %c 转换大写
+     * %b boolean 类型
+     * %d 小数类型
+     * C语言 占位符 自行搜索
+     * */
+    ps.close();
+}
+```
+
+### 字符打印流
+
+> 方法表格中的 file 转换一下 Writer 就能使用了
+> 
+> 字符流底层有缓冲层，同步需要执行方法，否则丢失数据。flush() close()
+ 
+```java
+public static void main(String[] args) {
+    PrintWriter pw = new PrintWriter(new FileOutputStream("test3.txt",false));
+
+    pw.print("hello-from-java");
+
+    pw.close();
+}
+```
+
+## 压缩
+
+> [!TIP]
+> 压缩文件是指指将文件夹转换为一个单文件，使用时候方便传输和备份操作。
+
+| 方法                    | 参数                                                   | 说明                |
+|-----------------------|------------------------------------------------------|-------------------|
+| -----                 | 构造方法                                                 | -----             |
+| public ZipInputStream | OutputStream/File/String                             | 压缩包保存路径           |
+| public ZipInputStream | String fileName, Charset charset                     | 指定字符编码            |
+| public ZipInputStream | OutputStream out，boolean autoFlush                   | 自动刷新 底层没有缓冲流 实际无效 |
+| public ZipInputStream | OutputStream out, boolean autoFlush, String encoding | 指定字符编码且自动刷新       |
+| -----                 | 成员方法                                                 | -----             |
+| getNextEntry          | void                                                 | 获得压缩对象 null 则读取完成 |
+| close                 | void                                                 | 关闭压缩流             |
+| -----                 | entry 成员方法                                           | -----             |
+| isDirectory           | void                                                 | 当前对象是不是文件夹        |
+| getName               | void                                                 | 获取当前对象名称          |
+| read                  | void                                                 | 文件对象读取解析字节 -1完成   |
+| closeEntry            | void                                                 | 当前对象操作完成          |
+| close                 | void                                                 | 关闭占用,控制台权限丢失      |
+
+### 解压缩
+
+```java
+//自行调用方法,传入zip路径和输出路径
+
+public static void unzip(String zipFile, String destDir) throws IOException {
+    ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
+
+    ZipEntry entry;
+
+    while ((entry = zis.getNextEntry()) != null) {
+        if (entry.isDirectory()) {
+            System.out.println("文件夹");
+            File dir = new File(destDir, entry.getName());
+            System.out.println(dir.mkdirs());
+        } else {
+            System.out.println("文件");
+            int b;
+            FileOutputStream fos  = new FileOutputStream(new File(destDir, entry.getName()));
+            while ((b = zis.read()) != -1) {
+                fos.write(b);
+            }
+
+            fos.close();
+            zis.closeEntry();
+        }
+    }
+    zis.close();
+}
+```
