@@ -1058,6 +1058,8 @@ public static void main(String[] args) {
 > File 类 用来操作文件和目录，可以对文件进行创建、删除、复制、移动、读写等操作。
 > 
 > 字符串拼接交给 File 它可以根据系统来自动转换,file 两参数就是 `目录和文件` 。
+> 
+> File 类用来读取整个文件 FileInput 字节读取文件,FileOutput 字节写入文件。
 
 - File 类是 Java 中用于处理文件和目录的类。
 - File 类可以创建、删除、复制、移动文件和目录。

@@ -62,14 +62,15 @@ FileOutputStream fos = new FileOutputStream("test.txt");
 >
 > 拷贝文件的通解，用其他拷贝可能出现问题，字节就不会出现。内部数组 是字节类型。
 
-| 方法                                 | 参数                                 | 描述                                               |
-| ------------------------------------ | ------------------------------------ | -------------------------------------------------- |
-| FileInputStream(String name)         | name:文件路径                        | 实例化对象,指针读取形势                            |
-| FileInputStream(File file)           | file:文件对象                        | 实例化对象                                         |
-| int read()                           | 无                                   | 从文件中读取单个字节，返回值是字节值,无数据返回 -1 |
-| int read(byte[] b)                   | b:字节数组                           | 从文件中读取字节数组，返回值是读取的字节数         |
-| int read(byte[] b, int off, int len) | b:字节数组,off:偏移量,len:读取字节数 | 从文件中读取字节数组范围，返回值是读取的字节数     |
-| close()                              | 无                                   | 关闭 FileInputStream，释放系统资源,先开后关        |
+| 方法                                   | 参数                       | 描述                             |
+|--------------------------------------|--------------------------|--------------------------------|
+| FileInputStream(String name)         | name:文件路径                | 实例化对象,指针读取形势                   |
+| FileInputStream(File file)           | file:文件对象                | 实例化对象                          |
+| int read()                           | 无                        | 从文件中读取单个字节，返回值是字节值,无数据返回 -1    |
+| int read(byte[] b)                   | b:字节数组                   | 从文件中读取字节数组，返回值是读取的字节数          |
+| int read(byte[] b, int off, int len) | b:字节数组,off:偏移量,len:读取字节数 | 从文件中读取字节数组范围，返回值是读取的字节数        |
+| byte[] readAllBytes                  | void                     | 一次性返回数据字节数组，大文件内存 和 long字节上线   |
+| close()                              | 无                        | 关闭 FileInputStream，释放系统资源,先开后关 |
 
 <details>
 <summary>示例代码</summary>
@@ -576,14 +577,17 @@ public static void main(String[] args) {
 | public ZipInputStream | String fileName, Charset charset                     | 指定字符编码            |
 | public ZipInputStream | OutputStream out，boolean autoFlush                   | 自动刷新 底层没有缓冲流 实际无效 |
 | public ZipInputStream | OutputStream out, boolean autoFlush, String encoding | 指定字符编码且自动刷新       |
+| public ZipEntry       | string path (aaa/b 解析会出现创建aaa文件夹里面有b文件)              | 压缩文件,根据路径自动生成结构   |
 | -----                 | 成员方法                                                 | -----             |
 | getNextEntry          | void                                                 | 获得压缩对象 null 则读取完成 |
+| putNextEntry          | ZipEntry                                             | 创建新的压缩资源          |
 | close                 | void                                                 | 关闭压缩流             |
 | -----                 | entry 成员方法                                           | -----             |
 | isDirectory           | void                                                 | 当前对象是不是文件夹        |
 | getName               | void                                                 | 获取当前对象名称          |
 | read                  | void                                                 | 文件对象读取解析字节 -1完成   |
-| closeEntry            | void                                                 | 当前对象操作完成          |
+| closeEntry            | void                                                 | 结束资源写入，同步数据       |
+| write                 | byte[]、int、Byte[] int off int len                    | 写入字节,zipEntry对象特有 |
 | close                 | void                                                 | 关闭占用,控制台权限丢失      |
 
 ### 解压缩
@@ -614,5 +618,32 @@ public static void unzip(String zipFile, String destDir) throws IOException {
         }
     }
     zis.close();
+}
+```
+
+### 压缩流
+
+```java
+public static void zip(String srcDir, String destDir) throws IOException {
+    File file = new File(srcDir);
+    File dir = new File(destDir,"test.zip");
+
+    dir.mkdirs();
+
+    //?构造函数传入存储路径，必须是写入流
+    ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(dir));
+    //需要文件夹就直接在路径里面写 `\\` 区分，ZipEntry是记录的路径，压缩软件解析也是只看路径字符，并不是真的有文件夹对象。
+    ZipEntry entry = new ZipEntry(file.getName());
+    zip.putNextEntry(entry);
+
+    FileInputStream fis = new FileInputStream(file);
+
+    zip.write(fis.readAllBytes());
+
+    zip.closeEntry();
+
+    zip.close();
+    
+    //文件夹压缩就不写了，自行通过 File获取文件夹目录，区分文件，然后转换为文件相对路径，填入 ZipEntry 里面就能实现了
 }
 ```
