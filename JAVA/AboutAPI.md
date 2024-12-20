@@ -5,29 +5,30 @@
 
 ## System
 
-| 方法名            | 说明                 | 参数                            | 说明                    |
-| ----------------- | -------------------- | ------------------------------- | ----------------------- |
-| exit              | 终止当前虚拟机       | status                          | 0:正常停止,其余异常     |
-| currentTimeMillis | 返回系统时间〖毫秒〗 | 方法                            | long 类型               |
-| arraycopy         | 数组复制             | srcPos \[arr2\] ,destPos,length | 数组 记录数组 索引 长度 |
+| 方法名               | 说明         | 参数                              | 说明            |
+|-------------------|------------|---------------------------------|---------------|
+| exit              | 终止当前虚拟机    | status                          | 0:正常停止,其余异常   |
+| currentTimeMillis | 返回系统时间〖毫秒〗 | 方法                              | long 类型       |
+| arraycopy         | 数组复制       | srcPos \[arr2\] ,destPos,length | 数组 记录数组 索引 长度 |
 
 ### 说明
 
 1. 记得在前面添加 `System` 它们是静态类方法
 2. `currentTimeMillis` 从 `1970年1月1日 0:0:0` 开始计算毫秒时间,时差则在 **时分秒** 做加法
-3. `arraycopy` 是 **可选数组** `arr2` 是将原数组的内容 放到数组 2 中,类型必须一致,Idea 无错误提示 <br> -遵循多态继承语法,同样可以用基类最为类型
+3. `arraycopy` 是 **可选数组** `arr2` 是将原数组的内容 放到数组 2 中,类型必须一致,Idea 无错误提示 <br>
+   -遵循多态继承语法,同样可以用基类最为类型
 
 ## Runtime
 
-| 方法名              | 说明                   |
-| ------------------- | ---------------------- |
-| getRuntime          | 当前系统的运行环境对象 |
-| exit                | 停止虚拟机             |
-| availableProcessors | 获得 CPU 的线程数      |
+| 方法名                 | 说明            |
+|---------------------|---------------|
+| getRuntime          | 当前系统的运行环境对象   |
+| exit                | 停止虚拟机         |
+| availableProcessors | 获得 CPU 的线程数   |
 | MaxMemory           | Jvm 能获取最大内存大小 |
-| totalMemory         | Jvm 已获得内存大小     |
-| freeMemory          | Jvm 剩余内存大小       |
-| exec                | 运行 cmd 命令          |
+| totalMemory         | Jvm 已获得内存大小   |
+| freeMemory          | Jvm 剩余内存大小    |
+| exec                | 运行 cmd 命令     |
 
 ### 说明
 
@@ -38,11 +39,11 @@
 
 ## Object
 
-| 方法名   | 说明           |
-| -------- | -------------- |
+| 方法名      | 说明      |
+|----------|---------|
 | toString | 转换字符串类型 |
-| equals   | 对象比较       |
-| clone    | 对象克隆       |
+| equals   | 对象比较    |
+| clone    | 对象克隆    |
 
 ### 说明
 
@@ -98,10 +99,10 @@ protected Object clone() throws CloneNotSupportedException {
 
 ## Objects
 
-| 方法名  | 说明     |
-| ------- | -------- |
-| equals  | 比较     |
-| isNull  | 判断     |
+| 方法名     | 说明   |
+|---------|------|
+| equals  | 比较   |
+| isNull  | 判断   |
 | nonNull | 判断取反 |
 
 ### 说明
@@ -112,24 +113,24 @@ protected Object clone() throws CloneNotSupportedException {
 
 ## BigInteger
 
-| 方法名               | 说明               | 参数                   |
-| -------------------- | ------------------ | ---------------------- |
-| BigInteger           | 随机大整数         | int num Random r       |
-| BigInteger           | 获取指定的大整数   | String val             |
-| BigInteger           | 获取指定进制大整数 | sting val ,int radix   |
-| -------------------- | 静态方法           | ---------------------- |
+| 方法名                  | 说明          | 参数                     |
+|----------------------|-------------|------------------------|
+| BigInteger           | 随机大整数       | int num Random r       |
+| BigInteger           | 获取指定的大整数    | String val             |
+| BigInteger           | 获取指定进制大整数   | sting val ,int radix   |
+| -------------------- | 静态方法        | ---------------------- |
 | valueOF              | 转换大整数类型     | long num               |
-| -------------------- | 常见方法           | ---------------------- |
-| add                  | 加法               |
-| subtract             | 减法               |
-| multiply             | 乘法               |
-| divide               | 除法 获取 商       |
+| -------------------- | 常见方法        | ---------------------- |
+| add                  | 加法          |
+| subtract             | 减法          |
+| multiply             | 乘法          |
+| divide               | 除法 获取 商     |
 | divideAndRemainder   | 除法 获取 伤 余数  |
-| equals               | 比较               |
-| pow                  | 次幂               |
-| max/min              | 返回较大值         |
-| intValue             | 转为 int 类型整数  |
-| double、long value   | 转换指定类型       |
+| equals               | 比较          |
+| pow                  | 次幂          |
+| max/min              | 返回较大值       |
+| intValue             | 转为 int 类型整数 |
+| double、long value    | 转换指定类型      |
 
 ### 说明
 
@@ -149,20 +150,20 @@ protected Object clone() throws CloneNotSupportedException {
 
 ## BigDecimal
 
-| 方法名               | 说明               | 参数\|用法                 |
-| -------------------- | ------------------ | -------------------------- |
-| new BigDecimal       | 实例化             | int double string          |
-| value of             | 获取对象           | String val                 |
+| 方法名                  | 说明        | 参数\|用法                     |
+|----------------------|-----------|----------------------------|
+| new BigDecimal       | 实例化       | int double string          |
+| value of             | 获取对象      | String val                 |
 | BigInteger           | 获取指定进制大整数 | sting val ,int radix       |
-| add                  | 加法               | bd1.add(bd2)               |
-| subtract             | 减法               | bd1.subtract(bd2)          |
-| multiply             | 乘法               | bd1.multiply(bg2)          |
-| divide               | 除法               | bd1.divide(bg2)            |
-| divide               | 精确除法           | bd1.divide(bg2,scale,mode) |
-| -------------------- | 静态方法           | ----------------------     |
-| valueOf              | 静态获取对象       | long num flot              |
-| -------------------- | 常见方法           | ----------------------     |
-| add                  | 加法               |
+| add                  | 加法        | bd1.add(bd2)               |
+| subtract             | 减法        | bd1.subtract(bd2)          |
+| multiply             | 乘法        | bd1.multiply(bg2)          |
+| divide               | 除法        | bd1.divide(bg2)            |
+| divide               | 精确除法      | bd1.divide(bg2,scale,mode) |
+| -------------------- | 静态方法      | ----------------------     |
+| valueOf              | 静态获取对象    | long num flot              |
+| -------------------- | 常见方法      | ----------------------     |
+| add                  | 加法        |
 
 ### 说明
 
@@ -177,54 +178,54 @@ protected Object clone() throws CloneNotSupportedException {
 <details>
   <summary style="font-size:17px;font-weight:bold;">正则语法</summary>
 
-1. | 类型            | 作用                                                                             |
-   | --------------- | -------------------------------------------------------------------------------- |
-   | （^）           | 匹配字符串的开始位置，如“^a”表示以字母 a 开头的字符串。                          |
-   | （$）           | 匹配字符串的结束位置，如“X^”表示以字母 X 结尾的字符串。                          |
-   | （.）           | 这个字符就是英文下的点，它匹配**任何一个字符**，包括回车、换行等。 通配符 \_     |
-   | （\*）          | 星号匹配 0 个或多个字符，在它之前必须有内容。通配符 % 后续字符等于之前的字符     |
-   | （+）           | 加号匹配 1 个或多个字符，星号允许出现 0 次，加号必须出现一次。a+ 后面至少一个 a  |
-   | {n}             | 匹配指定 n 个 ab{3} abbb 有 3 个 (ab){3} ababab .{3} 任意字符出现三次            |
-   | {n,}            | 匹配不少于 n 个 字面意思，跟上面语法相同                                         |
-   | {n,m}           | 匹配 n-m 个 字面意思，语法相同                                                   |
-   | a?              | ?为断言匹配，自动填充，结果可为 `[字符]`或者 a`[字符]` 它可存在，可不存在 量子态 |
-   | (ab)?a          | 断言匹配，结果可为 aba 或者 c 和上面的用法称为**量词**                           |
-   | .\*?b           | .是如何字符，\*让第二字符必须和.的相同，?让\*的匹配可有可无，最后一位强制 b      |
-   | a+?             | a+ 特性为后面字符**必须有一个** a，要么单 a 要么 至少有 2 个 a。 非贪婪量词      |
-   | （?!）          | a(?!b) 匹配到 a，只要 a **后面非紧**跟着 b 零宽度负向前瞻                        |
-   | （?=）          | a(?=b) 结果可为 a 或者 a **后面**紧跟着 b 的字符 零宽度正向前瞻                  |
-   | （?<!）         | b(?<!a) 与(?!)相同，只不过是**前面**不能有字符 a 零宽度负向回顾                  |
-   | （?<=）         | b(?<!a) 与(?=)相同，只不过是**前面**有 字符 a 零宽度正向回顾                     |
-   | (?i)            | a(?i)bc bc 两个字符将忽视大小写 多用括号限制范围 Java 测试                       |
-   | \[a-z\]         | 表示当前位置的字符，**是** Ascii 码表 a-z 范围内                                 |
-   | \[^a-z\]        | 表示当前位置的字符，**非** Ascii 码表 a-z 范围内                                 |
-   | \[a-zA-Z\]      | 表示当前位置的字符 a-z**或**A-Z 之间，不用空格 给范围符号提高阅读性              |
-   | \[a-z[0-9]\]    | 表示当前位置的字符，a-z **或者** 0-9                                             |
-   | \[a-z&[def]\]   | 表示当前位置的字符，a-z 之间 也可以是 **&** 符号 **或者** 是 def                 |
-   | \[a-z&&[def]\]  | 表示当前位置的字符，a-z 和 def 的**交集**: 先必须在 a-z 然后再看 是不是 def      |
-   | \[a-z&&[^bc]\]  | 表示当前位置的字符，a-z **非** bc 的**交集** 排除 bc                             |
-   | \[a-z&&[^m-p]\] | 表示当前位置的字符，a-z **非** m-p 的**交集** 排除 m-p 之间                      |
-   | 成果            | `select * from student where sname regexp '^张.*?$'`                             |
+1. | 类型              | 作用                                                     |
+         |-----------------|--------------------------------------------------------|
+   | （^）             | 匹配字符串的开始位置，如“^a”表示以字母 a 开头的字符串。                        |
+   | （$）             | 匹配字符串的结束位置，如“X^”表示以字母 X 结尾的字符串。                        |
+   | （.）             | 这个字符就是英文下的点，它匹配**任何一个字符**，包括回车、换行等。 通配符 \_             |
+   | （\*）            | 星号匹配 0 个或多个字符，在它之前必须有内容。通配符 % 后续字符等于之前的字符              |
+   | （+）             | 加号匹配 1 个或多个字符，星号允许出现 0 次，加号必须出现一次。a+ 后面至少一个 a          |
+   | {n}             | 匹配指定 n 个 ab{3} abbb 有 3 个 (ab){3} ababab .{3} 任意字符出现三次 |
+   | {n,}            | 匹配不少于 n 个 字面意思，跟上面语法相同                                 |
+   | {n,m}           | 匹配 n-m 个 字面意思，语法相同                                     |
+   | a?              | ?为断言匹配，自动填充，结果可为 `[字符]`或者 a`[字符]` 它可存在，可不存在 量子态        |
+   | (ab)?a          | 断言匹配，结果可为 aba 或者 c 和上面的用法称为**量词**                      |
+   | .\*?b           | .是如何字符，\*让第二字符必须和.的相同，?让\*的匹配可有可无，最后一位强制 b             |
+   | a+?             | a+ 特性为后面字符**必须有一个** a，要么单 a 要么 至少有 2 个 a。 非贪婪量词        |
+   | （?!）            | a(?!b) 匹配到 a，只要 a **后面非紧**跟着 b 零宽度负向前瞻                 |
+   | （?=）            | a(?=b) 结果可为 a 或者 a **后面**紧跟着 b 的字符 零宽度正向前瞻             |
+   | （?<!）           | b(?<!a) 与(?!)相同，只不过是**前面**不能有字符 a 零宽度负向回顾              |
+   | （?<=）           | b(?<!a) 与(?=)相同，只不过是**前面**有 字符 a 零宽度正向回顾               |
+   | (?i)            | a(?i)bc bc 两个字符将忽视大小写 多用括号限制范围 Java 测试                 |
+   | \[a-z\]         | 表示当前位置的字符，**是** Ascii 码表 a-z 范围内                       |
+   | \[^a-z\]        | 表示当前位置的字符，**非** Ascii 码表 a-z 范围内                       |
+   | \[a-zA-Z\]      | 表示当前位置的字符 a-z**或**A-Z 之间，不用空格 给范围符号提高阅读性               |
+   | \[a-z[0-9]\]    | 表示当前位置的字符，a-z **或者** 0-9                               |
+   | \[a-z&[def]\]   | 表示当前位置的字符，a-z 之间 也可以是 **&** 符号 **或者** 是 def            |
+   | \[a-z&&[def]\]  | 表示当前位置的字符，a-z 和 def 的**交集**: 先必须在 a-z 然后再看 是不是 def     |
+   | \[a-z&&[^bc]\]  | 表示当前位置的字符，a-z **非** bc 的**交集** 排除 bc                   |
+   | \[a-z&&[^m-p]\] | 表示当前位置的字符，a-z **非** m-p 的**交集** 排除 m-p 之间              |
+   | 成果              | `select * from student where sname regexp '^张.*?$'`    |
 
 2. `'字符'` ：没有意思，就是判断它是不是 字符两个字
 3. `|`：表示或 匹配多数据
 4. `.+`：**当前字段** `.` 匹配任意字符 `+` 包括空格、换行符等。
 5. `[]`：**当前字段** 匹配指定范围内的字符。`[a-z]` `[1-9]` `[a-zA-Z0-9]` 高版本不区分大小写。
 6. `[^]`：匹配不在指定范围内的字符。 无法使用 可在表达式前添加 `NOT`
-   1. `[5|6|7|8|9]` : 不代表或 它识别为 | 为字符了。`^[5|6|7]` 才能表达 或
-   2. `[5|6|7]$` 匹配以 5、6、7 结尾的字符串。
+    1. `[5|6|7|8|9]` : 不代表或 它识别为 | 为字符了。`^[5|6|7]` 才能表达 或
+    2. `[5|6|7]$` 匹配以 5、6、7 结尾的字符串。
 7. 字节匹配
-   1. `^.{10}$` 匹配 10 个字节的字符串。 `[a-z{10}$]` 英文 10 字节
-      1. UTF8 编码下，一个中文字符占 3 个字节。 GBK 2 个字节。
-      2. 英文字符占 1 个字节。 GBK 1 个字节。
-      3. 数字占 1 个字节。 GBK 1 个字节。
-   2. `BINARY ^'[A-Z]{10}$'` 匹配大写字母 10 个字节的字符串。
-   3. `^.{10}|` 匹配 10 个字节的字符串或以 | 结尾的字符串。
+    1. `^.{10}$` 匹配 10 个字节的字符串。 `[a-z{10}$]` 英文 10 字节
+        1. UTF8 编码下，一个中文字符占 3 个字节。 GBK 2 个字节。
+        2. 英文字符占 1 个字节。 GBK 1 个字节。
+        3. 数字占 1 个字节。 GBK 1 个字节。
+    2. `BINARY ^'[A-Z]{10}$'` 匹配大写字母 10 个字节的字符串。
+    3. `^.{10}|` 匹配 10 个字节的字符串或以 | 结尾的字符串。
 8. `^[0-9.]{6}$` 匹配 6 位数字或小数点的字符串。| 版本号
-   1. `^1[0-9.]{5}$` 以 1 开头 数字 或者 . 是 5 字节的 字符串。
-   2. `^1[0-9.]{4}7$` 首为 1 末为 7 ……
-   3. `{4,6}$` 匹配 4-6 字节的字符串。
-   4. `^(.{1}|.{7})$` 匹配 为 1 或 7 字节的单个字符
+    1. `^1[0-9.]{5}$` 以 1 开头 数字 或者 . 是 5 字节的 字符串。
+    2. `^1[0-9.]{4}7$` 首为 1 末为 7 ……
+    3. `{4,6}$` 匹配 4-6 字节的字符串。
+    4. `^(.{1}|.{7})$` 匹配 为 1 或 7 字节的单个字符
 9. `^[^ -~]` 首字中文。`[^]` 为非字符。`-~` 从空格到~ ASCII 所有字符。
 10. `^([a-z]|[0-9]|[A-Z])+$` 匹配不包含空格、换行符、中文的字符串。
 11. `\\d+` 匹配数字。第一个 \ 是 转意符，`\d` 是原值 `+` 表示 至少出现一次
@@ -292,12 +293,12 @@ public static void main(String[] args) {
 
 Matcher：正则匹配结果返回值 | String 字符串操作方法
 
-| 功能        | 参数\|作用   |
-| ----------- | ------------ |
+| 功能          | 参数\|作用       |
+|-------------|--------------|
 | replace     | Regex string |
 | replaceAll  | Regex string |
-| toLowerCase | 转换小写     |
-| toUpperCase | 转换大写     |
+| toLowerCase | 转换小写         |
+| toUpperCase | 转换大写         |
 | split       | Regex        |
 
 ### 说明
@@ -433,53 +434,53 @@ JDK8
 <details>
    <summary>完整表格</summary>
 
-| 功能                      | 参数                     | 简述                        |
-| ------------------------- | ------------------------ | --------------------------- |
-| ---------------           | zoneID static            | ---------------             |
-| getAvailableZoneIds       | method                   | 获取所有时区名称            |
-| of                        | string                   | 指定时区                    |
-| systemDefault             | method                   | 获取当前系统时区            |
-| ---------------           | Instant static           | ---------------             |
-| now                       | method                   | 获取当前时间 ins 对象       |
-| ofEpoch\[Milli...\]       | long num                 | 根据时间(类型)获取 ins 对象 |
-| atZone                    | ZoneID zone              | 指定时区                    |
-| atZone                    | ZoneID zone              | 指定时区                    |
-| ---------------           | Instant dynamic          | ---------------             |
-| equals、is                | ...                      | 判断相关                    |
-| minus                     | ...                      | 减少时间相关                |
-| plus                      | ...                      | 增加时间相关                |
-| ---------------           | ZonedDateTime static     | ---------------             |
-| of                        | y/m/d/h/m/s/ns ZoneId    | 获取指定的时间对象需时区    |
-| ofInstant                 | Instant                  | 根据 Ins 获得时间对象       |
-| with\[YEAR...\]           | num                      | 修改时间系列方法            |
-| minus\[YEAR...\]          | num                      | 减少时间系列方法            |
-| plus\[YEAR...\]           | num                      | 增加时间系列方法            |
-| ---------------           | DateTimeFormatter static | ---------------             |
-| ofPattern                 | YYYY-MM-dd HH:mm:ss EE a | 时间格式化                  |
-| ---------------           | Calendar static          | ---------------             |
-| Local\[Date、Time、DT\]   | method                   | 日历对象系列                |
-| now                       | method                   | 获取当前时间对象            |
-| of...                     | method                   | 指定时间对象                |
-| get...                    | method                   | 获取系列语法                |
-| isBefore,after，equals    | method                   | 比较时间系列                |
-| with...                   | method                   | 修改时间系列                |
-| minus...                  | method                   | 减少时间系列                |
-| plus...                   | method                   | 增加时间相关                |
-| ------------------        | Tools                    | ------------------          |
-| ---------------           | Duration static          | ---------------             |
-| ---------------           | 计算时间差 (秒，纳秒)    | ---------------             |
-| between                   | LocalTime、INS \* 2      | 计算差                      |
-| get...                    | method                   | 获取系列                    |
-| to...                     | method                   | 换算差总                    |
-| isLeapYear                | method                   | 闰年判断                    |
-| ---------------           | Period static            | ---------------             |
-| ---------------           | 计算日期间隔 (年,月,日)  | ---------------             |
-| between                   | LocalDate \* 2           | 计算差                      |
-| get...                    | method                   | 获取系列                    |
-| toTotal...                | method                   | 换算差总                    |
-| ---------------           | ChronoUnit static        | ---------------             |
-| ---------------           | 计算日期间隔             | ---------------             |
-| Unit.\[YEARS...\].between | LocalDateTime \* 2       | 计算差,前缀为单位           |
+| 功能                        | 参数                       | 简述                 |
+|---------------------------|--------------------------|--------------------|
+| ---------------           | zoneID static            | ---------------    |
+| getAvailableZoneIds       | method                   | 获取所有时区名称           |
+| of                        | string                   | 指定时区               |
+| systemDefault             | method                   | 获取当前系统时区           |
+| ---------------           | Instant static           | ---------------    |
+| now                       | method                   | 获取当前时间 ins 对象      |
+| ofEpoch\[Milli...\]       | long num                 | 根据时间(类型)获取 ins 对象  |
+| atZone                    | ZoneID zone              | 指定时区               |
+| atZone                    | ZoneID zone              | 指定时区               |
+| ---------------           | Instant dynamic          | ---------------    |
+| equals、is                 | ...                      | 判断相关               |
+| minus                     | ...                      | 减少时间相关             |
+| plus                      | ...                      | 增加时间相关             |
+| ---------------           | ZonedDateTime static     | ---------------    |
+| of                        | y/m/d/h/m/s/ns ZoneId    | 获取指定的时间对象需时区       |
+| ofInstant                 | Instant                  | 根据 Ins 获得时间对象      |
+| with\[YEAR...\]           | num                      | 修改时间系列方法           |
+| minus\[YEAR...\]          | num                      | 减少时间系列方法           |
+| plus\[YEAR...\]           | num                      | 增加时间系列方法           |
+| ---------------           | DateTimeFormatter static | ---------------    |
+| ofPattern                 | YYYY-MM-dd HH:mm:ss EE a | 时间格式化              |
+| ---------------           | Calendar static          | ---------------    |
+| Local\[Date、Time、DT\]     | method                   | 日历对象系列             |
+| now                       | method                   | 获取当前时间对象           |
+| of...                     | method                   | 指定时间对象             |
+| get...                    | method                   | 获取系列语法             |
+| isBefore,after，equals     | method                   | 比较时间系列             |
+| with...                   | method                   | 修改时间系列             |
+| minus...                  | method                   | 减少时间系列             |
+| plus...                   | method                   | 增加时间相关             |
+| ------------------        | Tools                    | ------------------ |
+| ---------------           | Duration static          | ---------------    |
+| ---------------           | 计算时间差 (秒，纳秒)             | ---------------    |
+| between                   | LocalTime、INS \* 2       | 计算差                |
+| get...                    | method                   | 获取系列               |
+| to...                     | method                   | 换算差总               |
+| isLeapYear                | method                   | 闰年判断               |
+| ---------------           | Period static            | ---------------    |
+| ---------------           | 计算日期间隔 (年,月,日)           | ---------------    |
+| between                   | LocalDate \* 2           | 计算差                |
+| get...                    | method                   | 获取系列               |
+| toTotal...                | method                   | 换算差总               |
+| ---------------           | ChronoUnit static        | ---------------    |
+| ---------------           | 计算日期间隔                   | ---------------    |
+| Unit.\[YEARS...\].between | LocalDateTime \* 2       | 计算差,前缀为单位          |
 
 </details>
 
@@ -519,14 +520,14 @@ public static void main(String[] args) {
 > [!TIP]
 > 包装类是 Java 数据类型的对象，int->Integer char->Character string->String boolean->Boolean ……
 
-| 方法 静态           | 功能             |
-| ------------------- | ---------------- |
-| ParseInt            | 类型转换         |
-| ValueOf             | 填写数据         |
+| 方法 静态               | 功能       |
+|---------------------|----------|
+| ParseInt            | 类型转换     |
+| ValueOf             | 填写数据     |
 | new                 | 实例化，可选构造 |
-| toBinaryString(int) | 得到二进制       |
-| toOctalString(int)  | 得到八进制       |
-| toHexString(int)    | 得到十六进制     |
+| toBinaryString(int) | 得到二进制    |
+| toOctalString(int)  | 得到八进制    |
+| toHexString(int)    | 得到十六进制   |
 
 说明
 
@@ -550,16 +551,16 @@ public static void main(String[] args) {
 import java.util.Arrays;
 
 public static void main(String[] args) {
-   int[] list = {1, 3, 9, 6, 5, 6, 8};
+    int[] list = {1, 3, 9, 6, 5, 6, 8};
 
-   Arrays.sort(list, new Comparator<Integer>() {
-      @Override
-      public int compare(Integer o1, Integer o2) {
-         return o2-o1;//o2-o1 倒序，o1-o2 正序
-         //o1是有序列表，o2是无序列表
-         //负数往前排，正数为正序。
-      }
-   });
+    Arrays.sort(list, new Comparator<Integer>() {
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            return o2 - o1;//o2-o1 倒序，o1-o2 正序
+            //o1是有序列表，o2是无序列表
+            //负数往前排，正数为正序。
+        }
+    });
 }
 ```
 
@@ -571,15 +572,15 @@ public static void main(String[] args) {
 
 ```java
 public static void main(String[] args) {
-   //实习接口需要 new 出来，而 lambda可以直接
-   lam gf = () -> {
-   };
-   //?省略写法，就别写大括号 箭头后面直接写返回值,单参数括号可省 () -> ()
+    //实习接口需要 new 出来，而 lambda可以直接
+    lam gf = () -> {
+    };
+    //?省略写法，就别写大括号 箭头后面直接写返回值,单参数括号可省 () -> ()
 }
 
 @FunctionalInterface
 interface lam {
-   public abstract void doSomething();
+    public abstract void doSomething();
 }
 ```
 
@@ -611,19 +612,19 @@ import java.util.Collection;
 import java.util.function.Consumer;
 
 public static void main(String[] args) {
-   Collection<String> cl = new ArrayList<String>();
-   cl.add("test1");
-   cl.add("test2");
-   cl.add("test3");
-   //普通写法，内部类实现接口，并执行操作
-   cl.forEach(new Consumer<String>() {
-      @Override
-      public void accept(String s) {
-         System.out.println(s);
-      }
-   });
-   //? 于Lambda联动
-   cl.forEach(s -> System.out.println(s));
+    Collection<String> cl = new ArrayList<String>();
+    cl.add("test1");
+    cl.add("test2");
+    cl.add("test3");
+    //普通写法，内部类实现接口，并执行操作
+    cl.forEach(new Consumer<String>() {
+        @Override
+        public void accept(String s) {
+            System.out.println(s);
+        }
+    });
+    //? 于Lambda联动
+    cl.forEach(s -> System.out.println(s));
 }
 ```
 
@@ -636,10 +637,10 @@ public static void main(String[] args) {
 
 1. 哈希表
 
-   1. 如果没有重写 hashCode 方法，不同对象计算出的哈希值是不同的
-   2. 如果已经重写 hashcode 方法，不同的对象只要属性值相同，计算出的哈希值就是一样的
-   3. 在小部分情况下，不同的属性值或者不同的地址值计算出来的哈希值也有可能一样。（哈希碰撞）
-   4. JDK8:数组+链表+红黑数 JDK7:数组+链表
+    1. 如果没有重写 hashCode 方法，不同对象计算出的哈希值是不同的
+    2. 如果已经重写 hashcode 方法，不同的对象只要属性值相同，计算出的哈希值就是一样的
+    3. 在小部分情况下，不同的属性值或者不同的地址值计算出来的哈希值也有可能一样。（哈希碰撞）
+    4. JDK8:数组+链表+红黑数 JDK7:数组+链表
 
    ```java
    public static void main(String[] args) {
@@ -685,8 +686,8 @@ public static void main(String[] args) {
 
 2. LinkedHashSet
 
-   1. 有序：存储取出元素一致、不重复、无索引
-   2. 底层数据结构是依然哈希表，只是每个元素又额外的多了一个双链表的机制记录存储的顺序。
+    1. 有序：存储取出元素一致、不重复、无索引
+    2. 底层数据结构是依然哈希表，只是每个元素又额外的多了一个双链表的机制记录存储的顺序。
 
    ```java
    import java.util.LinkedHashSet;
@@ -702,11 +703,11 @@ public static void main(String[] args) {
 
 3. TreeSet
 
-   1. 不重复、无索引、可排序：升序
-   2. 红黑树数据结构，增删改查性能较好。
-   3. 类排序请实现接口，不然使用匿名内部类。
-   4. 排序特点，O 是当前需要排序的对象.
-   5. 按照红黑树顺序来排序的，根节点，到下层节点
+    1. 不重复、无索引、可排序：升序
+    2. 红黑树数据结构，增删改查性能较好。
+    3. 类排序请实现接口，不然使用匿名内部类。
+    4. 排序特点，O 是当前需要排序的对象.
+    5. 按照红黑树顺序来排序的，根节点，到下层节点
 
    ```java
    import java.util.TreeSet;
@@ -774,15 +775,15 @@ public static void main(String[] args) {
    ```
 
 4. 总结
-   1. 如果想要集合中的**元素可重复**
-      - 用 ArrayList 集合，基于数组的。（用的最多）
-   2. 如果想要集合中的元素可重复，而且当前的**增删**操作明显多于查询
-      - 用 LinkedList 集合，基于链表的。
-   3. 如果想对集合中的**元素去重**
-      - 用 HashSet 集合，基于哈希表的。（用的最多，效率也最高）
-   4. 如果想对集合中的元素去重，而且保证**存取顺序**
-      - 用 LinkedHashSet 集合，基于哈希表和双链表，效率低于 HashSet。
-   5. 更多高阶集合 [双列集合](./List.md#双列集合)
+    1. 如果想要集合中的**元素可重复**
+        - 用 ArrayList 集合，基于数组的。（用的最多）
+    2. 如果想要集合中的元素可重复，而且当前的**增删**操作明显多于查询
+        - 用 LinkedList 集合，基于链表的。
+    3. 如果想对集合中的**元素去重**
+        - 用 HashSet 集合，基于哈希表的。（用的最多，效率也最高）
+    4. 如果想对集合中的元素去重，而且保证**存取顺序**
+        - 用 LinkedHashSet 集合，基于哈希表和双链表，效率低于 HashSet。
+    5. 更多高阶集合 [双列集合](./List.md#双列集合)
 
 ## Collections 集合工具类
 
@@ -795,56 +796,56 @@ public static void main(String[] args) {
 
 返回 正数为大，负数为小，0 表示已经存在，根据它进行排序
 
-| 方法         | 功能                   | 参数               | 说明                       |
-| ------------ | ---------------------- | ------------------ | -------------------------- |
-| addAll       | 批量添加元素           | List 、`argument`  | 参二：可变参数，可一直传递 |
-| shuffle      | 打乱原数组             | List               |                            |
-| sort         | 数组排序               | List               |                            |
-| sort         | 数组排序               | List Comparator<T> | 自定义排序规则             |
-| binarySearch | 二分查找               | List key           | 返回数组位置               |
-| fill         | 使用指定元素填充       | List Object        | 数组全内容替换为参数       |
-| max/min      | 默认排序获取大小值     | List               | 返回元素                   |
-| max/min      | 自定义排序获取大小值   | List Collections   | 建议：匿名内部类           |
-| swap         | 指定集合位置的元素交换 | List int int       |                            |
-| copy         | 拷贝数组               | List list          | 接受数组会被覆盖           |
-| toMap        | 转换 Map 集合          | K V                | 需要俩个参数               |
+| 方法           | 功能          | 参数                 | 说明            |
+|--------------|-------------|--------------------|---------------|
+| addAll       | 批量添加元素      | List 、`argument`   | 参二：可变参数，可一直传递 |
+| shuffle      | 打乱原数组       | List               |               |
+| sort         | 数组排序        | List               |               |
+| sort         | 数组排序        | List Comparator<T> | 自定义排序规则       |
+| binarySearch | 二分查找        | List key           | 返回数组位置        |
+| fill         | 使用指定元素填充    | List Object        | 数组全内容替换为参数    |
+| max/min      | 默认排序获取大小值   | List               | 返回元素          |
+| max/min      | 自定义排序获取大小值  | List Collections   | 建议：匿名内部类      |
+| swap         | 指定集合位置的元素交换 | List int int       |               |
+| copy         | 拷贝数组        | List list          | 接受数组会被覆盖      |
+| toMap        | 转换 Map 集合   | K V                | 需要俩个参数        |
 
-## Strem 流 [API](./stand.md#stream-流)
+## Stream 流 [API](./stand.md#stream-流)
 
 一个 Steam 只能完整使用一次,可链式编程多个操作,与 iterator 类似。
 
-| 集合     | 实现            |
-| -------- | --------------- |
+| 集合   | 实现              |
+|------|-----------------|
 | 单列集合 | stream()        |
-| 双列集合 | 无直接实现      |
+| 双列集合 | 无直接实现           |
 | 零散数据 | Arrays.stream() |
-| 数组     | Stream<T>       |
+| 数组   | Stream<T>       |
 
 ![PixPin_2024-12-03_13-46-18.png](./images/Idea/AboutAPI-1733204791453.png)
 
 ### Stream API
 
-| 方法 静态           | 功能       | 参数                 | 说明                   |
-| ------------------- | ---------- | -------------------- | ---------------------- |
-| of                  | 数组流     | T...                 | 数组                   |
-| sort                | 排序       | Comparator:Interface | 默认升序               |
-| forEach             | 遍历       | void                 | Lambda                 |
-| concat              | 合并       | Stream \* 2          | 记得去重               |
-| distinct            | 去重       | void                 | hashCode eq            |
-| filter              | 过滤       | Predicate<T>         | 过滤条件               |
-| limit               | 截取       | Integer              | 截取元素               |
-| skip                | 跳过       | Integer              | 跳过元素               |
-| map                 | 映射       | Function<T, R>       | 数据转换 JS            |
-| reduce              | 归约       | BinaryOperator<T>    | 聚合操作               |
-| count               | 计数       | Integer              | 元素数量               |
+| 方法 静态               | 功能      | 参数                   | 说明                  |
+|---------------------|---------|----------------------|---------------------|
+| of                  | 数组流     | T...                 | 数组                  |
+| sort                | 排序      | Comparator:Interface | 默认升序                |
+| forEach             | 遍历      | void                 | Lambda              |
+| concat              | 合并      | Stream \* 2          | 记得去重                |
+| distinct            | 去重      | void                 | hashCode eq         |
+| filter              | 过滤      | Predicate<T>         | 过滤条件                |
+| limit               | 截取      | Integer              | 截取元素                |
+| skip                | 跳过      | Integer              | 跳过元素                |
+| map                 | 映射      | Function<T, R>       | 数据转换 JS             |
+| reduce              | 归约      | BinaryOperator<T>    | 聚合操作                |
+| count               | 计数      | Integer              | 元素数量                |
 | min                 | 最小值     | Optional<T>          | 最小值                 |
-| sum                 | 求和       | Integer              | 元素求和               |
+| sum                 | 求和      | Integer              | 元素求和                |
 | max                 | 最大值     | Optional<T>          | 最大值                 |
-| parallel            | 并行       | void                 | 并行流                 |
-| ----------          | 流数据处理 | Collect、toArray     | ----------             |
-| Collectors.toSet()  | set 集合   | void                 | Int 类型方法用 toArray |
-| Collectors.toList() | List 集合  | void                 |                        |
-| Collectors.toMap()  | Map 集合   | fn \* 2              | fn1->key fn2->value    |
+| parallel            | 并行      | void                 | 并行流                 |
+| ----------          | 流数据处理   | Collect、toArray      | ----------          |
+| Collectors.toSet()  | set 集合  | void                 | Int 类型方法用 toArray   |
+| Collectors.toList() | List 集合 | void                 |                     |
+| Collectors.toMap()  | Map 集合  | fn \* 2              | fn1->key fn2->value |
 
 终结方法 无法再次链式调用
 
@@ -852,8 +853,8 @@ public static void main(String[] args) {
 
 返回值 void Object[] ... 就是终结流
 
-| 方法    |
-| ------- |
+| 方法      |
+|---------|
 | forEach |
 | count   |
 | min     |
@@ -965,88 +966,88 @@ public static void main(String[] args) {
     <details>
     <summary>进阶操作</summary>
 
-   1. 过滤
+    1. 过滤
 
-      ```java
-      import java.util.stream.IntStream;
-      public static void main(String[] args) {
-          int[] arr = {1, 2, 3, 4, 5};
-          IntStream intStream = IntStream.of(arr);
-          //源码中使用了Predicate接口，返回 boolean
-          intStream.filter(i -> i > 2).forEach(System.out::println);
-      }
-      ```
+       ```java
+       import java.util.stream.IntStream;
+       public static void main(String[] args) {
+           int[] arr = {1, 2, 3, 4, 5};
+           IntStream intStream = IntStream.of(arr);
+           //源码中使用了Predicate接口，返回 boolean
+           intStream.filter(i -> i > 2).forEach(System.out::println);
+       }
+       ```
 
-   2. 映射
+    2. 映射
 
-      ```java
-      import java.util.stream.IntStream;
-      public static void main(String[] args) {
-          int[] arr = {1, 2, 3, 4, 5};
-          IntStream intStream = IntStream.of(arr);
-          intStream.map(i -> i * 2).forEach(System.out::println);
-      }
-      ```
+       ```java
+       import java.util.stream.IntStream;
+       public static void main(String[] args) {
+           int[] arr = {1, 2, 3, 4, 5};
+           IntStream intStream = IntStream.of(arr);
+           intStream.map(i -> i * 2).forEach(System.out::println);
+       }
+       ```
 
-   3. 归约
+    3. 归约
 
-      ```java
-      import java.util.stream.IntStream;
-      public static void main(String[] args) {
-          int[] arr = {1, 2, 3, 4, 5};
-          IntStream intStream = IntStream.of(arr);
-          int sum = intStream.reduce(0, (a, b) -> a + b);
-          System.out.println(sum);
-      }
-      ```
+       ```java
+       import java.util.stream.IntStream;
+       public static void main(String[] args) {
+           int[] arr = {1, 2, 3, 4, 5};
+           IntStream intStream = IntStream.of(arr);
+           int sum = intStream.reduce(0, (a, b) -> a + b);
+           System.out.println(sum);
+       }
+       ```
 
-   4. 排序
+    4. 排序
 
-      ```java
-      import java.util.stream.IntStream;
-      public static void main(String[] args) {
-          int[] arr = {1, 2, 3, 4, 5};
-          IntStream intStream = IntStream.of(arr);
-          intStream.sorted().forEach(System.out::println);
-      }
-      ```
+       ```java
+       import java.util.stream.IntStream;
+       public static void main(String[] args) {
+           int[] arr = {1, 2, 3, 4, 5};
+           IntStream intStream = IntStream.of(arr);
+           intStream.sorted().forEach(System.out::println);
+       }
+       ```
 
-   5. 并行流
+    5. 并行流
 
-      ```java
-      import java.util.stream.IntStream;
-      public static void main(String[] args) {
-          int[] arr = {1, 2, 3, 4, 5};
-          IntStream intStream = IntStream.of(arr);
-          intStream.parallel().forEach(System.out::println);
-      }
-      ```
+       ```java
+       import java.util.stream.IntStream;
+       public static void main(String[] args) {
+           int[] arr = {1, 2, 3, 4, 5};
+           IntStream intStream = IntStream.of(arr);
+           intStream.parallel().forEach(System.out::println);
+       }
+       ```
 
-   6. 其他
+    6. 其他
 
-      ```java
-      import java.util.stream.IntStream;
-      public static void main(String[] args) {
-          int[] arr = {1, 2, 3, 4, 5};
-          IntStream intStream = IntStream.of(arr);
-          // 跳过前两个元素
-          intStream.skip(2).forEach(System.out::println);
-          // 截取前两个元素
-          intStream.limit(2).forEach(System.out::println);
-          // 元素计数
-          long count = intStream.count();
-          System.out.println(count);
-          // 元素求和
-          int sum = intStream.sum();
-          System.out.println(sum);
-          // 元素最大值
-          int max = intStream.max().getAsInt();
-          System.out.println(max);
-          // 元素最小值
-          int min = intStream.min().getAsInt();
-          System.out.println(min);
-      }
-      ```
+       ```java
+       import java.util.stream.IntStream;
+       public static void main(String[] args) {
+           int[] arr = {1, 2, 3, 4, 5};
+           IntStream intStream = IntStream.of(arr);
+           // 跳过前两个元素
+           intStream.skip(2).forEach(System.out::println);
+           // 截取前两个元素
+           intStream.limit(2).forEach(System.out::println);
+           // 元素计数
+           long count = intStream.count();
+           System.out.println(count);
+           // 元素求和
+           int sum = intStream.sum();
+           System.out.println(sum);
+           // 元素最大值
+           int max = intStream.max().getAsInt();
+           System.out.println(max);
+           // 元素最小值
+           int min = intStream.min().getAsInt();
+           System.out.println(min);
+       }
+       ```
 
    </details>
 
@@ -1056,9 +1057,9 @@ public static void main(String[] args) {
 
 > [!TIP]
 > File 类 用来操作文件和目录，可以对文件进行创建、删除、复制、移动、读写等操作。
-> 
+>
 > 字符串拼接交给 File 它可以根据系统来自动转换,file 两参数就是 `目录和文件` 。
-> 
+>
 > File 类用来读取整个文件 FileInput 字节读取文件,FileOutput 字节写入文件。
 
 - File 类是 Java 中用于处理文件和目录的类。
@@ -1070,23 +1071,23 @@ public static void main(String[] args) {
 <details>
 <summary>File 类方法</summary>
 
-| 方法                                        | 参数                         | 说明                            |
-|-------------------------------------------|----------------------------|-------------------------------|
-| File(String pathname)                     | pathname：文件路径              | 创建一个 File 对象，指定文件路径。          |
-| File(String parent, String child)         | parent：父目录路径 child：子目录或文件名 | 创建一个 File 对象，指定父目录路径和子目录或文件名。 |
-| File(File parent, String child)           | parent：父目录对象 child：子目录或文件名 | 创建一个 File 对象，指定父目录对象和子目录或文件名。 |
-| boolean exists()                          | void                       | 判断文件或目录是否存在。                  |
-| boolean createNewFile()                   | void                       | 创建文件，根据路径末尾名称                 |
-| boolean mkdirs()                          | void                       | 创建多级文件夹，多级创建，不存在的路径自动创建       |
-| boolean mkdir()                           | void                       | 创建文件夹,被 dirs 完全优化             |
-| boolean delete()                          | void                       | 删除文件或目录 永久删除。文件夹中有文件无法删除 递归删除 |
-| boolean renameTo(File dest)               | dest：目标文件或目录               | 重命名文件或目录。                     |
-| long length()                             | void                       | 获取文件大小 字节。                    |
-| String[] list()                           | void                       | 列出目录中的文件和目录。                  |
-| String[] list(FilenameFilter filter)      | filter：文件名过滤器              | 列出目录中的文件和目录，并过滤。              |
-| File[] listFiles()                        | void                       | 列出目录中的文件。权限不够 返回 null         |
-| File[] listFiles(FilenameFilter filter)   | filter：文件名过滤器              | 列出目录中的文件，并过滤。                 |
-| File[] listFiles(FileFilter filter)       | filter：文件过滤器               | 列出目录中的文件，并过滤。                 |
+| 方法                                      | 参数                         | 说明                            |
+|-----------------------------------------|----------------------------|-------------------------------|
+| File(String pathname)                   | pathname：文件路径              | 创建一个 File 对象，指定文件路径。          |
+| File(String parent, String child)       | parent：父目录路径 child：子目录或文件名 | 创建一个 File 对象，指定父目录路径和子目录或文件名。 |
+| File(File parent, String child)         | parent：父目录对象 child：子目录或文件名 | 创建一个 File 对象，指定父目录对象和子目录或文件名。 |
+| boolean exists()                        | void                       | 判断文件或目录是否存在。                  |
+| boolean createNewFile()                 | void                       | 创建文件，根据路径末尾名称                 |
+| boolean mkdirs()                        | void                       | 创建多级文件夹，多级创建，不存在的路径自动创建       |
+| boolean mkdir()                         | void                       | 创建文件夹,被 dirs 完全优化             |
+| boolean delete()                        | void                       | 删除文件或目录 永久删除。文件夹中有文件无法删除 递归删除 |
+| boolean renameTo(File dest)             | dest：目标文件或目录               | 重命名文件或目录。                     |
+| long length()                           | void                       | 获取文件大小 字节。                    |
+| String[] list()                         | void                       | 列出目录中的文件和目录。                  |
+| String[] list(FilenameFilter filter)    | filter：文件名过滤器              | 列出目录中的文件和目录，并过滤。              |
+| File[] listFiles()                      | void                       | 列出目录中的文件。权限不够 返回 null         |
+| File[] listFiles(FilenameFilter filter) | filter：文件名过滤器              | 列出目录中的文件，并过滤。                 |
+| File[] listFiles(FileFilter filter)     | filter：文件过滤器               | 列出目录中的文件，并过滤。                 |
 
 ```java
 public static void main(String[] args) {
@@ -1119,151 +1120,442 @@ public static void main(String[] args) {
     for (String s : list) {
         System.out.println(s);
     }
-    
+
     //文件路径获取父级
-   String path = "test.txt";
+    String path = "test.txt";
 
-   File f1 = new File(path);
+    File f1 = new File(path);
 
-   System.out.println(f1.exists());
-   //!相对路径无法获取到上级目录，必须先转换为绝对路径。
-   f1 = new File(f1.getAbsolutePath());
-   System.out.println(f1.getParent());
+    System.out.println(f1.exists());
+    //!相对路径无法获取到上级目录，必须先转换为绝对路径。
+    f1 = new File(f1.getAbsolutePath());
+    System.out.println(f1.getParent());
 
-   //?根据目录来创建文件 file2 确保它是文件夹就行了
-   File f2 = new File(file1.getAbsolutePath(),"addTest.text");
-   System.out.println(f2.createNewFile());
-   
-   /*
-    *  列出文件系列方法，filter接口语法。
-    *  过滤器 dir 文件夹，name是当前文件路径。
-    *  f2.list((dir, name) -> !".idea".equals(name)))
-    * */
+    //?根据目录来创建文件 file2 确保它是文件夹就行了
+    File f2 = new File(file1.getAbsolutePath(), "addTest.text");
+    System.out.println(f2.createNewFile());
+
+    /*
+     *  列出文件系列方法，filter接口语法。
+     *  过滤器 dir 文件夹，name是当前文件路径。
+     *  f2.list((dir, name) -> !".idea".equals(name)))
+     * */
 }
 ```
 
 <details>
 <summary>更多语法</summary>
 
-| 方法                                        | 参数                         | 说明             |
-|-------------------------------------------|----------------------------|----------------|
-| boolean setReadOnly()                     | void                       | 设置文件为只读。       |
-| boolean isDirectory()                     | void                       | 判断是否是目录。       |
-| boolean isFile()                          | void                       | 判断是否是文件。       |
-| boolean canRead()                         | void                       | 判断是否可读。        |
-| boolean canWrite()                        | void                       | 判断是否可写。        |
-| boolean isHidden()                        | void                       | 判断是否隐藏。        |
-| boolean setWritable(boolean writable)     | writable：是否可写              | 设置文件是否可写。      |
-| boolean setReadable(boolean readable)     | readable：是否可读              | 设置文件是否可读。      |
-| boolean setExecutable(boolean executable) | executable：是否可执行           | 设置文件是否可执行。     |
-| boolean setLastModified(long time)        | time：最后修改时间                | 设置文件最后修改时间 毫秒。 |
-| boolean compareTo(File pathname)          | pathname：文件路径              | 比较两个文件路径。      |
-| boolean equals(Object obj)                | obj：对象                     | 判断两个对象是否相等。    |
-| int hashCode()                            | void                       | 获取对象的哈希值。      |
-| String getPath()                          | void                       | 获取文件路径。        |
-| String getName()                          | void                       | 获取文件名。         |
-| String getParent()                        | void                       | 获取父目录路径。       |
-| String getAbsolutePath()                  | void                       | 获取绝对路径。        |
-| String getCanonicalPath()                 | void                       | 获取规范路径。        |
-| File getAbsoluteFile()                    | void                       | 获取绝对文件。        |
-| File getCanonicalFile()                   | void                       | 获取规范文件。        |
-| URL toURL()                               | void                       | 获取文件 URL。      |
-| boolean isAbsolute()                      | void                       | 判断是否是绝对路径。     |
-
+| 方法                                        | 参数               | 说明             |
+|-------------------------------------------|------------------|----------------|
+| boolean setReadOnly()                     | void             | 设置文件为只读。       |
+| boolean isDirectory()                     | void             | 判断是否是目录。       |
+| boolean isFile()                          | void             | 判断是否是文件。       |
+| boolean canRead()                         | void             | 判断是否可读。        |
+| boolean canWrite()                        | void             | 判断是否可写。        |
+| boolean isHidden()                        | void             | 判断是否隐藏。        |
+| boolean setWritable(boolean writable)     | writable：是否可写    | 设置文件是否可写。      |
+| boolean setReadable(boolean readable)     | readable：是否可读    | 设置文件是否可读。      |
+| boolean setExecutable(boolean executable) | executable：是否可执行 | 设置文件是否可执行。     |
+| boolean setLastModified(long time)        | time：最后修改时间      | 设置文件最后修改时间 毫秒。 |
+| boolean compareTo(File pathname)          | pathname：文件路径    | 比较两个文件路径。      |
+| boolean equals(Object obj)                | obj：对象           | 判断两个对象是否相等。    |
+| int hashCode()                            | void             | 获取对象的哈希值。      |
+| String getPath()                          | void             | 获取文件路径。        |
+| String getName()                          | void             | 获取文件名。         |
+| String getParent()                        | void             | 获取父目录路径。       |
+| String getAbsolutePath()                  | void             | 获取绝对路径。        |
+| String getCanonicalPath()                 | void             | 获取规范路径。        |
+| File getAbsoluteFile()                    | void             | 获取绝对文件。        |
+| File getCanonicalFile()                   | void             | 获取规范文件。        |
+| URL toURL()                               | void             | 获取文件 URL。      |
+| boolean isAbsolute()                      | void             | 判断是否是绝对路径。     |
 
 ```java
 public static void main(String[] args) {
-   //列出目录中的文件，并过滤
-   FilenameFilter filter = new FilenameFilter() {
-      @Override
-      public boolean accept(File dir, String name) {
-         return name.endsWith(".txt");
-      }
-   };
-   String[] list1 = dir.list(filter);
-   for (String s : list1) {
-      System.out.println(s);
-   }
+    //列出目录中的文件，并过滤
+    FilenameFilter filter = new FilenameFilter() {
+        @Override
+        public boolean accept(File dir, String name) {
+            return name.endsWith(".txt");
+        }
+    };
+    String[] list1 = dir.list(filter);
+    for (String s : list1) {
+        System.out.println(s);
+    }
 
-   //列出目录中的文件，并过滤
-   FileFilter filter1 = new FileFilter() {
-      @Override
-      public boolean accept(File pathname) {
-         return pathname.isFile();
-      }
-   };
-   File[] listFiles = dir.listFiles(filter1);
-   for (File file1 : listFiles) {
-      System.out.println(file1.getName());
-   }
+    //列出目录中的文件，并过滤
+    FileFilter filter1 = new FileFilter() {
+        @Override
+        public boolean accept(File pathname) {
+            return pathname.isFile();
+        }
+    };
+    File[] listFiles = dir.listFiles(filter1);
+    for (File file1 : listFiles) {
+        System.out.println(file1.getName());
+    }
 
-   //获取文件大小
-   long length = file.length();
-   System.out.println(length);
+    //获取文件大小
+    long length = file.length();
+    System.out.println(length);
 
-   //设置文件为只读
-   file.setReadOnly();
+    //设置文件为只读
+    file.setReadOnly();
 
-   //设置文件是否可写
-   file.setWritable(false);
+    //设置文件是否可写
+    file.setWritable(false);
 
-   //设置文件是否可读
-   file.setReadable(false);
+    //设置文件是否可读
+    file.setReadable(false);
 
-   //设置文件是否可执行
-   file.setExecutable(false);
+    //设置文件是否可执行
+    file.setExecutable(false);
 
-   //设置文件最后修改时间
-   long time = System.currentTimeMillis();
-   file.setLastModified(time);
+    //设置文件最后修改时间
+    long time = System.currentTimeMillis();
+    file.setLastModified(time);
 
-   //比较两个文件路径
-   File file1 = new File("D:\\test.txt");
-   int compareTo = file.compareTo(file1);
-   System.out.println(compareTo);
+    //比较两个文件路径
+    File file1 = new File("D:\\test.txt");
+    int compareTo = file.compareTo(file1);
+    System.out.println(compareTo);
 
-   //获取文件路径
-   String path = file.getPath();
-   System.out.println(path);
+    //获取文件路径
+    String path = file.getPath();
+    System.out.println(path);
 
-   //获取文件名
-   String name = file.getName();
-   System.out.println(name);
+    //获取文件名
+    String name = file.getName();
+    System.out.println(name);
 
-   //获取父目录路径
-   String parent = file.getParent();
-   System.out.println(parent);
+    //获取父目录路径
+    String parent = file.getParent();
+    System.out.println(parent);
 
-   //获取绝对路径
-   String absolutePath = file.getAbsolutePath();
-   System.out.println(absolutePath);
+    //获取绝对路径
+    String absolutePath = file.getAbsolutePath();
+    System.out.println(absolutePath);
 
-   //获取规范路径
-   String canonicalPath = file.getCanonicalPath();
-   System.out.println(canonicalPath);
+    //获取规范路径
+    String canonicalPath = file.getCanonicalPath();
+    System.out.println(canonicalPath);
 
-   //获取绝对文件
-   File absoluteFile = file.getAbsoluteFile();
-   System.out.println(absoluteFile);
+    //获取绝对文件
+    File absoluteFile = file.getAbsoluteFile();
+    System.out.println(absoluteFile);
 
-   //获取规范文件
-   File canonicalFile = file.getCanonicalFile();
-   System.out.println(canonicalFile);
+    //获取规范文件
+    File canonicalFile = file.getCanonicalFile();
+    System.out.println(canonicalFile);
 
-   //获取文件 URL
-   URL url = file.toURL();
-   System.out.println(url);
+    //获取文件 URL
+    URL url = file.toURL();
+    System.out.println(url);
 
-   //获取文件 URI
-   URI uri = file.toURI();
-   System.out.println(uri);
+    //获取文件 URI
+    URI uri = file.toURI();
+    System.out.println(uri);
 
-   //判断是否是绝对路径
-   boolean isAbsolute = file.isAbsolute();
-   System.out.println(isAbsolute);
+    //判断是否是绝对路径
+    boolean isAbsolute = file.isAbsolute();
+    System.out.println(isAbsolute);
 }
 ```
 
 </details>
 
 </details>
+
+## Commons-io
+
+> [!TIP]
+> Commons-io 是 **apache** 开源基金组织提供的一组有关 `lO`
+> 操作的开源工具包。 [下载](https://mvnrepository.com/artifact/commons-io/commons-io/2.11.0)
+>
+> lib 文件夹规范，里面存放项目所需的包，推荐创建并添加，<kbd> ctrl+alt+shift+s </kbd> 库 > 添加 > java,或者对lib目录右键>添加为库
+
+### FileUtils 数据
+
+| 类                                                                | 说明             | tips      |
+|------------------------------------------------------------------|----------------|-----------|
+| static void copyFile(File srcFile, File destFile)                | 复制文件           | ------    |
+| static void copyDirectory(File srcDir, File destDir)             | 复制文件夹          | 输出是文件集合   |
+| static void copyDirectoryToDirectory(File srcDir, File destDir)  | 复制文件夹          | 输出根路径是文件夹 |
+| static void deleteDirectory(File directory)                      | 删除文件夹          | 不保留文件夹    |
+| static void cleanDirectory(File directory)                       | 清空文件夹          | 保留文件夹     |
+| static String readFileToString(File file, Charset encoding)      | 读取文件中的数据变成成字符串 | ------    |
+| static void write(File file, CharSequence data, String encoding) | 写出数据           | ------    |
+
+<details>
+<summary>更多语法</summary>
+
+#### 复制文件夹
+
+| 类                                                                     | 说明                     |
+|-----------------------------------------------------------------------|------------------------|
+| FileUtils.copyDirectory(File srcDir, File destDir)                    | 复制文件夹(文件夹里面的文件内容也会复制)  | 
+| FileUtils.copyDirectory(File srcDir, File destDir, FileFilter filter) | 复制文件夹，带有文件过滤功能         |
+| FileUtils.copyDirectoryToDirectory(File srcDir,File destDir)          | 以子目录的形式将文件夹复制到到另一个文件夹下 |
+
+#### 复制文件
+
+| 类                                                                                             | 说明                     |
+|-----------------------------------------------------------------------------------------------|------------------------|
+| FileUtils.copyFile(File srcFile, File destFile)                                               | 复制文件                   | 
+| FileUtils.copyFile(File input, OutputStream output)                                           | 复制文件到输出流               |
+| FileUtils.copyFileToDirectory(File srcFile, File destDir)                                     | 复制文件到一个指定的目录           |
+| FileUtils.copyInputStreamToFile(InputStream source,File destination)                          | 把输入流里面的内容复制到指定文件       |
+| FileUtils.copyURLToFile(URL source, File destination)                                         | 把URL 里面内容复制到文件(可以下载文件) |
+| FileUtils.copyURLToFile(URL source, File destination, int connectionTimeout, int readTimeout) |                        |
+
+#### 把字符串写入文件
+
+| 类                                                                                    |
+|--------------------------------------------------------------------------------------|
+| FileUtils.writeStringToFile(File file, String data, String encoding)                 |
+| FileUtils.writeStringToFile(File file, String data, String encoding, boolean append) |
+| FileUtils.writeLines(File file, collection<?> lines, String lineEnding)              |
+
+#### 把字节数组写入文件
+
+| 类                                                                                       |
+|-----------------------------------------------------------------------------------------|
+| FileUtils.writeByteArrayToFile(File file, byte[] data)                                  |
+| FileUtils.writeByteArrayToFile(File file, byte[] data, boolean append)                  |
+| FileUtils.writeByteArrayToFile(file file,byte[] data, int off, int len)                 |
+| FileUtils.writeByteArrayToFile(file file,byte[] data, int off, int len, boolean append) |
+
+#### 把集合里面的内容写入文件
+
+> encoding:文件编码，lineEnding:每行以什么结尾
+
+| 类                                                                                                        |
+|----------------------------------------------------------------------------------------------------------|
+| FileUtils.writeLines(File file, Collection<?> lines)                                                     |
+| FileUtils.writeLines(File file, Collection<?> lines, boolean append)                                     |
+| FileUtils.writeLines(File file, collection<?> lines, String lineEnding)                                  |
+| FileUtils.writeLines(File file, Collection<?> lines, String lineEnding, boolean append)                  |
+| FileUtils.writeLines(File file, String encoding, Collection<?> lines)                                    |
+| FileUtils.writeLines(File file, String encoding, Collection<?> lines, boolean append)                    |
+| FileUtils.writeLines(File file, String encoding, Collection<?> lines, String lineEnding)                 |
+| FileUtils.writeLines(file file, String encoding, Collection<?> lines, String lineEnding, boolean append) |
+
+
+#### 往文件里面写内容
+
+| 类                                                                               |
+|---------------------------------------------------------------------------------|
+| FileUtils.write(File file, CharSequence data, Charset encoding)                 |
+| FileUtils.write(File file, CharSequence data, Charset encoding, boolean append) |
+| FileUtils.write(File file, CharSequence data, String encoding)                  |
+| FileUtils.write(File file, CharSequence data, String encoding, boolean append)  |
+
+#### 文件移动
+
+| 类                                                                                 | 说明                 | 
+|-----------------------------------------------------------------------------------|--------------------|
+| FileUtils.moveDirectory(File srcDir, File destDir)                                | 文件夹在内的所有文件都将移动     |
+| FileUtils.moveDirectoryToDirectory(File src, File destDir, boolean createDestDir) | 以子文件夹的形式移动到另外一个文件下 |
+| FileUtils.moveFile(File srcFile, File destFile)                                   | 移动文件               |
+| FileUtils.moveFileToDirectory(File srcFile, File destDir, boolean createDestDir)  | 以子文件的形式移动到另外一个文件夹下 |
+| FileUtils.moveToDirectory(File src, file destDir,boolean createDestDir)           | 移动文件或者目录到指定的文件夹内   |
+
+#### 清空和删除文件夹
+
+| 类                                         | 说明                     | 
+|-------------------------------------------|------------------------|
+| FileUtils.deleteDirectory(File directory) | 删除文件夹，包括文件夹和文件夹里面所有的文件 |
+| FileUtils.cleanDirectory(File directory)  | 清空文件夹里面的所有的内容          |
+| FileUtils.forceDelete(File file)          | 删除，会抛出异常               |
+| FileUtils.deleteQuietly(File file)        | 删除，不会抛出异常              |
+
+#### 创建文件夹
+
+| 类                                     | 说明           | 
+|---------------------------------------|--------------|
+| FileUtils.forceMkdir(File directory)  | 创建文件夹(可创建多级) |
+| FileUtils.forceMkdirParent(File file) | 创建文件的父级目录    |
+
+#### 获取文件输入/输出流
+
+| 类                                     |
+|---------------------------------------|
+| FileUtils.openInputStream(File file)  |
+| FileUtils.openOutputStream(File file) |
+
+#### 读取文件
+
+| 类                                                       | 说明          | 
+|---------------------------------------------------------|-------------|
+| FileUtils.readFileToByteArray(File file)                | 把文件读取到字节数组  |
+| FileUtils.readFileToString(File file, Charset encoding) | 把文件读取成字符串   |
+| FileUtils.readFileToString(File file, String encoding)  |             |
+| FileUtils.readLines(File fie,Charset encoding)          | 把文件读取成字符串集合 |
+| FileUtils.readLines(File file, String encoding)         |             |
+
+#### 测试两个文件的修改时间
+
+| 类                                                 |
+|---------------------------------------------------|
+| FileUtils.isFileNewer(File file, Date date)       |
+| FileUtils.isFileNewer(File file, File reference)  |
+| FileUtils.isFileNewer(File file, long timeMillis) |
+| FileUtils.isFileOlder(File file, Date date)       |
+| FileUtils.isFileOlder(File file, File reference)  |
+| FileUtils.isFileOlder(File file, long timeMillis) |
+
+#### 文件/文件夹的送代
+
+| 类                                                       | 说明                  | 
+|---------------------------------------------------------|---------------------|
+| FileUtils.isSymlink(File file)                          | 判断是否是符号链接           |
+| FileUtils.directoryContains(File directory, File child) | 判断文件夹内是否包含某个文件或者文件夹 |
+| FileUtils.sizeOf(File file)                             | 获取文件或者文件夹的大小        |
+| FileUtils.getTempDirectory()                            | 获取临时目录文件            | 
+| FileUtils.getTempDirectoryPath()                        | 获取临时目录路径            | 
+| FileUtils.getUserDirectory()                            | 获取用户目录文件            | 
+| FileUtils.getUserDirectoryPath()                        | 获取用户目录路径            | 
+
+#### 其他
+
+| 类                                                                                              |
+|------------------------------------------------------------------------------------------------|
+| FileUtils.iterateFiles(File directory, lOFileFilter fileFilter, lOFileFilter dirFilter)        | 
+| FileUtils.iterateFiles(File directory, String! extensions, boolean recursive)                  | 
+| FileUtils.iterateFilesAndDirs(File directory, lOFileFilter fileFilter, lOFileFilter dirFilter) | 
+| FileUtils.lineIterator(File file)                                                              | 
+| FileUtils.lineIterator(File file, String encoding)                                             | 
+| FileUtils.listFiles(File directory, lOFileFilter fileFilter, lOFileFilter dirFilter)           | 
+| FileUtils.listFiles(File directory, String! extensions, boolean recursive)                     | 
+| FileUtils.listFilesAndDirs(File directory, lOFileFilter fileFilter, lOFileFilter dirFilter)    | 
+
+</details>
+
+### IOUtils 文件夹
+
+| 类                                                              | 说明    | 
+|----------------------------------------------------------------|-------|
+| public static int copy(InputStream input, OutputStream output) | 复制文件  |
+| public static int copyLarge(Reader input, Writer output)       | 复制大文件 | 
+| public static String readLines(Reader input)                   | 读取数据  |
+| public static void write(String data, OutputStream output)     | 读取数据  |
+
+<details>
+<summary>更多语法</summary>
+
+#### 拷贝方法
+
+> copy方法有多个重载方法，满足不同的输入输出流
+
+| 类                                                                      | 说明         | 
+|------------------------------------------------------------------------|------------|
+| IOUtils.copy(inputStream input, OutputStream output)                   |            |
+| IOUtils.copy(InputStream input, OutputStream output, int bufferSize)   | 可指定缓冲区大小   |
+| IOUtils.copy(InputStream input, Writer output, String inputEncoding)   | 可指定输入流的编码表 |
+| IOUtils.copy(Reader input, Writer output)                              |            |
+| I0Utils.copy(Reader input, OutputStream output, String outputEncoding) | 可指定输出流的编码表 |
+
+#### 拷贝大文件的方法
+
+> 这个方法适合拷贝较大的数据流，比如2G以上
+
+| 类                                                             | 说明                   | 
+|---------------------------------------------------------------|----------------------|
+| I0Utils.copyLarge(Reader input, Writer output)                | 默认会用1024*4的buffer来读取 |
+| I0Utils.copyLarge(Reader input, Writer output, char[] buffer) | 可指定缓冲区大小             | 
+
+#### 将输入流转换成字符串
+
+| 类                                                     | 
+|-------------------------------------------------------|
+| IOUtils.toString(Reader input)                        |
+| IOUtils.toString(byte[] input, String encoding)       |
+| IOUtils.toString(InputStream input, Charset encoding) |
+| IOUtils.toString(inputStream input, String encoding)  |
+| IOUtils.toString(URl uri, String encoding)            |
+| IOUtils.toString(URL url, String encoding)            |
+
+#### 将输入流转换成字符数组
+
+| 类                                                  | 
+|----------------------------------------------------|
+| IOUtils.toByteArray(InputStream input)             |
+| IOUtils.toByteArray(inputStream input, int size)   |
+| IOUtils.toByteArray(URl uri)                       |
+| IOUtils.toByteArray(URL url)                       |
+| IOUtils.toByteArray(URLConnection urlConn)         |
+| IOUtils.toByteArray(Reader input, String encoding) |
+
+#### 字符串读写
+
+| 类                                                                                                 | 
+|---------------------------------------------------------------------------------------------------|
+| IOUtils.readLines(Reader input)                                                                   |
+| IOUtils.readLines(inputStream input, Charset encoding)                                            | 
+| IOUtils.readLines(inputStream input, String encoding)                                             | 
+| IOUtils.writeLines(Collection<?> lines, String lineEnding, Writer writer)                         | 
+| IOUtils.writeLines(Collection<?> lines, String lineEnding, OutputStream output, Charset encoding) | 
+| IOUtils.writeLines(Collection<?> lines, String lineEnding, OutputStream output, String encoding)  | 
+
+#### 从一个流中读取内容
+
+| 类                                                                      | 
+|------------------------------------------------------------------------|
+| IOUtils.read(inputStream input, byte[] buffer)                         |
+| IOUtils.read(inputStream input, byte[] buffer, int offset, int length) | 
+| IOUtils.read(Reader input, char[] buffer)                              | 
+| IOUtils.read(Reader input, char[] buffer, int offset, int length)      |
+
+#### 从一个流中读取内容，如果读取的长度不够，就会抛出异常
+
+| 类                                                                           | 
+|-----------------------------------------------------------------------------|
+| IOUtils.readFully(inputStream input, int length)                            |
+| IOUtils.readFully(inputStream input, byte[] buffer)                         | 
+| IOUtils.readFully(InputStream input, byte[] buffer, int offset, int length) | 
+| IOUtils.readFully(Reader input,char[] buffer)                               | 
+| IOUtils.readFully(Reader input, char[] buffer, int offset, int length)      | 
+
+#### 比较
+
+| 类                                                            | 说明          | 
+|--------------------------------------------------------------|-------------|
+| IOUtils.contentEquals(InputStream input1,InputStream input2) | 比较两个流是否相等   |
+| IOUtils.contentEquals(Reader input1, Reader input2)          |             | 
+| IOUtils.contentEqualsIgnoreEOL(Reader input1,Reader input2)  | 比较两个流，忽略换行符 | 
+
+#### 其他方法
+
+| 类                                                 | 说明                    | 
+|---------------------------------------------------|-----------------------|
+| IOUtils.skip(InputStream input, long toSkip)      | 跳过指定长度的流              |
+| IOUtils.skip(Reader input, long toSkip)           |                       | 
+| IOUtils.skipFully(InputStream input, long toSkip) | 如果忽略的长度大于现有的长度，就会抛出异常 | 
+| IOUtils.skipFully(Reader input, long toSkip)      |                       | 
+
+</details>
+
+### FilenameUtils 文件名
+
+| 类                                                                              | 说明                 |
+|--------------------------------------------------------------------------------|--------------------|
+| FilenameUtils.concat(String basePath, String fullFilenameToAdd)                | 合并目录和文件名为文件全路径     | 
+| FilenameUtils.getBaseName(String filename)                                     | 去除目录和后缀后的文件名       |
+| FilenameUtils.getExtension(String filename)                                    | 获取文件的后缀            |
+| FilenameUtils.getFullPath(String filename)                                     | 获取文件的目录            |
+| FilenameUtils.getName(String filename)                                         | 获取文件名              |
+| FilenameUtils.getPath(String filename)                                         | 去除盘符后的路径           |
+| FilenameUtils.getPrefix(String filename)                                       | 盘符                 |
+| FilenameUtils.indexOfExtension(String filename)                                | 获取最后一个.的位置         |
+| FilenameUtils.indexOfLastSeparator(String filename)                            | 获取最后一个/的位置         | 
+| FilenameUtils.normalize(String filename)                                       | 获取当前系统格式化路径        | 
+| FilenameUtils.removeExtension(String filename)                                 | 移除文件的扩展名           | 
+| FilenameUtils.separatorsToSystem(String path)                                  | 转换分隔符为当前系统分隔符      | 
+| FilenameUtils.separatorsToUnix(String path)                                    | 转换分隔符为linux系统分隔符   | 
+| FilenameUtils.separatorsToWindows(String path)                                 | 转换分隔符为windows系统分隔符 | 
+| FilenameUtils.equals(String filename1,String filename2)                        | 判断文件路径是否相同，非格式化    | 
+| FilenameUtils.equalsNormalized(String filename1,String filename2)              | 判断文件路径是否相同，格式化     | 
+| FilenameUtils.directoryContains(String canonicalParent, String canonicalChild) | 判断目录下是否包含指定文件或目录   | 
+| FilenameUtils.isExtension(String filename, String extension)                   | 判断文件扩展名是否包含在指定集合中  | 
