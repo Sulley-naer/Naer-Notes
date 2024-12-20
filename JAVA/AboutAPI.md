@@ -1559,3 +1559,12 @@ public static void main(String[] args) {
 | FilenameUtils.equalsNormalized(String filename1,String filename2)              | 判断文件路径是否相同，格式化     | 
 | FilenameUtils.directoryContains(String canonicalParent, String canonicalChild) | 判断目录下是否包含指定文件或目录   | 
 | FilenameUtils.isExtension(String filename, String extension)                   | 判断文件扩展名是否包含在指定集合中  | 
+
+
+
+## [Hutool](https://hutool.cn/)
+
+>[!TIP]
+> Hutool 是一个 Java 的第三方库 是比较常用和简易的库，优化标准库的使用体验，并且是在线[文档](https://plus.hutool.cn/apidocs/)
+> 
+> 使用的比如创建文件，标准库中的如果传入路径中，不存在则返回异常，而它优化体验，自动创建文件夹，方法命名也几乎与标准库一致，导入时注意区分。
