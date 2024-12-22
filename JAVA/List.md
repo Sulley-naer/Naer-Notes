@@ -423,8 +423,6 @@ public static void main(String[] args) {
 | toArray | 转换为数组 | list   | 数组长度就新 |
 | copyOf  | 拷贝数据  | list   | 直接覆盖   |
 
-
-
 ```java
 import java.util.List;
 
@@ -438,3 +436,20 @@ public static void main(String[] args) {
     list.get(0).System.out.println();
 }
 ```
+
+## properties
+
+> [!TIP]
+> `properties` 基本上算是Java自己的本地存储方式，类似JS跟JSON。
+> 
+> HashMap 集合为他单独开了集合，它同样拥有Map集合的所有特性。
+
+| 方法                | 参数           | 说明                       |
+|-------------------|--------------|--------------------------|
+| -----             | 构造方法         | -----                    |
+| public properties |              | 实例化                      |
+| public properties | int          | 初始大小可容纳指定数量的元素，而无需动态调整大小 |
+| public properties | properties   | 创建具有指定默认值的空属性列表，合并数据     |
+| -----             | 成员方法         | -----                    |
+| store             | OutputStream | 自动序列化，本地存储               |
+| load              | InputStream  | 加载本地数据，存储在内部数组           |

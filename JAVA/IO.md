@@ -356,12 +356,16 @@ public static void main(String[] args) {
 }
 ```
 
-## 转换流
+## 转换流 「编码处理」
 
 > [!TIP]
 > 转换流是字符流和字节流的桥梁,并且指定编码解读字节。
 > 
 > 当字节流中突然想使用字符流的方法，就可以使用它来桥接。
+> 
+> 转换流构造函数，只需要你传入的是 InputStream 对象就行了
+> 
+> 反正只要是输入流，你需要解析文字，就直接实例化出来，把输入流扔给他，无论你是什么方式获得的输入流。网络或文件
 
 
 ```java
@@ -501,9 +505,6 @@ static class student implements Serializable, Serializable {
 ```
 
 </details>
-
-
-
 
 ## 打印流
 
@@ -647,3 +648,7 @@ public static void zip(String srcDir, String destDir) throws IOException {
     //文件夹压缩就不写了，自行通过 File获取文件夹目录，区分文件，然后转换为文件相对路径，填入 ZipEntry 里面就能实现了
 }
 ```
+
+## properties 「配置文件」
+
+> [前往查看](./List.md#properties)
