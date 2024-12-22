@@ -453,3 +453,32 @@ public static void main(String[] args) {
 | -----             | 成员方法         | -----                    |
 | store             | OutputStream | 自动序列化，本地存储               |
 | load              | InputStream  | 加载本地数据，存储在内部数组           |
+
+### 存储
+
+```java
+public static void main(String[] args) {
+   Properties properties = new Properties();
+
+   properties.put("a","Soles sunt inquisitor de clemens absolution.");
+   properties.put("B","Lamas trace!");
+
+   BufferedWriter bw = new BufferedWriter(new FileWriter("file.properties"));
+
+   properties.store(bw, "test");
+}
+```
+
+### 加载
+
+```java
+public static void main(String[] args) {
+   Properties properties = new Properties();
+
+   BufferedReader br = new BufferedReader(new FileReader("file.properties"));
+
+   properties.load(br);
+
+   System.out.println(properties);
+}
+```
