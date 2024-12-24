@@ -208,3 +208,207 @@ class test extends Thread {
     }
 }
 ```
+
+## 生命周期
+
+![PixPin_2024-12-24_11-17-49.png](./images/Idea/Thread-1735010272804.png)
+
+> 线程睡眠之后，会重新走准备状态，重新抢占CPU线权。
+
+## 同步代码 「线程安全问题」
+
+### 问题演示
+
+```java
+//DEMO
+class test extends Thread {
+    static int ticket = 0;
+    
+    @Override
+    public void run(){
+        while (true){
+            if(ticket < 100){
+                Thread.sleep(100);
+                ticket++;
+                System.out.println("当前票数:"+ ticket);
+            }else{
+                break;
+            }
+        }
+    }
+}
+
+public static void main(String[] args) {
+    new Thread(new test()).start();
+    new Thread(new test()).start();
+    new Thread(new test()).start();
+}
+```
+
+> 产出问题，在执行到最后的时候会发现导致问题，判断是 < 100 可是最后增加到了102
+> 
+> 并不是判断是问题，而是线程在执行中途，比如上一会 ++ 执行完成了
+> 
+> 该去走打印的时候出现，线程又停止执行了，跑到别的线程去走++了，问题就是代码不是一次执行全部的
+> 
+> 任何时候都可能出现执行了上面下面没来得及，在后面来执行时数据已经发生了变化
+
+### 线程锁 
+
+> 使用 Java 同步锁绑定共享数据，锁定数据不让操作。
+> 
+> 锁默认打开，有一个线程进去了，锁自动关闭
+> 
+> 里面的代码全部执行完毕，线程出来，锁自动打开
+> 
+> 锁是根据内部的代码是否有线程还未执行完成，没执行完成其他的线程也不会执行。
+
+```java
+class test extends Thread {
+    static int ticket = 0;
+
+    //?锁对象，确保是唯一的，并且必须是对象，不能使用变量，它只是标识符。
+    static Object obj = new Object();
+
+    @Override
+    public void run() {
+        //Test.class 是类的字节码对象，Java编译后也是唯一的。
+        synchronized (test.class) {
+            while (true) {
+                if (ticket < 100) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    ticket++;
+                    System.out.println("当前票数:" + ticket);
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+}
+```
+
+### 方法锁
+
+> [!TIP]
+> 方法锁就是给类中的方法同样添加锁，使多线程不会出现数据异常问题。
+> 
+> 方法锁的绑定对象是 this ,就是实例化的对象，而不是类字节码。
+> 
+> 如果线程你实例化两个线程对象在启动线程的时候，它们的锁是无法无法触发的，他们的this是不同的。
+
+```java
+public static void main(String[] args) {
+    test test = new test();
+    new Thread(test).start();
+    new Thread(test).start();
+    //!错误示范：new Thread(new test()).start(); 线程实现类同步方法不要 new 多余的
+}
+
+class test extends Thread {
+    static int sum = 0;
+
+    @Override
+    public void run() {
+        addSum();
+    }
+
+    private synchronized void addSum() {
+        while (true) {
+            if (sum < 100) {
+                sum++;
+                System.out.println(getName() + "当前数量:" + sum);
+            } else {
+                break;
+            }
+        }
+    }
+}
+```
+
+## Lock 「锁控制类」
+
+> [!NOTE]
+> 锁是自动管理的，当有线程在内部时候，其他线程无法使用，JDK5 开放了手动控制。
+> 
+> Reentrant 只是负责管理锁 锁是线程对象内部的属性 它获取并修改实现管理。
+> 
+> 线程内部有个 state 变量控制占用，它通过方法拿取并修改
+> 
+> 实例化的锁对象必须是静态，否则每次进来都会重新初始化锁，状态重置。
+
+| 方法              | 说明   |
+|-----------------|------|
+| 构造函数            | ---  |
+| ReentrantLock() | 实例化锁 |
+| 成员方法            | ---  |
+| lock()          | 锁住   |
+| unlock()        | 解锁   |
+
+
+DEMO
+
+```java
+public static void main(String[] args) {
+    new Thread(new test());
+}
+
+class test extends Thread{
+    static int sum = 0;
+    
+    public synchronized void run(){
+        for (int i = 0; i < 30; i++) {
+            addSum();
+        }
+    }
+    
+    private synchronized void addSum(){
+        sum++;
+    }
+}
+```
+
+### 死锁
+
+死锁是由双锁可能产生的逻辑错误。
+
+```java
+public static void main(String[] args) {
+    test a = new test();
+    a.setName("A");
+    test b = new test();
+    b.setName("B");
+    //?由于同时开启了双锁，假设 A锁先启动占用了，B线程抢占成功了 B同时也占用了，而A需要去等待B，B也同样去等待A,导致线程无线等待。
+    new Thread(a).start();
+    new Thread(b).start();
+}
+
+class test extends Thread {
+    static Object lock = new Object();
+    static Object lock2 = new Object();
+
+    @Override
+    public void run() {
+        if(getName().equals("A")){
+            synchronized (lock) {
+                System.out.println("A获取了权限，等待B执行");
+                synchronized (lock2) {
+                    System.out.println("A完成了事件");
+                }
+            }
+        }if(getName().equals("B")){
+            synchronized (lock2) {
+                System.out.println("B获取了权限，等待A执行");
+                synchronized (lock) {
+                    System.out.println("B完成了事件");
+                }
+            }
+        }
+    }
+}
+```

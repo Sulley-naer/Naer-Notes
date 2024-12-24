@@ -114,7 +114,10 @@ final String str = new String(bytes);
 
 5. StringBuild
 
-   > [!TIP] > `StringBuild` 是字符串容器的方法，里面包含了很多存储字符串，操作字符串等等方法。
+   > [!TIP] 
+   >  `StringBuild` 是字符串容器的方法，里面包含了很多存储字符串，操作字符串等等方法。
+   > 
+   >  多线程使用不安全，多线程使用 StringBuffer 类，方法完全一致。
 
    ```java
 
