@@ -412,3 +412,159 @@ class test extends Thread {
     }
 }
 ```
+
+
+## 线程订阅模式
+
+> [!TIP]
+> 线程订阅模式：线程中有生产者与消费者，生产者负责创建数据，而消费者使用数据。
+> 
+> 出现情况：消费者拿到线权时，没有产生数据，生产者线权数据已存在。
+> 
+> 这时候需要订阅模式，但生产者完成数据，通知消费者使用数据，自己睡眠等待
+> 
+> 消费者使用完成了数据，去通知生产者数据已完成，等待生产。
+
+### 等待唤醒
+
+```java
+package src;
+
+/**
+ * @author Naer
+ */
+public class App {
+    public static void main(String[] args) {
+        test test = new test();
+        test.setName("厨师");
+        new Thread(test).start();
+        new Thread(new user()).start();
+    }
+}
+
+/*
+ * 1．循环
+ * 2.同步代码块
+ * 3.判断共享数据是否到了末尾（到了末尾）
+ * 4.判断共享数据是否到了末尾（没有到末尾，执行核心逻辑）
+ * 
+ * 通知消费者一定是在生产的时候，不管到没到上线都去通知，而不是完成了睡眠再去通知。
+ * 消费者也是同理，可以引入一个中间桌子，确保不能同时操作，数据不会出现同时操作问题。
+ * */
+class test extends Thread {
+    public static Object lock = new Object();  // 使用相同的锁对象
+    public static int sum = 0;
+
+    @Override
+    public void run() {
+        while (true) {
+            synchronized (lock) {
+                if (sum < 5) {
+                    System.out.println(getName() + "生产完成");
+                    sum++;
+                    lock.notify();  // 生产后通知消费者
+                } else {
+                    try {
+                        lock.wait();  // 如果生产数量已满，等待消费者消费
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+    }
+}
+
+class user extends Thread {
+    public static Object lock = new Object();  // 锁对象保持一致
+
+    @Override
+    public void run() {
+        for (int i = 0; i <= 10; i++) {
+            synchronized (test.lock) {
+                if (test.sum > 0) {
+                    test.sum--;
+                    System.out.println(getName() + "我还能吃:" + (10 - i));
+                    test.lock.notifyAll();  // 消费后通知生产者 all是唤醒所有同绑定对象上的线程
+                } else {
+                    try {
+                        test.lock.wait();  // 如果没有商品可消费，等待生产者生产
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+    }
+}
+
+```
+
+### 阻塞队列 「推荐」
+
+> [!TIP]
+> ArrayBlockingQueue<T> 是用于处理队列的解决类，简化了繁琐的唤醒与休眠步骤。
+> 
+> 不需要我们自行去休眠和唤醒,只需要拿取和生产，需注意两者都需要同一个实例化的对象。
+
+```java
+package src;
+
+import java.util.concurrent.ArrayBlockingQueue;
+
+/**
+ * @author Naer
+ */
+public class App {
+    public static void main(String[] args) {
+        //它的底层最重要的一点，每个方法都是根据方法队列已内容来的，未达标就无效循环休眠，有则返回给你。
+        ArrayBlockingQueue<String> msg = new ArrayBlockingQueue<>(100);
+
+        test test = new test(msg);
+        test.setName("厨师");
+        new Thread(test).start();
+        new Thread(new user(msg)).start();
+    }
+}
+
+class test extends Thread {
+    public ArrayBlockingQueue<String> msg;
+
+    public test(ArrayBlockingQueue<String> list) {
+        this.msg = list;
+    }
+
+    @Override
+    public void run() {
+        //不要再给锁了，它内部有一个锁，再给容易出现死锁。
+        for (int i = 0; i < 10; i++) {
+            try {
+                this.msg.put("信息:"+i);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+}
+
+class user extends Thread {
+    public ArrayBlockingQueue<String> msg;
+
+    public user(ArrayBlockingQueue<String> list) {
+        this.msg = list;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                //!这个线程是无线循环，而生产只能13个，最后底层线程会在内部循环等待休眠。
+                System.out.println(msg.take());
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+}
+
+```
