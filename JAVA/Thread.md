@@ -568,3 +568,114 @@ class user extends Thread {
 }
 
 ```
+
+## 线程池
+
+> [!TIP]
+> 线程池是负责管理线程的，没有它之前，线程都是实例化启动结束。
+>
+> 而当它结束任务之后，线程还是在那边，只不过不执行了，这样就会导致线程资源浪费。
+>
+
+线程池是管理线程的工具类
+
+1. 创建一个池子，池子中是空的
+2. 提交任务时，池子会创建新的线程对象，任务执行完毕，线程归还给池子 
+   下回再次提交任务时，不需要创建新的线程，直接复用已有的线程即可
+3. 但是如果提交任务时，池子中没有空闲线程，也无法创建新的线程，任务就会排队等待
+ 
+> `Executors`
+
+| 方法                                                             | 说明           |
+|----------------------------------------------------------------|--------------|
+| 静态方法                                                           | ---          |
+| public static ExecutorService newCachedThreadPool()            | 创建一个没有上限的线程池 |
+| public static ExecutorService newFixedThreadPool(int nThreads) | 创建有上限的线程池    |
+| 成员方法                                                           |              |
+| submit(Runnable task) 、 Callable<T> 、 Runnable task result     | 提交任务         |
+| shutdown()                                                     | 销毁线程池        |
+
+## 自定义线程池
+
+线程池中需要的参数
+
+1. 正式员工数量 -> 核心线程数量（不能小于0）
+2. 餐厅最大员工数 -> 线程池中最大线程的数量（最大数量>=核心线程数量）
+3. 临时员工空闲多长时间被辞退(值) -> 空闲时间 (值)（不能小于0）
+4. 临时员工空闲多长时间被辞退 (单位) -> 空闲时间 (单位)（用TimeUnit指定）
+5. 排队的客户 -> 阻塞队列（不能为null）
+6. 从哪里招人 -> 创建线程的方式（不能为null）
+7. 当排队人数过多，超出顾客请下次再来(拒绝服务) -> 要执行的任务过多时的解决方案（不能为null）
+
+<details>
+<summary>实际作用演示</summary>
+
+线程池
+
+```html
+核心线程3 临时3 5个任务
+
+核心:任务123
+队列:任务12
+
+核心3 临时3 8个任务 队列长度3
+
+核心:任务1~5
+队列:任务456
+
+如果任务数量>核心+临时+队列,会直接触发拒绝服务。
+
+ThreadPoolExecutor.AbortPolicy -> 默认策略：丢弃任务并抛出RejectedExecutionException异常
+ThreadPoolExecutor.DiscardPolicy -> 丢弃任务，但是不抛出异常这是不推荐的做法
+ThreadPoolExecutor.DiscardOldestPolicy -> 抛弃队列中等待最久的任务 然后把当前任务加入队列中
+ThreadPoolExecutor.CallerRunsPolicy -> 调用任务的run()方法绕过线程池直接执行
+
+结论:
+
+1. 临时线程是在等待队列长度满了之后,还有任务时,开启的线程。
+2. 线程的不一定是根据顺序完成的,队列456 78临时线程在执行。
+```
+</details>
+
+```java
+/*
+  ThreadPoolExecutor threadPoolExecutor = newThreadPoolExecutor
+ （核心线程数量，最大线程数量，空闲线程最大存活时间，任务队列，创建线程工厂，任务的拒绝策略）；
+ 
+    参数一:核心线程数量          不能小于0
+    参数二:最大线程数           不能小于，最大数量>=核心线程数量
+    参数三:空闲线程最大存活时间   不能小于θ
+    参数四:时间单位            用TimeUnit指定
+    参数五:任务队列            不能为nul1
+    参数六:创建线程工厂         不能为nul1
+    参数七:任务的拒绝策略        不能为nul1
+ */
+
+public static void main(String[] args) {
+    //?查看当前可用最大并行数,可根据大小调整线程数量
+   int cores = Runtime.getRuntime().availableProcessors();
+   System.out.println(cores);
+   ThreadPoolExecutor pool=new ThreadPoolExecutor(
+           3,
+           6,
+           60,
+           TimeUnit.SECONDS,
+           new ArrayBlockingQueue<>(3),
+           Executors.defaultThreadFactory(),
+           new ThreadPoolExecutor.AbortPolicy()
+   );
+}
+```
+
+### 合适线程池大小「用处较少」
+
+1. CPU密集型运算：程序读写内存中操作占多
+   数据库IO操作少 推荐 最大并行数 +1 防线程卡死等。
+2. I/0密集型运算:数据库和本地存储操作多 
+   推荐 最大并行数 * 期望CPU利用率 * (总时间（CPU计算时间+等待时间）/ CPU 计算时间)
+
+总时间：硬盘操作，测试读写速度，计算时间 
+
+CPU时间：与上面同理测试。
+
+通常程序员懒得计算，可根据感觉预估时间，填写百分比，硬盘100% cpu50%
