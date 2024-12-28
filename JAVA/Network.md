@@ -304,18 +304,22 @@ public static void main(String[] args) throws IOException {
 
 常用方法，更多参考api文档。
 
-| 方法                     | 说明       |
-|------------------------|----------|
-| 构造函数                   | ---      |
-| Socket(/* 服务器地址,端口 */) | 客户端      |
-| ServerSocket(/* 端口 */) | 服务端      |
-| 成员方法                   | ---      |
-| accept()               | 开启监听     |
-| getInputStream()       | 输入流，拿取数据 |
-| getOutputStream()      | 输出流，写入数据 |
-| close()                | 关闭连接     |
+| 方法                     | 说明             |
+|------------------------|----------------|
+| 构造函数                   | ---            |
+| Socket(/* 服务器地址,端口 */) | 客户端            |
+| ServerSocket(/* 端口 */) | 服务端            |
+| 成员方法                   | ---            |
+| accept()               | 开启监听,获取 socket |
+| getInputStream()       | 输入流，拿取数据       |
+| getOutputStream()      | 输出流，写入数据       |
+| shutdownOutput();      | 输入流关闭，防服务端等待   |
+| close()                | 关闭连接           |
 
 ### 服务端
+
+> [!CAUTION]
+> 一定要防止双等待的情况，写入信息写完了一定要调用 shutdownOutput 完成写入流，逻辑顺序注意检查！否则程序卡解析等待。
 
 ```java
 public static void main(String[] args) throws IOException {
@@ -328,16 +332,22 @@ public static void main(String[] args) throws IOException {
 
         OutputStreamWriter outputStream = new OutputStreamWriter(socket.getOutputStream()) ;
 
-        outputStream.write("服务器收到消息");
-        //手动同步，不然无效写入。
-        outputStream.flush();
-
         //解析数据
         int i;
-
+        //!Read 方法它不会有 -1的，没有数据它会等待客户端发送，客户端那边也在等待你写入数据，避免出现写入最后给一个标识符！
         while ((i = inputStream.read()) != -1) {
             System.out.println((char) i);
         }
+        
+        //!这里写入有验证是否无线等待，客户端那边必须给 shutdown 关闭写入通道，否则服务端无法确认是否写入完成。服务等客户，客户等服务。
+        outputStream.write("服务器收到消息");
+        
+        //手动同步，不然无效写入。
+        outputStream.flush();
+        
+        //?写入完成，否则一样无线等待
+        socket.shutdownOutput();
+        
         //!不要关流！第四次挥手，它需要确保结算前数据传输完毕。
         socket.close();
     }
@@ -354,10 +364,19 @@ public static void main(String[] args) throws IOException {
 
     OutputStreamWriter outputStream = new OutputStreamWriter(socket.getOutputStream());
 
+    /*
+     * 遵守顺序，客户端先发送信息，
+     * 服务端解析信息，解析完成再返回信息
+     * 客户端走解析信息，等待后续信息
+     * */
+    
     outputStream.write("客户端");
 
     outputStream.flush();
 
+    //!给标识符，不然服务端解析过程无线等待。
+    socket.shutdownOutput();
+    
     //解析数据
     int i;
 
