@@ -1268,6 +1268,26 @@ public static void main(String[] args) {
 
 </details>
 
+## UUID
+
+>[!TIP]
+> 生成唯一标识符
+
+| 方法           | 功能       |
+|--------------|----------|
+| 静态方法         | ---      |
+| randomUUID() | 获得随机UUID |
+| fromString() | 根据字符串生成  |
+
+```java
+import java.util.UUID;
+
+public static void main(String[] args) {
+    //?用处在文件夹等，需要唯一标识符的地方。
+   System.out.println(UUID.randomUUID());
+}
+```
+
 ## Commons-io
 
 > [!TIP]
