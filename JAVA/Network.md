@@ -22,6 +22,8 @@ IPV4 地址已经分配完毕，不够使用为了节省，192.168 开头都是�
 
 ![网络协议完整实现图](./images/Idea/Network-1735280776929.png)
 
+![PixPin_2024-12-28_16-05-39.png](./images/Idea/Network-1735373147697.png)
+
 ## 获取ip
 
 InetAddress：
@@ -280,4 +282,119 @@ public static void main(String[] args) throws IOException {
 3. 速度慢，没有大小限制，数据安全。
 
 安装包下载、文字聊天、发送邮件
+
+1. TCP通信协议是一种可靠的网络协议，它在通信的两端各建立一个Socket对象
+2. 通信之前要保证连接已经建立
+3. 通过Socket产生IO流来进行网络通信
+
+客户端步骤
+
+1. 创建客户端的socket对象(Socket)与指定服务端连接
+2. 获取输出流，写数据
+3. 释放资源
+
+服务器步骤
+
+1. 创建服务器端的Socket对象(ServerSocket)
+2. 监听客户端连接，返回一个Socket对象
+3. 获取输入流，读数据，并并把数据显示在控制台
+4. 释放资源
+
+注意：TCP有确保连接安全性，客户端在连接时，会先向服务端发送3次握手协议，保证协议安全建立。
+
+常用方法，更多参考api文档。
+
+| 方法                     | 说明       |
+|------------------------|----------|
+| 构造函数                   | ---      |
+| Socket(/* 服务器地址,端口 */) | 客户端      |
+| ServerSocket(/* 端口 */) | 服务端      |
+| 成员方法                   | ---      |
+| accept()               | 开启监听     |
+| getInputStream()       | 输入流，拿取数据 |
+| getOutputStream()      | 输出流，写入数据 |
+| close()                | 关闭连接     |
+
+### 服务端
+
+```java
+public static void main(String[] args) throws IOException {
+    ServerSocket server = new ServerSocket(25505);
+    while (true) {
+        //?监听连接
+        Socket socket = server.accept();
+        //!转换为字符流，处理中文字符乱码
+        InputStreamReader inputStream = new InputStreamReader(socket.getInputStream());
+
+        OutputStreamWriter outputStream = new OutputStreamWriter(socket.getOutputStream()) ;
+
+        outputStream.write("服务器收到消息");
+        //手动同步，不然无效写入。
+        outputStream.flush();
+
+        //解析数据
+        int i;
+
+        while ((i = inputStream.read()) != -1) {
+            System.out.println((char) i);
+        }
+        //!不要关流！第四次挥手，它需要确保结算前数据传输完毕。
+        socket.close();
+    }
+}
+```
+
+### 客户端
+
+```java
+public static void main(String[] args) throws IOException {
+    Socket socket = new Socket("127.0.0.1", 25505);
+
+    InputStreamReader inputStream = new InputStreamReader(socket.getInputStream());
+
+    OutputStreamWriter outputStream = new OutputStreamWriter(socket.getOutputStream());
+
+    outputStream.write("客户端");
+
+    outputStream.flush();
+
+    //解析数据
+    int i;
+
+    while ((i = inputStream.read()) != -1) {
+        System.out.println((char) i);
+    }
+
+    socket.close();
+}
+```
+
+### 握手协议
+
+三次握手
+
+第一次: 客户端向服务端发送请求，等待服务端回应
+
+第二次：服务器返回请求，告诉客户端我接受了请求
+
+第三次：客户端在此向服务端发送确认请求，连接开启
+
+![PixPin_2024-12-28_16-04-43.png](./images/Idea/Network-1735373086238.png)
+
+四次挥手
+
+确保连接断开，保证数据处理完毕
+
+1. 客户端向服务端发送取消连接请求
+
+2. 再返回表示收到了取消请求
+
+3. 服务端将最后的数据处理完成
+
+4. 最后再次发送确认信息
+
+5. 客户端再次确认信息，关闭连接
+
+![PixPin_2024-12-28_16-03-38.png](./images/Idea/Network-1735373021855.png)
+
 

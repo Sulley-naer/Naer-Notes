@@ -231,20 +231,22 @@ public static void main(String[] args) {
 }
 ```
 
-| 方法         | 参数                          | 说明    | 额外           |
-|------------|-----------------------------|-------|--------------|
-| -----      | 构造方法                        | ----- |              |
-| FileWriter | File                        | 文件对象  |              |
-| FileWriter | (Str Path)                  | 文件路径  |              |
-| FileWriter | (File,boolean)              | 续写开关  | 关续写，清空数据     |
-| FileWriter | (Path,boolean)              | 续写开关  | 关续写，清空数据     |
-| -----      | 成员方法                        | ----- |              |
-| Write      | Int、str                     | 写入字符  | Int 需对应 字符编码 |
-| Write      | \[Int、str\],int off,int len | 写入部分  | 写入可以超出一字节    |
-| Write      | char[]                      | 写入字组  |              |
-| Write      | char[],int off,int len      | 指定范围  | 起始位置 往后长度    |
-| flush      | void                        | 刷新资源  | 同步数据，然无更新    |
-| close      | void                        | 释放资源  | 关闭占用         |
+| 方法                 | 参数                          | 说明    | 额外           |
+|--------------------|-----------------------------|-------|--------------|
+| -----              | 构造方法                        | ----- |              |
+| FileWriter         | File                        | 文件对象  |              |
+| InputStreamReader  | InputStream                 | 互相转换  |              |
+| OutputStreamWriter | OutputStream                | 互相转换  |              |
+| FileWriter         | (Str Path)                  | 文件路径  |              |
+| FileWriter         | (File,boolean)              | 续写开关  | 关续写，清空数据     |
+| FileWriter         | (Path,boolean)              | 续写开关  | 关续写，清空数据     |
+| -----              | 成员方法                        | ----- |              |
+| Write              | Int、str                     | 写入字符  | Int 需对应 字符编码 |
+| Write              | \[Int、str\],int off,int len | 写入部分  | 写入可以超出一字节    |
+| Write              | char[]                      | 写入字组  |              |
+| Write              | char[],int off,int len      | 指定范围  | 起始位置 往后长度    |
+| flush              | void                        | 刷新资源  | 同步数据，然无更新    |
+| close              | void                        | 释放资源  | 关闭占用         |
 
 ## 原理
 
