@@ -417,3 +417,90 @@ public static void main(String[] args) throws IOException {
 ![PixPin_2024-12-28_16-03-38.png](./images/Idea/Network-1735373021855.png)
 
 
+## 多线程
+
+> 使用多线程处理TCP连接请求
+> 一个客户端对应一个线程。
+
+### 服务端
+
+> 线程池版，自己在main函数中实例化线程池，再传入线程对象到池子中就行了
+
+```java
+public class Server {
+    public static void main(String[] args) throws IOException {
+        ServerSocket server = new ServerSocket(25505);
+        System.out.println("服务器已启动，等待连接...");
+        while (true) {
+            Socket socket = server.accept();
+            System.out.println("客户端已连接：" + socket.getRemoteSocketAddress());
+            new Thread(new Thread1(socket)).start();
+        }
+    }
+}
+
+class Thread1 extends Thread {
+    private Socket socket;
+
+    public Thread1(Socket socket) {
+        this.socket = socket;
+    }
+
+    @Override
+    public void run() {
+        try (
+                InputStreamReader inputStream = new InputStreamReader(socket.getInputStream());
+                OutputStreamWriter outputStream = new OutputStreamWriter(socket.getOutputStream())
+        ) {
+            int i;
+            StringBuilder message = new StringBuilder();
+
+            // 读取数据
+            while ((i = inputStream.read()) != -1) {
+                message.append((char) i);
+            }
+            System.out.println("收到消息：" + message);
+
+            // 发送响应
+            outputStream.write("服务器收到消息\n");
+            outputStream.flush();
+
+        } catch (IOException e) {
+            System.err.println("连接异常：" + e.getMessage());
+        } finally {
+            try {
+                System.out.println("关闭客户端连接：" + socket.getRemoteSocketAddress());
+                socket.close();
+            } catch (IOException e) {
+                System.err.println("关闭连接时出错：" + e.getMessage());
+            }
+        }
+    }
+}
+```
+
+### 客户端
+
+```java
+public static void main(String[] args) throws IOException {
+    Socket socket = new Socket("127.0.0.1", 25505);
+
+    InputStreamReader inputStream = new InputStreamReader(socket.getInputStream());
+
+    OutputStreamWriter outputStream = new OutputStreamWriter(socket.getOutputStream());
+
+    outputStream.write("客户端");
+
+    outputStream.flush();
+
+    socket.shutdownOutput();
+
+    int i;
+
+    while ((i = inputStream.read()) != -1) {
+        System.out.println((char) i);
+    }
+
+    socket.close();
+}
+```
