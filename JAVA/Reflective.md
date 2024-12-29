@@ -1,20 +1,19 @@
 # Java 反射
 
->[!TIP]
+> [!TIP]
 > 反射允许对封装类的字段，方法和构造函数的信息进行编程访问,Idea的智能提示通过反射实现
 
 ![PixPin_2024-12-29_15-47-37.png](./images/Idea/Reflective-1735458459404.png)
 
 ## 获取class对象
 
-1. class.forName("全类名")
-2. 类名.class
-3. 对象.getClass();
+1. class.forName("全类名") '静态方式'
+2. 类名.class '静态方式'
+3. 对象.getClass(); '实例化后获取方式'
 
 Java 获取 Modifiers 修饰符的时候，返回数字，在Java文档中去查看
 
 文档中搜索，并选择你获取对象的多态关系「`Constant Field Values`」
-
 
 ## 获取构造方法
 
@@ -79,16 +78,16 @@ Field类中用于创建对象的方法
 
 Filed 属性静态方法
 
-| 方法                  | 说明                |
-|---------------------|-------------------|
-| get(/* 可选实例化后对象 */) | 获取对象上的初始值，实例化中的值  |
-| getType()           | 获取属性类型            |
-| set()               | 设置对象上的初始值值        |
-| getName()           | 以字符串形式返回此构造函数的名称  |
-| setAccessible()     | 暴力反射 私有的属性，强制转换公共 |
-| getModifiers()      | 获取访问修饰符，常量字段值     |
-| getBoolean()        | 获取静态或实例的值 boolean |
-| getInt()            | 获取静态或实例的值 Int     |
+| 方法                 | 说明                |
+|--------------------|-------------------|
+| get(/* 实例化后对象！ */) | 获取实例化后对象内的值       |
+| getType()          | 获取属性类型            |
+| set()              | 设置对象上的初始值值        |
+| getName()          | 以字符串形式返回此构造函数的名称  |
+| setAccessible()    | 暴力反射 私有的属性，强制转换公共 |
+| getModifiers()     | 获取访问修饰符，常量字段值     |
+| getBoolean()       | 获取静态或实例的值 boolean |
+| getInt()           | 获取静态或实例的值 Int     |
 
 ```java
 public static void main(String[] args) {
@@ -131,8 +130,8 @@ Filed 属性静态方法
 Method类中用于创建对象的方法
 
 Object invoke(Object obj, Object... args)： 运行方法
-    参数一：自定义方法调用者,`apply`
-    参数二：调用方法的传递的参数（如果没有就不写）
+参数一：自定义方法调用者,`apply`
+参数二：调用方法的传递的参数（如果没有就不写）
 返回值：方法的返回值(如果没有就不写)
 
 ```java
@@ -146,8 +145,32 @@ public static void main(String[] args) {
     Method setTest = cs.getMethod("setTest", String.class);
 
     Object o = new Object();
-    
+
     //?相当于 apply 自定义方法调用者指针，让方法体认为是o调用的方法
-    setTest.invoke(o,"1");
+    setTest.invoke(o, "1");
+}
+```
+
+## 反射获取类属性
+
+```java
+public static void main(String[] args) {
+    Server s1 = new Server(16, "张三");
+    Server s2 = new Server(19, "李四");
+    s2.setAddress("家庭地址");
+
+    getFields(s1);
+}
+
+private static void getFields(Object o) throws IllegalAccessException {
+    Class<?> cs = o.getClass();
+    Field[] fields = cs.getDeclaredFields();
+    for (Field field : fields) {
+        field.setAccessible(true);
+        String name = field.getName();
+        //?注意Get方法传入的是类，而不是 class 对象。
+        Object val = field.get(o);
+        System.out.println(name + ": " + val);
+    }
 }
 ```
