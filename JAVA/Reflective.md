@@ -28,14 +28,15 @@ Class 对象成员方法,全是静态方法
 
 Constructor 构造函数对象
 
-| 方法                        | 说明                |
-|---------------------------|-------------------|
-| getParameterAnnotations() | 返回参数声明顺序的数组       |
-| getParameterCount()       | 返回方法参数数量          |
-| getParameterTypes()       | 返回参数类型            |
-| getName()                 | 以字符串形式返回此构造函数的名称  |
-| getModifiers()            | 获取访问修饰符，常量字段值     |
-| setAccessible()           | 暴力反射 私有的构造，强制转换公共 |
+| 方法                           | 说明                |
+|------------------------------|-------------------|
+| getParameterAnnotations()    | 返回参数声明顺序的数组       |
+| getParameterCount()          | 返回方法参数数量          |
+| getParameterTypes()          | 返回参数类型            |
+| getName()                    | 以字符串形式返回此构造函数的名称  |
+| getModifiers()               | 获取访问修饰符，常量字段值     |
+| newInstance(/* 参数 */)        | 构造方法参数，与普通一样使用方式  |
+| setAccessible()              | 暴力反射 私有的构造，强制转换公共 |
 
 Constructor类中用于创建对象的方法
 
@@ -51,10 +52,25 @@ public static void main(String[] args) {
      * 单个的需要保证参数的数量
      * 参数的类型,都能与方法对应
      * 这样如果对的上就返回方法
+     * 参数类型Int就int.class
+     * 不要Integer.class对不上
      * */
     Class c1 = Class.forName("src.Server");
     //?获取参数类型是Int的公开构造方法。String 同理传入class对象，多参逗号隔开。
     System.out.println(c1.getConstructor(int.class));
+    
+    //! 强制调用私有化构造函数，并调用构造方法拿取对象
+    Class cs = Class.forName("src.Server");
+    
+    //一定要使用 Declared 才能访问并拿取到私有方法
+    Constructor constructor = cs.getDeclaredConstructor(int.class, String.class);
+    
+    //!强制转换为公开
+    constructor.setAccessible(true);
+    
+    //?调用构造方法
+    Server s1 = (Server) constructor.newInstance(16, "张三");
+    Server s2 = (Server) constructor.newInstance(19, "李四");
 }
 ```
 
