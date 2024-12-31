@@ -106,7 +106,6 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 | <kbd> Ctrl + Shift + v </kdb>       | MD 文件切换预览 |
 | <kbd> Ctrl + Shift + E </kdb>       | MD 文件切换编辑 |
 
-
 说明：
 
 1. 方法说明变量：调用方法，有返回值需接受，它智能识别类型并声明变量
