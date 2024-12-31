@@ -201,3 +201,30 @@ Map 系列
 ### 概率算法
 
 1. [概率算法](./src/algorithm.md#概率算法)
+
+## 算法
+
+### 查找算法
+
+1. [基本查找算法](./src/algorithm.md#顺序查找基本查找)
+2. [二分查找算法](./src/algorithm.md#二分查找折半查找)
+3. [分块查找算法](./src/algorithm.md#分块查找)
+
+### 排序算法
+
+1. [冒泡排序算法](./src/algorithm.md#冒泡排序)
+2. [选择排序算法](./src/algorithm.md#选择排序)
+3. [插入排序算法](./src/algorithm.md#插入排序最佳排序)
+4. [快速排序算法](./src/algorithm.md#快速排序)
+
+### 递归算法
+
+1. [递归算法](./src/algorithm.md#递归算法常用算法)
+2. [阶层](./src/algorithm.md#阶层)
+3. [递归](./src/algorithm.md#递归)
+4. [递归](./src/algorithm.md#反向递归)
+5. [斐波那契](./src/algorithm.md#斐波那契)
+
+### 概率算法
+
+1. [概率算法](./src/algorithm.md#概率算法)
