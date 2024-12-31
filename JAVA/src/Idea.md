@@ -20,8 +20,11 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 
 菜单>文件>项目结构 「Ctrl+Alt+Shift+S」
 
+> [!CAUTION]
+> 如果遇到项目文件非正常白色，可多选 右键 > \[修复文件上IDE | 从硬盘重新加载\]
+
 > [!TIP]
-> 项目模块: 就是项目依赖，添加依赖，
+> 项目模块: 项目仓库，仓库内下再是依赖环境等。
 >
 > 新建模块：项目所需：可以添加你所需要的，Java、Kotlin、Spring、^……^、模块。配置路径和类型
 >
@@ -29,7 +32,11 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 
 项目管理：顾名思义是项目重要的一环，类库引用，yaml 配置，依赖管理，运行配置等。
 
-新建模块配置：
+路径：配置项目编译目录或文档相关路径
+
+依赖：项目所需的依赖文件夹，第三方库等等使用。
+
+源 代码库：
 
 1. 源代码
    它是该模块根的目录，配置之后子级目录将会被识别为该模块的资源。
@@ -147,7 +154,7 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
    快捷键:
 
    | 快捷键                   | 功能     |
-   | ------------------------ | -------- |
+                  | ------------------------ | -------- |
    | <kbd>Ctrl + MRight</kdb> | 局部高亮 |
    | <kbd>Alt + MRight</kdb>  | 专注模式 |
    | <kbd>ESC</kdb>           | 普通模式 |
@@ -161,7 +168,7 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 3. Translation「翻译工具」
 
    | 快捷键                      | 功能     |
-   | --------------------------- | -------- |
+                  | --------------------------- | -------- |
    | <kdb>Ctrl + Shift + Y</kdb> | 选中翻译 |
    | <kdb>Ctrl + Shift + X</kdb> | 翻译替换 |
 
@@ -171,15 +178,15 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 
 4. Draw、UML 流程图绘制工具
 
-   1. `drawio` 文件再底部切换图片绘制 或者 代码编写模式 后缀 `drawio`
-      1. 代码：<br>
-         <img alt="code" src="./images/Idea/Idea-1722680524054.png" width="300"/>
-      2. 绘制：<br>
-         <img alt="draw" src="./images/Idea/Idea-1722680589329.png" width="300"/>
-      3. Idea 卡顿 [解决](https://app.diagrams.net/)
-   2. `UML` 纯代码编写，心智负担 不建议使用 后缀 `puml`
-      1. 效果图: <br>
-         <img alt="puml" src="./images/Idea/Idea-1722681179115.png" width="300"/>
-      2. [官网](https://plantuml.com/zh/running) [文献](https://plantuml.com/zh/guide)
+    1. `drawio` 文件再底部切换图片绘制 或者 代码编写模式 后缀 `drawio`
+        1. 代码：<br>
+           <img alt="code" src="./images/Idea/Idea-1722680524054.png" width="300"/>
+        2. 绘制：<br>
+           <img alt="draw" src="./images/Idea/Idea-1722680589329.png" width="300"/>
+        3. Idea 卡顿 [解决](https://app.diagrams.net/)
+    2. `UML` 纯代码编写，心智负担 不建议使用 后缀 `puml`
+        1. 效果图: <br>
+           <img alt="puml" src="./images/Idea/Idea-1722681179115.png" width="300"/>
+        2. [官网](https://plantuml.com/zh/running) [文献](https://plantuml.com/zh/guide)
 
 [//]: # "5. Lombok 「隐藏Get、set」"
