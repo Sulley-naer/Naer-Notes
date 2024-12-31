@@ -42,7 +42,7 @@ Map 系列
 集合类
 
 1. [HashMap](./src/List.md#hashmap-高效率)
-2. [HashMap](./src/List.md#treemap-推荐排序使用)
+2. [treemap](./src/List.md#treemap-推荐排序使用)
 3. [不可变集合](./src/List.md#不可变集合)
 
 ### 集合工具类
@@ -87,8 +87,8 @@ Map 系列
 ### 打印流
 
 1. [转换流](./src/IO.md#打印流)
-2. [字节转换流](./src/IO.md#字节打印流)
-3. [字节转换流](./src/IO.md#字符打印流)
+2. [字节打印流](./src/IO.md#字节打印流)
+3. [字符打印流](./src/IO.md#字符打印流)
 
 ### 转换流
 
@@ -97,8 +97,8 @@ Map 系列
 ### 序列化流
 
 1. [序列化流](./src/IO.md#序列化流)
-2. [序列化流](./src/IO.md#序列化)
-3. [序列化流](./src/IO.md#反序列化)
+2. [序列化](./src/IO.md#序列化)
+3. [反序列化](./src/IO.md#反序列化)
 
 ### 压缩流
 
@@ -126,14 +126,14 @@ Map 系列
 10. [阻塞队列](./src/Thread.md#阻塞队列-推荐)
 
 11. [线程池](./src/Thread.md#线程池)
-12. [线程池](./src/Thread.md#自定义线程池)
+12. [自定义线程池](./src/Thread.md#自定义线程池)
 
 ### 锁
 
-1. [锁](./src/Thread.md#死锁)
-2. [锁](./src/Thread.md#线程锁)
-3. [锁](./src/Thread.md#方法锁)
-4. [锁](./src/Thread.md#lock-锁控制类)
+1. [死锁](./src/Thread.md#死锁)
+2. [线程锁](./src/Thread.md#线程锁)
+3. [方法锁](./src/Thread.md#方法锁)
+4. [锁控制](./src/Thread.md#lock-锁控制类)
 
 ## 网络编程
 
