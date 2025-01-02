@@ -147,7 +147,7 @@ public class DemoTest {
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
+
     <!-- 项目依赖项目 -->
     <dependencies>
         <!--   依赖复制到这里     -->
@@ -174,7 +174,7 @@ public class DemoTest {
 
 Idea 右下角 Maven 添加目录位置，查看全部命令
 
-可选 Idea 配置运行 < Maven < 命令 test 自选 < 保存运行 
+可选 Idea 配置运行 < Maven < 命令 test 自选 < 保存运行
 
 ## Idea 配置
 
@@ -200,14 +200,16 @@ Idea 设置 < maven 主路径 < 选择安装的 Maven 路径
 
 ## 配置文件
 
-1. Project 必须为根标签，配置项目基本元素
+Project 必须为根标签，配置项目基本元素
+
+基本配置
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    
+
     <!--  Maven版本  -->
     <modelVersion>4.0.0</modelVersion>
     <!-- 项目说明 公开名称 -->
@@ -218,42 +220,88 @@ Idea 设置 < maven 主路径 < 选择安装的 Maven 路径
     <version>0.1</version>
     <!-- 生成格式 -->
     <packaging>jar</packaging>
-    
+
     <!-- 项目配置 -->
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
-    <!-- 项目依赖项目 -->
-    <dependencies>
-        <!--   依赖复制到这里     -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-        </dependency>
-        <!-- 核心概念：你引入的依赖，也同样也有它自己的配置与依赖
-             安装自动扫描下载全部依赖，依赖内依赖，与你的配置依赖。 
-        -->
-    </dependencies>
-    
-    <!-- 构建相关 -->
-    <build>
-        <!-- 构建插件 -->
-        <plugins>
-            <!-- 插件命令 Idea < Maven < 插件 < 名称 < 选择运行 -->
-            <plugin>
-                <!-- 也可以命令 mvn 名称:指令 -->
-                <groupId>org.opoo.maven</groupId>
-                <artifactId>tomcat9-maven-plugin</artifactId>
-                <version>3.0.0</version>
-            </plugin>
-        </plugins>
-
-    </build>
 
 </project>
+```
 
+### 依赖相关
+
+核心概念：你引入的依赖，它同样也有它自己的配置与依赖
+安装自动扫描下载全部依赖，依赖内依赖，与你的配置依赖
+
+直接依赖：当前项目的配置所需的依赖。
+间接依赖：直接依赖配置所需的依赖
+
+当出现同依赖重复出现，版本不同则优先选择靠近直接依赖
+
+```xml
+<!-- 项目依赖项目 -->
+<dependencies>
+    <!--   依赖复制到这里     -->
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.1</version>
+        <!-- 可选依赖 **对外** 不可见的依赖 -->
+        <optional>true</optional>
+        
+        <!-- 指定依赖使用范围 -->
+        <scope>
+            <!-- 
+                compile:全范围 
+                test:测试范围
+                provided:主程序、测试范围 开发环境。
+                runtime:打包构建后范围 生成环境使用
+                
+                当被间接依赖时候，范围会产生变化。
+                
+                间接依赖：主人不是依赖你，而是主人依赖的人它依赖了你
+                
+                compile -> runtime 
+                test -> test
+                provided -> provided
+                runtime -> runtime
+            -->
+            test
+        </scope>
+        
+        <!-- 排除依赖 -->
+        <exclusions>
+            <!--
+                主依赖你，你的依赖库会自动添加了主
+                手动排除特定间接依赖，防止重名问题等。
+            -->
+            <exclusion>
+                <groupId>org.Naer</groupId>
+                <artifactId>name</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+</dependencies>
+```
+
+### 构建插件
+
+```xml
+    <!-- 构建相关 -->
+<build>
+    <!-- 构建插件 -->
+    <plugins>
+        <!-- 插件命令 Idea < Maven < 插件 < 名称 < 选择运行 -->
+        <plugin>
+            <!-- 也可以命令 mvn 名称:指令 -->
+            <groupId>org.opoo.maven</groupId>
+            <artifactId>tomcat9-maven-plugin</artifactId>
+            <version>3.0.0</version>
+        </plugin>
+    </plugins>
+
+</build>
 ```
