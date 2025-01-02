@@ -234,7 +234,9 @@ Idea 设置 < maven 主路径 < 选择安装的 Maven 路径
             <artifactId>junit</artifactId>
             <version>4.13.1</version>
         </dependency>
-
+        <!-- 核心概念：你引入的依赖，也同样也有它自己的配置与依赖
+             安装自动扫描下载全部依赖，依赖内依赖，与你的配置依赖。 
+        -->
     </dependencies>
     
     <!-- 构建相关 -->
