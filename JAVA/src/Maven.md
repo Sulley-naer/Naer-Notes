@@ -174,6 +174,8 @@ public class DemoTest {
 
 Idea 右下角 Maven 添加目录位置，查看全部命令
 
+可选 Idea 配置运行 < Maven < 命令 test 自选 < 保存运行 
+
 ## Idea 配置
 
 终端在 pom.xml 路径下打开，使用 mvn compile
@@ -195,3 +197,61 @@ Idea 设置 < maven 主路径 < 选择安装的 Maven 路径
 这样编辑器的配置就完成了，idea 编辑代码，查看问题，快速修复，缺失就按提示下载。
 
 再次测试 mvn test，返回成功代表成功
+
+## 配置文件
+
+1. Project 必须为根标签，配置项目基本元素
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+    <!--  Maven版本  -->
+    <modelVersion>4.0.0</modelVersion>
+    <!-- 项目说明 公开名称 -->
+    <groupId>org.Naer</groupId>
+    <!-- 项目本地名称 -->
+    <artifactId>name</artifactId>
+    <!-- 版本信息 -->
+    <version>0.1</version>
+    <!-- 生成格式 -->
+    <packaging>jar</packaging>
+    
+    <!-- 项目配置 -->
+    <properties>
+        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>22</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    
+    <!-- 项目依赖项目 -->
+    <dependencies>
+        <!--   依赖复制到这里     -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.1</version>
+        </dependency>
+
+    </dependencies>
+    
+    <!-- 构建相关 -->
+    <build>
+        <!-- 构建插件 -->
+        <plugins>
+            <!-- 插件命令 Idea < Maven < 插件 < 名称 < 选择运行 -->
+            <plugin>
+                <!-- 也可以命令 mvn 名称:指令 -->
+                <groupId>org.opoo.maven</groupId>
+                <artifactId>tomcat9-maven-plugin</artifactId>
+                <version>3.0.0</version>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>
+
+```
