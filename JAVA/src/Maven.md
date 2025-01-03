@@ -300,8 +300,57 @@ Project 必须为根标签，配置项目基本元素
             <groupId>org.opoo.maven</groupId>
             <artifactId>tomcat9-maven-plugin</artifactId>
             <version>3.0.0</version>
+            <!-- 指定运行生命周期 -->
+            <executions>
+                <execution>
+                    <goals>
+                        <!-- 指定调用用法 -->
+                        <goal>run</goal>
+                    </goals>
+                    <!-- 指定运行时 -->
+                    <phase>generate-resources</phase>
+                </execution>
+            </executions>
         </plugin>
     </plugins>
+<!--
+    插件：在程序添加新的功能，程序需要为插件预留接口，
+    接口会预留程序不同生命周期的接口，插件可在不同时候注入
 
+    生命周期:
+        clean : 
+            pre-clean 预清理
+            clean 清理时
+            post-clean 完成时
+    
+        default: 
+            validate（校验）
+            initialize(初始化)
+            generate-sources（生成源代码）
+            process-sources（处理源代码）
+            generate-resources（生成资源文件）
+            process-resources（处理资源文件）
+            compile（编译）
+            process-classes（处理类文件）
+            generate-test-sources（生成测试源代码）
+            process-test-sources（处理测试源代码）
+            test-compile（编译测试源码）
+            process-test-classes（处理测试类文件）
+            test（测试）
+            prepare-package（准备打包）
+            package（打包）
+            pre-integration-test（集成测试前）
+            integration-test（集成测试）
+            post-integration-test（集成测试后）
+            verify(验证）
+            install（安装）
+            deploy（部署）
+        
+        site:
+            pre-site : 生成站点前
+            site: 生成站点时
+            post-site: 完成站点时
+            site-deploy: 站点部署时
+-->
 </build>
 ```
