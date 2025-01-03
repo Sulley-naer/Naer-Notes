@@ -228,3 +228,16 @@ Map 系列
 ### 概率算法
 
 1. [概率算法](./src/algorithm.md#概率算法)
+
+## 框架学习顺序
+
+### Maven 基础
+
+1. [maven](./src/Maven.md#maven)
+2. [安装与配置](./src/Maven.md#idea-配置)
+3. [插件](./src/Maven.md#idea-插件)
+4. [配置](./src/Maven.md#idea-配置)
+
+### Spring 基础
+
+1. [预学习阶段](./src/ssm/pre-Study.md)
