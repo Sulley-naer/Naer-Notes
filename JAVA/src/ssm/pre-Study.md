@@ -280,8 +280,7 @@ public class Service implements UserService {
 </bean>
 ```
 
-
-### 导入配置
+### 配置导入
 
 > [!TIP]
 > 通过上面的 Bean 已经能看出来，Spring 可以让配置文件生成数据
@@ -328,3 +327,13 @@ public static void main(String[] args) {
    context.getBean(Service.class);
 }
 ```
+
+
+## 数据源
+
+1. 数据源(连接池)是提高程序性能如出现的
+2. 事先实例化数据源，初始化部分连接资源
+3. 使用连接资源时从数据源中获取
+4. 使用完毕后将连接资源归还给数据源
+
+常见的数据源(连接池)：DBCP、C3P0、BoneCP、Druid、...
