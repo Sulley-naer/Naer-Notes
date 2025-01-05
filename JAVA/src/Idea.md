@@ -110,6 +110,7 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 | <kbd> Ctrl + Alt + T </kdb>         | 代码包围方法    |
 | <kbd> Ctrl + Shift + Del </kdb>     | 代码移除包围    |
 | <kbd> Ctrl + Shift + Alt + S </kdb> | 项目模块      |
+| <kbd> Ctrl + Shift + Alt + M </kdb> | Maven搜索依赖 |
 | <kbd> Ctrl + Shift + v </kdb>       | MD 文件切换预览 |
 | <kbd> Ctrl + Shift + E </kdb>       | MD 文件切换编辑 |
 
@@ -153,8 +154,8 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 
    快捷键:
 
-   | 快捷键                   | 功能     |
-                  | ------------------------ | -------- |
+   | 快捷键                      | 功能   |
+   |--------------------------|------|
    | <kbd>Ctrl + MRight</kdb> | 局部高亮 |
    | <kbd>Alt + MRight</kdb>  | 专注模式 |
    | <kbd>ESC</kdb>           | 普通模式 |
@@ -167,8 +168,8 @@ IntelliJ IDEA 可以从官方网站下载安装，也可以从 JetBrains 官网�
 
 3. Translation「翻译工具」
 
-   | 快捷键                      | 功能     |
-                  | --------------------------- | -------- |
+   | 快捷键                         | 功能   |
+   |-----------------------------|------|
    | <kdb>Ctrl + Shift + Y</kdb> | 选中翻译 |
    | <kdb>Ctrl + Shift + X</kdb> | 翻译替换 |
 

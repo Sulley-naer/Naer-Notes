@@ -337,3 +337,156 @@ public static void main(String[] args) {
 4. 使用完毕后将连接资源归还给数据源
 
 常见的数据源(连接池)：DBCP、C3P0、BoneCP、Druid、...
+
+数据源的配置，一定是分开的，不要全部配置一个文件里面，配置文件分块很有必要。
+
+### 安装依赖
+
+1. mysql
+2. c3p0
+3. druid
+4. junit
+5. Spring 方式：Spring Context
+
+### 基础方式
+
+#### 配置连接
+
+```java
+@Test
+public void test() throws Exception {
+    //?c3p0是管理数据库连接的工具,也可以用 Druid Java 默认的连接工具。
+    ComboPooledDataSource cpds = new ComboPooledDataSource();
+    //?配置连接的驱动 Druid 用 setDriverClassName 方法
+    cpds.setDriverClass("com.mysql.jdbc.Driver");
+    //?配置连接语句，Idea 数据库工具 可视化面板，能测试还能显示连接语句 SetUrl
+    cpds.setJdbcUrl("jdbc:mysql://localhost:3306/node");
+    //? 设置登录用户名称 root 似乎不行，用其他就行了 SetUsername
+    cpds.setUser("sa");
+    //? 设置用户密码 SetPassword
+    cpds.setPassword("123456");
+    //? 开启连接
+    Connection connection = cpds.getConnection();
+    System.out.println(connection);
+    connection.close();
+}
+```
+
+#### 配置文件
+
+> [!TIP]
+> 数据库连接语句，在日后需要修改的时候，不可能都重新修改源码，转为使用Properties配置
+
+```java
+public static void main(String[] args) {
+   //?方式一 通过 Properties 获取配置文件
+   Properties props = new Properties();
+   //通过终端来获取项目路径，再去层层访问配置文件。
+   props.load(new FileInputStream(System.getProperty("user.dir") + "/src/test/resources/sql.properties"));
+   System.out.println(props.get("jdbc.driver"));
+   
+   //?方式二 通过工具类 ResourceBundle 获取配置文件 默认前往路径 resources 目录下
+   ResourceBundle rb = ResourceBundle.getBundle("sql");
+   System.out.println(rb.getString("jdbc.driver"));
+    
+   //!通过配置文件来连接数据库
+   ResourceBundle rb = ResourceBundle.getBundle("sql");
+   ComboPooledDataSource cpds = new ComboPooledDataSource();
+   cpds.setDriverClass(rb.getString("jdbc.driver"));
+   cpds.setJdbcUrl(rb.getString("jdbc.url"));
+   cpds.setUser(rb.getString("jdbc.username"));
+   cpds.setPassword(rb.getString("jdbc.password"));
+   Connection connection = cpds.getConnection();
+   System.out.println(connection);
+   connection.close();
+}
+
+/*
+ * resources > sql.properties:
+ * 
+ * jdbc.driver=com.mysql.jdbc
+ * jdbc.url=jdbc:mysql://localhost:3306/test
+ * jdbc.username=sa
+ * jdbc.password=123456
+ * */
+```
+
+
+### Spring 方式
+
+```xml
+<bean name="DataSource" class="com.naer.DataSourceTest">
+   <property name="jdbcDriver" value="com.mysql.jdbc"/>
+   <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/node"/>
+   <property name="jdbcUser" value="sa"/>
+   <property name="jdbcPassword" value="123456"/>
+</bean>
+```
+
+```java
+public class DataSourceTest {
+    //!自行生成 Setter
+    private String jdbcDriver;
+    private String jdbcUrl;
+    private String jdbcUser;
+    private String jdbcPassword;
+    
+    public Connection start() throws Exception {
+        ResourceBundle rb = ResourceBundle.getBundle("sql");
+        ComboPooledDataSource cpds = new ComboPooledDataSource();
+        cpds.setDriverClass(jdbcDriver);
+        cpds.setJdbcUrl(jdbcUrl);
+        cpds.setUser(jdbcUser);
+        cpds.setPassword(jdbcPassword);
+        return cpds.getConnection();
+    }
+}
+```
+
+实例化配置并启动
+
+```java
+public static void main(String[] args) throws Exception {
+   ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+   DataSourceTest dataSource = (DataSourceTest) context.getBean("DataSource");
+
+   Connection start = dataSource.start();
+
+   System.out.println(start);
+}
+```
+
+#### 配置文件加载 properties 并注入。
+
+1. 为xml添加新的标签解释，挂载标签上并添加新的方法
+2. 使用新标签的特效，导入 properties 并声明路径
+3. 使用内容替换符，将导入的数据存放到指定内容位置
+
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd">
+    
+   <!--
+      挂载了 Context 方法 schemaLocation 获取声明处的网站路径
+      声明只需要将原版的 beans 处替换 context 就行了
+      并追加两条 schemaLocation 也是基于原版 Bean 替换得来
+   -->
+   
+   <!-- 使用context来加载 properties location 是文件地址，classpath:指向配置文件夹路径 -->
+    <context:property-placeholder location="classpath:sql.Properties"/>
+
+    <bean name="DataSource" class="com.naer.DataSourceTest">
+        <property name="jdbcDriver" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="jdbcUser" value="${jdbc.username}"/>
+        <property name="jdbcPassword" value="${jdbc.password}"/>
+    </bean>
+
+</beans>
+```
+
+

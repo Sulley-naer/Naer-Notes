@@ -1524,6 +1524,15 @@ GRANT 权限列表 ON 数据库名.表格名 TO '账号'@'主机';
 -- 撤销权限
 REVOKE 权限列表 ON 数据库名.表格名 FROM '账号'@'主机';
 
+-- 一键超级权限
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+-- Host 就是允许登录的地址，默认 localhost 通配符是 %
+-- 一键所有用户全主机允许登录。
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'your_password' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
 -- 修改用户密码
 ALTER USER '账号'@'主机' IDENTIFIED BY '新密码';
 
@@ -1533,7 +1542,7 @@ update mysql.user set host ='%' where user='user1';
 -- 修改用户密码
 ALTER USER '账号'@'主机' IDENTIFIED BY '新密码';
 
---查看所有用户 主要需查看就是 host 字段 其他均为权限信息
+-- 查看所有用户 主要需查看就是 host 字段 其他均为权限信息 unlock 是锁定信息
 select Host,user from mysql.user;
 
 -- 刷新权限
@@ -1591,9 +1600,13 @@ GRANT 权限列表 ON 数据库名.表格名 TO '账号'@'主机';
 
 ```sql
 -- 回复根用户 权限 使用 workbench 登录mysql 输入以下命令
-use mysql
-select * from user -- 在查询窗口自行将所有 N 的改为 Y
+use mysql;
+select * from user; -- 在 DataGrip 查询窗口自行将所有 N 的改为 Y 选择一个单元格改为Y 复制格子，多选N的，直接粘贴快速修改
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
+
+-- 注意一定不要给 account_locked 给 Y ,它是区分账户是否锁定的
+SELECT user, host, account_locked FROM mysql.user WHERE user = 'root'; -- 查看是否被锁定
+ALTER USER 'root'@'localhost' ACCOUNT UNLOCK; -- 已经被锁用另一个账户解开。
 ```
 
 - 撤销权限
