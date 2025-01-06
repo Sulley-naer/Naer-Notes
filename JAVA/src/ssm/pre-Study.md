@@ -284,9 +284,9 @@ public class Service implements UserService {
 
 > [!TIP]
 > 通过上面的 Bean 已经能看出来，Spring 可以让配置文件生成数据
-> 
+>
 > 这样的便利性，会导致很多项目数据都是根据配置文件生成，导致文件过大。
-> 
+>
 > 所以我们需要配置文件分块配置，因为有分块写法，所以适配了导入的语法。
 
 ```xml
@@ -301,11 +301,11 @@ public class Service implements UserService {
 
 ```java
 public static void main(String[] args) {
-   //方式一 Maven项目路径结构，主程序|测试 同级 resources 下去寻找xml配置
-   ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-   //方式二: 通过磁盘，也就是路径方式去获取,只能绝对路径 或者Idea 右键<路径<来自内容根的路径
-   ApplicationContext context = new FileSystemXmlApplicationContext("");
-   //方式三：通过注解配置容器对象，它自动根据注解来生成配置，还未学习。
+    //方式一 Maven项目路径结构，主程序|测试 同级 resources 下去寻找xml配置
+    ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    //方式二: 通过磁盘，也就是路径方式去获取,只能绝对路径 或者Idea 右键<路径<来自内容根的路径
+    ApplicationContext context = new FileSystemXmlApplicationContext("");
+    //方式三：通过注解配置容器对象，它自动根据注解来生成配置，还未学习。
 }
 ```
 
@@ -313,21 +313,20 @@ public static void main(String[] args) {
 
 ```java
 public static void main(String[] args) {
-   ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-   //方式一，通过Id的字符来获取
-   context.getBean("Service");
-   /*
-    * 方式二：通过Bean配置的类字节码获取
-    * 就是无论是什么方式获取的类
-    * 它都记录了字节码去匹配。
-    * 弊端：同一个Bean ID不同
-    * 但是引用同一个类，就会出现异常
-    * 它无法区分你要的是哪个Bean
-    */
-   context.getBean(Service.class);
+    ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    //方式一，通过Id的字符来获取
+    context.getBean("Service");
+    /*
+     * 方式二：通过Bean配置的类字节码获取
+     * 就是无论是什么方式获取的类
+     * 它都记录了字节码去匹配。
+     * 弊端：同一个Bean ID不同
+     * 但是引用同一个类，就会出现异常
+     * 它无法区分你要的是哪个Bean
+     */
+    context.getBean(Service.class);
 }
 ```
-
 
 ## 数据源
 
@@ -353,6 +352,7 @@ public static void main(String[] args) {
 #### 配置连接
 
 ```java
+
 @Test
 public void test() throws Exception {
     //?c3p0是管理数据库连接的工具,也可以用 Druid Java 默认的连接工具。
@@ -379,31 +379,31 @@ public void test() throws Exception {
 
 ```java
 public static void main(String[] args) {
-   //?方式一 通过 Properties 获取配置文件
-   Properties props = new Properties();
-   //通过终端来获取项目路径，再去层层访问配置文件。
-   props.load(new FileInputStream(System.getProperty("user.dir") + "/src/test/resources/sql.properties"));
-   System.out.println(props.get("jdbc.driver"));
-   
-   //?方式二 通过工具类 ResourceBundle 获取配置文件 默认前往路径 resources 目录下
-   ResourceBundle rb = ResourceBundle.getBundle("sql");
-   System.out.println(rb.getString("jdbc.driver"));
-    
-   //!通过配置文件来连接数据库
-   ResourceBundle rb = ResourceBundle.getBundle("sql");
-   ComboPooledDataSource cpds = new ComboPooledDataSource();
-   cpds.setDriverClass(rb.getString("jdbc.driver"));
-   cpds.setJdbcUrl(rb.getString("jdbc.url"));
-   cpds.setUser(rb.getString("jdbc.username"));
-   cpds.setPassword(rb.getString("jdbc.password"));
-   Connection connection = cpds.getConnection();
-   System.out.println(connection);
-   connection.close();
+    //?方式一 通过 Properties 获取配置文件
+    Properties props = new Properties();
+    //通过终端来获取项目路径，再去层层访问配置文件。
+    props.load(new FileInputStream(System.getProperty("user.dir") + "/src/test/resources/sql.properties"));
+    System.out.println(props.get("jdbc.driver"));
+
+    //?方式二 通过工具类 ResourceBundle 获取配置文件 默认前往路径 resources 目录下
+    ResourceBundle rb = ResourceBundle.getBundle("sql");
+    System.out.println(rb.getString("jdbc.driver"));
+
+    //!通过配置文件来连接数据库
+    ResourceBundle rb = ResourceBundle.getBundle("sql");
+    ComboPooledDataSource cpds = new ComboPooledDataSource();
+    cpds.setDriverClass(rb.getString("jdbc.driver"));
+    cpds.setJdbcUrl(rb.getString("jdbc.url"));
+    cpds.setUser(rb.getString("jdbc.username"));
+    cpds.setPassword(rb.getString("jdbc.password"));
+    Connection connection = cpds.getConnection();
+    System.out.println(connection);
+    connection.close();
 }
 
 /*
  * resources > sql.properties:
- * 
+ *
  * jdbc.driver=com.mysql.jdbc
  * jdbc.url=jdbc:mysql://localhost:3306/test
  * jdbc.username=sa
@@ -411,15 +411,15 @@ public static void main(String[] args) {
  * */
 ```
 
-
 ### Spring 方式
 
 ```xml
+
 <bean name="DataSource" class="com.naer.DataSourceTest">
-   <property name="jdbcDriver" value="com.mysql.jdbc"/>
-   <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/node"/>
-   <property name="jdbcUser" value="sa"/>
-   <property name="jdbcPassword" value="123456"/>
+    <property name="jdbcDriver" value="com.mysql.jdbc"/>
+    <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/node"/>
+    <property name="jdbcUser" value="sa"/>
+    <property name="jdbcPassword" value="123456"/>
 </bean>
 ```
 
@@ -430,7 +430,7 @@ public class DataSourceTest {
     private String jdbcUrl;
     private String jdbcUser;
     private String jdbcPassword;
-    
+
     public Connection start() throws Exception {
         ResourceBundle rb = ResourceBundle.getBundle("sql");
         ComboPooledDataSource cpds = new ComboPooledDataSource();
@@ -447,13 +447,13 @@ public class DataSourceTest {
 
 ```java
 public static void main(String[] args) throws Exception {
-   ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
-   DataSourceTest dataSource = (DataSourceTest) context.getBean("DataSource");
+    DataSourceTest dataSource = (DataSourceTest) context.getBean("DataSource");
 
-   Connection start = dataSource.start();
+    Connection start = dataSource.start();
 
-   System.out.println(start);
+    System.out.println(start);
 }
 ```
 
@@ -464,19 +464,20 @@ public static void main(String[] args) throws Exception {
 3. 使用内容替换符，将导入的数据存放到指定内容位置
 
 ```xml
+
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd">
-    
-   <!--
-      挂载了 Context 方法 schemaLocation 获取声明处的网站路径
-      声明只需要将原版的 beans 处替换 context 就行了
-      并追加两条 schemaLocation 也是基于原版 Bean 替换得来
-   -->
-   
-   <!-- 使用context来加载 properties location 是文件地址，classpath:指向配置文件夹路径 -->
+
+    <!--
+       挂载了 Context 方法 schemaLocation 获取声明处的网站路径
+       声明只需要将原版的 beans 处替换 context 就行了
+       并追加两条 schemaLocation 也是基于原版 Bean 替换得来
+    -->
+
+    <!-- 使用context来加载 properties location 是文件地址，classpath:指向配置文件夹路径 -->
     <context:property-placeholder location="classpath:sql.Properties"/>
 
     <bean name="DataSource" class="com.naer.DataSourceTest">
@@ -489,4 +490,181 @@ public static void main(String[] args) throws Exception {
 </beans>
 ```
 
+## Spring 注解开发
 
+> [!TIP]
+> 通过Spring注解来开发 自动生成配置文件，可替代xml的低效率开发模式。
+>
+> 大部分项目都是使用xml+注解配置，提高bean效率，有些需要xml的地方依然保留使用。
+
+### 原始注解「早期注解」
+
+| 注解                 | 说明                                |
+|--------------------|-----------------------------------|
+| @Component("ID")   | 使用在类上用于实例化Bean  括号内写 ID           |
+| @Controller        | 使用在web层类上用于实例化Bean                |
+| @Service           | 使用在service层类上用于实例化Bean            |
+| @Repository        | 使用在dao层类上用于实例化Bean                |
+| @Autowired         | 使用在属性字段上 开启注入                     |
+| @Qualifier("name") | 绑定@Autowired一起使用 根据名称进行依赖注入对象 Ref |
+| @Resource("")      | 相当于@Autowired+@Qualifier，按照名称进行注入 |
+| @Value("")         | 注入普通属性                            |
+| @scope("")         | 标注Bean的作用范围                       |
+| @PostConstruct     | 使用在方法上标注该方法是Bean的初始化方法            |
+| @PreDestroy        | 使用在方法上标注该方法是Bean的销毁方法             |
+
+### 基本三层结构
+
+> [!TIP]
+> 利用XML的普通方式来配置的，可直观查看效率提升
+
+#### Dao
+
+```java
+/* com.name.Dao */
+public interface UserDao {
+   void save();
+}
+
+/* com.name.User */
+public class User implements UserDao{
+   @Override
+   public void save() {
+      System.out.println("save user");
+   }
+}
+```
+
+#### Services
+
+```java
+/* com.name.Services */
+public interface UserService {
+    void save();
+}
+
+/* com.name.Services.Impl */
+public class userService implements UserService {
+   UserDao userDao;
+
+   public void setUserDao(UserDao userDao) {
+      this.userDao = userDao;
+   }
+
+   @Override
+   public void save() {
+      userDao.save();
+   }
+}
+
+```
+
+#### Web 「伪控制器层」
+
+```java
+/* com.name.web */
+public class Demo {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+        UserService service =(UserService) context.getBean("Service");
+
+        service.save();
+    }
+}
+```
+
+#### XML Config
+
+applicationContext
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean name="UserDao" class="Com.Dao.User"/>
+
+    <bean name="Service" class="Com.Services.Impl.userService" >
+        <property name="userDao" ref="UserDao" />
+    </bean>
+
+</beans>
+```
+
+
+### 使用注解开发
+
+Dao
+
+```java
+/* Component 声明Bean 并声明 id UserDao */
+@Component("UserDao")
+public class User implements UserDao{
+    @Override
+    public void save() {
+        System.out.println("save user");
+    }
+}
+```
+
+Services
+
+```java
+@Component("Service")
+public class userService implements UserService {
+    /* 属性字段开启注入 */
+    @Autowired
+    /* 注入的是指定的 Ref 对象，value是基本数据类型。 */
+    @Qualifier("UserDao")
+    UserDao userDao;
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    @Override
+    public void save() {
+        userDao.save();
+    }
+}
+```
+
+web
+
+```java
+public class Demo {
+    public static void main(String[] args) {
+        //没有任何变化与普通使用一样
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+        UserService service =(UserService) context.getBean("Service");
+
+        service.save();
+    }
+}
+```
+
+applicationContext
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 声明 Context ,需要用到里面模块,Xmlns复制路径修改 beans 为 context -->
+<!-- 路径地址 schemaLocation 追加 复制初始两数据，同样修改 beans 处为 context -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+        ">
+
+    <!-- 配置组件扫描，否则注解声明无效 -->
+    <!-- Base-package 是基本包，就是同级或子级下都会扫描注解 -->
+    <context:component-scan base-package="Com"/>
+
+</beans>
+```
