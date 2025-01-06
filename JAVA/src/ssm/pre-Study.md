@@ -497,45 +497,75 @@ public static void main(String[] args) throws Exception {
 >
 > 大部分项目都是使用xml+注解配置，提高bean效率，有些需要xml的地方依然保留使用。
 
-### 原始注解「早期注解」
+### 注解集合
 
-| 注解                 | 说明                                |
-|--------------------|-----------------------------------|
-| @Component("ID")   | 使用在类上用于实例化Bean  括号内写 ID           |
-| @Controller        | 使用在web层类上用于实例化Bean                |
-| @Service           | 使用在service层类上用于实例化Bean            |
-| @Repository        | 使用在dao层类上用于实例化Bean                |
-| @Autowired         | 使用在属性字段上 开启注入                     |
-| @Qualifier("name") | 绑定@Autowired一起使用 根据名称进行依赖注入对象 Ref |
-| @Resource("")      | 相当于@Autowired+@Qualifier，按照名称进行注入 |
-| @Value("")         | 注入普通属性                            |
-| @scope("")         | 标注Bean的作用范围                       |
-| @PostConstruct     | 使用在方法上标注该方法是Bean的初始化方法            |
-| @PreDestroy        | 使用在方法上标注该方法是Bean的销毁方法             |
+#### 原始注解「早期注解」
 
-### 基本三层结构
+| 注解                   | 说明                                          |
+|----------------------|---------------------------------------------|
+| @Component("ID")     | 使用在类上用于实例化Bean  括号内写 ID                     |
+| @Controller          | 使用在web层类上用于实例化Bean  与Component一样            |
+| @Service             | 使用在service层类上用于实例化Bean 与Component一样         |
+| @Repository          | 使用在dao层类上用于实例化Bean   与Component一样           |
+| @Autowired           | 使用在属性字段上 开启注入 未写指定对象 自动尝试同名注入               |
+| @Qualifier("name")   | 绑定@Autowired一起使用 根据名称进行依赖注入对象 Ref           |
+| @Resource(name = "") | = @Autowired+@Qualifier，使用了开启注解加指定名称 简写一个注解 |
+| @Value("")           | 注入普通属性                                      |
+| @scope("")           | 标注Bean的作用范围                                 |
+| @PostConstruct       | 使用在方法上标注该方法是Bean的初始化方法                      |
+| @PreDestroy          | 使用在方法上标注该方法是Bean的销毁方法                       |
+
+#### 新注解「实现完全替代 xml 」
+
+| 注解                 | 说明                                          |
+|--------------------|---------------------------------------------|
+| @Configuration     | 指定当前类是 spring 配置类                           |
+| @ComponentScan("") | 指定扫描基包路径，开启扫描注解模式,可指定 basePackages 默认修改的也是它 |
+| @Bean              | 用在方法上，方法的返回值会存储在 Spring 内部                  |
+| @PropertySource    | 用于加载.properties文件中的配置                       |
+| @Import            | 用于导入其他配置类 传入 class 字节 多个给对象 {1,2}           |
+
+```java
+//实例化注解入口
+public static void main(String[] args) {
+    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(springCofiguration.class);
+    //其他方法与普通一样getBean ...
+    DataSourceTest dataSource = (DataSourceTest) context.getBean("DataSource");
+
+    Connection start = dataSource.start();
+
+    System.out.println(start);
+}
+```
+
+### 演示
+
+<details>
+   <summary>查看演示</summary>
+
+#### 基本三层结构
 
 > [!TIP]
 > 利用XML的普通方式来配置的，可直观查看效率提升
 
-#### Dao
+##### Dao
 
 ```java
 /* com.name.Dao */
 public interface UserDao {
-   void save();
+    void save();
 }
 
 /* com.name.User */
-public class User implements UserDao{
-   @Override
-   public void save() {
-      System.out.println("save user");
-   }
+public class User implements UserDao {
+    @Override
+    public void save() {
+        System.out.println("save user");
+    }
 }
 ```
 
-#### Services
+##### Services
 
 ```java
 /* com.name.Services */
@@ -545,21 +575,21 @@ public interface UserService {
 
 /* com.name.Services.Impl */
 public class userService implements UserService {
-   UserDao userDao;
+    UserDao userDao;
 
-   public void setUserDao(UserDao userDao) {
-      this.userDao = userDao;
-   }
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
-   @Override
-   public void save() {
-      userDao.save();
-   }
+    @Override
+    public void save() {
+        userDao.save();
+    }
 }
 
 ```
 
-#### Web 「伪控制器层」
+##### Web 「伪控制器层」
 
 ```java
 /* com.name.web */
@@ -567,14 +597,14 @@ public class Demo {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
-        UserService service =(UserService) context.getBean("Service");
+        UserService service = (UserService) context.getBean("Service");
 
         service.save();
     }
 }
 ```
 
-#### XML Config
+##### XML Config
 
 applicationContext
 
@@ -586,22 +616,22 @@ applicationContext
 
     <bean name="UserDao" class="Com.Dao.User"/>
 
-    <bean name="Service" class="Com.Services.Impl.userService" >
-        <property name="userDao" ref="UserDao" />
+    <bean name="Service" class="Com.Services.Impl.userService">
+        <property name="userDao" ref="UserDao"/>
     </bean>
 
 </beans>
 ```
 
-
-### 使用注解开发
+#### 原始注解开发
 
 Dao
 
 ```java
 /* Component 声明Bean 并声明 id UserDao */
+// 由于这里是 Dao 可以使用 Repository 注解提高可读性 语法一致。
 @Component("UserDao")
-public class User implements UserDao{
+public class User implements UserDao {
     @Override
     public void save() {
         System.out.println("save user");
@@ -612,21 +642,41 @@ public class User implements UserDao{
 Services
 
 ```java
+/* 因为这里的 services 可以使用 Service 注解提高可读性  */
 @Component("Service")
+@Scope("singleton") //指定范围,同类只能存在一个这样注解
 public class userService implements UserService {
     /* 属性字段开启注入 */
     @Autowired
-    /* 注入的是指定的 Ref 对象，value是基本数据类型。 */
-    @Qualifier("UserDao")
-    UserDao userDao;
+    /* 该注入的是指定的 Ref 对象 */
+    @Qualifier("UserDao")//?可省略不写, Autowired 会自动尝试查找同名不分大小写的注入对象
+            //Resource(name = "UserDao") 这一个注解 = 上面两个注解合并使用,简写方便。
+            UserDao userDao;
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
+    //!配置了 注解方式 底层反射扫描是直接暴力修改的 强制公开化 因此 set 方法无所谓。
+//    public void setUserDao(UserDao userDao) {
+//        this.userDao = userDao;
+//    }
+
+    //基本数据类型注入 不常见 一般情况直接赋值 除非是 配置文件读取的 字符替换
+    @Value("张三") //@Value(${Key}) 这个一般用在 properties 配置文件插入字符
+            String name;
 
     @Override
     public void save() {
+        System.out.println("name == " + name);
         userDao.save();
+    }
+
+    //初始化方法注解 提示找不到注解就安装依赖 jakarta.annotation-api v:2.1.1
+    @PostConstruct
+    public void init() {
+        System.out.println("Init");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("销毁方法");
     }
 }
 ```
@@ -639,7 +689,7 @@ public class Demo {
         //没有任何变化与普通使用一样
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
-        UserService service =(UserService) context.getBean("Service");
+        UserService service = (UserService) context.getBean("Service");
 
         service.save();
     }
@@ -663,8 +713,74 @@ applicationContext
         ">
 
     <!-- 配置组件扫描，否则注解声明无效 -->
-    <!-- Base-package 是基本包，就是同级或子级下都会扫描注解 -->
+    <!-- Base-package 是基本包，同级 即其 任意子级 都会扫描 -->
     <context:component-scan base-package="Com"/>
 
 </beans>
 ```
+
+### 全注解模式 数据源
+
+主配置类
+
+```java
+/* com.name.config */
+@Configuration
+@ComponentScan(basePackages = "com")
+@PropertySource("classpath:sql.Properties")//数据库 properties 属性
+public class springCofiguration {
+    //可以自己写方法，声明Bean注解 然后引入使用 return 的值
+}
+```
+
+使用演示
+
+```java
+import java.sql.Connection;
+import java.util.ResourceBundle;
+
+//声明 bean Id
+@Component("DataSource")
+public class DataSourceTest {
+
+    @Value("${jdbc.driver}")
+    private String jdbcDriver;
+    @Value("${jdbc.url}")
+    private String jdbcUrl;
+    @Value("${jdbc.username}")
+    private String jdbcUser;
+    @Value("${jdbc.password}")
+    private String jdbcPassword;
+
+    @Bean("DB")//可以通过DB这个id来拿取 return 返回值
+    public Connection start() throws Exception {
+        ResourceBundle rb = ResourceBundle.getBundle("sql");
+        ComboPooledDataSource cpds = new ComboPooledDataSource();
+        cpds.setDriverClass(jdbcDriver);
+        cpds.setJdbcUrl(jdbcUrl);
+        cpds.setUser(jdbcUser);
+        cpds.setPassword(jdbcPassword);
+        return cpds.getConnection();
+    }
+}
+```
+
+入口函数
+
+```java
+public class Demo {
+    public static void main(String[] args) throws Exception {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(springCofiguration.class);
+        DataSourceTest dataSource = (DataSourceTest) context.getBean("DataSource");
+        //调用开启连接数据库
+        Connection start = dataSource.start();
+
+        System.out.println(start);
+        //通过DB拿取的返回值，这种方式拿取的地址不一样。
+        System.out.println(context.getBean("DB"));
+    }
+}
+```
+
+</details>
+
