@@ -125,6 +125,9 @@ server.servlet.context-path=/api
 
 ## 发送邮件 Demo
 
+1. [Mail](https://www.baeldung.com/spring-email)
+2. [Config](https://docs.spring.io/spring-boot/reference/io/email.html)
+
 > 使用 Spring-Boot web 添加了 官方 Mail 依赖实现的 api 义发送邮件 
 
 <details>
