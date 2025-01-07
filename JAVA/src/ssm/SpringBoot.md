@@ -178,10 +178,10 @@ server.port=25505
 server.servlet.context-path=/api
 
 # Mail | Code : 授权码
-User=sulley-naer@qq.com
-code=fobuedxbkrbnhjfb
-step=smtp.qq.com
-port=465
+email.User=sulley-naer@qq.com
+email.code=fobuedxbkrbnhjfb
+email.step=smtp.qq.com
+email.port=465
 ```
 
 ### API 控制器
@@ -276,13 +276,13 @@ public class Mail extends email {
      * 它的不能导入配置时自动注入
      * 即使 Spring 也要拿取设置
      */
-    @Value("${User}")
+    @Value("${email.User}")
     String user;
-    @Value("${code}")
+    @Value("${email.code}")
     String code;
-    @Value("${step}")
+    @Value("${email.step}")
     String step;
-    @Value("${port}")
+    @Value("${email.port}")
     int port;
 
     public boolean send(String to,String title,String msg) {
