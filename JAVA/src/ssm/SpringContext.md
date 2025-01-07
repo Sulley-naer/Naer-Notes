@@ -1,4 +1,4 @@
-# Spring
+# Spring-Context
 
 预学习阶段，我们需掌握的配置与结构，开发理念。
 
@@ -784,7 +784,6 @@ public class Demo {
 }
 ```
 
-
 ## Junit 集成
 
 1. 导入spring集成Junit的坐标
@@ -797,6 +796,7 @@ public class Demo {
 > Spring-test v:6.xx
 
 ```java
+
 @Component
 @ExtendWith(springCofiguration.class)
 public class mainTest {
@@ -810,7 +810,7 @@ public class mainTest {
         // 测试类，没有SpringBoot注解让主配置启动加载，只能手动测试了。
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(springCofiguration.class);
         //! 装配自己 启动的时候已被实例化，它扫描也只能是新的被注入了，而启动的还没初始化，注入来实现后补。
-        context.getAutowireCapableBeanFactory().autowireBean(this); 
+        context.getAutowireCapableBeanFactory().autowireBean(this);
         System.out.println(DB); // 输出测试
     }
 }
