@@ -2,7 +2,7 @@
 
 > [!TIP]
 > Spring 是 Spring 系列方法的一个集合，Spring有很多工具
-> 
+>
 > SpringBoot 就是把所有常用的全部集合在一块使用的`框架`
 
 在配置依赖时只需要一个坐标，就能集合传统过多的依赖项目。
@@ -29,7 +29,7 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.4.1</version>
     </parent>
-    
+
     <dependencies>
         <!--   依赖复制到这里     -->
         <dependency>
@@ -67,8 +67,9 @@
 ```
 
 入口文件
- 
+
 ```java
+
 @SpringBootApplication
 @ComponentScan("com")//指定扫描 Bean 路径 
 // @SpringBootApplication(scanBasePackages = "") 这种也可以指定
@@ -123,12 +124,31 @@ server.servlet.context-path=/api
 # Idea 会有提示的，自行查看翻译旁边的文档
 ```
 
+## Lombok「推荐工具」
+
+> 推荐的生成 Getter 与 Setter 工具
+
+```java
+//?方式一 直接生成类所有属性的
+@Data
+@Getter
+@Setter
+public class animal extends email {
+    //?方式二 指定生成
+    @Getter 
+    @Setter
+    String name;
+    String gender;
+    int age;
+}
+```
+
 ## 发送邮件 Demo
 
 1. [Mail](https://www.baeldung.com/spring-email)
 2. [Config](https://docs.spring.io/spring-boot/reference/io/email.html)
 
-> 使用 Spring-Boot web 添加了 官方 Mail 依赖实现的 api 义发送邮件 
+> 使用 Spring-Boot web 添加了 官方 Mail 依赖实现的 api 义发送邮件
 
 <details>
     <summary> 全部代码 </summary>
@@ -138,6 +158,7 @@ server.servlet.context-path=/api
 > Spring-boot web 相关的自行加上去，这里这是额外添加内容
 
 ```xml
+
 <dependencies>
     <!-- 邮箱发送类 -->
     <dependency>
@@ -167,7 +188,7 @@ public class springConfiguration {
 ### 配置文件
 
 > resources 目录下！
-> 
+>
 > 1. META-INF ：对配置键 alt + a 定义配置键，声明类型等
 > 2. static : 静态文件
 > 3. templates : 模板文件
@@ -176,7 +197,6 @@ public class springConfiguration {
 # application
 server.port=25505
 server.servlet.context-path=/api
-
 # Mail | Code : 授权码
 email.User=sulley-naer@qq.com
 email.code=fobuedxbkrbnhjfb
@@ -190,24 +210,24 @@ email.port=465
 /* ! com.name.controller < */
 @RestController
 public class defaultController {
-    
+
     //发送邮箱工具类
     private final Mail mail;
 
     public defaultController(Mail mail) {
         this.mail = mail;
     }
-    
+
     //测试连接使用 /api/hello
     @RequestMapping("/hello")
     public String hello() {
         return "hello world";
     }
-    
+
     // api/sendMail
     @RequestMapping("/sendMail")
     public String mail(String to, String title, String content) {
-        return mail.send(to, title, content)?"已发送":"发送异常";
+        return mail.send(to, title, content) ? "已发送" : "发送异常";
     }
 }
 ```
@@ -268,6 +288,15 @@ public abstract class email {
 ```java
 /*! con.name.utils.Impl */
 @Component
+/*
+ * 此注解可简写Value里面都有的前缀 email
+ * 使用该方法需要删除 @value 它自动注入
+ * 并且提供 Get;Set; Idea 成功了 Idea 方法旁提示
+ * 如果想使用不要真的去写 Get;Set 依赖 Lombok
+ * @Data : Lombok 自动生成类所有成员 Get;set;
+ * */
+@ConfigurationProperties(prefix = "email")
+
 public class Mail extends email {
     /*
      * 官方有 Properties 邮箱提示
@@ -278,6 +307,7 @@ public class Mail extends email {
      */
     @Value("${email.User}")
     String user;
+    //@Getter @Setter Lombok 自动生成该属性的
     @Value("${email.code}")
     String code;
     @Value("${email.step}")
@@ -285,11 +315,12 @@ public class Mail extends email {
     @Value("${email.port}")
     int port;
 
-    public boolean send(String to,String title,String msg) {
+    public boolean send(String to, String title, String msg) {
         //?这里实现类只负责拿取配置的值，调用父类开启发送事件
-        return super.send(to,title, msg, user, code, step, port);
+        return super.send(to, title, msg, user, code, step, port);
     }
 }
 ```
 
 </details>
+
