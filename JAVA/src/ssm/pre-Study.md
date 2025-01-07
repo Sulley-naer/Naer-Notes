@@ -719,7 +719,9 @@ applicationContext
 </beans>
 ```
 
-### 全注解模式 数据源
+</details>
+
+### 全注解模式+数据源
 
 主配置类
 
@@ -782,5 +784,35 @@ public class Demo {
 }
 ```
 
-</details>
 
+## Junit 集成
+
+1. 导入spring集成Junit的坐标
+2. 使用@Runwith注解替换原来的运行期
+3. 使用@ContextConfiguration指定配置文件或配置类
+4. 使用@Autowired注入需要测试的对象
+5. 创建测试方法进行测试
+
+> junit-jupiter v:5.xx
+> Spring-test v:6.xx
+
+```java
+@Component
+@ExtendWith(springCofiguration.class)
+public class mainTest {
+    // 测试代码
+    @Autowired
+    private Connection DB;
+
+
+    @Test
+    public void test() {
+        // 测试类，没有SpringBoot注解让主配置启动加载，只能手动测试了。
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(springCofiguration.class);
+        //! 装配自己 启动的时候已被实例化，它扫描也只能是新的被注入了，而启动的还没初始化，注入来实现后补。
+        context.getAutowireCapableBeanFactory().autowireBean(this); 
+        System.out.println(DB); // 输出测试
+    }
+}
+
+```
