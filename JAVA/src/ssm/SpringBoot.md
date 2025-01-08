@@ -424,7 +424,7 @@ public class user {
 }
 ```
 
-## Services
+### Services
 
 > [!TIP]
 > 服务层，调用 mapper 获取数据，返回进行操作
@@ -455,7 +455,7 @@ public class userServiceImpl implements userService {
 }
 ```
 
-## Controller
+### Controller
 
 ```java
 /* com.name.controller */
@@ -479,3 +479,122 @@ public class defaultController {
 ```
 
 </details>
+
+## Bean 注入
+
+> [!TIP]
+> 在Jar包中的类无法修改，我们需要让它也能挂载 Bean，后续挂载实现
+
+<details>
+<summary>代码演示</summary>
+
+推荐写法
+
+```java
+//配置一个扫描包路径，把配置文件添加进去
+@SpringBootApplication
+public class springConfiguration {
+    public static void main(String[] args) {
+        ConfigurableApplicationContext context = SpringApplication.run(springConfiguration.class, args);
+        //?通过声明的Bean Id 拿取
+        System.out.println(context.GetBean("t1"));
+        System.out.println(context.GetBean("t2"));
+    }
+}
+```
+
+```java
+@Configuration //声明为配置类
+public class configs{
+
+    @Bean //? 可选指定名称 @Bean("test") 默认是方法名称
+    public test t1(){
+        return new test();
+    }
+    
+    //!spring 声明 Bean 的时候发现有参数，Spring 内部有 Bean 类型字节码,就会走自动传递
+    @Bean("t2")
+    public test t2(test t1){
+        System.out.println("test:"+t1);
+        return new test();
+    }
+}
+
+@Data
+@EqualsAndHashCode
+class test{
+    private String t1;
+    private String t2;
+}
+```
+
+不推荐 bean 注入写入口配置里面
+
+```java
+@SpringBootApplication
+public class springConfiguration {
+    public static void main(String[] args) {
+        ConfigurableApplicationContext context = SpringApplication.run(springConfiguration.class, args);
+        //GetBean 语法就行了 ，传入字节码就能获取到了
+        System.out.println(context.getBean(test.class));
+    }
+    //!实际不推荐这样写
+    @Bean
+    public test t1(){
+        return new test();
+    }
+}
+
+@Data
+@EqualsAndHashCode
+class test{
+    private String t1;
+    private String t2;
+}
+```
+
+</details>
+
+
+## Import
+
+> [!TIP]
+> 导入语法常用与导入配置文件，或者导入配置工厂模式类
+
+1. @import("name.class") 
+2. @Import({"1.class,2.class"})
+
+```java
+//@Import(CommonImportSelector.class)
+
+public class CommonImportSelector implements ImportSelector {
+    @Override
+    public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+        //!这样就可以一次导入多个类了 字符串必须是全类名
+        return new String[]{"com.name.class1", "2", "3"};
+        //?一般不是写死导入那些类，而是根据配置文件去动态调整，导入的配置。
+        InputStream is = CommonImportSelector.class
+                .getClassLoader().getResourceAsStream("name.imports");//获取Resources目录下文件
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String Line;
+        while ((Line = br.readLine())!=null){
+            //?自己添加进字符串数组里面
+        }
+    }
+}
+```
+
+## 自定义注解
+
+> [!TIP]
+> 自定义注解可以让多个注解变成你指定的一个注解，在特定场景有用
+ 
+```java
+/*? com.name.anno */
+
+@Target(ElementType.TYPE) //类上面声明，还有其他位置，翻译文档
+@Retention(RetentionPolicy.RUNTIME) // 运行时保留的注解
+@Bean //假设需要调用其他的注解，这里可以声明
+public @interface sums {
+}
+```
