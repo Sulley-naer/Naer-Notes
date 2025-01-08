@@ -324,3 +324,158 @@ public class Mail extends email {
 
 </details>
 
+## MVC Mybatis-spring 「泛型设计」
+
+> [!TIP]
+> 将 Mybatis 集成进 spring-boot 内使用并配置连接数据库
+>
+> Mybatis 同样也是注解开发
+> 使用它所提供的方法，传递SQL语句，返回注入 Bean 的对象
+> 
+> 使用需要配置连接数据库，才能使用它的注解方法。
+
+<details>
+<summary>MVC</summary>
+
+### 依赖&配置
+
+Spring-boot-web 依赖省略
+
+```xml
+<dependencys>
+        <!-- 可选生成 Get Set -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.36</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>3.0.4</version>
+        </dependency>
+        <!-- 数据库对应类型，需要有 jdbc.Driver -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+</dependencys>
+```
+
+```properties
+server.port=25505
+server.servlet.context-path=/api
+#? 这里开始指定数据库连接 这里指定的，通过 spring 注入拿取，会自动赋值进入。
+spring.datasource.driver-class-name= com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/node
+spring.datasource.username=sa
+spring.datasource.password=123456
+```
+
+### 主配置
+
+```java
+/* com.name.config */
+@SpringBootApplication
+@ComponentScan("com")
+@PropertySource("classpath:Mail.properties")
+//! Spring 指定 Mybatis 实现重写接口的 Bean 软件包
+@MapperScan("com.naer.mapper")
+public class springConfiguration {
+    public static void main(String[] args) {
+        SpringApplication.run(springConfiguration.class, args);
+    }
+}
+```
+
+### Mapper&pojo
+
+> [!TIP]
+> Mapper 就是声明让 mybatis 填充 Bean 数据的层，数据层就是 pojo 了
+
+Mapper:数据填充层
+
+```java
+/* com.name.Mapper */
+@Mapper //!必须是「接口」 它帮忙重写方法，根据你的注解来
+public interface userMapper {
+    /*
+     * 接口是无法实例化，这里的注解被 Mybatis 去生成数据了。
+     * 根据接口里面你写的 Mybatis 相关注解生成方法
+     * 返回对象是按着你接口限制来的，
+     * Bean里面数据需要你写注解 查询相关 它注入生成 bean
+     */
+    @Select("select * from user;")
+    user findUserById(Integer id);
+}
+```
+
+pojo:数据库对照层。
+
+```java
+/* com.name.pojo */
+@Data
+public class user {
+    private int id;
+    private String user;
+    private String pwd;
+}
+```
+
+## Services
+
+> [!TIP]
+> 服务层，调用 mapper 获取数据，返回进行操作
+
+接口
+ 
+```java
+/*! 接口是放 Services下 实现放 Services.Impl 下 */
+public interface userService {
+    user findById(int id);
+}
+```
+
+实现
+
+```java
+/*! 接口是放 Services下 实现放 Services.Impl 下 */
+@Service
+public class userServiceImpl implements userService {
+    //! 拿取 Mybatis 重写mapper的类，接口无法实例化，它实现重写后返回你。
+    @Resource //?Spring 建议的新注入注解 ,Autowired 会警告这个不会
+    private userMapper userMapper;
+
+    @Override
+    public user findById(int id) {
+        return userMapper.findUserById(id);
+    }
+}
+```
+
+## Controller
+
+```java
+/* com.name.controller */
+@RestController
+public class defaultController {
+    
+    @Resource //?新注入注解 Autowired 会警告。
+    private userServiceImpl userServiceImpl;
+
+    @RequestMapping("/hello")
+    public String hello() {
+        return "hello world";
+    }
+
+    @RequestMapping("FindUser")
+    public user findUser(int id) {
+        return userServiceImpl.findById(id);
+    }
+
+}
+```
+
+</details>
