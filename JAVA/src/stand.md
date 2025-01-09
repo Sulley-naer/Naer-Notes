@@ -43,6 +43,9 @@
 
 Java 程序的入口函数一般是 `main` 方法，它是所有 Java 程序的入口。
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -51,6 +54,8 @@ public class Main {
     }
 }
 ```
+
+</details>
 
 > 使用 javac 命令编译 Java 源文件，并使用 java 命令运行 Java 程序。
 
@@ -112,6 +117,9 @@ public class Main {
 
 Java 语言的目录结构：
 
+<details>
+<summary>详细语法</summary>
+
 ```text
 my-java-project/
 ├── src/
@@ -133,6 +141,8 @@ my-java-project/
 ├── docs/
 └── pom.xml or build.gradle
 ```
+
+</details>
 
 1. main/: 主源代码
    1. java/: Java 源代码
@@ -935,6 +945,9 @@ A：现在我们写一个匿名类，并继承实现接口，这样一个子类�
 
 编译器不管你是否添加注解,它会自动判断转换函数式接口的。
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 //接口定义功能
 //只有函数式接口才能使用lambda表达式
@@ -962,6 +975,8 @@ public class Main {
 }
 ```
 
+</details>
+
 ### 方法引用
 
 > [!TIP]
@@ -972,6 +987,9 @@ public class Main {
 > [!TIP]
 > 可变参数是参数数量不固定，由于方法参数数量相同才会调用对应的方法。
 > 因此衍生出了可变参数，解决方法中参数不确定数量的时候使用，拟似 `arguments`
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -989,6 +1007,8 @@ public demo(int... arg) {
     System.out.println(sum);
 }
 ```
+
+</details>
 
 <details>
     <summary>常规方式</summary>
@@ -1903,7 +1923,10 @@ public class Main {
    3. 被引用方法的形参和返回值需要跟抽象方法的形参和返回值保持一致
    4. 被引用方法的功能需要满足当前的要求
 
-1. 语法：
+2. 语法：
+
+    <details>
+    <summary>详细语法</summary>
 
    ```javascript
    //类名::方法名
@@ -1915,8 +1938,13 @@ public class Main {
      ::new //表达式::方法名
      expression()::methodName;
    ```
+   
+    </details>
 
-1. 实例：
+3. 实例：
+
+    <details>
+    <summary>详细语法</summary>
 
    ```java
     public static void main(String[] args) {
@@ -1945,6 +1973,8 @@ public class Main {
         return o2-o1;
     }
    ```
+   
+    </details>
 
 <details>
 <summary>方法引用语法</summary>

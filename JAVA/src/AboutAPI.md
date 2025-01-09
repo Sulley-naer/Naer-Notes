@@ -51,6 +51,13 @@
 3. `Clone` 并不能直接调用，它是 `protected` 修饰符，因此我们必须方法重写〖IDea〗<br>
    规范：这个方法，它判断对象，是否实现了接口，我们需在使用类上面 实现 `implements Cloneable`
 
+浅克隆：
+
+是只将类中记录的数据，复制一份存储给变量，这样就会导致引用数据地址相同，一方修改了另一方同样也会被修改！
+
+<details>
+<summary>详细语法</summary>
+
 ```java
 //注意要实现接口，被克隆的类重写 clone 方法！
 User u1 = new Users();
@@ -64,13 +71,14 @@ protected Object clone() throws CloneNotSupportedException {
 }
 ```
 
-浅克隆：
-
-是只将类中记录的数据，复制一份存储给变量，这样就会导致引用数据地址相同，一方修改了另一方同样也会被修改！
+</details>
 
 深克隆：
 
 深克隆就是浅克隆引用地址问题的解决方法，它将引用地址的数据给复制过来，再重新分配了新的地址。
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 //!手写深度克隆
@@ -95,6 +103,8 @@ protected Object clone() throws CloneNotSupportedException {
     //!后续使用比较好的第三方算法类库的深克隆方法
 }
 ```
+
+</details>
 
 ## Objects
 
@@ -247,6 +257,9 @@ protected Object clone() throws CloneNotSupportedException {
 
 Java 中使用匹配邮箱
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 public static void main(String[] args) {
     String email1 = "1444736434@qq.com";
@@ -273,7 +286,12 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 Java 正则爬虫
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -289,6 +307,8 @@ public static void main(String[] args) {
     }
 }
 ```
+
+</details>
 
 Matcher：正则匹配结果返回值 | String 字符串操作方法
 
@@ -309,6 +329,9 @@ Matcher：正则匹配结果返回值 | String 字符串操作方法
 ## Java 爬虫
 
 - 基础使用
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -336,11 +359,16 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ## Time
 
 JDK7
 
 - 基础
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 import java.util.Date;
@@ -365,10 +393,15 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 - 转换
 
 > [!TIP]
 > 处理时间转换，时间修改
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 import java.text.SimpleDateFormat;
@@ -392,10 +425,15 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 - 优化 日历
 
 > [!TIP]
 > 用于优化时间修改时的重复转换。
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 import java.util.Calendar;
@@ -428,10 +466,9 @@ public static void main(String[] args) {
 }
 ```
 
-JDK8
+</details>
 
-<details>
-   <summary>完整表格</summary>
+JDK8
 
 | 功能                      | 参数                     | 简述                        |
 | ------------------------- | ------------------------ | --------------------------- |
@@ -481,7 +518,6 @@ JDK8
 | ---------------           | 计算日期间隔             | ---------------             |
 | Unit.\[YEARS...\].between | LocalDateTime \* 2       | 计算差,前缀为单位           |
 
-</details>
 
 ### 说明
 
@@ -490,6 +526,9 @@ JDK8
 3. ZonedDateTime 是真正的时间对象
 4. Calendar 为日历 JDK8 使用需使用 LocalDateTime 系列类
 5. 真正使用实例化 LocalDateTime.of 直接填写值 ，需要时区再去使用 Zone ,精准时间用 INS,格式化 ofPattern
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -513,6 +552,8 @@ public static void main(String[] args) {
     System.out.println(days);
 }
 ```
+
+</details>
 
 ## 包装类
 
@@ -546,6 +587,9 @@ public static void main(String[] args) {
 | fill         | 数组填充 | 字意       |
 | sort         | 排序     | ArrayList  |
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 import java.util.Arrays;
 
@@ -563,11 +607,16 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ## lambda
 
 > Java 中的箭头函数，函数式编程思维，作用在匿名内部类中，并且接口必须为函数式接口。
 >
 > 函数式接口：只有一个抽象方法的接口，需头顶添加 @FunctionalInterface 注释
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -583,6 +632,8 @@ interface lam {
 }
 ```
 
+</details>
+
 ## For & Foreach
 
 > Java 增强 for 和 Foreach 使用和原理
@@ -590,6 +641,9 @@ interface lam {
 For
 
 > 增强 for 的变量是临时变量，对他进行操作不会对原数据产生影响。
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -601,9 +655,14 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 Foreach
 
 > 底层代码就是普通的 For 循环，只不过用起来更方便了。
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 import java.util.ArrayList;
@@ -626,6 +685,8 @@ public static void main(String[] args) {
     cl.forEach(s -> System.out.println(s));
 }
 ```
+
+</details>
 
 ## Stream 流 [API](./stand.md#stream-流)
 
@@ -683,6 +744,9 @@ public static void main(String[] args) {
 
 1. 单列集合
 
+   <details>
+   <summary>详细语法</summary>
+
    ```java
    import java.util.stream.Stream;
    public static void main(String[] args) {
@@ -698,7 +762,12 @@ public static void main(String[] args) {
    }
    ```
 
+   </details>
+
 2. 双列集合
+
+   <details>
+   <summary>详细语法</summary>
 
    ```java
    import java.util.stream.Stream;
@@ -727,8 +796,13 @@ public static void main(String[] args) {
         System.out.println(res);
    }
    ```
+   
+   </details>
 
 3. 零散数据
+
+   <details>
+   <summary>详细语法</summary>
 
    ```java
    import java.util.stream.Stream;
@@ -748,8 +822,13 @@ public static void main(String[] args) {
       "
    }
    ```
+   
+   </details>
 
 4. 数组
+
+   <details>
+   <summary>详细语法</summary>
 
    ```java
    import java.util.Arrays;
@@ -760,8 +839,13 @@ public static void main(String[] args) {
        // IntStream.of(arr).forEach(System.out::println);
    }
    ```
+   
+   </details>
 
 5. 集合转换
+
+   <details>
+   <summary>详细语法</summary>
 
    ```java
    public static void main(String[] args){
@@ -778,12 +862,17 @@ public static void main(String[] args) {
    }
    ```
 
+   </details>
+
 6. More
 
     <details>
     <summary>进阶操作</summary>
 
    1. 过滤
+
+      <details>
+      <summary>详细语法</summary>
 
       ```java
       import java.util.stream.IntStream;
@@ -794,8 +883,13 @@ public static void main(String[] args) {
           intStream.filter(i -> i > 2).forEach(System.out::println);
       }
       ```
+      
+      </details>
 
    2. 映射
+
+      <details>
+      <summary>详细语法</summary>
 
       ```java
       import java.util.stream.IntStream;
@@ -805,8 +899,13 @@ public static void main(String[] args) {
           intStream.map(i -> i * 2).forEach(System.out::println);
       }
       ```
+      
+      </details>
 
    3. 归约
+
+      <details>
+      <summary>详细语法</summary>
 
       ```java
       import java.util.stream.IntStream;
@@ -817,8 +916,13 @@ public static void main(String[] args) {
           System.out.println(sum);
       }
       ```
+      
+      </details>
 
    4. 排序
+
+      <details>
+      <summary>详细语法</summary>
 
       ```java
       import java.util.stream.IntStream;
@@ -828,8 +932,13 @@ public static void main(String[] args) {
           intStream.sorted().forEach(System.out::println);
       }
       ```
+      
+      </details>
 
    5. 并行流
+
+      <details>
+      <summary>详细语法</summary>
 
       ```java
       import java.util.stream.IntStream;
@@ -839,8 +948,13 @@ public static void main(String[] args) {
           intStream.parallel().forEach(System.out::println);
       }
       ```
+      
+      </details>
 
    6. 其他
+
+      <details>
+      <summary>详细语法</summary>
 
       ```java
       import java.util.stream.IntStream;
@@ -865,6 +979,8 @@ public static void main(String[] args) {
           System.out.println(min);
       }
       ```
+      
+      </details>
 
    </details>
 
@@ -1096,6 +1212,9 @@ public static void main(String[] args) {
 | randomUUID() | 获得随机 UUID  |
 | fromString() | 根据字符串生成 |
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 import java.util.UUID;
 
@@ -1104,6 +1223,8 @@ public static void main(String[] args) {
    System.out.println(UUID.randomUUID());
 }
 ```
+
+</details>
 
 ## Commons-io
 

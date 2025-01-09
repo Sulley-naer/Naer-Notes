@@ -16,6 +16,9 @@
 
 ### 创建接口，定义代理方法
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 package src;
 
@@ -33,7 +36,12 @@ public class Player implements ProxyTool{
 }
 ```
 
+</details>
+
 ### 实现接口
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public class Player implements ProxyTool{
@@ -52,7 +60,12 @@ public class Player implements ProxyTool{
 
 ```
 
+</details>
+
 ### 创建代理对象
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -95,3 +108,5 @@ public static ProxyTool createProxy(Player player){
     return instance;
 }
 ```
+
+</details>

@@ -83,6 +83,9 @@ UDP 服务器组合端：多个服务器同时监听信息
 
 ### 发送数据
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 public static void main(String[] args) {
     /*
@@ -108,7 +111,12 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ### 接受数据
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) throws IOException {
@@ -141,7 +149,12 @@ public static void main(String[] args) throws IOException {
 }
 ```
 
+</details>
+
 ### 通讯室
+
+<details>
+<summary>详细语法</summary>
 
 Server
 
@@ -204,7 +217,12 @@ public static void main(String[] args) throws IOException {
 }
 ```
 
+</details>
+
 ### 组合端
+
+<details>
+<summary>详细语法</summary>
 
 Server
 
@@ -273,6 +291,8 @@ public static void main(String[] args) throws IOException {
 }
 ```
 
+</details>
+
 ## TCP
 
 ![TCP优化后](./images/Idea/Network-1735281045792.png)
@@ -315,6 +335,9 @@ public static void main(String[] args) throws IOException {
 | getOutputStream()      | 输出流，写入数据       |
 | shutdownOutput();      | 输入流关闭，防服务端等待   |
 | close()                | 关闭连接           |
+
+<details>
+<summary>详细语法</summary>
 
 ### 服务端
 
@@ -388,6 +411,8 @@ public static void main(String[] args) throws IOException {
 }
 ```
 
+</details>
+
 ### 握手协议
 
 三次握手
@@ -423,6 +448,9 @@ public static void main(String[] args) throws IOException {
 > 一个客户端对应一个线程。
 
 ### 服务端
+
+<details>
+<summary>详细语法</summary>
 
 > 线程池版，自己在main函数中实例化线程池，再传入线程对象到池子中就行了
 
@@ -504,3 +532,5 @@ public static void main(String[] args) throws IOException {
     socket.close();
 }
 ```
+
+</details>

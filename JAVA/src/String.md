@@ -9,6 +9,9 @@
 
 创建方式
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 final String text = "ABC";
 
@@ -19,12 +22,17 @@ byte[] bytes = {97, 98, 99}; // A,B,C Ascll码表
 final String str = new String(bytes);
 ```
 
+</details>
+
 ## 方法 「methods」
 
 1. 比较
 
    > [!TIP]
    > 字符串比较的是 `堆` 中的内存地址是否相同，引号写不通过 `new` 它是存储在栈帧中，所以能直接比较
+
+   <details>
+   <summary>详细语法</summary>
 
    ```java
      import java.util.Objects;
@@ -53,6 +61,8 @@ final String str = new String(bytes);
         System.out.println(input.equals("value")); //true
      }
    ```
+   
+   </details>
 
    - 方法返回值查看
 
@@ -66,6 +76,9 @@ final String str = new String(bytes);
 
    > [!TIP]
    > 字符串索引同样是数组的方式, 也是从零计数
+
+   <details>
+   <summary>详细语法</summary>
 
    ```java
    public static void main(String[] args){
@@ -81,9 +94,14 @@ final String str = new String(bytes);
      }
    ```
 
+   </details>
+
 3. 字符串截取
 
    > 获取字符串中特点位置的值，用于字符串处理
+
+   <details>
+   <summary>详细语法</summary>
 
    ```java
    public static void main(String[] args) {
@@ -95,7 +113,12 @@ final String str = new String(bytes);
    }
    ```
 
+   </details>
+   
 4. 大小写转换
+
+   <details>
+   <summary>详细语法</summary>
 
    ```java
    public static void main(String[] args) {
@@ -112,12 +135,17 @@ final String str = new String(bytes);
    }
    ```
 
+   </details>
+
 5. StringBuild
 
    > [!TIP]
    > `StringBuild` 是字符串容器的方法，里面包含了很多存储字符串，操作字符串等等方法。
    >
    > 多线程使用不安全，多线程使用 StringBuffer 类，方法完全一致。
+
+   <details>
+   <summary>详细语法</summary>
 
    ```java
 
@@ -142,9 +170,14 @@ final String str = new String(bytes);
    }
    ```
 
+   </details>
+
 6. StringJoiner
 
 > [!TIP] > `StringJoiner` 是用于帮助添加字符串中的连接字符 `char1--char2`
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 import java.util.StringJoiner;
@@ -157,6 +190,8 @@ public static void main(String[] args) {
     System.out.println(Box);
 }
 ```
+
+</details>
 
 ## [正则](../../Mysql/Get%20started.md#模糊查询正则查询)
 
@@ -182,6 +217,9 @@ public static void main(String[] args) {
 | （?<!）  | b(?<!a) 与(?!)相同，只不过是前面不能有字符 a 零宽度负向回顾                      |
 | （?<=）  | b(?<!a) 与(?=)相同，只不过是前面有 字符 a 零宽度正向回顾                         |
 | 考验成果 | `select * from student where sname regexp '^张.*?$'`                             |
+
+<details>
+<summary>详细语法</summary>
 
 1. `'字符'` ：相当于 '%字符%'
 2. `|`：表示或 匹配多数据
@@ -219,7 +257,12 @@ public static void main(String[] args) {
 34. `\\.` 特殊符号须转义！`[,]` 范围内可不用转义
 35. `()` 正则表达式结果分组
 
+</details>
+
 > 简易利用正则匹配字符串 利用了括号分组 [文档](https://www.runoob.com/java/java-regular-expressions.html)
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 import java.util.regex; //Pattern 正则表达式 //matcher 匹配对象
@@ -241,6 +284,8 @@ public static void main(String[] args) {
     }
 }
 ```
+
+</details>
 
 ## 原理
 

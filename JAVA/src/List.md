@@ -20,6 +20,9 @@
 3. 在小部分情况下，不同的属性值或者不同的地址值计算出来的哈希值也有可能一样。（哈希碰撞）
 4. JDK8:数组+链表+红黑数 JDK7:数组+链表
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 public static void main(String[] args) {
     //!set系列内容不能重复。
@@ -62,10 +65,16 @@ public static void main(String[] args) {
  }
 ```
 
+</details>
+
 ### LinkedHashSet
 
 1. 有序：存储取出元素一致、不重复、无索引
 2. 底层数据结构是依然哈希表，只是每个元素又额外的多了一个双链表的机制记录存储的顺序。
+
+<details>
+<summary>详细语法</summary>
+
 
    ```java
    import java.util.LinkedHashSet;
@@ -79,6 +88,8 @@ public static void main(String[] args) {
    }
    ```
 
+</details>
+
 ### TreeSet
 
 1. 不重复、无索引、可排序：升序
@@ -86,6 +97,9 @@ public static void main(String[] args) {
 3. 类排序请实现接口，不然使用匿名内部类。
 4. 排序特点，O 是当前需要排序的对象.
 5. 按照红黑树顺序来排序的，根节点，到下层节点
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 import java.util.TreeSet;
@@ -152,6 +166,8 @@ public static void main(String[] args){
 }
 ```
 
+</details>
+
 总结
 
 1. 如果想要集合中的**元素可重复**
@@ -205,6 +221,9 @@ public static void main(String[] args){
 > Map 只是一个接口，通常直接使用 标准类库中数据结构系列。
 > 有时候需要对象存储，也不想要写类，可以直接用 entry 键值对。
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 public static void main(String[] args) {
     Map<String, String> map = new HashMap<>();
@@ -212,6 +231,8 @@ public static void main(String[] args) {
     map.put("1", "1");
 }
 ```
+
+</details>
 
 | 方法        | 说明     | 参数     | 解释                       |
 | ----------- | -------- | -------- | -------------------------- |
@@ -497,6 +518,9 @@ class student implements Comparable<student>{
 
 最终练习
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 public static void main(String[] args) {
     /*
@@ -529,6 +553,8 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ### 源码说明
 
 HashMap 不需要实现 Compareable 接口，它是利用哈希值进行大小判断红黑树存放位置
@@ -543,6 +569,9 @@ Treemap 底层是用的红黑树，它需要实现 Compareable 来比较大小�
 
 > [!TIP]
 > 利用 hashMap `entrySet` 的键值对实现简易快速排序
+
+<details>
+<summary>详细语法</summary>
 
 有固定规律的数据使用方式
 
@@ -600,6 +629,8 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ## 不可变集合
 
 > 不可变集合是集合的常量版，只能在初始化的时候写内容。
@@ -615,6 +646,9 @@ public static void main(String[] args) {
 | toArray | 转换为数组 | list       | 数组长度就新 |
 | copyOf  | 拷贝数据   | list       | 直接覆盖     |
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 import java.util.List;
 
@@ -628,6 +662,8 @@ public static void main(String[] args) {
     list.get(0).System.out.println();
 }
 ```
+
+</details>
 
 ## properties
 
@@ -644,6 +680,9 @@ public static void main(String[] args) {
 | -----             | 成员方法     | -----                                            |
 | store             | OutputStream | 自动序列化，本地存储                             |
 | load              | InputStream  | 加载本地数据，存储在内部数组                     |
+
+<details>
+<summary>详细语法</summary>
 
 ### 存储
 
@@ -673,3 +712,5 @@ public static void main(String[] args) {
    System.out.println(properties);
 }
 ```
+
+</details>

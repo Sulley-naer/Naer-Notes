@@ -12,6 +12,9 @@ Java IO 包括输入流和输出流。输入流用于从源（如文件、网络
 
 快速使用
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 public static void main(String[] args) {
 
@@ -23,6 +26,8 @@ public static void main(String[] args) {
     fos.close();
 }
 ```
+
+</details>
 
 ## 字节流(二进制)
 
@@ -47,9 +52,14 @@ public static void main(String[] args) {
 > [!NOTE]
 > 换行符：**windows** 换行符是 `\r\n`, **Unix** 换行符是 `\n` **Mac** 换行符是 `\r`。
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 FileOutputStream fos = new FileOutputStream("test.txt");
 ```
+
+</details>
 
 ### FileInputStream :: 读取文件
 
@@ -77,6 +87,9 @@ FileOutputStream fos = new FileOutputStream("test.txt");
 
 适用于小文件拷贝
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 //?拷贝文件,写入文件时候 找不到文件就异常 需要自己创建文件
 public static void main(String[] args) {
@@ -99,7 +112,12 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 大文件拷贝
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) throws RuntimeException {
@@ -132,7 +150,12 @@ public static void main(String[] args) throws RuntimeException {
 }
 ```
 
+</details>
+
 编译异常,解决方法
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -151,6 +174,8 @@ public static void main(String[] args) {
     //?JDK9就是实例化的过程不需要写在括号里面，可以在外面写完 括号写变量名称就行了，需要 throws 过编译异常
 }
 ```
+
+</details>
 
 </details>
 
@@ -173,6 +198,9 @@ public static void main(String[] args) {
 
 快速使用
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 public static void main(String[] args) {
   //没有指定编码格式，默认使用系统默认编码格式
@@ -190,6 +218,8 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 | 方法                                       | 参数     | 说明                 |
 |------------------------------------------|--------|--------------------|
 | public FileReader(File file)             | File   | 传入文件对象             |
@@ -201,6 +231,9 @@ public static void main(String[] args) {
 | public void close ()                     | void   | 结束资源占用             |
 
 指定长度 Demo
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -216,9 +249,14 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ### FileWriter :: 写入文本
 
 快速入手
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -230,6 +268,8 @@ public static void main(String[] args) {
     }
 }
 ```
+
+</details>
 
 | 方法                 | 参数                          | 说明    | 额外           |
 |--------------------|-----------------------------|-------|--------------|
@@ -305,6 +345,9 @@ public static void main(String[] args) {
 
 快速入手
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 public static void main(String[] args) {
     //!只有两个特有方法，构造和关闭,其余字符流方法。
@@ -320,6 +363,8 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 > [!NOTE]
 >
 > 提高性能原理：缓冲区内部也有一有 8192 的数组
@@ -333,6 +378,9 @@ public static void main(String[] args) {
 ### 字符缓冲流
 
 快速入手
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 /*
@@ -358,6 +406,8 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ## 转换流 「编码处理」
 
 > [!TIP]
@@ -369,6 +419,8 @@ public static void main(String[] args) {
 > 
 > 反正只要是输入流，你需要解析文字，就直接实例化出来，把输入流扔给他，无论你是什么方式获得的输入流。网络或文件
 
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -386,6 +438,8 @@ public static void main(String[] args) {
     }
 }
 ```
+
+</details>
 
 ## 序列化流
 
@@ -408,6 +462,9 @@ public static void main(String[] args) {
 快速上手
 
 ### 序列化
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -443,7 +500,12 @@ static class  student implements Serializable {
 }
 ```
 
+</details>
+
 ### 反序列化
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -459,9 +521,13 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
+### 版本异常
+
 <details>
 
-<summary> 版本异常 </summary>
+<summary> 详细语法 </summary>
 
 > [!TIP]
 > 注意: 序列化的时候，Java会自动根据类结构去生成 id，
@@ -536,6 +602,9 @@ static class student implements Serializable, Serializable {
 
 > 不需要同步之类的，它每次写入都走硬盘通道
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 public static void main(String[] args) {
     PrintStream ps = new PrintStream(new FileOutputStream("test3.txt",false), true, StandardCharsets.UTF_8);
@@ -552,12 +621,17 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ### 字符打印流
 
 > 方法表格中的 file 转换一下 Writer 就能使用了
 > 
 > 字符流底层有缓冲层，同步需要执行方法，否则丢失数据。flush() close()
- 
+
+<details>
+<summary>详细语法</summary>
+
 ```java
 public static void main(String[] args) {
     PrintWriter pw = new PrintWriter(new FileOutputStream("test3.txt",false));
@@ -567,6 +641,8 @@ public static void main(String[] args) {
     pw.close();
 }
 ```
+
+</details>
 
 ## 压缩
 
@@ -594,6 +670,9 @@ public static void main(String[] args) {
 | close                 | void                                                 | 关闭占用,控制台权限丢失      |
 
 ### 解压缩
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 //自行调用方法,传入zip路径和输出路径
@@ -624,7 +703,12 @@ public static void unzip(String zipFile, String destDir) throws IOException {
 }
 ```
 
+</details>
+
 ### 压缩流
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void zip(String srcDir, String destDir) throws IOException {
@@ -650,6 +734,8 @@ public static void zip(String srcDir, String destDir) throws IOException {
     //文件夹压缩就不写了，自行通过 File获取文件夹目录，区分文件，然后转换为文件相对路径，填入 ZipEntry 里面就能实现了
 }
 ```
+
+</details>
 
 ## properties 「配置文件」
 

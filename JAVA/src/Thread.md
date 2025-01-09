@@ -38,6 +38,9 @@
 
 > 快速创建线程，弊端拓展性差，无法再次继承
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 //? 创建线程，需继承 Thread 或实现 Runnable
 class test extends Thread {
@@ -59,9 +62,14 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ### 方式二
 
 > 使用接口创建，弥补了拓展性，降低简易性
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 //方式二
@@ -86,6 +94,8 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ### 推荐方式：可管理线程
 
 > 具备前者特点，并且方便重复调用、取消线程、定义超时 ...
@@ -105,6 +115,8 @@ public static void main(String[] args) {
 | public state               | void                        | 线程状态            |
 | public exceptionNow        | void                        | 根据状态产出异常        |
 
+<details>
+<summary>详细语法</summary>
 
 ```java
 //? Callable 也是线程主函数，返回值会返回到 管理类内部 使用泛型限制类型。
@@ -129,6 +141,8 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ## 演示Demo
 
 ### 守护进程
@@ -138,6 +152,9 @@ public static void main(String[] args) {
 > 自动结束逻辑：守护线程 不是跟随创建 线程者的生命周期，而是“跟随”所有 非守护线程 的生命周期。守护线程会在所有非守护线程结束后自动退出。
 > 
 > 这样的弊端：守护线程只适用于两层主与守的关系，如果主创建另一个主，而守护需要指定绑定第二个主，就不能通过守护来实现了，需独立控制线程了。
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -162,7 +179,12 @@ class test extends Thread {
 }
 ```
 
+</details>
+
 ### 插入线程
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) throws Exception {
@@ -189,7 +211,12 @@ class test extends Thread {
 
 ```
 
+</details>
+
 ### 出让线程
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -208,6 +235,8 @@ class test extends Thread {
 }
 ```
 
+</details>
+
 ## 生命周期
 
 ![PixPin_2024-12-24_11-17-49.png](./images/Idea/Thread-1735010272804.png)
@@ -217,6 +246,9 @@ class test extends Thread {
 ## 同步代码 「线程安全问题」
 
 ### 问题演示
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 //DEMO
@@ -244,6 +276,8 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 > 产出问题，在执行到最后的时候会发现导致问题，判断是 < 100 可是最后增加到了102
 > 
 > 并不是判断是问题，而是线程在执行中途，比如上一会 ++ 执行完成了
@@ -261,6 +295,9 @@ public static void main(String[] args) {
 > 里面的代码全部执行完毕，线程出来，锁自动打开
 > 
 > 锁是根据内部的代码是否有线程还未执行完成，没执行完成其他的线程也不会执行。
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 class test extends Thread {
@@ -292,6 +329,8 @@ class test extends Thread {
 }
 ```
 
+</details>
+
 ### 方法锁
 
 > [!TIP]
@@ -300,6 +339,9 @@ class test extends Thread {
 > 方法锁的绑定对象是 this ,就是实例化的对象，而不是类字节码。
 > 
 > 如果线程你实例化两个线程对象在启动线程的时候，它们的锁是无法无法触发的，他们的this是不同的。
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -330,6 +372,8 @@ class test extends Thread {
 }
 ```
 
+</details>
+
 ## Lock 「锁控制类」
 
 > [!NOTE]
@@ -352,6 +396,9 @@ class test extends Thread {
 
 DEMO
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 public static void main(String[] args) {
     new Thread(new test());
@@ -372,9 +419,14 @@ class test extends Thread{
 }
 ```
 
+</details>
+
 ### 死锁
 
 死锁是由双锁可能产生的逻辑错误。
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -412,6 +464,7 @@ class test extends Thread {
 }
 ```
 
+</details>
 
 ## 线程订阅模式
 
@@ -425,6 +478,9 @@ class test extends Thread {
 > 消费者使用完成了数据，去通知生产者数据已完成，等待生产。
 
 ### 等待唤醒
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 package src;
@@ -499,12 +555,17 @@ class user extends Thread {
 
 ```
 
+</details>
+
 ### 阻塞队列 「推荐」
 
 > [!TIP]
 > ArrayBlockingQueue<T> 是用于处理队列的解决类，简化了繁琐的唤醒与休眠步骤。
 > 
 > 不需要我们自行去休眠和唤醒,只需要拿取和生产，需注意两者都需要同一个实例化的对象。
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 package src;
@@ -567,6 +628,8 @@ class user extends Thread {
 }
 
 ```
+
+</details>
 
 ## 线程池
 
@@ -636,6 +699,9 @@ ThreadPoolExecutor.CallerRunsPolicy -> 调用任务的run()方法绕过线程池
 ```
 </details>
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 /*
   ThreadPoolExecutor threadPoolExecutor = newThreadPoolExecutor
@@ -665,6 +731,8 @@ public static void main(String[] args) {
    );
 }
 ```
+
+</details>
 
 ### 合适线程池大小「用处较少」
 

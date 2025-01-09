@@ -31,6 +31,9 @@ Spring 开发步骤
 4. 在 Spring 配置文件中获得 UserDaoImpl
 5. 使用 Spring 的 API 获得 Bean 实例{反射实现}
 
+<details>
+<summary>详细语法</summary>
+
 依赖资源
 
 ```xml
@@ -91,12 +94,17 @@ public class Demo implements UserDao {
 }
 ```
 
+</details>
+
 ## Spring Config
 
 ### Bean
 
 > 配置项目所需的 Java Bean 对象，可由 Spring 进行管理的形式
 > 简化 Dao 层需要为 Service 方便使用的中间管理层，由 Spring 管理。
+
+<details>
+<summary>详细语法</summary>
 
 ```xml
 
@@ -117,6 +125,8 @@ init-method： 指定 Bean 初始化的调用的方法
 destroy-method : 指定 Bean 被销毁时调用方法
 
 测试直接关闭实例化出来的配置文件 close 方法。
+
+</details>
 
 #### 指定获取 Bean 方式
 
@@ -152,6 +162,9 @@ scope 可选范围：
 > [!TIP]
 > Bean 想直接挂载其他 Bean 在自己内部的属性上
 > 利用引用Bean 从而省去了实例化配置，拿取属性赋值繁琐的步骤。
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 import javax.naming.Name;
@@ -216,10 +229,15 @@ public class Demo {
 }
 ```
 
+</details>
+
 ##### 集合注入
 
 > [!TIP]
 > Bean 也能使用方法或者构造来注入数组 或 Map 等等
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 import java.util.List;
@@ -280,6 +298,8 @@ public class Service implements UserService {
 </bean>
 ```
 
+</details>
+
 ### 配置导入
 
 > [!TIP]
@@ -289,15 +309,23 @@ public class Service implements UserService {
 >
 > 所以我们需要配置文件分块配置，因为有分块写法，所以适配了导入的语法。
 
+<details>
+<summary>详细语法</summary>
+
 ```xml
 <!-- 导入其他配置，当然其他配置会同时加载出来 -->
 <import resource="applicationContext.xml"/>
 ```
 
+</details>
+
 ### 实例化配置
 
 > [!TIP]
 > 配置相关的是归于 Spring Context 这个jar 包,使用前注意配置好依赖
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -328,6 +356,8 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ## 数据源
 
 1. 数据源(连接池)是提高程序性能如出现的
@@ -338,6 +368,9 @@ public static void main(String[] args) {
 常见的数据源(连接池)：DBCP、C3P0、BoneCP、Druid、...
 
 数据源的配置，一定是分开的，不要全部配置一个文件里面，配置文件分块很有必要。
+
+<details>
+<summary>详细语法</summary>
 
 ### 安装依赖
 
@@ -490,6 +523,8 @@ public static void main(String[] args) throws Exception {
 </beans>
 ```
 
+</details>
+
 ## Spring 注解开发
 
 > [!TIP]
@@ -525,6 +560,9 @@ public static void main(String[] args) throws Exception {
 | @PropertySource    | 用于加载.properties文件中的配置                       |
 | @Import            | 用于导入其他配置类 传入 class 字节 多个给对象 {1,2}           |
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 //实例化注解入口
 public static void main(String[] args) {
@@ -537,6 +575,8 @@ public static void main(String[] args) {
     System.out.println(start);
 }
 ```
+
+</details>
 
 ### 演示
 
@@ -723,6 +763,9 @@ applicationContext
 
 ### 全注解模式+数据源
 
+<details>
+<summary>详细语法</summary>
+
 主配置类
 
 ```java
@@ -784,6 +827,8 @@ public class Demo {
 }
 ```
 
+</details>
+
 ## Junit 集成
 
 1. 导入spring集成Junit的坐标
@@ -794,6 +839,9 @@ public class Demo {
 
 > junit-jupiter v:5.xx
 > Spring-test v:6.xx
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 
@@ -815,3 +863,5 @@ public class mainTest {
     }
 }
 ```
+
+</details>

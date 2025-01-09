@@ -43,6 +43,9 @@ Constructor 类中用于创建对象的方法
 1. T newInstance(Object...initArgs)：根据指定的构造方法创建对象
 2. setAccessible(boolean flag)：设置为 true,表示取消访问检查
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 public static void main(String[] args) {
     /*
@@ -73,6 +76,8 @@ public static void main(String[] args) {
     Server s2 = (Server) constructor.newInstance(19, "李四");
 }
 ```
+
+</details>
 
 ## 获取成员属性
 
@@ -105,6 +110,9 @@ Filed 属性静态方法
 | getBoolean()              | 获取静态或实例的值 boolean        |
 | getInt()                  | 获取静态或实例的值 Int            |
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 public static void main(String[] args) {
     Class cs = Class.forName("src.Server");
@@ -114,6 +122,8 @@ public static void main(String[] args) {
     System.out.println(cs.getDeclaredField("anInt"));
 }
 ```
+
+</details>
 
 ## 获取成员方法
 
@@ -150,6 +160,9 @@ Object invoke(Object obj, Object... args)： 运行方法
 参数二：调用方法的传递的参数（如果没有就不写）
 返回值：方法的返回值(如果没有就不写)
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 import java.lang.reflect.Method;
 
@@ -167,9 +180,14 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ## 演示案例
 
 > 反射获取类属性
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -192,3 +210,5 @@ private static void getFields(Object o) throws IllegalAccessException {
     }
 }
 ```
+
+</details>
