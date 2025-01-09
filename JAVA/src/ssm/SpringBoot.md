@@ -556,7 +556,9 @@ public class configs {
     @Bean("t2")
     public test t2(test t1) {
         System.out.println("test:" + t1);
-        return new test();
+        test item = new test();
+        //test.set() 注册的bing你可以自行初始化，通过@value 在形参或者属性字段
+        return item;
     }
 }
 
@@ -600,7 +602,7 @@ class test {
 ## Bean 注册条件
 
 > [!TIP]
-> Bean 注册条件 就是在注册成功后为注册的 Bean 注入字段属性等操作，注册操作记得在配置类环境！
+> Bean 注册条件 就是在声明注册Beam 的启动条件，注册操作记得在配置类环境！
 
 ```java
 
@@ -673,3 +675,82 @@ public class CommonImportSelector implements ImportSelector {
 public @interface sums {
 }
 ```
+
+## 自动配置原理
+
+<details>
+<summary>原理说明</summary>
+
+spring-boot 附带依赖 autoConfiguration
+
+而spring-boot的入口声明自定义注解合并了 autoconfig的启动注解
+
+autoconfig也是个配置类，它使用了注解 Import 工厂模式
+
+工厂模式实现了 ImportSelector 它这个不可能是写死的导入配置
+
+它将它所支持的包名全部存放在 autoconfig 内部的一个 .imports 文件中
+
+这里面记录的包名就是它生态链所适配的，在配置工厂返回的包名集合,随后拿去注册 Bean
+
+它使用了 Bean 注册条件 ConditionalOnClass 验证是否存在该字节再去注入
+
+这样如果你构建完成后能找到它适配的字节码，它就能过检查走 Bean 注册初始化了
+
+autoconfig 注入的有个规范，适配的包里面都有 名字 + AutoConfiguration 的类
+
+这个就是适配自动注入的实现类，这个类有自定义注解，注解同样是配置类
+
+它用它是配置类权限又去 注册它内部的 Bean 这就是自动配置的完整逻辑了。
+
+### 第三方实现
+
+autoConfiguration 内部的 Imports 文件它是在 resource < META-INF 目录
+
+这个目录也说过它是配置文件的说明文件的目录，似乎是有特殊的特性一样。
+
+好像这个 META-INF 下的说明文件同名的是自动追加合并，而不是覆盖和根据父级路径隔开。
+
+就由此特性，让官方写的手动适配的白名单可以被注入进去，你也写它的全称，把自己包名写进入。
+
+全名称: org.springframework.boot.autoconfigure.AutoConfiguration.imports
+
+1. 在你的项目的程序位置 resources < META-INF < spring 创建上面的白名单
+2. 填写能访问到你的提供自动配置的实现类 关键注解 @AutoConfiguration 
+3. 然后使用 Import 工厂模式导入,你项目负责 注册 Bean 的配置类来启动你的服务。
+4. 工厂模式导入的 Bean 是配置类;工厂模式在 Config 目录;
+
+面试回答
+
+第一步：
+
+在主启动类上添加了
+SpringBootApplication注解
+这个注解组合了
+EnableAutoConfiguration注
+解
+
+第二步：
+
+EnableAutoConfiguration注解
+又组合了Import注解,导入了
+AutoConfigurationImportSelector类
+
+第三步：
+
+实现selectImports方法,这个
+方法经过层层调用,最终会
+读取META-INF 目录下的 后
+缀名 为Imports的文件,当然
+了,boot2.7以前的版本,读取
+的是spring.factories文件
+
+第四步:
+
+读取到全类名了之后,会解析
+注册条件,也就是
+@Conditional及其行生注解
+把满足注册条件的Bean对象
+自动注入到I0C容器中
+
+</details>
