@@ -18,6 +18,7 @@ npm install dotenv --save
 # .env
 PORT=3000
 API_KEY=your_api_key
+# 名称为 .env.development 、.env.production 默认开发环境加载 想手动配置启动 --mode 字符串 env的后缀也需要更改
 ```
 
 在 `vite.config.js` 文件中，导入 `dotenv` 并使用 `config` 对象导入 `.env` 文件。
@@ -44,15 +45,15 @@ export default defineConfig(({ command, mode }) => {
   console.log(process.env);
   //使用vite 内置方法
   //process.cwd() 获取当前项目根目录 node的api
-  // 参数1 当前运行环境 参数2 项目根目录 参数3 环境变量前缀
+  // 参数1 当前运行环境 参数2 项目根目录 参数3 env文件中参数的前缀，默认必须有VITE_ 才会被加载，留空则加载所有
   const env = loadEnv(mode, process.cwd(), "");
   console.log(env);
   console.log(env.PORT); // 3000 名称必须对应
-  //自定义env文件前缀名称
+  //自定义 env文件 前缀名称
   envPrefix: "VITE_",
   //返回当前环境配置下的env文件 command：development/production mode： build/serve
   //对应不同环境的env文件 command：development.env/production.env mode：build.env/serve.env
-  return envResolver[command]();
+  return envResolver[command]();//返回对象是 Vite 配置，现在是个中间件
 });
 ```
 

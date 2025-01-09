@@ -4,6 +4,9 @@
 
 > 循环数组直到发现对象，没有则继续循环到最后，
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 public static boolean BasicSearch(int[] list, int target) {
     for (int i = 0; i < list.length; i++) {
@@ -18,19 +21,24 @@ public static boolean BasicSearch(int[] list, int target) {
 }
 ```
 
+</details>
+
 ## 二分查找、折半查找
 
 > [!TIP]
-> 数据具有规律性，每次查找都会，排除一半查找范围，比如 a-z d开头直接去大概范围内
+> 数据具有规律性，每次查找都会，排除一半查找范围，比如 a-z d 开头直接去大概范围内
 
 [1,2,3,4,5,6,7,8,9] `target:7`
 
 `max：length`
 `min: 0`
 
-第一次直接 max/2 判断值。5小于目标，目标肯定在右边部分。
+第一次直接 max/2 判断值。5 小于目标，目标肯定在右边部分。
 
-接着循环max次，每次循环判断，组数min的值，不对就根据中间值缩小范围
+接着循环 max 次，每次循环判断，组数 min 的值，不对就根据中间值缩小范围
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static int binarySearch(int[] list, int target) {
@@ -50,6 +58,8 @@ public static int binarySearch(int[] list, int target) {
 
 ;
 ```
+
+</details>
 
 ## 分块查找
 
@@ -73,6 +83,9 @@ public static int binarySearch(int[] list, int target) {
 > [!TIP]
 > 最基础的排序，当作性能单位，左右比较，0>1 1>2 ……
 
+<details>
+<summary>详细语法</summary>
+
 ```java
 public static void main(String[] args) {
     int[] arr = {10, 30, 50, 8, 9, 65};
@@ -93,9 +106,14 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ## 选择排序
 
 > 跟冒泡相反，挨个值比较，性能时间无差距,零比较后续所有值，0 > 1 0 > 2 ……
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -105,6 +123,8 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ## 插入排序『最佳排序』
 
 > 插入排序是将数组拆分两种情况，有序和无序，再将有序部分保留。
@@ -112,6 +132,9 @@ public static void main(String[] args) {
 > 后面对无序部分的数据，对有序部分比较，放置正确位置。
 >
 > 性能优化非常强，是依次递增试的增长。
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -142,6 +165,8 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
+
 ## 递归算法『常用算法』
 
 > 递归是指方法自己调用自己，递归一定要有出口，会导致内存溢出
@@ -151,6 +176,9 @@ public static void main(String[] args) {
 > 注意！递归的性能比循环差很多！递归适合解决循环无法表达的功能。
 
 - 计算 1 ~ 100 之间的合
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void main(String[] args) {
@@ -171,9 +199,14 @@ public static int Recursion(int start, int end, int sum) {
 }
 ```
 
+</details>
+
 - 阶层
 
 > 方法内再次调用自己的时候，参数必须要更靠近出口。
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 /*
@@ -196,7 +229,12 @@ public static int getFactorialRecursion(int number) {
 }
 ```
 
-- 递归
+</details>
+
+### 递归
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 //!最快理解示例，递归一定要有规则，某个值增长，直到出口位置，根据出口内容返回计算。
@@ -210,9 +248,14 @@ public static int get(int month) {
 }
 ```
 
-- 反向递归
+</details>
+
+### 反向递归
 
 猴子第十天吃了桃子，剩余了一个，每天固定吃一个，后面每天吃前天的一半，第一天吃的一个。
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static int getSum(int day) {
@@ -226,9 +269,14 @@ public static int getSum(int day) {
 }
 ```
 
-- 斐波那契
+</details>
+
+### 斐波那契
 
 爬楼梯一共 100 阶梯，使用递归计算，一共有多少种爬法
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void UpTheLadder(int n) {
@@ -244,12 +292,14 @@ public static void UpTheLadder(int n) {
 
 ```
 
+</details>
+
 ## 快速排序
 
 > 递归和排序结合使用的算法，性能并不占优势使用循环是最佳方案，但是它非常快！
-> 栈一直运行，循环是内存要更新index
+> 栈一直运行，循环是内存要更新 index
 >
-> 找到之后交换start和end指向的元素，并循环这一过程，直到start和end
+> 找到之后交换 start 和 end 指向的元素，并循环这一过程，直到 start 和 end
 > 处于同一个位置，该位置是基准数在数组中应存入的位置，再让基准数归位。
 >
 > 归位后的效果：基准数左边的，比基准数小，基准数右边的，比基准数大
@@ -259,6 +309,9 @@ public static void UpTheLadder(int n) {
 右指针一直找到小于基数的数据记录位置，左指针找大于的数据，再进行交换。
 
 执行完成一次后当前数据的正确位置就完成了，而其他数据需要通过递归。
+
+<details>
+<summary>详细语法</summary>
 
 ```java
 public static void quickSort(int[] arr, int left, int right) {
@@ -270,6 +323,7 @@ public static void quickSort(int[] arr, int left, int right) {
     if (start >= end) {
         return;
     }
+
     //寻找自己应该放在什么位置。
     while (start != end) {
         while (end > start && arr[end] >= base) {
@@ -297,3 +351,39 @@ public static void quickSort(int[] arr, int left, int right) {
     //!再对右边数据进行排序，1~6 2~6 3~6 ……
 }
 ```
+
+</details>
+
+## 概率算法
+
+TxT文件中事先准备好一些学生信息，每个学生的信息独占一行。
+
+要求1：每次被点到的学生，再次被点到的概率在原先的基础上降低一半。
+
+举例：80个学生，点名5次，每次都点到小A，概率变化情况如下：
+
+第一次每人概率：1.25%。
+第二次小A概率：：0.625%。其他学生概率：1.2579%
+第三次小A概率：0.3125%。其他学生概率：1.261867%
+第四次小A概率：0.15625%。其他学生概率：1.2638449%
+第五次小A概率：0.078125%。其他学生概率：1.26483386%
+提示：本题的核心就是带权重的随机
+
+> [!TIP]
+> 核心难点就是控制随机性，化繁为简的思想，能有效增加解题时间。
+
+### 解题思路
+
+> 依次类推，默认概率 1.25，就让每一个对象，设定一个数值范围。
+> 在后续修改时，同步修改范围，其他对象同理，增加概率=增加范围。
+
+钦逸抒-女-21 {0~0.1} 
+屈燕妮-女-24 {0.1~0.2}
+阴诗雁-女-25
+伯荷燕-女-24
+欧文新-男-20
+董泽欧-男-18
+滕星磊-男-18
+阚晴岚-女-22
+傅彬远-男-19
+左花依-女-24

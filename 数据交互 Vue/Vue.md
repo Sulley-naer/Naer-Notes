@@ -571,3 +571,24 @@
   });
 </script>
 ```
+
+> 组件状态响应
+
+```typescript
+import { onActivated, onDeactivated } from 'vue'
+import { onMounted } from '@vue/runtime-core'
+
+onMounted(()=>{
+  //普通组件使用的hook
+})
+//? Keep 中必须使用的方式，上面的方式无法再次触发
+onActivated(() => {
+  // 调用时机为首次挂载
+  // 以及每次从缓存中被重新插入时
+})
+
+onDeactivated(() => {
+  // 在从 DOM 上移除、进入缓存
+  // 以及组件卸载时调用
+})
+```
