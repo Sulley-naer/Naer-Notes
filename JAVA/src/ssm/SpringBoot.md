@@ -124,6 +124,42 @@ server.servlet.context-path=/api
 # Idea 会有提示的，自行查看翻译旁边的文档
 ```
 
+## 注解集合
+
+| 方法                               | 功能                            |
+|----------------------------------|-------------------------------|
+| ----Application----              | ----Application----           |
+| SpringBootApplication            | 一键声明启动配置                      |
+| ComponentScan("com")             | 指定扫描注解Bean路径                  |
+| PropertySource("classpath:name") | 导入指定 Properties 配置            |
+| MapperScan("com.mapper")         | 指定 Mybatis Mapper 扫描路径        |
+| Configuration                    | 声明当前类是配置类                     |
+| Import                           | 导入配置文件或配置类等                   |
+| ConditionalOnProperty            | bean 注入检查 prefix name 不存在就不注入 |
+| ConditionalOnMissingBean         | bean 检查 name 找不到指定对象 就自动注入    |
+| ConditionalOnClass               | bean 检查 name 找不到指定对象 就不注入     |
+| ----Bean----                     | ----Bean----                  |
+| Data                             | 自动生成 Get;Set;                 |
+| scope                            | 指定Bean使用范围                    |
+| Component                        | 声明bean的基础注解                   |
+| Service                          | 标注在控制器类上                      |
+| RestController                   | API控制器类                       |
+| Repository                       | 标注在数据访问类上(被mybatis优化了)        |
+| ----methods----                  | ----methods----               |
+| RequestMapping("name")           | 控制器指定路径                       |
+| PostConstruct                    | 构造前方法 : 初始化方法                 |
+| PreDestroy                       | 销毁后方法 : 销毁时方法                 |
+| select                           | mybatis：mapper接口 字段填充数据       |
+| ----params----                   | ----params----                |
+| value                            | 形参指定注入的值 ${} 用于注册 Bean        |
+| ----Fields----                   | ----Fields----                |
+| Resource                         | 开启注入  name = "指定"             |
+| Autowired                        | 旧版注入                          |
+| Qualifier                        | 旧版注入 指定注入名称                   |
+| Value                            | 指定内容,常用配置注入 ${key}            |
+| Getter                           | 生成Get                         |
+| Setter                           | 生成set                         |
+
 ## Lombok「推荐工具」
 
 > 推荐的生成 Getter 与 Setter 工具
@@ -135,7 +171,7 @@ server.servlet.context-path=/api
 @Setter
 public class animal extends email {
     //?方式二 指定生成
-    @Getter 
+    @Getter
     @Setter
     String name;
     String gender;
@@ -331,7 +367,7 @@ public class Mail extends email {
 >
 > Mybatis 同样也是注解开发
 > 使用它所提供的方法，传递SQL语句，返回注入 Bean 的对象
-> 
+>
 > 使用需要配置连接数据库，才能使用它的注解方法。
 
 <details>
@@ -342,25 +378,26 @@ public class Mail extends email {
 Spring-boot-web 依赖省略
 
 ```xml
-<dependencys>
-        <!-- 可选生成 Get Set -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.36</version>
-        </dependency>
 
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>3.0.4</version>
-        </dependency>
-        <!-- 数据库对应类型，需要有 jdbc.Driver -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
-        </dependency>
+<dependencys>
+    <!-- 可选生成 Get Set -->
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.18.36</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+        <version>3.0.4</version>
+    </dependency>
+    <!-- 数据库对应类型，需要有 jdbc.Driver -->
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.33</version>
+    </dependency>
 </dependencys>
 ```
 
@@ -368,7 +405,7 @@ Spring-boot-web 依赖省略
 server.port=25505
 server.servlet.context-path=/api
 #? 这里开始指定数据库连接 这里指定的，通过 spring 注入拿取，会自动赋值进入。
-spring.datasource.driver-class-name= com.mysql.cj.jdbc.Driver
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.datasource.url=jdbc:mysql://localhost:3306/node
 spring.datasource.username=sa
 spring.datasource.password=123456
@@ -430,7 +467,7 @@ public class user {
 > 服务层，调用 mapper 获取数据，返回进行操作
 
 接口
- 
+
 ```java
 /*! 接口是放 Services下 实现放 Services.Impl 下 */
 public interface userService {
@@ -461,7 +498,7 @@ public class userServiceImpl implements userService {
 /* com.name.controller */
 @RestController
 public class defaultController {
-    
+
     @Resource //?新注入注解 Autowired 会警告。
     private userServiceImpl userServiceImpl;
 
@@ -480,7 +517,7 @@ public class defaultController {
 
 </details>
 
-## Bean 注入
+## Bean 注册
 
 > [!TIP]
 > 在Jar包中的类无法修改，我们需要让它也能挂载 Bean，后续挂载实现
@@ -504,25 +541,28 @@ public class springConfiguration {
 ```
 
 ```java
+
 @Configuration //声明为配置类
-public class configs{
+public class configs {
 
     @Bean //? 可选指定名称 @Bean("test") 默认是方法名称
-    public test t1(){
+    public test t1() {
+        test item = new test();
+        //item.set() 这样实现注入初始化值,推荐用配置文件注入值，外面预留 @value
         return new test();
     }
-    
+
     //!spring 声明 Bean 的时候发现有参数，Spring 内部有 Bean 类型字节码,就会走自动传递
     @Bean("t2")
-    public test t2(test t1){
-        System.out.println("test:"+t1);
+    public test t2(test t1) {
+        System.out.println("test:" + t1);
         return new test();
     }
 }
 
 @Data
 @EqualsAndHashCode
-class test{
+class test {
     private String t1;
     private String t2;
 }
@@ -531,6 +571,7 @@ class test{
 不推荐 bean 注入写入口配置里面
 
 ```java
+
 @SpringBootApplication
 public class springConfiguration {
     public static void main(String[] args) {
@@ -538,16 +579,17 @@ public class springConfiguration {
         //GetBean 语法就行了 ，传入字节码就能获取到了
         System.out.println(context.getBean(test.class));
     }
+
     //!实际不推荐这样写
     @Bean
-    public test t1(){
+    public test t1() {
         return new test();
     }
 }
 
 @Data
 @EqualsAndHashCode
-class test{
+class test {
     private String t1;
     private String t2;
 }
@@ -555,13 +597,46 @@ class test{
 
 </details>
 
+## Bean 注册条件
+
+> [!TIP]
+> Bean 注册条件 就是在注册成功后为注册的 Bean 注入字段属性等操作，注册操作记得在配置类环境！
+
+```java
+
+@Bean("t3") /*! 如果没配置这个名称，就会直接异常 */
+/*
+ * 注入前检查是否有这属性，否则不注入
+ * Prefix属性前缀 对应 name.name name.name2
+ * 这样能防止起服务的阶段，不会异常，后续GetBean还是会出找不到异常
+ * */
+@Bean
+@ConditionalOnProperty(prefix = "name", name = {"name", "name2"}) 
+public test t1(@value("${n1}") String p1) {
+    test item = new test();
+    //?item.set(p1) 这样实现注入初始化值,推荐用配置文件注入值，形参预留 @value
+    return item;
+}
+```
+
+防止上面未注入找不到bean
+
+```java
+@Bean //如果是为了解决上面未定义的异常，记得指定Id是同一个
+/*? spring 容器没有找到指定的Bean 就自动调用方法注入一个。 */
+@ConditionalOnMissingBean(test.class)
+@ConditionalOnClass(name = "") //!这个注解是上面相反，是找得到就注入相反同理
+public test Provider(){
+    return new test();
+}
+```
 
 ## Import
 
 > [!TIP]
 > 导入语法常用与导入配置文件，或者导入配置工厂模式类
 
-1. @import("name.class") 
+1. @import("name.class")
 2. @Import({"1.class,2.class"})
 
 ```java
@@ -577,7 +652,7 @@ public class CommonImportSelector implements ImportSelector {
                 .getClassLoader().getResourceAsStream("name.imports");//获取Resources目录下文件
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String Line;
-        while ((Line = br.readLine())!=null){
+        while ((Line = br.readLine()) != null) {
             //?自己添加进字符串数组里面
         }
     }
@@ -588,7 +663,7 @@ public class CommonImportSelector implements ImportSelector {
 
 > [!TIP]
 > 自定义注解可以让多个注解变成你指定的一个注解，在特定场景有用
- 
+
 ```java
 /*? com.name.anno */
 
