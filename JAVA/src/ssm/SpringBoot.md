@@ -761,3 +761,116 @@ public @interface sums {
 及其行生注解 把满足注册条件的 `Bean` 对象 自动注入到 `I0C` 容器中
 
 </details>
+
+## 自定义 Starter
+
+> [!TIP]
+> 独立出去的模块，需要添加很多依赖，它就是用来帮忙注册模块依赖的
+>
+> starter 也是个 Maven 工程，使用添加 Maven 依赖来启动 starter
+>
+> starter 里面只需要 pom 文件来添加别的模块，别的依赖通过自动配置来注入
+
+需求：需要能实现 mybatis 功能
+
+需要两个模块 autoconfigure 、 starter
+
+1. 创建新的 maven 模块
+2. 再添加格子所需的依赖
+3. 实现对应功能整合项目
+
+### autoconfigure 「模块依赖」
+
+<details>
+<summary>查看详情</summary>
+
+安装依赖
+
+```text
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter</artifactId>
+    <version>3.4.1</version>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jdbc</artifactId>
+    <version>3.4.1</version>
+</dependency>
+
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis</artifactId>
+    <version>3.5.17</version>
+</dependency>
+
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis-spring</artifactId>
+    <version>3.0.4</version>
+</dependency>
+```
+
+配置工厂 注册 Bean 测试一定先确保能使用 「泛型设计」控制器的所有功能
+
+```java
+//?这里只是重写了 mybatis-spring-boot-starter 这个依赖，来做演示功能。
+@AutoConfiguration
+//!它用来帮 mybatis 拿取配置连接属性，还有把他注册成为 Bean
+public class mybatisAutoConfig {
+    @Bean
+    public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) {
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+
+        //?拿取配置文件的数据源，在使用它实例化数据源并注入进容器。
+        sqlSessionFactoryBean.setDataSource(dataSource);
+
+        return sqlSessionFactoryBean;
+    }
+
+    @Bean
+    public MapperScannerConfigurer mapperScannerConfigurer(BeanFactory beanFactory) {
+        //?代码方式注入注解 声明开启扫描 Mapper 的地址
+        MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+        //获取Spring提供的配置工厂，拿取里面的第一个Bean，也就是启动配置，并设置它是扫描的地址
+        List<String> pages = AutoConfigurationPackages.get(beanFactory);
+        String s = pages.get(0);
+        mapperScannerConfigurer.setBasePackage(s);
+
+        mapperScannerConfigurer.setAnnotationClass(Mapper.class);
+        return mapperScannerConfigurer;
+    }
+}
+```
+
+开启自动配置
+
+1. resources < META-INF < Spring
+2. 复制自动注入 Imports 名称，创建文件
+3. Idea 外部库 Spring-boot-autoconfigure
+4. 找到右键复制，返回目录创建文件。
+5. 文件内写入你所配置的工厂路径
+6. 防止手写问题，Idea 编辑下右键类名，复制引用
+
+```text
+config.mybatisAutoConfig
+```
+
+</details>
+
+### Stater
+
+> [!TIP]
+> 这个模块只是负责写依赖的，将整个项目所需要的依赖，写入 Pom 就行了
+
+```xml
+<!-- 添加你所写的，注入方法拆分成模块的项目 -->
+<dependency>
+    <groupId>org.Naer</groupId>
+    <artifactId>my-spring-boot-starter</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```
+
+实际项目，导入 Starter pom,starter 负责 自动注入相关的依赖
