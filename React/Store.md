@@ -7,6 +7,7 @@ Redux 是一个集中式的状态管理库，它将状态存储在一个单一�
 
 ```Bash
 npm install redux -D
+npm install @reduxjs/toolkit
 ```
 
 <details>
@@ -20,6 +21,7 @@ React 配置 Redux 的过程可以分为以下几个步骤：
 
    ```Bash
    npm install redux react-redux redux-thunk -D
+   npm install @reduxjs/toolkit
    ```
 
 2. 创建 Redux state
