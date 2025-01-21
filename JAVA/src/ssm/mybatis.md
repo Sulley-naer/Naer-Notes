@@ -125,7 +125,7 @@ springContext 一致，通过的是xml配置文件来注册对象
 #### properties
 
 > [!TIP]
-> mybatis 与spring一样支持配置文件导入语法
+> mybatis 与spring一样支持配置文件导入语法,设置之前配置
 
 ```xml
 <!-- 替换符号 ${key} -->
