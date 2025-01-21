@@ -63,7 +63,9 @@ springContext 一致，通过的是xml配置文件来注册对象
         <setting name="logImpl" value="LOG4J"/>
     </settings>
     
+    <!-- default 表示默认使用的环境id -->
     <environments default="development">
+        <!-- id 是区分的不同环境下配置的数据库连接 -->
         <environment id="development">
             <!--
                 mybatis 事务管理分两种
@@ -72,12 +74,26 @@ springContext 一致，通过的是xml配置文件来注册对象
                 如果没有人管理，开启MANAGED = 关闭了事务，自动提交语句
             -->
             <transactionManager type="JDBC" />
-            <dataSource type="POOLED">
+            <!-- 指定数据库连接池，默认用Java接口规范默认实现类.比如 c390 -->
+            <dataSource type="POOLED"><!-- type:[UNPOOLED|POOLED|JUDI] -->
+                <!-- UNP:不使用连接池，每次创建新的连接对象 -->
+                <!-- POOLED:使用mybatis自带的连接池 -->
+                <!-- JNDI:集成第三方的数据连接池 -->
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://localhost:3306/node"/>
                 <property name="username" value="sa"/>
                 <property name="password" value="123456"/>
+                <!-- 配置不同的连接池，属性需要的不同，这里用的是默认所需的属性 -->
             </dataSource>
+            <!-- 
+                JNDI 是一个规范，Tomcat 实现了，它是命名目录的接口
+                大部分连接池都实现了JNDI都规范，在实现了它规范的对象
+                他们之间可以通过JNDI需要通过的连接字符，来找寻特点的对象
+                比如c3p0你需要使用JNDI，并且在属性处提供
+                datasource 这个属性就是它JNDI中查找字符了 连接池的实现类似线程池
+                c3pn 可选的属性 https://mybatis.org/guice/datasources/c3p0.html
+                配置方式：https://developer.aliyun.com/article/1138875
+             -->
         </environment>
     </environments>
             
@@ -105,6 +121,21 @@ springContext 一致，通过的是xml配置文件来注册对象
     ...
 </settings>
 ```
+
+#### properties
+
+> [!TIP]
+> mybatis 与spring一样支持配置文件导入语法
+
+```xml
+<!-- 替换符号 ${key} -->
+<properties resource="path" url="file:///d:"><!-- 导入外部文件方式，起始目录 resource -->
+    <!-- 配置内配置方式 key -> value -->
+    <property name="" value="" />
+    
+</properties>
+``` 
+
 
 #### Mapper
 
@@ -148,12 +179,14 @@ SqlSessionFactoryBuilder --> SqlSessionFactory --> SqlSession
 
 ```java
 public static void main(String[] args) {
-    //获取文件流
+    //获取配置文件流
     InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
     //方式二获取
 //?  ClassLoader.getSystemClassLoader().getResourceAsStream("name.xml");
     
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+    SqlSessionFactory sqlSessionFactory = 
+            new SqlSessionFactoryBuilder().build(inputStream,"可指定配置连接的环境id");
+    
     SqlSession sqlSession = sqlSessionFactory.openSession(/* True 关闭事务，DML操作自动提交修改 */);
     //增加方法，需要对应你Mapper设置的id
     System.out.println(sqlSession.insert("insert"));
@@ -186,7 +219,8 @@ public class sqlSessionUtil {
     static {
         /* SqlSessionFactory对象：一个工厂对应一个 environment ,按顺序拿取配置数据源 */
         try {
-            sqlSessionFactory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsStream("mybatis-config.xml"));
+            sqlSessionFactory = new SqlSessionFactoryBuilder()
+                    .build(Resources.getResourceAsStream("mybatis-config.xml"),"可指定配置数据连接环境id");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
