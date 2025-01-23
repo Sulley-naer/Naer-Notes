@@ -874,3 +874,60 @@ config.mybatisAutoConfig
 ```
 
 实际项目，导入 Starter pom,starter 负责 自动注入相关的依赖
+
+
+## mybatis 
+
+> [!TIP]
+> Mybatis mapper 相关的注解配置等说明 
+
+[完整详情](./mybatis.md)
+
+注解集合
+
+| 注解         | 说明     |
+|------------|--------|
+| Class      | Class  |
+| Mapper     | 注入配置   |
+| method     | method |
+| select     | 查询方法   |
+| Insert     | 增加方法   |
+| Update     | 修改方法   |
+| Delete     | 删除方法   |
+| ResultType | 返回类型   |
+| results    | 字段映射   |
+| params     | params |
+| param      | 指定替换   |
+
+1. 方法注解相关括号内指定SQL语句
+2. Param 可以省略，但是默认是按照顺序替换
+3. `#{}` ：插入替换符 `${}` : 拼接替换符
+4. 指定返回值类型，在注解模式默认返回值类型
+5. 推荐网站查看语法：[了解详情](https://reurl.cc/mRAxv9)
+
+### 替换符
+
+> [!NOTE]
+> 插入替换符会进行运处理，防止SQL注入的问题
+> 
+> 使用$是直接字符串替换的，表名参数化才使用
+
+```java
+@Select("select * from user where user = #{user} && pwd = #{pwd}")
+user getUsers(@Param("user") String user,@Param("pwd") String pwd);
+```
+
+### 字段映射
+
+> [!NOTE]
+> 当数据库的列名与pojo名称不一致时，无法正确的转换数据时使用
+> 
+> 推荐使用 Sql 语句的别名 来实现这个功能，原此注解太长
+
+```java
+@Results({
+    @Result(property = "sex",  column = "sex", javaType = UserSexEnum.class),
+    @Result(property = "userName", column = "user_name")
+})
+List<User> getUserList();
+```
