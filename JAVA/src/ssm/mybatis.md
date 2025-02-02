@@ -101,6 +101,13 @@ springContext 一致，通过的是xml配置文件来注册对象
         <!-- 一般设计是 一张表一个 mapper url:属性可以通过绝对路径 file:///d:/ -->
         <!-- <mapper resource="Mapper.xml"/> -->
         <!-- ! 多个mapper 调用指定方法 id* ： mapper < namespace + "." + id -->
+       
+       <!-- mapper 多个配置属性
+            class 全限定类名地址
+            url file:///d: 绝对路径方式
+            resource: 类加载路径 resources 拼接
+          ! Resource 与 Java 两个目录都是开发时独有的 Maven 自动移动内部文件至上级
+        -->
     </mappers>
 </configuration>
 ```
@@ -213,6 +220,7 @@ public class sqlSessionUtil {
     private sqlSessionUtil() throws IOException {
     }
 
+    //服务器只能存在的一个 sessionFactory
     private static SqlSessionFactory sqlSessionFactory;
 
     /* 类加载时执行 */
@@ -220,18 +228,41 @@ public class sqlSessionUtil {
         /* SqlSessionFactory对象：一个工厂对应一个 environment ,按顺序拿取配置数据源 */
         try {
             sqlSessionFactory = new SqlSessionFactoryBuilder()
-                    .build(Resources.getResourceAsStream("mybatis-config.xml"),"可指定配置数据连接环境id");
+                    .build(Resources.getResourceAsStream("mybatis-config.xml"), "可指定配置数据连接环境id");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+    /*
+     * Local 本质就是 线程的 Map 集合
+     * key 就是 Thread.current()
+     * 一个线程只能存储一个值，一个线程get出来的结果也只能是它
+     * 一开始没给值,必须手动set提供，不然出来是null
+     * 不直接使用 静态域的原因：线程对应单独的事务,全部共享一个不安全
+     * */
+    private static ThreadLocal<SqlSession> local = new ThreadLocal<>();
+
     /**
-    * 获取会话对象
-    * @return SqlSession
-    * */
-    public static SqlSession getSqlSession(){
-        return sqlSessionFactory.openSession();
+     * 获取会话对象
+     * @return SqlSession
+     * */
+    public static SqlSession getSqlSession() {
+        SqlSession sqlSession = local.get();
+        if (SqlSession == null) {
+            sqlSession = sqlSessionFactory.getSqlSession();
+            //绑定到当前线程上
+            local.set(sqlSession);
+        }
+        return sqlSession;
+    }
+
+    public static void close(SqlSession sqlSession) {
+        if (sqlSession != null) {
+            sqlSession.close();
+            //移除对象和当前线程绑定
+            local.remove();
+        }
     }
 }
 ```
@@ -479,3 +510,71 @@ public static void main(String[] args) {
 
 </details>
 
+## 通用
+
+### 占位符
+
+> [!TIP]
+> mybatis 有两种占位符方式 `${}` `#{}`
+
+- `${}` 部分的填充内容是直接进行 sql 拼接,会出现 sql 注入的风险! **日期分表时验证后使用**
+- `#{}` 部分的填充内容预处理强制包裹在引号里面 : 'text'; sql 非引号语句 无法使用
+
+### 别名
+
+> [!TIP]
+> 别名用于简化配置返回值类型等 需要写全限定类名地址的 : 不区分大小写
+
+#### 配置
+
+```xml
+<!-- properties 之后 -->
+<typeAliaes>
+   <!-- alias 可省略 默认最后一节的名称 -->
+    <typeAlias type="com.name.pojo.user" alias="name" />
+   <!-- 自动别名 此目录下的类全部用类名当作别名 -->
+   <package name="com.name.pojo" />
+</typeAliaes>
+```
+
+#### 注解
+
+> [!NOTE]
+> 注解模式别名需要配置类似 mapScan 注解扫描目录,需要使用的都必须都在一个包下面
+> 
+> 注解模式的别名没有自动配置的注解，只能通过扫描路径 + Alias 注解声明
+
+##### 扫描配置
+
+1. 方式一 Properties 文件指定 「推荐」
+
+    ```properties
+    mybatis.type-aliases-package=com.name.pojo
+    ```
+
+2. 方式二 工厂初始化时候指定
+
+    ```java
+    @Configuration
+    public class MyBatisConfig {
+    @Bean
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+        sessionFactory.setDataSource(dataSource);
+        sessionFactory.setTypeAliasesPackage("com.name.pojo"); // 指定别名扫描包
+        return sessionFactory.getObject();
+        }
+    }
+    ```
+
+#### 实体类注解
+
+```java
+/* 必须在扫描路径下的才会正确设置别名 */
+package com.name.pojo;
+
+@Alias("name") // 定义别名
+public class User {
+    // 类的字段和方法
+}
+```

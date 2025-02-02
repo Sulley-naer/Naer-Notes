@@ -518,6 +518,23 @@ public class defaultController {
 
 </details>
 
+### ... : WEB
+
+> [!TIP]
+> 此目录用在标准的 JavaWeb 项目使用，视图表单发送至 servlet 处理「Res Req」
+> 
+> 对 response 解析添加中间层之类，request 返回流自定义操作等等
+
+### ... : exception
+
+> [!TIP]
+> 可选：目录在标准的项目结构中，会需要自定义异常的需求，此目录用于存放类
+
+### ... : Anno
+
+> [!TIP]
+> 可选：项目可能出现需要自定义注解的需求，此目录同样是用于存放实现类
+
 ## Bean 注册
 
 > [!TIP]
