@@ -438,6 +438,18 @@ public static void main(String[] args) {
 }
 ```
 
+### 记录条数
+
+```xml
+<mapper xmlns="http://mybatis.org/schema/mybatis-mapper">
+    <!-- 同样记得填写类型 -->
+    <select id="userTotal" resultType="org.Naer.pojo.user">
+        select count(*)
+        from user
+    </select>
+</mapper>
+```
+
 </details>
 
 ### 自动生成
@@ -446,6 +458,16 @@ public static void main(String[] args) {
 > Mybatis 通过接口来生成 CRUD 代码，实现了重复的书写 CRUD 代码
 > 
 > 学到这里很快进入注解开发模式，省略了代码演示直接说明原理
+ 
+
+```java
+public static void main(String[] args) {
+   SqlSession sqlSession = SqlSessionUtil.openSession;
+   //传递接口 获取自动实现 对象调用方法
+   sqlSession.getMapper(Mapper.class);
+}
+```
+
 
 原理：使用了 `javassist` **面向切片编程** 运行时生成类并 注入字节码
 
@@ -534,6 +556,49 @@ class 反射 -> 包路径 + 指定类名 调用无参构造拿取实例 强转�
 
 ## 通用
 
+### 数据库列别名
+
+> [!TIP]
+> 解决pojo类属性字段与数据库列字段名称不一致的问题
+> 
+> 方式一：数据库命令使用 as 语句来实现
+
+#### 方式二 配置文件 自定义
+
+配置
+
+```xml
+<!-- id -> 数据库对应类型 id  type -> 绑定的 pojo 类  -->
+<resultMap id="name" type="">
+   <!-- 数据库唯一标识符 提高效率 -->
+   <!-- property -> pojo 属性名称 column -> 数据库列名 -->
+   <id property="id" column="id" />
+   <!-- 普通的列配置对应关系 -->
+   <result property="name" column="user"/>
+   <result property="pwd" column="password"/>
+</resultMap>
+```
+
+使用
+
+```xml
+<select id="id" resultType="自定义别名类型的 id">
+ sql * from pojo
+</select>
+```
+
+### 方式三 自动命名规范转换
+
+Java 属性字段 -> 小驼峰 : 首字母小写 单词大写隔开 userName
+
+SQL 列名规范 -> 全字母小写 单词间用 `_` 隔开 user_name
+
+```xml
+<settings>
+   <setting name="mapUnderscoreToCameCase" value="true" />
+</settings>
+```
+
 ### 占位符
 
 > [!TIP]
@@ -600,3 +665,76 @@ public class User {
     // 类的字段和方法
 }
 ```
+
+## 注解模式
+
+> [!TIP]
+> 如果使用的是 Spring-Boot 使用 @Resource 注入提供，不用额外调用初始化方法
+
+### Mapper「接口」
+
+| 注解              | 说明              |
+|-----------------|-----------------|
+| ---Interface--- | ---Interface--- |
+| Mapper          | 自动实现            |
+| ---method---    | ---method---    |
+| select          | 查询方法            |
+| Insert          | 增加方法            |
+| Update          | 修改方法            |
+| Delete          | 删除方法            |
+| ResultType      | 返回类型            |
+| results         | 字段映射            |
+| ---params---    | ---params---    |
+| param           | 占位对象            |
+
+> [!TIP]
+> 注解模式直接使用的接口生成代码，但是需要注解声明是生成的类型
+
+```java
+/* 注解模式 声明Map类 spring 需配置扫描软件包路径 */
+@Mapper 
+public interface usermap {
+    /* 无配置文件模式 直接跳过注解跳过 (ID -> item 生成模板) */
+    @Select("select * from user where user = #{user} && pwd = #{pwd}")
+    user getUsers(@Param("user") String user, @Param("pwd") String pwd);
+}
+
+```
+
+### 使用
+
+| 注解               | 说明           |
+|------------------|--------------|
+| ---Mapper---     | ---Mapper--- |
+| selectOne        | 查询单个结果       |
+| select           | 查询多个结果       |
+| Insert           |              |
+| Update           | 修改方法         |
+| Delete           | 删除方法         |
+| ResultType       | 返回类型         |
+| results          | 字段映射         |
+
+```java
+
+@Resource /* Spring 注入实现的 Mapper 不然使用 session.getMapper(map.class) 获取 */
+private usermap map;
+
+@Override
+public boolean getUser(String user, String pwd) {
+
+    user res = map.getUsers(user, pwd);
+
+    return res != null;
+}
+```
+
+## 原理
+
+### Param
+
+> [!NOTE]
+> 底层里面 Param 本质都是一个 Map 集合
+> 
+> 占位符 -> map.put("arg0","user") map.put("param0","name")
+> 
+> 自动生成的实现类会把参数存储后填充 map.put("param0",text)
