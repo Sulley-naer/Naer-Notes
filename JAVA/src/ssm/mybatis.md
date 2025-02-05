@@ -718,6 +718,40 @@ class 反射 -> 包路径 + 指定类名 调用无参构造拿取实例 强转�
 </select>
 ```
 
+### 注解模式
+
+> [!TIP]
+> 注解模式与配置文件方式没有变化 使用注解传入配置
+
+XML 模式
+ 
+```xml
+<delete id="deleteByIds">
+   delete from table where id in(
+    <foreach collection="ids" item="id" separator=",">
+       #{id}
+    </foreach>
+   )
+</delete>
+```
+
+注解模式
+
+```java
+@Mapper
+public interface YourMapper {
+    // <script> 必须包在标签内,不然无法访问到配置容器对象 id 等
+    @Delete("<script>" +
+            "delete from table where id in (" +
+            "<foreach collection='ids' item='id' separator=','>" +
+            "#{id}" +
+            "</foreach>" +
+            ")" +
+            "</script>")
+    int deleteByIds(@Param("ids") List<Integer> ids);
+}
+```
+
 ## 通用
 
 ### 数据库列别名
