@@ -134,6 +134,9 @@ springContext 一致，通过的是xml配置文件来注册对象
 > [!TIP]
 > mybatis 与spring一样支持配置文件导入语法,设置之前配置
 
+<details>
+<summary>查看详情</summary>
+
 ```xml
 <!-- 替换符号 ${key} -->
 <properties resource="path" url="file:///d:"><!-- 导入外部文件方式，起始目录 resource -->
@@ -143,7 +146,12 @@ springContext 一致，通过的是xml配置文件来注册对象
 </properties>
 ``` 
 
+</details>
+
 #### Mapper
+
+<details>
+<summary>查看详情</summary>
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -450,15 +458,12 @@ public static void main(String[] args) {
 </mapper>
 ```
 
-</details>
-
 ### 自动生成
 
 > [!TIP]
 > Mybatis 通过接口来生成 CRUD 代码，实现了重复的书写 CRUD 代码
 > 
 > 学到这里很快进入注解开发模式，省略了代码演示直接说明原理
- 
 
 ```java
 public static void main(String[] args) {
@@ -468,6 +473,7 @@ public static void main(String[] args) {
 }
 ```
 
+</details>
 
 原理：使用了 `javassist` **面向切片编程** 运行时生成类并 注入字节码
 
@@ -484,6 +490,8 @@ public static void main(String[] args) {
 class 反射 -> 包路径 + 指定类名 调用无参构造拿取实例 强转为接口类型返回
 
 实现了我们定义接口 它生成了实现类 通过接口来调用它实现类的方法。
+
+</details>
 
 ## 日志集成
 
@@ -565,6 +573,10 @@ class 反射 -> 包路径 + 指定类名 调用无参构造拿取实例 强转�
 
 > 使用配置文件的方式来使用动态SQL
 
+<details>
+<summary>查看详情</summary>
+
+
 ```xml
 <select  id="select" rusuleType="class">
    <!--
@@ -580,12 +592,17 @@ class 反射 -> 包路径 + 指定类名 调用无参构造拿取实例 强转�
 </select>
 ```
 
+</details>
+
 #### 实用标签
 
 > [!TIP]
 > 使用 where 标签来管理条件语句,智能处理连接等问题 支持动态语句
 
 ##### 智能条件
+
+<details>
+<summary>查看详情</summary>
 
 ```xml
 <select  id="select" rusuleType="class">
@@ -600,10 +617,15 @@ class 反射 -> 包路径 + 指定类名 调用无参构造拿取实例 强转�
 </select>
 ```
 
+</details>
+
 ##### 智能修改
 
 > [!TIP]
 > 使用动态SQL来处理修改语句，自动删除末尾 `,` 防止语句异常
+
+<details>
+<summary>查看详情</summary>
 
 ```xml
 <update id="name">
@@ -621,12 +643,17 @@ class 反射 -> 包路径 + 指定类名 调用无参构造拿取实例 强转�
 </update>
 ```
 
+</details>
+
 ##### trim ：通用
 
 > [!TIP]
 > trim 格式化字符,同样是管理动态SQL字符串的处理好手 不能与其他 智能连接性标签 同时使用
 >
 > 需要搭配 IF 语句使用,不然是无法触发添加前缀 他需要有一个if 成立才使用
+
+<details>
+<summary>查看详情</summary>
 
 ```xml
 <select id="name">
@@ -646,11 +673,16 @@ class 反射 -> 包路径 + 指定类名 调用无参构造拿取实例 强转�
 </select>
 ```
 
+</details>
+
 ##### 智能判断
 
 > [!TIP]
 > 用来解决 if 标签的单一化，增加 if-else 的语法 
- 
+
+<details>
+<summary>查看详情</summary>
+
 ```xml
 <select>
    select * from table
@@ -671,10 +703,15 @@ class 反射 -> 包路径 + 指定类名 调用无参构造拿取实例 强转�
 </select>
 ```
 
+</details>
+
 ##### 智能循环
 
 > [!TIP]
 > Foreach 循环遍历传入数组 并生成语句 实现批量删除 批量增加同理
+
+<details>
+<summary>查看详情</summary>
 
 ```xml
 <!--
@@ -698,10 +735,15 @@ class 反射 -> 包路径 + 指定类名 调用无参构造拿取实例 强转�
 </delete>
 ```
 
+</details>
+
 ##### 语句模板
 
 > [!TIP]
 > 一条SQL多地方使用 提取为模板 方便复用 本质复制粘贴字符
+
+<details>
+<summary>查看详情</summary>
 
 ```xml
 <!-- 转换别名 -->
@@ -718,10 +760,15 @@ class 反射 -> 包路径 + 指定类名 调用无参构造拿取实例 强转�
 </select>
 ```
 
+</details>
+
 ### 注解模式
 
 > [!TIP]
 > 注解模式与配置文件方式没有变化 使用注解传入配置
+
+<details>
+<summary>查看详情</summary>
 
 XML 模式
  
@@ -752,6 +799,8 @@ public interface YourMapper {
 }
 ```
 
+</details>
+
 ## 通用
 
 ### 数据库列别名
@@ -762,6 +811,9 @@ public interface YourMapper {
 > 方式一：数据库命令使用 as 语句来实现
 
 #### 方式二 配置文件 自定义
+
+<details>
+<summary>查看详情</summary>
 
 配置
 
@@ -784,6 +836,8 @@ public interface YourMapper {
  sql * from pojo
 </select>
 ```
+
+</details>
 
 ### 方式三 自动命名规范转换
 
@@ -812,6 +866,9 @@ SQL 列名规范 -> 全字母小写 单词间用 `_` 隔开 user_name
 
 #### 配置
 
+<details>
+<summary>查看详情</summary>
+
 ```xml
 <!-- properties 之后 -->
 <typeAliaes>
@@ -822,12 +879,17 @@ SQL 列名规范 -> 全字母小写 单词间用 `_` 隔开 user_name
 </typeAliaes>
 ```
 
+</details>
+
 #### 注解
 
 > [!NOTE]
 > 注解模式别名需要配置类似 mapScan 注解扫描目录,需要使用的都必须都在一个包下面
 > 
 > 注解模式的别名没有自动配置的注解，只能通过扫描路径 + Alias 注解声明
+
+<details>
+<summary>查看详情</summary>
 
 ##### 扫描配置
 
@@ -864,6 +926,125 @@ public class User {
 }
 ```
 
+</details>
+
+## 高级映射
+
+> [!TIP]
+> 高级映射：把数据库的表直接的映射关系 Java 通过映射对象 可以访问被映射对象的数据
+
+### 选项
+
+#### 全局懒加载
+
+```xml
+<settings>
+   <setting name="lazyLoadingEnabled" value="true" />
+</settings>
+```
+
+### 多对一
+
+> [!NOTE]
+> 多对一指代 数量多的表去映射单一的表 比如: 学生表与班级表的关系 学生绑定其一班级
+
+<details>
+<summary>查看详情</summary>
+
+#### 常规方式
+
+```xml
+<!-- 定义查询关系 -->
+<resultMap id="stu" type="student">
+   <!-- 方式一：属性存储 -->
+   
+   <!-- 主键 索引效率 -->
+   <id property="id" column="id" />
+   <!-- 指定查询结果的列存储属性 -->
+   <result property="name" column="name" />
+   <result property="class" column="class" />
+   <!-- 利用连接查询实现存储老师 -->
+   <result property="teacher" column="teacher" />
+   
+   <!-- 方式二：对象存储 -->
+   <!--
+        association: 关联标签
+        property: 指定存储的属性名称
+        javaType: 指定存储属性的类型
+        !这个方式存储是对象 不是属性
+   -->
+   <association property="class" javaType="class">
+      <!-- 这里面写存储属性 查询关系 -->
+      <id property="cid" column="cid" />
+      <result property="teacher" column="teacher" />
+   </association>
+</resultMap>
+```
+
+```xml
+<!-- 使用指定关系,存储绑定对象 -->
+<select id="name" rusultMap="stu">
+   select 
+        <!--! 连接查询记录所需数据 -->
+        s.id,s.name,s.class,b.teacher,b.cid
+   from 
+        <!--? 班级外键关系找到映射 -->
+        student s left join class b on s.class = b.class
+   where
+        s.id = #{id}
+</select>
+```
+
+#### 推荐方式
+
+> [!TIP]
+> 分步查询、可复用、支持懒加载
+> 
+> 隐形式 懒加载 实用舒适 
+ 
+步骤:
+
+1.   查询学生
+2. 存储学生信息
+3. 发现关联查询
+4. 调用实现方法
+5. 结果返回关联
+6. 关联进行映射
+7. 赋值指定属性
+
+映射关系：
+
+```xml
+<resultMap id="Step" type="student">
+   <id property="id" column="id" />
+   <result propertype="name" column="name" />
+   <!--? 指定第二条SQL语句 id 来获取数据存储 column 提供参数 --> 
+   <!--? fetchType: Lazy|eager 懒加载 推荐全局 **动态代理** 实现 -->
+   <association property="class" select="Select2" column="cid" fetchType="lazy" >
+      <id property="cid" column="cid" />
+      <result propertype="teacher" column="teacher" />
+   </association>
+</resultMap>
+```
+
+查询语句
+
+```xml
+<!-- 调用测试 -->
+<select id="Select1" rusultMap="Step">
+   select id,name from student where id = #{id}
+</select>
+```
+
+```xml
+<!--! 记得接口实现 没有实现不能执行 -->
+<select id="Select2" resultType="class" >
+   select cid,teacher from class where cid = #{cid}
+</select>
+```
+
+</details>
+
 ## 注解模式
 
 > [!TIP]
@@ -888,6 +1069,9 @@ public class User {
 > [!TIP]
 > 注解模式直接使用的接口生成代码，但是需要注解声明是生成的类型
 
+<details>
+<summary>查看详情</summary>
+
 ```java
 /* 注解模式 声明Map类 spring 需配置扫描软件包路径 */
 @Mapper 
@@ -896,8 +1080,9 @@ public interface usermap {
     @Select("select * from user where user = #{user} && pwd = #{pwd}")
     user getUsers(@Param("user") String user, @Param("pwd") String pwd);
 }
-
 ```
+
+</details>
 
 ### 使用
 
@@ -912,8 +1097,11 @@ public interface usermap {
 | ResultType       | 返回类型         |
 | results          | 字段映射         |
 
-```java
+<details>
+<summary>查看详情</summary>
 
+
+```java
 @Resource /* Spring 注入实现的 Mapper 不然使用 session.getMapper(map.class) 获取 */
 private usermap map;
 
@@ -925,6 +1113,8 @@ public boolean getUser(String user, String pwd) {
     return res != null;
 }
 ```
+
+</details>
 
 ## 原理
 

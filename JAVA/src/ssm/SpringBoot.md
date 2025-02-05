@@ -929,10 +929,15 @@ config.mybatisAutoConfig
 > 
 > 使用$是直接字符串替换的，表名参数化才使用
 
+<details>
+<summary>查看代码</summary>
+
 ```java
 @Select("select * from user where user = #{user} && pwd = #{pwd}")
 user getUsers(@Param("user") String user,@Param("pwd") String pwd);
 ```
+
+</details>
 
 ### 字段映射
 
@@ -941,6 +946,9 @@ user getUsers(@Param("user") String user,@Param("pwd") String pwd);
 > 
 > 推荐使用 Sql 语句的别名 来实现这个功能，原此注解太长
 
+<details>
+<summary>查看详情</summary>
+
 ```java
 @Results({
     @Result(property = "sex",  column = "sex", javaType = UserSexEnum.class),
@@ -948,3 +956,5 @@ user getUsers(@Param("user") String user,@Param("pwd") String pwd);
 })
 List<User> getUserList();
 ```
+
+</details>
