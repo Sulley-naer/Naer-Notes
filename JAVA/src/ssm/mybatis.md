@@ -554,6 +554,170 @@ class 反射 -> 包路径 + 指定类名 调用无参构造拿取实例 强转�
 
 </details>
 
+## 动态SQL
+
+> [!TIP]
+> 动态SQL是用在 SQL 语句需要根据 传入的参数 来生成不同的条件
+> 
+> 比如：商城中的商品筛选，时间 类型 根据参数熟练来追加 where
+
+### 配置文件
+
+> 使用配置文件的方式来使用动态SQL
+
+```xml
+<select  id="select" rusuleType="class">
+   <!--
+    根据 test 来 拼接 SQL
+   !test 填写 @param 根据参数判断 未指定名称用默认名称 arg数字
+   ?也可以使用 POJO 类 连接语句需要修改 & -> and | -> or
+    pojo != null and arg != ''
+   -->
+   select * from table where 1 = 1
+   <if test="true">
+       and column = #{param}
+   </if>
+</select>
+```
+
+#### 实用标签
+
+> [!TIP]
+> 使用 where 标签来管理条件语句,智能处理连接等问题 支持动态语句
+
+##### 智能条件
+
+```xml
+<select  id="select" rusuleType="class">
+   select * from table <!-- 不要给 where 了 使用 where 连接性标签会自动追加 -->
+   <!--? 可选使用 where 标签来管理条件语句,智能处理也支持动态语句 -->
+   <where>
+      <!-- 末尾 and 或者 or 智能移除 -->
+      <if test="true">
+         column = #{param} and
+      </if>
+   </where>
+</select>
+```
+
+##### 智能修改
+
+> [!TIP]
+> 使用动态SQL来处理修改语句，自动删除末尾 `,` 防止语句异常
+
+```xml
+<update id="name">
+   update table
+   <set>
+      <!-- 如果有数据 SQL 必然会以 `,` 结尾 自动修复 测试不会异常   -->
+      <if test="param != null">
+         column = #{param},
+      </if>
+      <if test="param2 != null">
+         column2 = #{param2},
+      </if>
+   </set>
+   where id = #{id}
+</update>
+```
+
+##### trim ：通用
+
+> [!TIP]
+> trim 格式化字符,同样是管理动态SQL字符串的处理好手 不能与其他 智能连接性标签 同时使用
+>
+> 需要搭配 IF 语句使用,不然是无法触发添加前缀 他需要有一个if 成立才使用
+
+```xml
+<select id="name">
+   <!--
+        prefix: 前缀
+        suffix: 后缀
+        prefixOverrides: 删除前缀
+        suffixOverrides: 删除后缀
+   -->
+   select * from table
+   <trim prefix="where" suffixOverrides="and | or">
+      <!-- 添加 where 拼接 删除最后的 and 或者 or 字符 -->
+      <if test="true">
+         and column = #{param}
+      </if>
+   </trim>
+</select>
+```
+
+##### 智能判断
+
+> [!TIP]
+> 用来解决 if 标签的单一化，增加 if-else 的语法 
+ 
+```xml
+<select>
+   select * from table
+   <where>
+      <!-- 判断语句标签范围 两个标签都需要使用 强制 if 必须有 else -->
+      <choose>
+         <when test="1 = 1"><!-- if(1=1) -->
+            age > 18 and
+         </when>
+         <when test="1 != 1"> <!-- if(1!=1) -->
+            age != 18 and
+         </when>
+         <otherwise><!-- else -->
+            1 = 1
+         </otherwise>
+      </choose>
+   </where>
+</select>
+```
+
+##### 智能循环
+
+> [!TIP]
+> Foreach 循环遍历传入数组 并生成语句 实现批量删除 批量增加同理
+
+```xml
+<!--
+    collection: 数组或者集合 -> 传入的数组 @param 名字 
+    item: 元素 -> 指向当前次数对象
+    separator: 循环分隔符 -> and | or | ,
+    循环分隔符 -> 循环每次完成后追加的字符
+    open: 自定义首字符 (
+    close: 自定义结束符 )
+-->
+<delete id="name">
+   delete from table where id in(
+    <foreach collection="arg" item="id" separator=",">
+       #{id}<!--? 手动加 `,` 会导致最后的字符是连接符 , separator 自动处理最后一个 -->
+    </foreach>
+   )
+   
+   批量插入演示语句
+   
+   insert into t_user(id,name,age) values(1,'zs',20),(2,'zs',20),(1,'zs',20)
+</delete>
+```
+
+##### 语句模板
+
+> [!TIP]
+> 一条SQL多地方使用 提取为模板 方便复用 本质复制粘贴字符
+
+```xml
+<!-- 转换别名 -->
+<sql id="sql">
+   id,
+   name as user
+</sql>
+```
+
+```xml
+<select id="name">
+   select <include refid="sql"/>
+   from table
+</select>
+```
+
 ## 通用
 
 ### 数据库列别名
