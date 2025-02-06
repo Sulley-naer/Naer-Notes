@@ -1045,6 +1045,75 @@ public class User {
 
 </details>
 
+### 一对多
+
+> [!TIP]
+> 一对多 数量少的关联绑定多的 比如 班级表与学生表的关系 班级被学生关联
+
+<details>
+<summary>查看详情</summary>
+
+#### 常规方式
+
+collection:
+
+```xml
+<resultMap id="stu" type="student">
+   <!-- 主键 索引效率 -->
+   <id property="cid" column="cid" />
+   <result property="class" column="class" />
+   <result property="teacher" column="teacher" />
+   <!-- collection -> 集合存储对象 -->
+   <collection property="studentList" ofType="student">
+      <id property="id" column="id" />
+      <result property="name" column="name"/>
+   </collection>
+</resultMap>
+```
+
+```xml
+<!-- 使用指定关系,存储绑定对象 -->
+<select id="name" rusultMap="stu">
+   select 
+        <!--! 连接查询记录所需数据 -->
+        c.cid,c.class,c.teacher,b.name,b.id
+   from 
+        <!--? 班级外键关系找到映射 -->
+        class c left join student b on c.class = b.class
+   where
+        c.cid = #{cid}
+</select>
+```
+
+#### 推荐分步
+
+> [!TIP]
+> 步骤与多对一是一致的，查询步骤都需要有 Mapper 引用
+
+```xml
+<select id="selectByStep" rusultMap="SelectStep">
+   select cid,name from class where cid=#{cid}
+</select>
+```
+
+```xml
+<!--! 一定有 Mapper 引用 让它生成方法 -->
+<select id="selectByStep2" rusultMap="SelectStep">
+   select * from student where cid=#{cid}
+</select>
+```
+
+```xml
+<rusultMap id="SelectStep" type="class">
+   <id property="cid" column="cid"/>
+   <rusult property="name" column="name" />
+   <!-- 存储字段 查询id 传递参数 集合存储对象 -->
+   <collection property="studentList" select="selectByStep2" column="cid"/>
+</rusultMap>
+```
+
+</details>
+
 ## 注解模式
 
 > [!TIP]
