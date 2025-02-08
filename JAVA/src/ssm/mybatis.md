@@ -875,7 +875,7 @@ SQL 列名规范 -> 全字母小写 单词间用 `_` 隔开 user_name
    <!-- alias 可省略 默认最后一节的名称 -->
     <typeAlias type="com.name.pojo.user" alias="name" />
    <!-- 自动别名 此目录下的类全部用类名当作别名 -->
-   <package name="com.name.pojo" />
+   <package name="org.Naer.mapper"/> <!--! Mapper 配置文件的XML -->
 </typeAliaes>
 ```
 
@@ -1114,6 +1114,95 @@ collection:
 
 </details>
 
+## 缓存
+
+> [!TIP]
+> Mybatis使用缓存保存数据 提高性能效率 自动处理过期 默认开启
+
+一级缓存：sqlSession -> sql语句(select)
+二级缓存：sqlSessionFactory -> 数据库 
+
+### 一级缓存
+
+> [!NOTE]
+> 一级缓存会记录所有的查询 sql 语句 记录返回值
+
+同一条语句 执行两次可以通过 日志看到没有发送
+
+失效条件 数据库表格更新 增删改 系列缓存失效
+
+手动失效 `sqlSession.clearCache()`
+
+### 二级缓存
+
+> [!NOTE]
+> 二级缓存是将数据库缓存 pojo 类需要可序列化
+>
+> 二级无法与一级同时使用 二级须关闭 SqlSession
+> 
+> 关闭一级缓存 `sqlSession.close()`
+
+可序列化 -> 实现接口 `Serializable`
+
+<details>
+<summary>开启方式</summary>
+
+```xml
+<!-- 全局开启 -->
+<settings>
+   <setting name="cacheEnabled" value="true" />
+</settings>
+```
+
+```xml
+<!-- 开启 -->
+<cache/>
+```
+
+存储方式：一级缓存关闭后 将内部的缓存移植到二级中
+
+没有关闭一级缓存时 优先使用一级缓存来获取数据
+
+</details>
+
+#### 配置
+
+| 属性            | 值                  | 说明        |
+|---------------|--------------------|-----------|
+| flushInterval | ms:time int        | 过期时间      |
+| size          | int                | 缓存大小      |
+| eviction      | LRU、FIFO、SOFT、WEAK | 淘汰算法      |
+| readOnly      | boolean            | 关闭:返回对象克隆 |
+
+### 三方缓存
+
+> [!TIP]
+> Mybatis 支持使用第三方的缓存工具 一级缓存是无法取代 可以优化二级缓存
+
+<details>
+<summary>查看演示</summary>
+
+#### Ehcache
+
+一.依赖
+
+```xml
+<dependency>
+   <groupId>org.mybatis.caches</groupId>
+   <artifactId>mybatis-ehcache</artifactId>
+   <version>1.3.0</version>
+</dependency>
+```
+
+二.配置文件
+
+```xml
+<!-- ehcache.xml -->
+<diskStore path="e:/ehcache" /> <!-- 磁盘存储 -->
+```
+
+</details>
+
 ## 注解模式
 
 > [!TIP]
@@ -1143,10 +1232,15 @@ collection:
 
 ```java
 /* 注解模式 声明Map类 spring 需配置扫描软件包路径 */
-@Mapper 
+@Mapper
+// ? 自定义别名映射
+@Result({
+        @Result(property = "id",column = "id"),
+        @Result(property = "user",column = "student_name")
+})
 public interface usermap {
-    /* 无配置文件模式 直接跳过注解跳过 (ID -> item 生成模板) */
-    @Select("select * from user where user = #{user} && pwd = #{pwd}")
+    /* 简单的语句可以不用在 xml 书写,script标签允许使用访问配置文件变量 */
+    @Select("<script> select * from user where user = #{user} && pwd = #{pwd}</script>")
     user getUsers(@Param("user") String user, @Param("pwd") String pwd);
 }
 ```
@@ -1180,6 +1274,111 @@ public boolean getUser(String user, String pwd) {
     user res = map.getUsers(user, pwd);
 
     return res != null;
+}
+```
+
+</details>
+
+## 自动生成
+
+> [!TIP]
+> 利用 Mybatis 数据库生成的插件来省略写 mapper 系列的繁琐部分
+
+Idea > 插件 > MyBatisCodeHelperPro
+
+Idea > 数据库 > 表格 > 右键 > Mybatis multiple table generate
+
+## 分页查询
+
+> [!TIP]
+> 通过 LIMIT 偏移实现分页 (page - 1) * pageSize -> 0
+> TAKE 拿取的条数 pageSize -> 10
+> 
+> SQL ： select * from table limit 0,10
+
+### 分页插件
+
+> [!TIP]
+> 分页插件可以让我们无视分页的步骤，直负责提供查询的方法就行了
+
+<details>
+<summary>代码演示</summary>
+
+pom.xml
+
+```xml
+<!-- mybatis 单独使用版 -->
+<dependency>
+   <groupId>com.github.pagehelper</groupId>
+   <artifactId>pagehelper</artifactId>
+   <version>6.1.0</version>
+</dependency>
+```
+
+```xml
+<!-- spring-Boot -->
+<dependency>
+   <groupId>com.github.pagehelper</groupId>
+   <artifactId>pagehelper-spring-boot-starter</artifactId>
+   <version>2.1.0</version>
+</dependency>
+```
+
+Mybatis-config
+
+```xml
+<!-- spring 无视 -->
+<plugins>
+   <plugin interceptor="com.github.pagehelper" />
+</plugins>
+```
+
+```java
+//? 调用 mapper 查询前设置好就行了
+@Test
+public void SessionTest() {
+   SqlSession sqlSession = sqlSessionUtil.getSqlSession();
+   PageHelper.startPage(0, 2);
+   /* ? 自己调用测试 */ 
+}
+```
+
+springBoot
+
+```java
+/* !排除 mybatis 自动注入 用 pagehelper 的注入 */
+@SpringBootApplication(exclude = mybatisAutoConfig.class)
+@MapperScan("org.Naer.mapper")
+public class application {
+    public static void main(String[] args) throws IOException {
+        SpringApplication.run(application.class, args);
+    }
+}
+
+/*
+ 异常显示 两个 bean 不要排除 pagehelper 的 不然无法拦截查询请求分页功能失效
+ file [D:\小米云盘\桌面\JAVA\study\target\classes\org\Naer\mapper\UserMapper.class] required a single bean, but 2 were found:
+	- sqlSessionFactory: defined by method 'sqlSessionFactory' in class path resource [org/mybatis/spring/boot/autoconfigure/MybatisAutoConfiguration.class]
+	- sqlSessionFactoryBean: defined by method 'sqlSessionFactoryBean' in class path resource [config/mybatisAutoConfig.class] 
+  
+ */
+```
+
+```properties
+pagehelper.helperDialect=mysql
+pagehelper.reasonable=true
+pagehelper.supportMethodsArguments=true
+pagehelper.params=count=countSql
+```
+
+```java
+@Override
+public List<User> findAll(int page, int size) {
+    /* 在使用查询前修改即可 */
+   PageHelper.startPage(0, 2);
+   List<User> users = userMapper.selectAll();
+   return new PageInfo<>(users); /* 还可以再给一个 int 参数 获取自定义页数的详情信息 */
+   /*? pageInfo 可以查看pageHelper的其他参数 最重要 count 总数量 是否最后一页等等  */
 }
 ```
 
