@@ -1,4 +1,8 @@
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=star-history/star-history&type=Timeline)](https://www.star-history.com/#star-history/star-history&Timeline)
+
 ```
 前端笔记
 ├─ .idea
