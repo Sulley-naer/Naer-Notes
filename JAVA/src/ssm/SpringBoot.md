@@ -513,10 +513,45 @@ public class defaultController {
         return userServiceImpl.findById(id);
     }
 
+    @RequestMapping("/login")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<?> test(String user, String pwd) {
+        users select = getUser.select(user, pwd);
+
+        if (select != null) {
+            String token = JwtTokenUtil.generateToken(user);
+
+            // 使用匿名内部类 自定义返回体结构
+            return ResponseEntity.ok(new Object() {
+                public final String status = "success";  // 状态
+                public final Object data = token;        // 数据：token
+            });
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
 }
 ```
 
 </details>
+
+### ... : WEB
+
+> [!TIP]
+> 此目录用在标准的 JavaWeb 项目使用，视图表单发送至 servlet 处理「Res Req」
+> 
+> 对 response 解析添加中间层之类，request 返回流自定义操作等等
+
+### ... : exception
+
+> [!TIP]
+> 可选：目录在标准的项目结构中，会需要自定义异常的需求，此目录用于存放类
+
+### ... : Anno
+
+> [!TIP]
+> 可选：项目可能出现需要自定义注解的需求，此目录同样是用于存放实现类
 
 ## Bean 注册
 
@@ -759,5 +794,185 @@ public @interface sums {
 
 读取到全类名了之后,会解析注册条件 也就是 `@Conditional`   
 及其行生注解 把满足注册条件的 `Bean` 对象 自动注入到 `I0C` 容器中
+
+</details>
+
+## 自定义 Starter
+
+> [!TIP]
+> 独立出去的模块，需要添加很多依赖，它就是用来帮忙注册模块依赖的
+>
+> starter 也是个 Maven 工程，使用添加 Maven 依赖来启动 starter
+>
+> starter 里面只需要 pom 文件来添加别的模块，别的依赖通过自动配置来注入
+
+需求：需要能实现 mybatis 功能
+
+需要两个模块 autoconfigure 、 starter
+
+1. 创建新的 maven 模块
+2. 再添加格子所需的依赖
+3. 实现对应功能整合项目
+
+### autoconfigure 「模块依赖」
+
+<details>
+<summary>查看详情</summary>
+
+安装依赖
+
+```text
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter</artifactId>
+    <version>3.4.1</version>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jdbc</artifactId>
+    <version>3.4.1</version>
+</dependency>
+
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis</artifactId>
+    <version>3.5.17</version>
+</dependency>
+
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis-spring</artifactId>
+    <version>3.0.4</version>
+</dependency>
+```
+
+配置工厂 注册 Bean 测试一定先确保能使用 「泛型设计」控制器的所有功能
+
+```java
+//?这里只是重写了 mybatis-spring-boot-starter 这个依赖，来做演示功能。
+@AutoConfiguration
+//!它用来帮 mybatis 拿取配置连接属性，还有把他注册成为 Bean
+public class mybatisAutoConfig {
+    @Bean
+    public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) {
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+
+        //?拿取配置文件的数据源，在使用它实例化数据源并注入进容器。
+        sqlSessionFactoryBean.setDataSource(dataSource);
+
+        return sqlSessionFactoryBean;
+    }
+
+    @Bean
+    public MapperScannerConfigurer mapperScannerConfigurer(BeanFactory beanFactory) {
+        //?代码方式注入注解 声明开启扫描 Mapper 的地址
+        MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+        //获取Spring提供的配置工厂，拿取里面的第一个Bean，也就是启动配置，并设置它是扫描的地址
+        List<String> pages = AutoConfigurationPackages.get(beanFactory);
+        String s = pages.get(0);
+        mapperScannerConfigurer.setBasePackage(s);
+
+        mapperScannerConfigurer.setAnnotationClass(Mapper.class);
+        return mapperScannerConfigurer;
+    }
+}
+```
+
+开启自动配置
+
+1. resources < META-INF < Spring
+2. 复制自动注入 Imports 名称，创建文件
+3. Idea 外部库 Spring-boot-autoconfigure
+4. 找到右键复制，返回目录创建文件。
+5. 文件内写入你所配置的工厂路径
+6. 防止手写问题，Idea 编辑下右键类名，复制引用
+
+```text
+config.mybatisAutoConfig
+```
+
+</details>
+
+### Stater
+
+> [!TIP]
+> 这个模块只是负责写依赖的，将整个项目所需要的依赖，写入 Pom 就行了
+
+```xml
+<!-- 添加你所写的，注入方法拆分成模块的项目 -->
+<dependency>
+    <groupId>org.Naer</groupId>
+    <artifactId>my-spring-boot-starter</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```
+
+实际项目，导入 Starter pom,starter 负责 自动注入相关的依赖
+
+
+## mybatis 
+
+> [!TIP]
+> Mybatis mapper 相关的注解配置等说明 
+
+[完整详情](./mybatis.md)
+
+注解集合
+
+| 注解         | 说明     |
+|------------|--------|
+| Class      | Class  |
+| Mapper     | 注入配置   |
+| method     | method |
+| select     | 查询方法   |
+| Insert     | 增加方法   |
+| Update     | 修改方法   |
+| Delete     | 删除方法   |
+| ResultType | 返回类型   |
+| results    | 字段映射   |
+| params     | params |
+| param      | 指定替换   |
+
+1. 方法注解相关括号内指定SQL语句
+2. Param 可以省略，但是默认是按照顺序替换
+3. `#{}` ：插入替换符 `${}` : 拼接替换符
+4. 指定返回值类型，在注解模式默认返回值类型
+5. 推荐网站查看语法：[了解详情](https://reurl.cc/mRAxv9)
+
+### 替换符
+
+> [!NOTE]
+> 插入替换符会进行运处理，防止SQL注入的问题
+> 
+> 使用$是直接字符串替换的，表名参数化才使用
+
+<details>
+<summary>查看代码</summary>
+
+```java
+@Select("select * from user where user = #{user} && pwd = #{pwd}")
+user getUsers(@Param("user") String user,@Param("pwd") String pwd);
+```
+
+</details>
+
+### 字段映射
+
+> [!NOTE]
+> 当数据库的列名与pojo名称不一致时，无法正确的转换数据时使用
+> 
+> 推荐使用 Sql 语句的别名 来实现这个功能，原此注解太长
+
+<details>
+<summary>查看详情</summary>
+
+```java
+@Results({
+    @Result(property = "sex",  column = "sex", javaType = UserSexEnum.class),
+    @Result(property = "userName", column = "user_name")
+})
+List<User> getUserList();
+```
 
 </details>
