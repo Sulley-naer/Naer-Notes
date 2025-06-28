@@ -12,11 +12,11 @@
 ```java
 /* src>main */
 public class math {
-    public int sum (int a, int b) {
+    public int sum(int a, int b) {
         return a + b;
     }
 
-    public int minus (int a, int b) {
+    public int minus(int a, int b) {
         return a - b;
     }
 }
@@ -29,7 +29,12 @@ public class math {
 ```java
 /* src>test */
 public class mathTest {
-    private math math = new math();
+    private math math;
+
+    @BeforeEach
+    public void setup() {
+        math = new math();
+    }
 
     @Test
     public void testSum() {
@@ -39,3 +44,11 @@ public class mathTest {
     }
 }
 ```
+
+## 注解
+
+| 名称         | 说明     |
+|------------|--------|
+| BeforeEach | 预加载方法  |
+| test       | 允许方法测试 |
+| AfterEach  | 结束方法   |

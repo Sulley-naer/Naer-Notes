@@ -1208,6 +1208,15 @@ collection:
 > [!TIP]
 > 如果使用的是 Spring-Boot 使用 @Resource 注入提供，不用额外调用初始化方法
 
+```xml
+<!-- 额外依赖 -->
+<dependency>
+    <groupId>org.mybatis.spring.boot</groupId>
+    <artifactId>mybatis-spring-boot-starter</artifactId>
+    <version>3.0.4</version>
+</dependency>
+```
+
 ### Mapper「接口」
 
 | 注解              | 说明              |
@@ -1240,8 +1249,13 @@ collection:
 })
 public interface usermap {
     /* 简单的语句可以不用在 xml 书写,script标签允许使用访问配置文件变量 */
-    @Select("<script> select * from user where user = #{user} && pwd = #{pwd}</script>")
+    @Select("select * from user where user = #{user} && pwd = #{pwd}")
     user getUsers(@Param("user") String user, @Param("pwd") String pwd);
+    /*
+     * 复杂语句可以加入 script 但是参数也必须强制指定名称了，不然就异常
+       @Select("<script>select * from users where user = #{user} &amp;&amp; pwd = #{pwd}</script>")
+       users selectById(@Param("user") String user, @Param("pwd") String pwd);
+     * */
 }
 ```
 

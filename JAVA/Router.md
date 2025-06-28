@@ -4,10 +4,10 @@ Java 笔记导航：
 
 ## Idea
 
-1. [安装与配置](./src/Idea.md#安装)
-2. [快捷键](./src/Idea.md#我的快捷键)
-3. [插件](./src/Idea.md#拓展)
-4. [配置](./src/Idea.md#配置)
+1. [⌞ 安装与配置](./src/Idea.md#安装)
+2. [⌞ 快捷键](./src/Idea.md#我的快捷键)
+3. [⌞ 插件](./src/Idea.md#拓展)
+4. [⌞ 配置](./src/Idea.md#配置)
 
 ## Java 基础
 

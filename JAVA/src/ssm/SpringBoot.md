@@ -513,6 +513,24 @@ public class defaultController {
         return userServiceImpl.findById(id);
     }
 
+    @RequestMapping("/login")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<?> test(String user, String pwd) {
+        users select = getUser.select(user, pwd);
+
+        if (select != null) {
+            String token = JwtTokenUtil.generateToken(user);
+
+            // 使用匿名内部类 自定义返回体结构
+            return ResponseEntity.ok(new Object() {
+                public final String status = "success";  // 状态
+                public final Object data = token;        // 数据：token
+            });
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
 }
 ```
 
