@@ -112,6 +112,25 @@ public class SecurityConfig {
 ```java
 package org.naer.blog.Filter;
 
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.naer.blog.utils.JwtTokenUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -135,18 +154,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } else {
             try {
+                Claims claims = JwtTokenUtil.parseJwt(token);
                 // 解析 JWT token 获取用户名
                 username = JwtTokenUtil.parseJwt(token).get("username").toString();
                 logger.info("LoginUser: {}", username);
 
-                // 添加 select 权限
-                SimpleGrantedAuthority authority = new SimpleGrantedAuthority("select");
-
-                // 将认证信息设置到 SecurityContext
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(username, null, Collections.singletonList(authority));
-
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                // 根据存储权限 进行赋权
+                empowerment(claims, username);
 
                 // 继续处理请求
                 filterChain.doFilter(request, response);
@@ -159,8 +173,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
     }
-}
 
+    //赋权操作
+    private static void empowerment(Claims claims, String username) {
+        List<String> permissions = (List<String>) claims.get("permission");
+        if(permissions != null) {
+
+            List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            for (String item : permissions) {
+                authorities.add(new SimpleGrantedAuthority(item));
+            }
+            // 将认证信息设置到 SecurityContext
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(username, null, authorities);
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+    }
+}
 ```
 
 </details>
