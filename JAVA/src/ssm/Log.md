@@ -43,3 +43,14 @@ class demo (){
     }
 }
 ```
+
+## 配置
+
+> [!TIP]
+> 高级的设置在 resources > logback-spring.xml 配置即可
+
+```properties
+# 一定要更改 默认输出的编码 否则日志中文乱码
+logging.charset.console=UTF-8
+logging.charset.file=UTF-8
+```

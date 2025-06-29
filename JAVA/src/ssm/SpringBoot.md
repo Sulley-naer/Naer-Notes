@@ -143,14 +143,21 @@ server.servlet.context-path=/api
 | Data                             | 自动生成 Get;Set;                 |
 | scope                            | 指定Bean使用范围                    |
 | Component                        | 声明bean的基础注解                   |
-| Service                          | 标注在控制器类上                      |
+| Controller                       | 标注在控制器类上                      |
+| Service                          | 标注服务层类上                       |
+| Mapper                           | 标注代理层类上                       |
 | RestController                   | API控制器类                       |
 | Repository                       | 标注在数据访问类上(被mybatis优化了)        |
 | ----methods----                  | ----methods----               |
+| Transactional                    | Service 数据库自动同步根据异常状态         |
 | RequestMapping("name")           | 控制器指定路径                       |
 | PostConstruct                    | 构造前方法 : 初始化方法                 |
 | PreDestroy                       | 销毁后方法 : 销毁时方法                 |
-| select                           | mybatis：mapper接口 字段填充数据       |
+| selectOne                        | mybatis：mapper接口              |
+| select                           | mybatis：mapper接口              |
+| Insert                           | mybatis：mapper接口              |
+| delete                           | mybatis：mapper接口              |
+| update                           | mybatis：mapper接口              |
 | ----params----                   | ----params----                |
 | value                            | 形参指定注入的值 ${} 用于注册 Bean        |
 | ----Fields----                   | ----Fields----                |
@@ -271,7 +278,7 @@ public class defaultController {
 
 ### 邮箱工具类
 
-实现方法抽象类
+实现方法抽象类 [优化版](./Utils.md#email)
 
 ```java
 /*! com.name.utils */
@@ -540,7 +547,7 @@ public class defaultController {
 
 > [!TIP]
 > 此目录用在标准的 JavaWeb 项目使用，视图表单发送至 servlet 处理「Res Req」
-> 
+>
 > 对 response 解析添加中间层之类，request 返回流自定义操作等等
 
 ### ... : exception
@@ -910,11 +917,10 @@ config.mybatisAutoConfig
 
 实际项目，导入 Starter pom,starter 负责 自动注入相关的依赖
 
-
-## mybatis 
+## mybatis
 
 > [!TIP]
-> Mybatis mapper 相关的注解配置等说明 
+> Mybatis mapper 相关的注解配置等说明
 
 [完整详情](./mybatis.md)
 
@@ -944,15 +950,16 @@ config.mybatisAutoConfig
 
 > [!NOTE]
 > 插入替换符会进行运处理，防止SQL注入的问题
-> 
+>
 > 使用$是直接字符串替换的，表名参数化才使用
 
 <details>
 <summary>查看代码</summary>
 
 ```java
+
 @Select("select * from user where user = #{user} && pwd = #{pwd}")
-user getUsers(@Param("user") String user,@Param("pwd") String pwd);
+user getUsers(@Param("user") String user, @Param("pwd") String pwd);
 ```
 
 </details>
@@ -961,18 +968,49 @@ user getUsers(@Param("user") String user,@Param("pwd") String pwd);
 
 > [!NOTE]
 > 当数据库的列名与pojo名称不一致时，无法正确的转换数据时使用
-> 
+>
 > 推荐使用 Sql 语句的别名 来实现这个功能，原此注解太长
 
 <details>
 <summary>查看详情</summary>
 
 ```java
+
 @Results({
-    @Result(property = "sex",  column = "sex", javaType = UserSexEnum.class),
-    @Result(property = "userName", column = "user_name")
+        @Result(property = "sex", column = "sex", javaType = UserSexEnum.class),
+        @Result(property = "userName", column = "user_name")
 })
 List<User> getUserList();
 ```
 
 </details>
+
+## api控制器
+
+> [!TIP]
+> Api 控制器对参数解析，不同类型请求体的均可注解说明
+> 
+> ModelAttribute 最特殊，他参数只能有一个对象 用 dto 来拿取数据 Getter Setter
+
+| 注解                    | 适用场景             | 支持的Content-Type                                           | 数据绑定方式     | 示例代码片段                                                                   |
+|-----------------------|------------------|-----------------------------------------------------------|------------|--------------------------------------------------------------------------|
+| **`@RequestParam`**   | 获取URL参数或表单字段     | `application/x-www-form-urlencoded` `multipart/form-data` | 键值对绑定      | `@RequestParam("name") String username`                                  |
+| **`@PathVariable`**   | 从URL路径中获取变量      | 无（URL路径部分）                                                | 路径模板匹配     | `@GetMapping("/users/{id}")`<br>`public User get(@PathVariable Long id)` |
+| **`@RequestBody`**    | 接收JSON/XML等复杂请求体 | `application/json` `application/xml`                      | 反序列化为对象    | `@RequestBody UserDTO user`                                              |
+| **`@ModelAttribute`** | 绑定表单数据到对象（非JSON） | `multipart/form-data` `application/x-www-form-urlencoded` | 字段反射绑定     | `@ModelAttribute UserForm form`                                          |
+| **`@RequestHeader`**  | 获取HTTP请求头        | 任意                                                        | 按头名字符串匹配   | `@RequestHeader("User-Agent") String agent`                              |
+| **`@CookieValue`**    | 获取Cookie值        | 任意                                                        | 按Cookie名匹配 | `@CookieValue("JSESSIONID") String sessionId`                            |
+| **`@RequestPart`**    | 文件上传+表单混合数据      | `multipart/form-data`                                     | 文件与字段分离处理  | `@RequestPart("file") MultipartFile file`                                |
+| **`@MatrixVariable`** | 获取URL矩阵参数（特殊格式）  | 无（URL路径中`;`分隔）                                            | 路径参数解析     | `/cars;color=red`<br>`@MatrixVariable String color`                      |
+
+### 特性对比表
+
+| 特性               | `@RequestParam`       | `@RequestBody` | `@ModelAttribute` | `@RequestPart` |
+|------------------|-----------------------|----------------|-------------------|----------------|
+| **简单类型支持**       | ✔️                    | ❌              | ✔️                | ✔️ (文件+字段)     |
+| **复杂对象支持**       | ❌                     | ✔️             | ✔️                | ❌              |
+| **文件上传**         | ❌                     | ❌              | ❌                 | ✔️             |
+| **JSON/XML反序列化** | ❌                     | ✔️             | ❌                 | ❌              |
+| **表单字段绑定**       | ✔️                    | ❌              | ✔️                | ✔️             |
+| **默认必填**         | ✔️                    | ✔️             | ✔️                | ✔️             |
+| **可选的required**  | ✔️ (`required=false`) | ✔️             | ✔️                | ✔️             |

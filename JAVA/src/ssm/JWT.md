@@ -16,6 +16,8 @@ Token：记录用户的id 名称等关键信息，因为它有加密无法被修
 > 
 > 更多信息查看[文档](https://blog.csdn.net/qq_42690281/article/details/144719305)
 
+[优化版](./Utils.md#jwt)
+
 <details>
 <summary>查看代码</summary>
 

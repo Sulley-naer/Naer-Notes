@@ -1268,7 +1268,7 @@ public interface usermap {
 | ---Mapper---     | ---Mapper--- |
 | selectOne        | 查询单个结果       |
 | select           | 查询多个结果       |
-| Insert           |              |
+| Insert           | 增加方法         |
 | Update           | 修改方法         |
 | Delete           | 删除方法         |
 | ResultType       | 返回类型         |
