@@ -161,6 +161,7 @@ server.servlet.context-path=/api
 | update                           | mybatis：mapper接口              |
 | ----params----                   | ----params----                |
 | value                            | 形参指定注入的值 ${} 用于注册 Bean        |
+| valid                            | 控制器参数中使用，请求参数自动检测  Pojo注解配置   |
 | ----Fields----                   | ----Fields----                |
 | Resource                         | 开启注入  name = "指定"             |
 | Autowired                        | 旧版注入                          |
@@ -168,6 +169,11 @@ server.servlet.context-path=/api
 | Value                            | 指定内容,常用配置注入 ${key}            |
 | Getter                           | 生成Get                         |
 | Setter                           | 生成set                         |
+| ----Pojo----                     | 控制器 @valid 开启参数校验             |
+| NotNull                          | 属性非空                          |
+| NotBlank                         | 属性非空白字符串                      |
+| min                              | int类型最小值                      |
+| max                              | int类型最大值                      |
 
 ## Lombok「推荐工具」
 
