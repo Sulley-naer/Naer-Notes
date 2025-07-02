@@ -139,6 +139,7 @@ server.servlet.context-path=/api
 | ConditionalOnProperty            | bean 注入检查 prefix name 不存在就不注入 |
 | ConditionalOnMissingBean         | bean 检查 name 找不到指定对象 就自动注入    |
 | ConditionalOnClass               | bean 检查 name 找不到指定对象 就不注入     |
+| CrossOrigin                      | 注解跨域                          |
 | ----Bean----                     | ----Bean----                  |
 | Data                             | 自动生成 Get;Set;                 |
 | scope                            | 指定Bean使用范围                    |
@@ -989,7 +990,7 @@ List<User> getUserList();
 
 > [!TIP]
 > Api 控制器对参数解析，不同类型请求体的均可注解说明
-> 
+>
 > ModelAttribute 最特殊，他参数只能有一个对象 用 dto 来拿取数据 Getter Setter
 
 | 注解                    | 适用场景             | 支持的Content-Type                                           | 数据绑定方式     | 示例代码片段                                                                   |

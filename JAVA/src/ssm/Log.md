@@ -44,6 +44,19 @@ class demo (){
 }
 ```
 
+### 注解获取
+
+> spring 中添加次注解自动获取log对象
+
+```java
+@Slf4j
+class demo{
+    public static void main(String[] args) {
+        log.info("complete load");
+    }
+}
+```
+
 ## 配置
 
 > [!TIP]
