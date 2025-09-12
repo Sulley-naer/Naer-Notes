@@ -147,9 +147,9 @@ class student {
 
 > [!TIP]
 > TreeMap跟TreeSet底层原理一样，都是红黑树结构的。
-> 
+>
 > 由键决定特性：不重复、无索引、可排序
-> 
+>
 > 可排序：对键进行排序，会自动根据键来进行排序。
 > 注意：默认按照键的从小到大进行排序，也可以自己规定键的排序规则
 
@@ -238,7 +238,7 @@ class student implements Comparable<student>{
       int age = this.getAge() - o.getAge();
       return age != 0 ? age : this.getName().compareTo(o.getName());
    }
-   
+
    @Override
    public boolean equals(Object o) {
       if (this == o) {
@@ -319,8 +319,8 @@ public static void main(String[] args) {
       键：表示要统计的内容
       值：表示次数
    */
-    
-   
+
+
    /* 答案 */
    Map<Character,Integer> map = new HashMap(); //没有排序，排序就改为 TreeSet
    String str = "adxcsadwrcxgs";
@@ -356,11 +356,11 @@ Treemap底层是用的红黑树，它需要实现 Compareable 来比较大小，
 
    ```java
    public static List<String> Demos = new ArrayList<>();
-   
+
    public static void main(String[] args) {
       //添加数据
       Collections.addAll(Demos,"#1","#2","#3","*1","*2","*3");
-   
+
       Map<String, Integer> map = new HashMap<>();
       //!找寻数据规律，使用循环设置权重
       for (int i = 0; i < Demos.size(); i++) {
@@ -370,7 +370,7 @@ Treemap底层是用的红黑树，它需要实现 Compareable 来比较大小，
       }
       //利用TreeSet Int 自动排序，数据必须是 HashMap 存在关系
       TreeMap<String, Integer> res = new TreeMap<>(map);
-   
+
       System.out.println(res);
    }
    ```
@@ -390,10 +390,10 @@ public static void main(String[] args) {
 
    //自定义特殊权重
    map.put("Joker", 999);
-    
+
    //!多开一个是为了不影响原数据，再原数据被使用时候使用排序。
    ArrayList<String> res = new ArrayList<>(Demos);
-   
+
    //自定义排序规则，判断自定义权重是否存在。
    Collections.sort((o1, o2) -> {
       if (map.containsKey(o1)) {
@@ -441,7 +441,7 @@ public static void main(String[] args) {
 
 > [!TIP]
 > `properties` 基本上算是Java自己的本地存储方式，类似JS跟JSON。
-> 
+>
 > HashMap 集合为他单独开了集合，它同样拥有Map集合的所有特性。
 
 | 方法                | 参数           | 说明                       |

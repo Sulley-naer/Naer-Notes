@@ -390,7 +390,7 @@ export default App;
 
 ### ref ⭐
 
-React 中可以使用 `ref` 来获取组件实例。
+React 中可以使用 `useRef` 来获取元素对象，需要DOM中绑定生命
 
 ```jsx
 import React, { useState, useRef } from "react";
@@ -411,6 +411,9 @@ function Input() {
       <input
         type="text"
         value={value}
+        // 绑定元素到指定ref变量
+        ref={inputRef}
+        <!-- 函数e参数为触发事件元素对象 通过 e.target 拿取 -->
         onChange={(e) => setValue(e.target.value)}
       />
       <button onClick={handleClick}>Focus</button>
@@ -422,8 +425,8 @@ export default Input;
 ```
 
 1. `useRef`：一个函数，用来声明 ref 对象
-2. `inputRef`：一个 ref 对象，用来获取组件 元素 实例
-3. `current`：一个属性，指向组件 元素 实例
+2. `inputRef`：一个 ref 对象，只读响应式数据
+3. `current`：一个属性，指向组件 触发事件元素对象
 4. `focus`：一个方法，用来聚焦元素
 
 #### 注意事项

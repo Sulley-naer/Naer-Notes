@@ -99,3 +99,24 @@ npx node@12 -v #v12.14.1
 ```bash
 npx https://gist.github.com/zkat/4bc19503fe9e9309e2bfaa2c58074d32
 ```
+
+## Electron 无法下载
+
+- [引用文章](https://www.cnblogs.com/makalochen/p/16154510.html)
+- 切换官方源
+- 打开配置 `npm config edit`
+
+```text
+registry=https://registry.npmmirror.com
+ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/
+electron_builder_binaries_mirror=https://npmmirror.com/mirrors/electron-builder-binaries/
+
+# 标识符 这里上面添加配置
+;;;;
+; all available options shown below with default values
+;;;;
+```
+
+- npm ls -g 查看是否带有 electron-fix 有则移除该全局依赖
+- 使用 uninstall 删除后再清理缓存  npm cache clean --force
+- 再次试着 install 如果还是不行只能试试关闭火绒
