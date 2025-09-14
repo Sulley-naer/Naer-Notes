@@ -65,3 +65,46 @@ demo
 │   └── service-product
         └── pom.xml                      <!-- 另一个服务的 pom 配置 -->
 ```
+
+TODO 其他注解
+
+## 主类
+
+```java
+// com.Near.order; 主类包下
+@SpringBootApplication
+@EnableDiscoveryClient
+@EnableFeignClients
+public class OrderApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(OrderApplication.class, args);
+    }
+}
+```
+
+## 配置中心
+
+```java
+// com.Near.order.Properties; Properties 包下
+@Data
+@Component
+// 自动刷新无需配置注解
+@ConfigurationProperties(prefix = "")
+public class orderProperties {
+    //对应配置文件中 order.name
+    String name;
+    String kfz;
+}
+```
+
+## Feign 远程调用
+
+```java
+// com.Near.order.feign; feign 包下
+@FeignClient(name = "product-service")
+public interface orderFeignClient {
+    /* 复制粘贴 控制器方法签名 快速声明 */
+    @GetMapping("/Product/{productId}")
+    String getProduct(@PathVariable int productId);
+}
+```

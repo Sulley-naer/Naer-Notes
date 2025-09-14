@@ -77,6 +77,8 @@ public class OrderController {
 > 与普通 spirng 测试类似，等待 spring 容器启动后，注入 Feign 接口进行测试
 
 ```java
+
+```java
 @SpringBootTest
 public class feignTest {
 
@@ -86,6 +88,170 @@ public class feignTest {
     @Test
     public void orderTest() {
         System.out.printf(orderFeignClient.getOrder(String.valueOf(2)));
+    }
+}
+```
+
+## 配置
+
+>[!TIP]
+> Feign 默认集成了 Ribbon 负载均衡器，可以通过配置文件设置负载均衡策略，还有配置请求的日志等级
+
+快速配置：
+
+```yaml
+# feign 日志等级
+logging:
+  level:
+    com.Near.order.feign: DEBUG
+
+spring:
+  cloud:
+    openfeign:
+      # 全局拦截器配置
+      httpclient:
+        connection-timeout: 2000
+        ok-http:
+          read-timeout: 60s
+      client:
+        # 这个是服务请求配置，而不是别人连此服务的配置
+        config:
+          # 默认配置 对所有的请求的配置 axios的默认配置
+          default:
+            logger-level: basic
+          # 服务单独配置 判断请求地址
+          product-service:
+            logger-level: full
+            # 10s没连接就异常
+            connect-timeout: 10000
+            # 5s没返回就异常
+            read-timeout: 5000
+            # 重试机制
+            retryer:
+              period: 100 # 初始间隔时间
+              max-period: 1000 # 最大间隔时间
+              max-attempts: 5 # 最大重试次数
+```
+
+### 日志配置
+
+1. 配置文件: `logging.level.com.example.feign=DEBUG` 包名改为自己的包名
+
+2. 代码配置:
+
+```java
+@Bean
+Logger.Level feignLoggerLevel() {
+    return Logger.Level.FULL;
+}
+```
+
+### 请求配置
+
+> [!TIP]
+> 普通的请求工具配置，类似axios一样的请求头设置等等，只是发起请求的配置，响应体只能是 spring 控制
+
+```yml
+spring:
+  cloud:
+    openfeign:
+      # 全局拦截器配置
+      httpclient:
+        connection-timeout: 2000
+        ok-http:
+          read-timeout: 60s
+      client:
+        # 这个是服务请求配置，而不是别人连此服务的配置
+        config:
+          # 默认配置 对所有的请求的配置 axios的默认配置
+          default:
+            logger-level: basic
+          # 服务单独配置 判断请求地址
+          product-service:
+            logger-level: full
+            # 10s没连接就异常
+            connect-timeout: 10000
+            # 5s没返回就异常
+            read-timeout: 5000
+            # 重试器 默认空 配置类有才生效，这里提前写不影响
+            retryer: feign.Retryer.Default
+
+```
+
+### 重试机制
+
+> [!NOTE]
+> feign 取消的默认的重试机制，开启需要自己手动配置 Bean
+
+```java
+// com.example.service.config
+@Configuration
+public class FeignConfig {
+    @Bean
+    Retryer feignRetryer() {
+        // 默认重试5次，间隔100ms，最大间隔1s，每次重试 上次的请求时间的2倍
+        return new Retryer.Default();
+    }
+}
+
+// 服务单独配置版： retryer: feign.Retryer.Default
+```
+
+### 拦截器配置
+
+```java
+// com.example.service.config
+
+// 请求拦截器
+@Configuration
+public class FeignConfig {
+    @Bean
+    public RequestInterceptor requestInterceptor() {
+        return requestTemplate -> {
+            // 添加自定义请求头，例如添加认证信息
+            requestTemplate.header("Authorization", "Bearer your_token_here");
+            // 可以添加其他公共请求头
+            requestTemplate.header("X-Custom-Header", "custom_value");
+        };
+    }
+}
+
+// 响应拦截器 Feign 没有提供响应拦截器，可以通过自定义 ErrorDecoder 来处理响应错误
+class MyErrorDecoder implements ErrorDecoder {
+    @Override
+    public Exception decode(String methodKey, Response response) {
+        if (response.status() == 400) {
+            // 处理 400 错误
+            return new CustomBadRequestException("Bad Request");
+        }
+        if (response.status() == 500) {
+            // 处理 500 错误
+            return new CustomInternalServerErrorException("Internal Server Error");
+        }
+        return defaultErrorDecoder.decode(methodKey, response);
+    }
+}
+```
+
+## Fallback 断路器
+
+> [!TIP]
+> 兜底返回机制，当远程服务不可用时，返回一个默认的响应，避免服务调用失败，重试机制完成后才触发，测试就关闭重试
+
+```java
+// 接口处定义兜底类
+@FeignClient(name = "service-name", fallback = RemoteServiceClientFallback.class)
+public interface RemoteServiceClient {
+    @GetMapping("/Product/{productId}")
+    String getProduct(@PathVariable String productId);
+}
+
+// feign>fallback 包路径
+@Component
+class RemoteServiceClientFallback implements RemoteServiceClient {
+    @Override
+    public String getProduct(String productId) {
+        return "Default Product"; // 兜底返回值
     }
 }
 ```

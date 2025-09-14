@@ -62,31 +62,37 @@
 
 ```yaml
 # 注册中心显示的服务名称
+nacos:
+  server: 127.0.0.1:8848 # nacos 地址
+  username: nacos
+  password: nacos
+  namespace: dev # 命名空间 ID
+
 spring:
   application:
-    name: order_service
+    name: order-service # 服务名称，注册中心显示的服务名称
   profiles:
-    active: dev # 激活的环境
+    active: ${nacos.namespace} # 激活的环境
+    include: feign #导入配置 映射:applicaton-feign
 
   cloud:
     nacos:
-      config:
-        # 配置中心
-        server-addr: 127.0.0.1:8848
-        namespace: dev
-        username: nacos
-        password: nacos
+      config: # 配置中心
+        server-addr: ${nacos.server}
+        namespace: ${nacos.namespace}
+        username: ${nacos.username}
+        password: ${nacos.password}
         file-extension: properties
-      discovery:
-        # 注册中心
-        server-addr: 127.0.0.1:8848
-        namespace: dev
-        username: nacos
-        password: nacos
+      discovery: # 注册中心
+        server-addr: ${nacos.server}
+        namespace: ${nacos.namespace}
+        username: ${nacos.username}
+        password: ${nacos.password}
 
   config:
-    # 导入配置中心 对应文件
-    import: nacos:common.properties?group=order
+    import:
+      - nacos:common.properties?group=DEFAULT_GROUP # 公共配置
+      - nacos:${spring.application.name}.properties?group=${spring.application.name} # 服务独有配置
 ```
 
 </details>
@@ -147,11 +153,11 @@ public class OrderApplication {
 
 ## temp
 
-| 功能 |
-| -- |
+| 功能                          |
+| ----------------------------- |
 | [架构描述](./Spring-Cloud.md) |
-| [注解集合](./annotations.md) |
-| [服务容器](./Docker.md) |
+| [注解集合](./annotations.md)  |
+| [服务容器](./Docker.md)       |
 | [注册中心](./serverCenter.md) |
 | [配置中心](./configCenter.md) |
-| [远程调用](./openFeign.md) |
+| [远程调用](./openFeign.md)    |

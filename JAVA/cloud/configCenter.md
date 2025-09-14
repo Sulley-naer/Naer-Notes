@@ -179,28 +179,36 @@ spring:
 
 ```yml
 # application.yml 放主程序 resouces 下
+nacos:
+  server: 127.0.0.1:8848
+  username: nacos
+  password: nacos
+  namespace: dev #环境 -> 命名空间
+
 spring:
   application:
-    name: order_service
+    name: product-service # 服务名称
   profiles:
-    active: test #环境 -> 命名空间
+    active: ${nacos.namespace} # 激活的环境
 
   cloud:
     nacos:
       config:
-        server-addr: 127.0.0.1:8848
-        namespace: test
-        username: nacos
-        password: nacos
+        server-addr: ${nacos.server}
+        namespace: ${nacos.namespace}
+        username: ${nacos.username}
+        password: ${nacos.password}
         file-extension: properties
       discovery:
-        server-addr: 127.0.0.1:8848
-        namespace: test
-        username: nacos
-        password: nacos
+        server-addr: ${nacos.server}
+        namespace: ${nacos.namespace}
+        username: ${nacos.username}
+        password: ${nacos.password}
 
   config:
-    import: nacos:common.properties?group=order
+    import:
+      - nacos:common.properties?group=DEFAULT_GROUP # 公共配置
+      - nacos:${spring.application.name}.properties?group=${spring.application.name} # 服务独立配置
 ```
 
 ## 测试环境问题
