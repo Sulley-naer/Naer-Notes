@@ -173,7 +173,7 @@ spring:
             connect-timeout: 10000
             # 5s没返回就异常
             read-timeout: 5000
-            # 重试器 默认空 配置类有才生效，这里提前写不影响
+            # 重试器 默认重试类 自定义重新配置 Bean 覆盖默认
             retryer: feign.Retryer.Default
 
 ```
@@ -181,7 +181,7 @@ spring:
 ### 重试机制
 
 > [!NOTE]
-> feign 取消的默认的重试机制，开启需要自己手动配置 Bean
+> feign 取消的默认的重试机制，开启需要配置 retryer: feign.Retryer.Default
 
 ```java
 // com.example.service.config
@@ -237,16 +237,18 @@ class MyErrorDecoder implements ErrorDecoder {
 
 > [!TIP]
 > 兜底返回机制，当远程服务不可用时，返回一个默认的响应，避免服务调用失败，重试机制完成后才触发，测试就关闭重试
+>
+> 需要使用 `spring-cloud-starter-alibaba-sentinel` 配置： `sentinel feign.sentinel.enabled=true`
 
 ```java
-// 接口处定义兜底类
+// 接口处定义兜底类 关闭重试机制不关需要等待重试后才触发时间较长 properties 配置注释即可
 @FeignClient(name = "service-name", fallback = RemoteServiceClientFallback.class)
 public interface RemoteServiceClient {
     @GetMapping("/Product/{productId}")
     String getProduct(@PathVariable String productId);
 }
 
-// feign>fallback 包路径
+// feign>fallback 包路径 ，自己实现一遍 feign 的接口然后 fallback 引用就行了
 @Component
 class RemoteServiceClientFallback implements RemoteServiceClient {
     @Override
