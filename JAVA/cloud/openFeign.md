@@ -41,8 +41,8 @@
 // 目录控制器同级 feign 目录>默认自动扫描路径
 
 @GetMapping
-// 远程服务的名称 nacos 服务 id 字段 配置文件可定义的 spring-application-name 无法解析下划线
-@FeignClient(name = "service-name")
+// 远程服务的名称 nacos 服务 id 字段 配置文件可定义的 spring-application-name 禁用下划线 path 对应控制器路径前缀注解
+@FeignClient(name = "service-name", path = "/api/product")
 public interface RemoteServiceClient {
     @GetMapping("/Product/{productId}")// 远程服务的具体接口
     void getProduct(@PathVariable String productId, @RequestHeader("Authorization") String token);

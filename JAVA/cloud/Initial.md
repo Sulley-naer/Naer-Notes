@@ -95,6 +95,24 @@ spring:
       - nacos:${spring.application.name}.properties?group=${spring.application.name} # 服务独有配置
 ```
 
+spring boot配置
+
+```properties
+server.port=8001
+spring.datasource.url=jdbc:mysql://localhost:3306/cloud_db
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.username=cloud_user
+spring.datasource.password=cloud_pass
+spring.data.redis.host=localhost
+spring.data.redis.port=6379
+spring.data.redis.password=redis123
+spring.data.redis.timeout=2000ms
+spring.data.redis.lettuce.pool.max-active=8
+spring.data.redis.lettuce.pool.max-idle=8
+spring.data.redis.lettuce.pool.min-idle=0
+```
+
+
 </details>
 
 <details>
