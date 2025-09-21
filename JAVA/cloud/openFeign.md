@@ -104,6 +104,9 @@ public class feignTest {
 logging:
   level:
     com.Near.order.feign: DEBUG
+    feign.Logger: DEBUG
+    feign.Request: DEBUG
+    feign.Response: DEBUG
 
 spring:
   cloud:
@@ -119,13 +122,14 @@ spring:
           # 默认配置 对所有的请求的配置 axios的默认配置
           default:
             logger-level: basic
-          # 服务单独配置 判断请求地址
-          product-service:
-            logger-level: full
             # 10s没连接就异常
             connect-timeout: 10000
             # 5s没返回就异常
             read-timeout: 5000
+
+          # 服务单独配置 判断请求地址
+          product-service:
+            logger-level: full
             # 重试机制
             retryer:
               period: 100 # 初始间隔时间
