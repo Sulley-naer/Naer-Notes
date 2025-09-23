@@ -314,3 +314,133 @@ echo "Database initialization completed!"
 ```
 
 </details>
+
+## 配置文件
+
+### Nacos
+
+nacos>conf>application.properties
+
+```properties
+spring.datasource.platform=mysql
+db.num=1
+db.url.0=jdbc:mysql://mysql:3306/nacos_config?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+db.user=nacos
+db.password=nacos
+
+# 认证相关配置
+nacos.core.auth.system.type=nacos
+nacos.core.auth.enabled=true
+nacos.core.auth.server.identity.key=nacos
+nacos.core.auth.server.identity.value=nacos
+nacos.core.auth.plugin.nacos.token.secret.key=SecretKey012345678901234567890123456789012345678901234567890123456789
+```
+
+### seata
+
+seata>config>file.conf
+
+```conf
+transport {
+  # tcp udt unix-domain-socket
+  type = "TCP"
+  #NIO AIO
+  server = "NIO"
+  #enable heartbeat
+  heartbeat = true
+  #thread factory for netty
+  thread-factory {
+    boss-thread-prefix = "NettyBoss"
+    worker-thread-prefix = "NettyServerNIOWorker"
+    server-executor-thread-prefix = "NettyServerBizHandler"
+    share-boss-worker = false
+    client-selector-thread-prefix = "NettyClientSelector"
+    client-selector-thread-size = 1
+    client-worker-thread-prefix = "NettyClientWorkerThread"
+    # netty boss thread size,will not be used for UDT
+    boss-thread-size = 1
+    #auto default pin or 8
+    worker-thread-size = "default"
+  }
+  shutdown {
+    # when destroy server, wait seconds
+    wait = 3
+  }
+  serialization = "seata"
+  compressor = "none"
+}
+
+service {
+  #vgroup->rgroup
+  vgroupMapping.my_tx_group = "default"
+  #only support single node
+  default.grouplist = "seata-server:8091"
+  #degrade current not support
+  enableDegrade = false
+  #disable
+  disable = false
+  #unit ms,s,m,h,d represents milliseconds, seconds, minutes, hours, days, default permanent
+  max.commit.retry.timeout = "-1"
+  max.rollback.retry.timeout = "-1"
+  disableGlobalTransaction = false
+}
+
+store {
+  # support: file, db, redis
+  mode = "db"
+  db {
+    driverClassName = "com.mysql.cj.jdbc.Driver"
+    url = "jdbc:mysql://mysql:3306/seata?useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Shanghai"
+    user = "seata"
+    password = "seata"
+    minConn = 5
+    maxConn = 100
+    globalTable = "global_table"
+    branchTable = "branch_table"
+    lockTable = "lock_table"
+    queryLimit = 100
+    maxWait = 5000
+  }
+}
+
+server {
+  service-port = 8091
+}
+
+# metrics configuration
+metrics {
+  enabled = false
+  registry-type = "compact"
+  # multi exporters use comma divided
+  exporter-list = "prometheus"
+  exporter-prometheus-port = 9898
+}
+```
+
+seata>config>registry.conf
+
+```conf
+registry {
+  type = "nacos"
+  nacos {
+    serverAddr = "nacos:8848"      # 注意用 Docker 服务名
+    namespace = "dev"           # 可自定义
+    cluster = "default"            # 可选
+    username = "nacos"             # 对应 Nacos 用户
+    password = "nacos"
+  }
+}
+
+config {
+  type = "nacos"
+  nacos {
+    serverAddr = "nacos:8848"
+    namespace = "dev"
+    username = "nacos"
+    password = "nacos"
+    # file.conf 中的配置都会放到这个 Data ID 下
+    dataId = "file.conf"
+    group = "SEATA_GROUP"
+  }
+}
+```
