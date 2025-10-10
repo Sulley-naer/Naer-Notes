@@ -51,19 +51,32 @@
         |   pom.xml <!-- 记得引入 model 全局Pojo的依赖 -->
 ```
 
-## 服务注册
+## 服务配置
 
 > [!TIP]
 > Spring-boot 启动配置，为它配置 服务名称，占用端口，服务独立性
+
+### 配置中心
 
 <details>
 
 <summary>查看配置</summary>
 
+```java
+//注解声明开启注册中心
+@SpringBootApplication
+@EnableDiscoveryClient
+public class OrderApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(OrderApplication.class, args);
+    }
+}
+```
+
 ```yaml
 # 注册中心显示的服务名称
 nacos:
-  server: 127.0.0.1:8848 # nacos 地址
+  server: 127.0.0.1:8848,ip2:8848 # nacos 地址 集群模式 异常智能子节点切换 通常 nacos 配置
   username: nacos
   password: nacos
   namespace: dev # 命名空间 ID
@@ -95,7 +108,13 @@ spring:
       - nacos:${spring.application.name}.properties?group=${spring.application.name} # 服务独有配置
 ```
 
-spring boot配置
+</details>
+
+### 基本配置
+
+<details>
+
+<summary>查看代码</summary>
 
 ```properties
 server.port=8001
@@ -103,6 +122,8 @@ spring.datasource.url=jdbc:mysql://localhost:3306/cloud_db
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.datasource.username=cloud_user
 spring.datasource.password=cloud_pass
+
+# 可选
 spring.data.redis.host=localhost
 spring.data.redis.port=6379
 spring.data.redis.password=redis123
@@ -112,22 +133,109 @@ spring.data.redis.lettuce.pool.max-idle=8
 spring.data.redis.lettuce.pool.min-idle=0
 ```
 
-
 </details>
+
+### seata 配置
 
 <details>
 
 <summary>查看代码</summary>
 
-```java
-//注解声明开启注册
-@SpringBootApplication
-@EnableDiscoveryClient
-public class OrderApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(OrderApplication.class, args);
-    }
-}
+```yml
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  tx-service-group: my_tx_group
+  enable-auto-data-source-proxy: true
+  service:
+    vgroup-mapping:
+      my_tx_group: default
+    grouplist:
+      default: 127.0.0.1:8091
+  config:
+    type: file
+  registry:
+    type: file
+
+#logging:
+#  level:
+#    org.apache.seata: DEBUG
+```
+
+</details>
+
+### feign Sentinel 配置
+
+<details>
+
+<summary>查看代码</summary>
+
+```yml
+logging:
+  level:
+    com.Near.order.feign: DEBUG
+
+spring:
+  cloud:
+    openfeign:
+      # 全局拦截器配置
+      httpclient:
+        connection-timeout: 2000
+        ok-http:
+          read-timeout: 60s
+      client:
+        # 这个是服务请求配置，而不是别人连此服务的配置
+        config:
+          # 默认配置 对所有的请求的配置 axios的默认配置
+          default:
+            logger-level: basic
+          # 服务单独配置 判断请求地址
+          product-service:
+            logger-level: full
+            # 10s没连接就异常
+            connect-timeout: 1000
+            # 5s没返回就异常
+            read-timeout: 5000
+            # retryer: feign.Retryer.Default
+    sentinel:
+      transport:
+        dashboard: localhost:8888,ip2:8888 # 多节点配置 异常自动切换子节点 通常 nacos 配置
+      eager: true # 项目重启时连接而非首次请求
+      web-context-unify: false # 分割资源上下文
+# sentinel
+
+feign:
+  sentinel:
+    enabled: true
+```
+
+</details>
+
+### seata 配置
+
+<details>
+
+<summary>查看代码</summary>
+
+```yml
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  tx-service-group: my_tx_group
+  enable-auto-data-source-proxy: true
+  service:
+    vgroup-mapping:
+      my_tx_group: default
+    grouplist:
+      default: 127.0.0.1:8091,ip2:8091 # 集群模式 异常自动切换 通常 nacos 配置
+  config:
+    type: file
+  registry:
+    type: file
+
+#logging:
+#  level:
+#    org.apache.seata: DEBUG
 ```
 
 </details>

@@ -123,8 +123,8 @@ spring:
   cloud:
     nacos:
       config:
-        # 配置中心
-        server-addr: 127.0.0.1:8848
+        # 配置中心 可配置多节点自动切换
+        server-addr: 127.0.0.1:8848,ip2:8848
         namespace: dev
         username: nacos
         password: nacos

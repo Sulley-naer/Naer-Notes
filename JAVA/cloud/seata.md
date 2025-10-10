@@ -137,7 +137,7 @@ CREATE TABLE undo_log
 ### 推荐模式
 
 > [!TIP]
-> 利用 spring properties 特性去配置，而不是使用 seata 自己的文件，统一管理
+> 利用 spring properties 特性去配置，而不是使用 seata 自己的文件，统一管理还能使用配置中心同步
 
 application-seata 记得导入 spring:profiles:include: - seata
 
@@ -157,11 +157,15 @@ seata:
     vgroup-mapping:
       my_tx_group: default
     grouplist:
-      default: 127.0.0.1:8091
+      default: 127.0.0.1:8091,ip2:8091 # 集群模式 异常自动切换 通常 nacos 配置
   config:
     type: file
   registry:
     type: file
+
+#logging:
+#  level:
+#    org.apache.seata: DEBUG
 ```
 
 ### 传统方式

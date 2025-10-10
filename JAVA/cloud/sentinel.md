@@ -63,7 +63,8 @@ spring:
   cloud:
     sentinel:
       transport:
-        dashboard: localhost:8888
+        cluster: false # 集群模式 异常智能切换正常节点
+        dashboard: localhost:8888,ip2:8888 # 可选多节点，异常后自动切换正常节点，一般 nacos 配置
       eager: true # 项目重启时连接而非首次请求
 
 feign:
@@ -207,7 +208,18 @@ public class GlobalExceptionHandle {
 4. 入口QPS：每秒并发数量
 5. cpu使用率：服务器性能限制
 
+### 集群模式
+
+> [!TIP]
+> 此集群非常规的集群，它指代的是控制不同机器节点的整个流控，假设一共部署了10个服务器节点
+>
+> 配置后他能对不同服务器的节点进行流控规则配置，每秒只能100个请求，设置每台服务器10个即可
+
+由于篇幅较长给予[官方文档](https://www.bookstack.cn/read/Sentinel-1.8/ff6d80984dea1e32.md#8oosu)
+
 ## 持久化
 
 > [!NOTE]
 > 将 sentinel 中心配置相关由原来的内存存储，改为由配置中心统一管理，实现自动初始化配置
+>
+> 使用 nacos 配置中心 有很多可配置项，TODO 记录常用配置项目
